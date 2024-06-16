@@ -1,0 +1,492 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": -1891052966171717365
+  },
+  "m_Name": "Data_Peter_SFX",
+  "states": [
+    {
+      "stateType": 1,
+      "sfxList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 2,
+            "m_PathID": 2434481391309686951
+          },
+          "StartType": 2,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        },
+        {
+          "AudioEvent": {
+            "m_FileID": 2,
+            "m_PathID": 2434481391309686951
+          },
+          "StartType": 2,
+          "StartFrame": 20,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        },
+        {
+          "AudioEvent": {
+            "m_FileID": 1,
+            "m_PathID": -3371169843370822844
+          },
+          "StartType": 2,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "conditions": [
+            {
+              "ConditionType": 12
+            }
+          ],
+          "StopWhenExitStateFrameConditions": []
+        },
+        {
+          "AudioEvent": {
+            "m_FileID": 1,
+            "m_PathID": -3371169843370822844
+          },
+          "StartType": 2,
+          "StartFrame": 20,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "conditions": [
+            {
+              "ConditionType": 12
+            }
+          ],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "alternativeList": []
+    },
+    {
+      "stateType": 11,
+      "sfxList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 2,
+            "m_PathID": 6313226109997766298
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "alternativeList": []
+    },
+    {
+      "stateType": 12,
+      "sfxList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 2,
+            "m_PathID": 6313226109997766298
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "alternativeList": []
+    },
+    {
+      "stateType": 13,
+      "sfxList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 2,
+            "m_PathID": 6313226109997766298
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "alternativeList": []
+    },
+    {
+      "stateType": 19,
+      "sfxList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 2,
+            "m_PathID": 5817574921794087042
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "alternativeList": []
+    },
+    {
+      "stateType": 21,
+      "sfxList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 2,
+            "m_PathID": 657429865208560659
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 0,
+          "StopWhenExitState": 0,
+          "conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "alternativeList": []
+    },
+    {
+      "stateType": 31,
+      "sfxList": [],
+      "alternativeList": []
+    },
+    {
+      "stateType": 32,
+      "sfxList": [],
+      "alternativeList": []
+    },
+    {
+      "stateType": 51,
+      "sfxList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 2,
+            "m_PathID": 5469368151423849937
+          },
+          "StartType": 0,
+          "StartFrame": 3,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "alternativeList": []
+    },
+    {
+      "stateType": 52,
+      "sfxList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 2,
+            "m_PathID": -7738862139154134022
+          },
+          "StartType": 0,
+          "StartFrame": 18,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "alternativeList": []
+    },
+    {
+      "stateType": 53,
+      "sfxList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 2,
+            "m_PathID": -2215898982860847778
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "alternativeList": []
+    },
+    {
+      "stateType": 54,
+      "sfxList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 2,
+            "m_PathID": 8954910602985454569
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "alternativeList": []
+    },
+    {
+      "stateType": 71,
+      "sfxList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 2,
+            "m_PathID": 1697266065904607877
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 1,
+          "conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "alternativeList": []
+    },
+    {
+      "stateType": 72,
+      "sfxList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 2,
+            "m_PathID": -4339197186999074538
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 1,
+          "conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        },
+        {
+          "AudioEvent": {
+            "m_FileID": 2,
+            "m_PathID": -8631926032293778856
+          },
+          "StartType": 0,
+          "StartFrame": 12,
+          "FollowType": 1,
+          "StopWhenExitState": 1,
+          "conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "alternativeList": []
+    },
+    {
+      "stateType": 73,
+      "sfxList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 2,
+            "m_PathID": 6763353103643101976
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 1,
+          "conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "alternativeList": []
+    },
+    {
+      "stateType": 82,
+      "sfxList": [],
+      "alternativeList": []
+    },
+    {
+      "stateType": 83,
+      "sfxList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 2,
+            "m_PathID": 4002709630459385303
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 1,
+          "conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "alternativeList": []
+    },
+    {
+      "stateType": 84,
+      "sfxList": [],
+      "alternativeList": []
+    },
+    {
+      "stateType": 85,
+      "sfxList": [],
+      "alternativeList": []
+    },
+    {
+      "stateType": 93,
+      "sfxList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 2,
+            "m_PathID": 8396497830439564572
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 0,
+          "StopWhenExitState": 0,
+          "conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "alternativeList": []
+    },
+    {
+      "stateType": 94,
+      "sfxList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 2,
+            "m_PathID": 5871932510197808010
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        },
+        {
+          "AudioEvent": {
+            "m_FileID": 2,
+            "m_PathID": 8242063893149742637
+          },
+          "StartType": 0,
+          "StartFrame": 9,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "alternativeList": []
+    },
+    {
+      "stateType": 101,
+      "sfxList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 2,
+            "m_PathID": -2778178586105812207
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 1,
+          "conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "alternativeList": []
+    },
+    {
+      "stateType": 102,
+      "sfxList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 2,
+            "m_PathID": -6205519715515728110
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "alternativeList": []
+    },
+    {
+      "stateType": 103,
+      "sfxList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 2,
+            "m_PathID": 7612304693160887371
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "alternativeList": []
+    },
+    {
+      "stateType": 121,
+      "sfxList": [],
+      "alternativeList": []
+    },
+    {
+      "stateType": 131,
+      "sfxList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 2,
+            "m_PathID": -2558493451705809063
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 1,
+          "conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "alternativeList": []
+    },
+    {
+      "stateType": 141,
+      "sfxList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 2,
+            "m_PathID": -3496275860764784447
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 1,
+          "conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "alternativeList": []
+    }
+  ],
+  "triggerAttackStates": [],
+  "triggerLandingStates": []
+}

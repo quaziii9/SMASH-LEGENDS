@@ -1,0 +1,1073 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 5374696595345011792
+  },
+  "m_Name": "Data_Peter_Voice_KoKR",
+  "serializationData": {
+    "SerializedFormat": 0,
+    "SerializedBytes": [
+      1,
+      1,
+      12,
+      0,
+      0,
+      0,
+      72,
+      0,
+      105,
+      0,
+      116,
+      0,
+      86,
+      0,
+      111,
+      0,
+      105,
+      0,
+      99,
+      0,
+      101,
+      0,
+      68,
+      0,
+      105,
+      0,
+      99,
+      0,
+      116,
+      0,
+      47,
+      0,
+      0,
+      0,
+      0,
+      1,
+      139,
+      0,
+      0,
+      0,
+      83,
+      0,
+      121,
+      0,
+      115,
+      0,
+      116,
+      0,
+      101,
+      0,
+      109,
+      0,
+      46,
+      0,
+      67,
+      0,
+      111,
+      0,
+      108,
+      0,
+      108,
+      0,
+      101,
+      0,
+      99,
+      0,
+      116,
+      0,
+      105,
+      0,
+      111,
+      0,
+      110,
+      0,
+      115,
+      0,
+      46,
+      0,
+      71,
+      0,
+      101,
+      0,
+      110,
+      0,
+      101,
+      0,
+      114,
+      0,
+      105,
+      0,
+      99,
+      0,
+      46,
+      0,
+      68,
+      0,
+      105,
+      0,
+      99,
+      0,
+      116,
+      0,
+      105,
+      0,
+      111,
+      0,
+      110,
+      0,
+      97,
+      0,
+      114,
+      0,
+      121,
+      0,
+      96,
+      0,
+      50,
+      0,
+      91,
+      0,
+      91,
+      0,
+      83,
+      0,
+      121,
+      0,
+      115,
+      0,
+      116,
+      0,
+      101,
+      0,
+      109,
+      0,
+      46,
+      0,
+      83,
+      0,
+      116,
+      0,
+      114,
+      0,
+      105,
+      0,
+      110,
+      0,
+      103,
+      0,
+      44,
+      0,
+      32,
+      0,
+      109,
+      0,
+      115,
+      0,
+      99,
+      0,
+      111,
+      0,
+      114,
+      0,
+      108,
+      0,
+      105,
+      0,
+      98,
+      0,
+      93,
+      0,
+      44,
+      0,
+      91,
+      0,
+      80,
+      0,
+      79,
+      0,
+      80,
+      0,
+      46,
+      0,
+      73,
+      0,
+      110,
+      0,
+      103,
+      0,
+      97,
+      0,
+      109,
+      0,
+      101,
+      0,
+      46,
+      0,
+      71,
+      0,
+      97,
+      0,
+      109,
+      0,
+      101,
+      0,
+      76,
+      0,
+      111,
+      0,
+      103,
+      0,
+      105,
+      0,
+      99,
+      0,
+      46,
+      0,
+      67,
+      0,
+      104,
+      0,
+      97,
+      0,
+      114,
+      0,
+      97,
+      0,
+      99,
+      0,
+      116,
+      0,
+      101,
+      0,
+      114,
+      0,
+      46,
+      0,
+      72,
+      0,
+      105,
+      0,
+      116,
+      0,
+      86,
+      0,
+      111,
+      0,
+      105,
+      0,
+      99,
+      0,
+      101,
+      0,
+      68,
+      0,
+      97,
+      0,
+      116,
+      0,
+      97,
+      0,
+      44,
+      0,
+      32,
+      0,
+      65,
+      0,
+      115,
+      0,
+      115,
+      0,
+      101,
+      0,
+      109,
+      0,
+      98,
+      0,
+      108,
+      0,
+      121,
+      0,
+      45,
+      0,
+      67,
+      0,
+      83,
+      0,
+      104,
+      0,
+      97,
+      0,
+      114,
+      0,
+      112,
+      0,
+      93,
+      0,
+      93,
+      0,
+      44,
+      0,
+      32,
+      0,
+      109,
+      0,
+      115,
+      0,
+      99,
+      0,
+      111,
+      0,
+      114,
+      0,
+      108,
+      0,
+      105,
+      0,
+      98,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      8,
+      0,
+      0,
+      0,
+      99,
+      0,
+      111,
+      0,
+      109,
+      0,
+      112,
+      0,
+      97,
+      0,
+      114,
+      0,
+      101,
+      0,
+      114,
+      0,
+      47,
+      1,
+      0,
+      0,
+      0,
+      1,
+      89,
+      0,
+      0,
+      0,
+      83,
+      0,
+      121,
+      0,
+      115,
+      0,
+      116,
+      0,
+      101,
+      0,
+      109,
+      0,
+      46,
+      0,
+      67,
+      0,
+      111,
+      0,
+      108,
+      0,
+      108,
+      0,
+      101,
+      0,
+      99,
+      0,
+      116,
+      0,
+      105,
+      0,
+      111,
+      0,
+      110,
+      0,
+      115,
+      0,
+      46,
+      0,
+      71,
+      0,
+      101,
+      0,
+      110,
+      0,
+      101,
+      0,
+      114,
+      0,
+      105,
+      0,
+      99,
+      0,
+      46,
+      0,
+      71,
+      0,
+      101,
+      0,
+      110,
+      0,
+      101,
+      0,
+      114,
+      0,
+      105,
+      0,
+      99,
+      0,
+      69,
+      0,
+      113,
+      0,
+      117,
+      0,
+      97,
+      0,
+      108,
+      0,
+      105,
+      0,
+      116,
+      0,
+      121,
+      0,
+      67,
+      0,
+      111,
+      0,
+      109,
+      0,
+      112,
+      0,
+      97,
+      0,
+      114,
+      0,
+      101,
+      0,
+      114,
+      0,
+      96,
+      0,
+      49,
+      0,
+      91,
+      0,
+      91,
+      0,
+      83,
+      0,
+      121,
+      0,
+      115,
+      0,
+      116,
+      0,
+      101,
+      0,
+      109,
+      0,
+      46,
+      0,
+      83,
+      0,
+      116,
+      0,
+      114,
+      0,
+      105,
+      0,
+      110,
+      0,
+      103,
+      0,
+      44,
+      0,
+      32,
+      0,
+      109,
+      0,
+      115,
+      0,
+      99,
+      0,
+      111,
+      0,
+      114,
+      0,
+      108,
+      0,
+      105,
+      0,
+      98,
+      0,
+      93,
+      0,
+      93,
+      0,
+      44,
+      0,
+      32,
+      0,
+      109,
+      0,
+      115,
+      0,
+      99,
+      0,
+      111,
+      0,
+      114,
+      0,
+      108,
+      0,
+      105,
+      0,
+      98,
+      0,
+      1,
+      0,
+      0,
+      0,
+      5,
+      6,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      7,
+      5
+    ],
+    "ReferencedUnityObjects": [],
+    "SerializedBytesString": "",
+    "Prefab": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "PrefabModificationsReferencedUnityObjects": [],
+    "PrefabModifications": [],
+    "SerializationNodes": []
+  },
+  "States": [
+    {
+      "StateType": 11,
+      "VoiceList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 1,
+            "m_PathID": -7665346216961947241
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "Conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "Priority": {
+        "TypeId": 0
+      },
+      "AlternativeList": []
+    },
+    {
+      "StateType": 12,
+      "VoiceList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 1,
+            "m_PathID": -7665346216961947241
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "Conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "Priority": {
+        "TypeId": 0
+      },
+      "AlternativeList": []
+    },
+    {
+      "StateType": 13,
+      "VoiceList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 1,
+            "m_PathID": -7665346216961947241
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "Conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "Priority": {
+        "TypeId": 0
+      },
+      "AlternativeList": []
+    },
+    {
+      "StateType": 31,
+      "VoiceList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 1,
+            "m_PathID": -6732802636466720008
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "Conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "Priority": {
+        "TypeId": 0
+      },
+      "AlternativeList": []
+    },
+    {
+      "StateType": 32,
+      "VoiceList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 1,
+            "m_PathID": -6732802636466720008
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "Conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "Priority": {
+        "TypeId": 0
+      },
+      "AlternativeList": []
+    },
+    {
+      "StateType": 34,
+      "VoiceList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 1,
+            "m_PathID": -2070337158389902230
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "Conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "Priority": {
+        "TypeId": 0
+      },
+      "AlternativeList": []
+    },
+    {
+      "StateType": 71,
+      "VoiceList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 1,
+            "m_PathID": 7275098625527722217
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "Conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "Priority": {
+        "TypeId": 0
+      },
+      "AlternativeList": []
+    },
+    {
+      "StateType": 72,
+      "VoiceList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 1,
+            "m_PathID": 4757879976637919865
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "Conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "Priority": {
+        "TypeId": 0
+      },
+      "AlternativeList": []
+    },
+    {
+      "StateType": 73,
+      "VoiceList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 1,
+            "m_PathID": 2442262565321324064
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "Conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "Priority": {
+        "TypeId": 0
+      },
+      "AlternativeList": []
+    },
+    {
+      "StateType": 83,
+      "VoiceList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 1,
+            "m_PathID": 1747843675677322542
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "Conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "Priority": {
+        "TypeId": 0
+      },
+      "AlternativeList": []
+    },
+    {
+      "StateType": 101,
+      "VoiceList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 1,
+            "m_PathID": -3798969549710374139
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "Conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "Priority": {
+        "TypeId": 0
+      },
+      "AlternativeList": []
+    },
+    {
+      "StateType": 102,
+      "VoiceList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 1,
+            "m_PathID": 6985431298192405978
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "Conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "Priority": {
+        "TypeId": 0
+      },
+      "AlternativeList": []
+    },
+    {
+      "StateType": 103,
+      "VoiceList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 1,
+            "m_PathID": -1807983130316139370
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "Conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "Priority": {
+        "TypeId": 0
+      },
+      "AlternativeList": []
+    },
+    {
+      "StateType": 121,
+      "VoiceList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 1,
+            "m_PathID": 6803492968552606278
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "Conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "Priority": {
+        "TypeId": 0
+      },
+      "AlternativeList": []
+    },
+    {
+      "StateType": 131,
+      "VoiceList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 1,
+            "m_PathID": -6236069183945510323
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "Conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "Priority": {
+        "TypeId": 0
+      },
+      "AlternativeList": []
+    },
+    {
+      "StateType": 141,
+      "VoiceList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 1,
+            "m_PathID": 3137837651659581147
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "Conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "Priority": {
+        "TypeId": 0
+      },
+      "AlternativeList": []
+    }
+  ],
+  "Customs": [
+    {
+      "CustomType": 1,
+      "VoiceList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 1,
+            "m_PathID": -7584039662259677868
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "Conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ]
+    },
+    {
+      "CustomType": 2,
+      "VoiceList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 1,
+            "m_PathID": 1419541575256528880
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "Conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ]
+    }
+  ],
+  "TriggerAttackStates": [],
+  "TriggerLandingStates": [],
+  "CommonKillVoice": {
+    "VoiceList": [
+      {
+        "AudioEvent": {
+          "m_FileID": 1,
+          "m_PathID": -171342129200056256
+        },
+        "StartType": 0,
+        "StartFrame": 0,
+        "FollowType": 1,
+        "StopWhenExitState": 0,
+        "Conditions": [],
+        "StopWhenExitStateFrameConditions": [],
+        "UseCharacterIdentityCondition": 0,
+        "CharacterSexCondition": -1,
+        "CharacterMoralAlignmentCondition": -1
+      }
+    ],
+    "Priority": {
+      "TypeId": 3
+    }
+  },
+  "SpecificKillVoiceList": [
+    {
+      "VictimCharacterType": 102,
+      "VoiceList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 1,
+            "m_PathID": -4525577709099142248
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "Conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "Priority": {
+        "TypeId": 3
+      }
+    },
+    {
+      "VictimCharacterType": 105,
+      "VoiceList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 1,
+            "m_PathID": 3958540484401856793
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "Conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "Priority": {
+        "TypeId": 3
+      }
+    },
+    {
+      "VictimCharacterType": 104,
+      "VoiceList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 1,
+            "m_PathID": -7907644254290613778
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "Conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "Priority": {
+        "TypeId": 3
+      }
+    },
+    {
+      "VictimCharacterType": 112,
+      "VoiceList": [
+        {
+          "AudioEvent": {
+            "m_FileID": 1,
+            "m_PathID": 4207716115472647759
+          },
+          "StartType": 0,
+          "StartFrame": 0,
+          "FollowType": 1,
+          "StopWhenExitState": 0,
+          "Conditions": [],
+          "StopWhenExitStateFrameConditions": []
+        }
+      ],
+      "Priority": {
+        "TypeId": 3
+      }
+    }
+  ],
+  "OnFireVoice": {
+    "VoiceList": [
+      {
+        "AudioEvent": {
+          "m_FileID": 1,
+          "m_PathID": -9000346531655211766
+        },
+        "StartType": 0,
+        "StartFrame": 0,
+        "FollowType": 1,
+        "StopWhenExitState": 0,
+        "Conditions": [],
+        "StopWhenExitStateFrameConditions": []
+      }
+    ],
+    "Priority": {
+      "TypeId": 3
+    }
+  }
+}

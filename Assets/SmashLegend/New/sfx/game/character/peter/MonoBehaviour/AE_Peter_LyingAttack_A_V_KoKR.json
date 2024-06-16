@@ -1,0 +1,106 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": -1742195611730705203
+  },
+  "m_Name": "AE_Peter_LyingAttack_A_V_KoKR",
+  "Elements": [
+    {
+      "Clip": {
+        "m_FileID": 0,
+        "m_PathID": 8476724483610087129
+      },
+      "Volume": 0.7,
+      "Random": 1.0,
+      "FadeInTime": 0.0,
+      "FadeOutTime": 0.5,
+      "Pitch": 0.0,
+      "RandomPitchRange": {
+        "x": 0.0,
+        "y": 0.0
+      },
+      "TriggerDelay": 0.0,
+      "RandomTriggerDelay": 0.0
+    },
+    {
+      "Clip": {
+        "m_FileID": 0,
+        "m_PathID": 8576392807477186492
+      },
+      "Volume": 0.7,
+      "Random": 1.0,
+      "FadeInTime": 0.0,
+      "FadeOutTime": 0.5,
+      "Pitch": 0.0,
+      "RandomPitchRange": {
+        "x": 0.0,
+        "y": 0.0
+      },
+      "TriggerDelay": 0.0,
+      "RandomTriggerDelay": 0.0
+    }
+  ],
+  "MixerGroupType": 7,
+  "isPlayOnlyUI": 0,
+  "PlayBackStyle": 1,
+  "PlayTimeInSameAnimation": 1,
+  "MaxPlaybackCount": 1,
+  "MaxPlaybackCountPerCharacter": 0,
+  "IsMultiplyingVolumeForIdentical": 0,
+  "CountMultiplierListForIdentical": [],
+  "Loop": 0,
+  "DuckOtherSound": 0,
+  "SelectOption": 1,
+  "SequentialPartIndex": 0,
+  "CustomOrder": [],
+  "LoopOnlyRandomParts": 1,
+  "StartOffset": 0.0,
+  "AudioRolloffMode": 1,
+  "AudioRolloffCurve": {
+    "m_Curve": [],
+    "m_PreInfinity": 2,
+    "m_PostInfinity": 2,
+    "m_RotationOrder": 4
+  },
+  "spatialBlendMode": 1,
+  "SpatialBlendCurve": {
+    "m_Curve": [
+      {
+        "time": 0.0,
+        "value": 0.0,
+        "inSlope": 0.0,
+        "outSlope": 0.0,
+        "weightedMode": 0,
+        "inWeight": 0.0,
+        "outWeight": 0.33333334
+      },
+      {
+        "time": 0.1,
+        "value": 0.0,
+        "inSlope": "Infinity",
+        "outSlope": 1.1111112,
+        "weightedMode": 0,
+        "inWeight": 0.33333334,
+        "outWeight": 0.117257275
+      },
+      {
+        "time": 1.0,
+        "value": 1.0,
+        "inSlope": 1.1111112,
+        "outSlope": 1.1111112,
+        "weightedMode": 0,
+        "inWeight": 0.33333334,
+        "outWeight": 0.0
+      }
+    ],
+    "m_PreInfinity": 2,
+    "m_PostInfinity": 2,
+    "m_RotationOrder": 4
+  },
+  "SpatialBlend": 1.0
+}
