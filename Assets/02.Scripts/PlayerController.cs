@@ -6,12 +6,16 @@ public class PlayerController : MonoBehaviour
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
     public float jumpForce = 5f;
+ 
+
+    [Header("Ground Check Settings")]
+    public float groundCheckDistance = 0.2f; // 지면 체크를 위한 거리
+
     private Rigidbody _rigidBody;
     private Animator _animator;
     private Vector3 _moveDirection;
     public bool _isGrounded;
     private CapsuleCollider _capsuleCollider;
-
 
     private void Awake()
     {
@@ -68,7 +72,16 @@ public class PlayerController : MonoBehaviour
 
     private void CheckGroundStatus()
     {
-        _isGrounded = Physics.Raycast(transform.position, Vector3.down, _capsuleCollider.bounds.extents.y);
+        RaycastHit hit;
+        Vector3 origin = transform.position + Vector3.up * 0.1f; // 플레이어의 위치에서 약간 위쪽
+        _isGrounded = Physics.Raycast(origin, Vector3.down, out hit, groundCheckDistance + 0.1f);
     }
 
+    private void OnDrawGizmosSelected()
+    {
+        // 디버그를 위해 지면 체크 레이캐스트를 시각적으로 표시
+        Gizmos.color = Color.red;
+        Vector3 origin = transform.position + Vector3.up * 0.1f;
+        Gizmos.DrawLine(origin, origin + Vector3.down * (groundCheckDistance + 0.1f));
+    }
 }
