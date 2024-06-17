@@ -3,30 +3,28 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Movement Settings")]
-    public float moveSpeed = 5f;
-    public float jumpForce = 5f;
- 
+    private float moveSpeed = 5.4f; // 피터의 이동속도
+    private float jumpForce = 14.28f; // 피터의 점프가속도
+    private float gravityScale = 36f; // 피터의 중력가속도
+    private float maxFallSpeed = 20f; // 피터의 최대 낙하속도
 
-    [Header("Ground Check Settings")]
-    public float groundCheckDistance = 0.2f; // 지면 체크를 위한 거리
+    private float groundCheckDistance = 0.4f; // 지면 체크를 위한 거리
 
     private Rigidbody _rigidBody;
     private Animator _animator;
     private Vector3 _moveDirection;
-    public bool _isGrounded;
-    private CapsuleCollider _capsuleCollider;
+    private bool _isGrounded;
 
     private void Awake()
     {
         _rigidBody = GetComponent<Rigidbody>();
-        _animator = GetComponent<Animator>();
-        _capsuleCollider = GetComponent<CapsuleCollider>();
+        _animator = GetComponent<Animator>();      
     }
 
     private void FixedUpdate()
     {
         Move();
+        ApplyCustomGravity();
         CheckGroundStatus();
     }
 
@@ -68,13 +66,31 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void ApplyCustomGravity()
+    {
+        if (!_isGrounded)
+        {
+            _rigidBody.AddForce(Vector3.down * gravityScale, ForceMode.Acceleration);
+
+            if (_rigidBody.velocity.y < 0)
+            {
+                _rigidBody.velocity += Vector3.up * gravityScale * 0.5f * Time.fixedDeltaTime; // 감속 비율 적용
+            }
+        }
+
+        // 최대 낙하속도를 초과하지 않도록 제한
+        if (_rigidBody.velocity.y < -maxFallSpeed)
+        {
+            _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, -maxFallSpeed, _rigidBody.velocity.z);
+        }
+    }
 
 
     private void CheckGroundStatus()
     {
         RaycastHit hit;
         Vector3 origin = transform.position + Vector3.up * 0.1f; // 플레이어의 위치에서 약간 위쪽
-        _isGrounded = Physics.Raycast(origin, Vector3.down, out hit, groundCheckDistance + 0.1f);
+        _isGrounded = Physics.Raycast(origin, Vector3.down, out hit, groundCheckDistance);
     }
 
     private void OnDrawGizmosSelected()
@@ -82,6 +98,6 @@ public class PlayerController : MonoBehaviour
         // 디버그를 위해 지면 체크 레이캐스트를 시각적으로 표시
         Gizmos.color = Color.red;
         Vector3 origin = transform.position + Vector3.up * 0.1f;
-        Gizmos.DrawLine(origin, origin + Vector3.down * (groundCheckDistance + 0.1f));
+        Gizmos.DrawLine(origin, origin + Vector3.down * (groundCheckDistance));
     }
 }
