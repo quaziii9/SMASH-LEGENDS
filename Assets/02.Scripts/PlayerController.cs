@@ -1,14 +1,16 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
 public class PlayerController : MonoBehaviour
 {
     private float moveSpeed = 5.4f; // 피터의 이동속도
     private float jumpForce = 14.28f; // 피터의 점프가속도
     private float gravityScale = 36f; // 피터의 중력가속도
     private float maxFallSpeed = 20f; // 피터의 최대 낙하속도
+    [SerializeField] public GameObject groundCheck;
 
-    private float groundCheckDistance = 0.4f; // 지면 체크를 위한 거리
+    private float groundCheckDistance = 1.5f; // 지면 체크를 위한 거리
 
     private Rigidbody _rigidBody;
     private Animator _animator;
@@ -26,6 +28,14 @@ public class PlayerController : MonoBehaviour
         Move();
         ApplyCustomGravity();
         CheckGroundStatus();
+        UpdateAnimator();
+    }
+
+    private void UpdateAnimator()
+    {     
+        _animator.SetBool("IsGround", _isGrounded);
+        _animator.SetBool("IsFalling",_rigidBody.velocity.y <= -1f);
+        _animator.SetBool("IsMoving", _moveDirection != Vector3.zero && _isGrounded);
     }
 
     public void OnMoveInput(InputAction.CallbackContext context)
@@ -37,6 +47,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnJumpInput(InputAction.CallbackContext context)
     {
+        _animator.SetTrigger("Jump");
         if (context.performed && _isGrounded)
         {
             Jump();
@@ -89,7 +100,7 @@ public class PlayerController : MonoBehaviour
     private void CheckGroundStatus()
     {
         RaycastHit hit;
-        Vector3 origin = transform.position + Vector3.up * 0.1f; // 플레이어의 위치에서 약간 위쪽
+        Vector3 origin = groundCheck.transform.position; // 플레이어의 위치에서 약간 위쪽
         _isGrounded = Physics.Raycast(origin, Vector3.down, out hit, groundCheckDistance);
     }
 
@@ -97,7 +108,7 @@ public class PlayerController : MonoBehaviour
     {
         // 디버그를 위해 지면 체크 레이캐스트를 시각적으로 표시
         Gizmos.color = Color.red;
-        Vector3 origin = transform.position + Vector3.up * 0.1f;
+        Vector3 origin = groundCheck.transform.position;
         Gizmos.DrawLine(origin, origin + Vector3.down * (groundCheckDistance));
     }
 }

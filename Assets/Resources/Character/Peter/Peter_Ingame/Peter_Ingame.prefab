@@ -409,9 +409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e6d8a121cba24d48bc090a6ba111292, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  jumpForce: 5
-  _isGrounded: 0
+  groundCheck: {fileID: 7011229761790871081}
 --- !u!1 &1032214998029843771
 GameObject:
   m_ObjectHideFlags: 0
@@ -1982,7 +1980,7 @@ Transform:
   m_GameObject: {fileID: 7011229761790871081}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.00035, y: 0, z: 0.00444}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
