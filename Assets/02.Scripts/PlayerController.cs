@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
     private void UpdateAnimator()
     {     
         _animator.SetBool("IsGround", _isGrounded);
+        //_animator.SetBool("IsJumping", _rigidBody.velocity.y >= 1f);
         _animator.SetBool("IsFalling",_rigidBody.velocity.y <= -1f);
         _animator.SetBool("IsMoving", _moveDirection != Vector3.zero && _isGrounded);
     }
