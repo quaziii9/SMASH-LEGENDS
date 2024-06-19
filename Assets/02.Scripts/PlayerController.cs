@@ -17,9 +17,10 @@ public class PlayerController : MonoBehaviour
     private Animator _animator;
     private Vector3 _moveDirection;
     private bool _isGrounded;
+    private bool _isAttack;
 
     private int comboCounter = 0;
-    private float lastTimeAttacked;
+    public float lastTimeAttacked;
     private float comboWindow = 2;
 
     private void Awake()
@@ -36,10 +37,22 @@ public class PlayerController : MonoBehaviour
         UpdateAnimator();
     }
 
+    private void Update()
+    {
+        if (_isAttack)
+        {
+            //if (Time.time - lastTimeAttacked > comboWindow)
+            //{
+            //    comboCounter = 0;
+            //    _isAttack = false;
+            //    _animator.ResetTrigger("IsAttack");
+            //}
+        }
+    }
+
     private void UpdateAnimator()
     {     
         _animator.SetBool("IsGround", _isGrounded);
-        _animator.SetInteger("ComboCounter", comboCounter);
         //_animator.SetBool("IsJumping", _rigidBody.velocity.y >= 1f);
         _animator.SetBool("IsFalling",_rigidBody.velocity.y <= -1f);
         _animator.SetBool("IsMoving", _moveDirection != Vector3.zero && _isGrounded);
@@ -53,7 +66,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnJumpInput(InputAction.CallbackContext context)
     {
-        _animator.SetTrigger("Jump");
+        _animator.SetTrigger("IsJump");
         if (context.performed && _isGrounded)
         {
             Jump();
@@ -62,9 +75,18 @@ public class PlayerController : MonoBehaviour
 
     public void OnDefaultAttackInput(InputAction.CallbackContext context)
     {
-        if (comboCounter == 3)
-            comboCounter = 0;
-        comboCounter++;
+        if (context.performed)
+        {
+            
+            _isAttack = true;
+            lastTimeAttacked = Time.time;
+                
+            if (comboCounter > 2)
+                comboCounter = 0;
+            _animator.SetInteger("ComboCounter", comboCounter);
+            _animator.SetTrigger("IsAttack");
+            comboCounter++;
+        }
     }
 
     private void Move()
