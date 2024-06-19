@@ -11,17 +11,16 @@ public class PlayerController : MonoBehaviour
     private float maxFallSpeed = 20f; // 피터의 최대 낙하속도
     public GameObject groundCheck;
 
-    private float groundCheckDistance = 1.5f; // 지면 체크를 위한 거리
+    private float groundCheckDistance = 1f; // 지면 체크를 위한 거리
 
     private Rigidbody _rigidBody;
     private Animator _animator;
     private Vector3 _moveDirection;
     private bool _isGrounded;
     private bool _isAttack;
+    private bool _canCombo;
 
     private int comboCounter = 0;
-    public float lastTimeAttacked;
-    private float comboWindow = 2;
 
     private void Awake()
     {
@@ -39,15 +38,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (_isAttack)
-        {
-            //if (Time.time - lastTimeAttacked > comboWindow)
-            //{
-            //    comboCounter = 0;
-            //    _isAttack = false;
-            //    _animator.ResetTrigger("IsAttack");
-            //}
-        }
+
     }
 
     private void UpdateAnimator()
@@ -55,7 +46,6 @@ public class PlayerController : MonoBehaviour
         _animator.SetBool("IsGround", _isGrounded);
         //_animator.SetBool("IsJumping", _rigidBody.velocity.y >= 1f);
         _animator.SetBool("IsFalling",_rigidBody.velocity.y <= -1f);
-        _animator.SetBool("IsMoving", _moveDirection != Vector3.zero && _isGrounded);
     }
 
     public void OnMoveInput(InputAction.CallbackContext context)
@@ -77,20 +67,32 @@ public class PlayerController : MonoBehaviour
     {
         if (context.performed)
         {
-            
-            _isAttack = true;
-            lastTimeAttacked = Time.time;
-                
-            if (comboCounter > 2)
-                comboCounter = 0;
-            _animator.SetInteger("ComboCounter", comboCounter);
-            _animator.SetTrigger("IsAttack");
-            comboCounter++;
+            if (_canCombo)
+            {
+                _canCombo = false; // 콤보 상태를 비활성화
+                comboCounter = (comboCounter + 1) % 3; // 콤보 카운터 증가, 최대 2까지 증가 후 0으로 돌아감
+                _animator.SetInteger("ComboCounter", comboCounter);
+                _animator.SetTrigger("IsAttack");
+            }
+            else if (!_isAttack)
+            {
+                _isAttack = true;
+                comboCounter = 0; // 첫 번째 공격
+                _animator.SetInteger("ComboCounter", comboCounter);
+                _animator.SetTrigger("IsAttack");
+            }
         }
     }
 
     private void Move()
     {
+        if (_isAttack)
+        {
+            // 공격 중일 때 이동하지 않도록 속도를 0으로 설정
+            _rigidBody.velocity = new Vector3(0, _rigidBody.velocity.y, 0);
+            return;
+        }
+        _animator.SetBool("IsMoving", _moveDirection != Vector3.zero && _isGrounded);
         Vector3 velocity = new Vector3(_moveDirection.x * moveSpeed, _rigidBody.velocity.y, _moveDirection.z * moveSpeed);
         _rigidBody.velocity = velocity;
 
@@ -143,5 +145,21 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.red;
         Vector3 origin = groundCheck.transform.position;
         Gizmos.DrawLine(origin, origin + Vector3.down * (groundCheckDistance));
+    }
+
+    // 애니메이션 이벤트를 통해 공격이 끝났을 때 호출될 메서드
+    public void OnComboAttackEnd()
+    {
+        _canCombo = false;
+        _isAttack = false;
+        comboCounter = 0; // 콤보 카운터 초기화
+        _animator.SetInteger("ComboCounter", comboCounter);
+        _animator.ResetTrigger("IsAttack");
+    }
+
+    // 애니메이션 이벤트를 통해 콤보 가능 상태로 만들기
+    public void EnableCombo()
+    {
+        _canCombo = true;
     }
 }
