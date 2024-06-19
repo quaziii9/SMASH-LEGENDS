@@ -2,7 +2,6 @@ using Sirenix.OdinInspector.Editor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
 public class PlayerController : MonoBehaviour
 {
     private float moveSpeed = 5.4f; // 피터의 이동속도
@@ -11,7 +10,7 @@ public class PlayerController : MonoBehaviour
     private float maxFallSpeed = 20f; // 피터의 최대 낙하속도
     public GameObject groundCheck;
 
-    private float groundCheckDistance = 1f; // 지면 체크를 위한 거리
+    public float groundCheckDistance = 1f; // 지면 체크를 위한 거리
 
     private Rigidbody _rigidBody;
     private Animator _animator;
@@ -19,13 +18,16 @@ public class PlayerController : MonoBehaviour
     private bool _isGrounded;
     private bool _isAttack;
     private bool _canCombo;
+    public bool _canChangeAnimation;
+    private bool _isJumping;
+    private bool _hasAirAttacked;
 
-    private int comboCounter = 0;
+    public int comboCounter = 0;
 
     private void Awake()
     {
         _rigidBody = GetComponent<Rigidbody>();
-        _animator = GetComponent<Animator>();      
+        _animator = GetComponent<Animator>();
     }
 
     private void FixedUpdate()
@@ -42,10 +44,10 @@ public class PlayerController : MonoBehaviour
     }
 
     private void UpdateAnimator()
-    {     
+    {
         _animator.SetBool("IsGround", _isGrounded);
-        //_animator.SetBool("IsJumping", _rigidBody.velocity.y >= 1f);
-        _animator.SetBool("IsFalling",_rigidBody.velocity.y <= -1f);
+        _animator.SetBool("IsFalling", _rigidBody.velocity.y < 0);
+        _animator.SetBool("CanChangeAnimation", _canChangeAnimation);
     }
 
     public void OnMoveInput(InputAction.CallbackContext context)
@@ -56,10 +58,11 @@ public class PlayerController : MonoBehaviour
 
     public void OnJumpInput(InputAction.CallbackContext context)
     {
-        _animator.SetTrigger("IsJump");
-        if (context.performed && _isGrounded)
+        if (context.performed && _isGrounded && _isAttack == false)
         {
+            _animator.SetTrigger("IsJump");
             Jump();
+            _isJumping = true;
         }
     }
 
@@ -67,19 +70,31 @@ public class PlayerController : MonoBehaviour
     {
         if (context.performed)
         {
-            if (_canCombo)
+            if (_isGrounded)
             {
-                _canCombo = false; // 콤보 상태를 비활성화
-                comboCounter = (comboCounter + 1) % 3; // 콤보 카운터 증가, 최대 2까지 증가 후 0으로 돌아감
-                _animator.SetInteger("ComboCounter", comboCounter);
-                _animator.SetTrigger("IsAttack");
+                if (_canCombo == true)
+                {
+                    if (comboCounter > 2)
+                    {
+                        comboCounter = 0; // 콤보 카운터가 3을 초과하지 않도록 설정
+                    }
+                    _animator.SetInteger("ComboCounter", comboCounter);
+                    _animator.SetTrigger("IsAttack");
+                    comboCounter++;
+                    _canCombo = false; // 콤보 상태를 비활성화
+                }
+                else
+                {              
+                    comboCounter = 0; // 첫 번째 공격                   
+                    _animator.SetInteger("ComboCounter", comboCounter);
+                    _animator.SetTrigger("IsAttack");
+                    comboCounter++;
+                }
             }
-            else if (!_isAttack)
+            else if (_isJumping == true && _hasAirAttacked == false) // 점프 중 공격
             {
-                _isAttack = true;
-                comboCounter = 0; // 첫 번째 공격
-                _animator.SetInteger("ComboCounter", comboCounter);
-                _animator.SetTrigger("IsAttack");
+                _hasAirAttacked = true;
+                _animator.SetTrigger("AirAttack");
             }
         }
     }
@@ -98,7 +113,7 @@ public class PlayerController : MonoBehaviour
 
         LookAt();
     }
-    
+
     private void Jump()
     {
         _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, jumpForce, _rigidBody.velocity.z);
@@ -147,19 +162,32 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawLine(origin, origin + Vector3.down * (groundCheckDistance));
     }
 
-    // 애니메이션 이벤트를 통해 공격이 끝났을 때 호출될 메서드
-    public void OnComboAttackEnd()
+    // 애니메이션 이벤트를 통해 콤보 공격이 끝났을 때 호출될 메서드
+    public void ComboAttackEndAnimationEvent()
     {
-        _canCombo = false;
         _isAttack = false;
-        comboCounter = 0; // 콤보 카운터 초기화
-        _animator.SetInteger("ComboCounter", comboCounter);
+        _canCombo = false;   
         _animator.ResetTrigger("IsAttack");
     }
 
-    // 애니메이션 이벤트를 통해 콤보 가능 상태로 만들기
-    public void EnableCombo()
+    public void CanChangeAnimationEvent()
     {
+        _canChangeAnimation = true;
+    }
+
+    // 애니메이션 이벤트를 통해 콤보 가능 상태로 만들기
+    public void EnableComboAnimationEvent()
+    {
+        _canChangeAnimation = false;
         _canCombo = true;
+        _isAttack = true;
+    }
+
+    // 점프 애니메이션 이벤트
+    public void JumpLandAnimationEvent()
+    {
+        _isJumping = false;
+        _hasAirAttacked = false;
+        _animator.ResetTrigger("AirAttack");
     }
 }

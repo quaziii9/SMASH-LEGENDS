@@ -426,6 +426,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundCheck: {fileID: 7011229761790871081}
+  groundCheckDistance: 1
+  _canChangeAnimation: 0
+  comboCounter: 0
 --- !u!1 &1032214998029843771
 GameObject:
   m_ObjectHideFlags: 0
