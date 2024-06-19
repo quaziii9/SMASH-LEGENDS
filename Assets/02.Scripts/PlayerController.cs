@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     private float maxFallSpeed = 20f; // 피터의 최대 낙하속도
     public GameObject groundCheck;
 
-    public float groundCheckDistance = 1f; // 지면 체크를 위한 거리
+    private float groundCheckDistance = 1f; // 지면 체크를 위한 거리
 
     private Rigidbody _rigidBody;
     private Animator _animator;
@@ -18,11 +18,14 @@ public class PlayerController : MonoBehaviour
     private bool _isGrounded;
     private bool _isAttack;
     private bool _canCombo;
-    public bool _canChangeAnimation;
+    private bool _canChangeAnimation;
     private bool _isJumping;
     private bool _hasAirAttacked;
+    private bool _isLook; 
 
-    public int comboCounter = 0;
+    [Header("Attack")]
+    private int comboCounter = 0;
+    public float skillCoolTime = 4f;
 
     private void Awake()
     {
@@ -40,7 +43,10 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-
+        if (skillCoolTime > 0)
+        {
+            skillCoolTime -= Time.deltaTime;
+        }
     }
 
     private void UpdateAnimator()
@@ -50,6 +56,7 @@ public class PlayerController : MonoBehaviour
         _animator.SetBool("CanChangeAnimation", _canChangeAnimation);
     }
 
+    #region InputSystem
     public void OnMoveInput(InputAction.CallbackContext context)
     {
         Vector2 input = context.ReadValue<Vector2>();
@@ -99,6 +106,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnSkillAttackInput(InputAction.CallbackContext context)
+    {
+        if(context.performed && skillCoolTime <0)
+        {
+            _isLook = false;
+            _isAttack = true;
+            _animator.SetTrigger("SkillAttack");
+            skillCoolTime = 4f;
+        }
+    }
+
+    #endregion
+
     private void Move()
     {
         LookAt();
@@ -122,7 +142,7 @@ public class PlayerController : MonoBehaviour
 
     protected void LookAt()
     {
-        if (_moveDirection != Vector3.zero)
+        if (_moveDirection != Vector3.zero && _isLook == true)
         {
             Quaternion targetAngle = Quaternion.LookRotation(_moveDirection);
             _rigidBody.rotation = targetAngle;
@@ -166,9 +186,20 @@ public class PlayerController : MonoBehaviour
     // 애니메이션 이벤트를 통해 콤보 공격이 끝났을 때 호출될 메서드
     public void ComboAttackEndAnimationEvent()
     {
-        _isAttack = false;
-        _canCombo = false;   
+        //_isAttack = false;
+        //_canCombo = false;   
+        //_animator.ResetTrigger("IsAttack");
+    }
+
+    public void IdleAnimationEvent()
+    {
+        _isLook = true;
+        _canCombo = false;
         _animator.ResetTrigger("IsAttack");
+        _isAttack = false;
+        _isJumping = false;
+        _hasAirAttacked = false;
+        _animator.ResetTrigger("AirAttack");
     }
 
     public void CanChangeAnimationEvent()
@@ -187,8 +218,8 @@ public class PlayerController : MonoBehaviour
     // 점프 애니메이션 이벤트
     public void JumpLandAnimationEvent()
     {
-        _isJumping = false;
-        _hasAirAttacked = false;
-        _animator.ResetTrigger("AirAttack");
+        //_isJumping = false;
+        //_hasAirAttacked = false;
+        //_animator.ResetTrigger("AirAttack");
     }
 }
