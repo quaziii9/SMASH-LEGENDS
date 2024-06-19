@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Attack")]
     private int comboCounter = 0;
-    public float skillCoolTime = 4f;
+    private float skillCoolTime = 4f;
 
     private void Awake()
     {
@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
     private void UpdateAnimator()
     {
         _animator.SetBool("IsGround", _isGrounded);
-        _animator.SetBool("IsFalling", _rigidBody.velocity.y < 0);
+        _animator.SetBool("IsFalling", _rigidBody.velocity.y < -1f);
         _animator.SetBool("CanChangeAnimation", _canChangeAnimation);
     }
 
@@ -79,10 +79,12 @@ public class PlayerController : MonoBehaviour
         {
             if (_isGrounded)
             {
+                _isLook = false;
                 if (_canCombo == true)
                 {
+/*                    if (comboCounter == 2) */
                     if (comboCounter > 2)
-                    {
+                    {                       
                         comboCounter = 0; // 콤보 카운터가 3을 초과하지 않도록 설정
                     }
                     _animator.SetInteger("ComboCounter", comboCounter);
@@ -106,15 +108,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnSkillAttackInput(InputAction.CallbackContext context)
+    public void OnHeavyAttackInput(InputAction.CallbackContext context)
     {
         if(context.performed && skillCoolTime <0)
         {
             _isLook = false;
             _isAttack = true;
-            _animator.SetTrigger("SkillAttack");
+            _animator.SetTrigger("HeavyAttack");
             skillCoolTime = 4f;
         }
+    }
+
+    public void OnSkillAttackInput(InputAction.CallbackContext context)
+    {
+        _isAttack = true;
+        _isLook = false;
+        _animator.SetTrigger("SkillAttack");
     }
 
     #endregion
@@ -200,11 +209,14 @@ public class PlayerController : MonoBehaviour
         _isJumping = false;
         _hasAirAttacked = false;
         _animator.ResetTrigger("AirAttack");
+        _animator.ResetTrigger("HeavyAttack");
+        _animator.ResetTrigger("SkillAttack");
     }
 
     public void CanChangeAnimationEvent()
     {
-        _canChangeAnimation = true;
+        _canChangeAnimation = true; 
+        _isLook = true;
     }
 
     // 애니메이션 이벤트를 통해 콤보 가능 상태로 만들기
