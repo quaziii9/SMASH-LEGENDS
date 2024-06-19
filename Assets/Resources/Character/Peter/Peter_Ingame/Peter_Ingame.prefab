@@ -251,7 +251,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 625617534642090625}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -97.048676, y: 0, z: -29.651802}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 1
@@ -342,6 +342,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 4ca98391-f9bc-4387-b742-41eb425408ee
     m_ActionName: PlayerActions/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2178437495269676431}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnDefaultAttackInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 497ccd2c-a20e-482d-8fa0-1eb358ef51b9
+    m_ActionName: PlayerActions/DefaultAttack[/Keyboard/z]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: PC
   m_DefaultActionMap: PlayerActions
@@ -366,10 +382,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.005
-  m_Height: 0.02
+  m_Radius: 0.004
+  m_Height: 0.018
   m_Direction: 1
-  m_Center: {x: 0, y: 0.008, z: 0}
+  m_Center: {x: 0, y: 0.009, z: 0}
 --- !u!54 &3211526897541294265
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1980,7 +1996,7 @@ Transform:
   m_GameObject: {fileID: 7011229761790871081}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.00035, y: 0, z: 0.00444}
+  m_LocalPosition: {x: 0.00035, y: 0.00113, z: 0.00444}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

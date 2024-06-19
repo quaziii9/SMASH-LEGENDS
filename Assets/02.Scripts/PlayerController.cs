@@ -1,21 +1,26 @@
+using Sirenix.OdinInspector.Editor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 
 public class PlayerController : MonoBehaviour
 {
-    private float moveSpeed = 5.4f; // ÇÇÅÍÀÇ ÀÌµ¿¼Óµµ
-    private float jumpForce = 14.28f; // ÇÇÅÍÀÇ Á¡ÇÁ°¡¼Óµµ
-    private float gravityScale = 36f; // ÇÇÅÍÀÇ Áß·Â°¡¼Óµµ
-    private float maxFallSpeed = 20f; // ÇÇÅÍÀÇ ÃÖ´ë ³«ÇÏ¼Óµµ
-    [SerializeField] public GameObject groundCheck;
+    private float moveSpeed = 5.4f; // í”¼í„°ì˜ ì´ë™ì†ë„
+    private float jumpForce = 14.28f; // í”¼í„°ì˜ ì í”„ê°€ì†ë„
+    private float gravityScale = 36f; // í”¼í„°ì˜ ì¤‘ë ¥ê°€ì†ë„
+    private float maxFallSpeed = 20f; // í”¼í„°ì˜ ìµœëŒ€ ë‚™í•˜ì†ë„
+    public GameObject groundCheck;
 
-    private float groundCheckDistance = 1.5f; // Áö¸é Ã¼Å©¸¦ À§ÇÑ °Å¸®
+    private float groundCheckDistance = 1.5f; // ì§€ë©´ ì²´í¬ë¥¼ ìœ„í•œ ê±°ë¦¬
 
     private Rigidbody _rigidBody;
     private Animator _animator;
     private Vector3 _moveDirection;
     private bool _isGrounded;
+
+    private int comboCounter = 0;
+    private float lastTimeAttacked;
+    private float comboWindow = 2;
 
     private void Awake()
     {
@@ -34,6 +39,7 @@ public class PlayerController : MonoBehaviour
     private void UpdateAnimator()
     {     
         _animator.SetBool("IsGround", _isGrounded);
+        _animator.SetInteger("ComboCounter", comboCounter);
         //_animator.SetBool("IsJumping", _rigidBody.velocity.y >= 1f);
         _animator.SetBool("IsFalling",_rigidBody.velocity.y <= -1f);
         _animator.SetBool("IsMoving", _moveDirection != Vector3.zero && _isGrounded);
@@ -45,7 +51,6 @@ public class PlayerController : MonoBehaviour
         _moveDirection = context.performed ? new Vector3(input.x, 0, input.y) : Vector3.zero;
     }
 
-
     public void OnJumpInput(InputAction.CallbackContext context)
     {
         _animator.SetTrigger("Jump");
@@ -55,15 +60,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnDefaultAttackInput(InputAction.CallbackContext context)
+    {
+        if (comboCounter == 3)
+            comboCounter = 0;
+        comboCounter++;
+    }
+
     private void Move()
     {
         Vector3 velocity = new Vector3(_moveDirection.x * moveSpeed, _rigidBody.velocity.y, _moveDirection.z * moveSpeed);
         _rigidBody.velocity = velocity;
 
-        //UpdateAnimator(_moveDirection.magnitude);
         LookAt();
     }
-
+    
     private void Jump()
     {
         _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, jumpForce, _rigidBody.velocity.z);
@@ -86,28 +97,27 @@ public class PlayerController : MonoBehaviour
 
             if (_rigidBody.velocity.y < 0)
             {
-                _rigidBody.velocity += Vector3.up * gravityScale * 0.5f * Time.fixedDeltaTime; // °¨¼Ó ºñÀ² Àû¿ë
+                _rigidBody.velocity += Vector3.up * gravityScale * 0.5f * Time.fixedDeltaTime; // ê°ì† ë¹„ìœ¨ ì ìš©
             }
         }
 
-        // ÃÖ´ë ³«ÇÏ¼Óµµ¸¦ ÃÊ°úÇÏÁö ¾Êµµ·Ï Á¦ÇÑ
+        // ìµœëŒ€ ë‚™í•˜ì†ë„ë¥¼ ì´ˆê³¼í•˜ì§€ ì•Šë„ë¡ ì œí•œ
         if (_rigidBody.velocity.y < -maxFallSpeed)
         {
             _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, -maxFallSpeed, _rigidBody.velocity.z);
         }
     }
 
-
     private void CheckGroundStatus()
     {
         RaycastHit hit;
-        Vector3 origin = groundCheck.transform.position; // ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡¿¡¼­ ¾à°£ À§ÂÊ
+        Vector3 origin = groundCheck.transform.position; // í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ì—ì„œ ì•½ê°„ ìœ„ìª½
         _isGrounded = Physics.Raycast(origin, Vector3.down, out hit, groundCheckDistance);
     }
 
     private void OnDrawGizmosSelected()
     {
-        // µð¹ö±×¸¦ À§ÇØ Áö¸é Ã¼Å© ·¹ÀÌÄ³½ºÆ®¸¦ ½Ã°¢ÀûÀ¸·Î Ç¥½Ã
+        // ë””ë²„ê·¸ë¥¼ ìœ„í•´ ì§€ë©´ ì²´í¬ ë ˆì´ìºìŠ¤íŠ¸ë¥¼ ì‹œê°ì ìœ¼ë¡œ í‘œì‹œ
         Gizmos.color = Color.red;
         Vector3 origin = groundCheck.transform.position;
         Gizmos.DrawLine(origin, origin + Vector3.down * (groundCheckDistance));
