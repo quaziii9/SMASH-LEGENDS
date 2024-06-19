@@ -101,6 +101,7 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
+        LookAt();
         if (_isAttack)
         {
             // 공격 중일 때 이동하지 않도록 속도를 0으로 설정
@@ -111,7 +112,7 @@ public class PlayerController : MonoBehaviour
         Vector3 velocity = new Vector3(_moveDirection.x * moveSpeed, _rigidBody.velocity.y, _moveDirection.z * moveSpeed);
         _rigidBody.velocity = velocity;
 
-        LookAt();
+        
     }
 
     private void Jump()
