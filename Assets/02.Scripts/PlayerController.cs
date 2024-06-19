@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     private bool _isAttack;
     private bool _canCombo;
     private bool _canChangeAnimation;
-    private bool _isJumping;
+    public bool _isJumping;
     private bool _hasAirAttacked;
     private bool _isLook; 
 
@@ -52,6 +52,7 @@ public class PlayerController : MonoBehaviour
     private void UpdateAnimator()
     {
         _animator.SetBool("IsGround", _isGrounded);
+        _animator.SetBool("IsJumping", _isJumping);
         _animator.SetBool("IsFalling", _rigidBody.velocity.y < -1f);
         _animator.SetBool("CanChangeAnimation", _canChangeAnimation);
     }
@@ -110,11 +111,19 @@ public class PlayerController : MonoBehaviour
 
     public void OnHeavyAttackInput(InputAction.CallbackContext context)
     {
-        if(context.performed && skillCoolTime <0)
+        if(context.performed && skillCoolTime <0 && _isGrounded == true)
         {
             _isLook = false;
             _isAttack = true;
             _animator.SetTrigger("HeavyAttack");
+            skillCoolTime = 4f;
+        }
+        if (context.performed && skillCoolTime < 0 && _isJumping == true)
+        {
+            _isLook = false;
+            _isAttack = true;
+            _animator.SetTrigger("AirHeavyAttack");
+            _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, jumpForce, _rigidBody.velocity.z);
             skillCoolTime = 4f;
         }
     }
@@ -211,11 +220,13 @@ public class PlayerController : MonoBehaviour
         _animator.ResetTrigger("AirAttack");
         _animator.ResetTrigger("HeavyAttack");
         _animator.ResetTrigger("SkillAttack");
+        _animator.ResetTrigger("AirHeavyAttack");
     }
 
     public void CanChangeAnimationEvent()
     {
         _canChangeAnimation = true; 
+        if(comboCounter <3)
         _isLook = true;
     }
 
