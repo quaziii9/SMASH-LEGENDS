@@ -24,6 +24,12 @@ public class PlayerController : MonoBehaviour
     private bool _isLook;
     private bool _isLanding;
 
+    private float _attackMoveDistance; // 공격 중 이동할 거리
+    private Vector3 _attackMoveDirection; // 공격 중 이동 방향
+    private float _attackMoveDuration = 0.3f; // 공격 중 이동하는 데 걸리는 시간
+    private float _attackMoveStartTime; // 공격 중 이동 시작 시간
+    private float _currentMoveDistance; // 현재까지 이동한 거리
+
 
     [Header("Attack")]
     private int comboCounter = 0;
@@ -83,6 +89,7 @@ public class PlayerController : MonoBehaviour
         {
             if (_isGrounded)
             {
+                _rigidBody.velocity = new Vector3(0, _rigidBody.velocity.y, 0);
                 _isLook = false;
                 if (_canCombo == true)
                 {
@@ -93,6 +100,7 @@ public class PlayerController : MonoBehaviour
                     }
                     _animator.SetInteger("ComboCounter", comboCounter);
                     _animator.SetTrigger("IsAttack");
+                    StartAttackMove(1.5f);
                     comboCounter++;
                     _canCombo = false; // 콤보 상태를 비활성화
                 }
@@ -101,6 +109,7 @@ public class PlayerController : MonoBehaviour
                     comboCounter = 0; // 첫 번째 공격                   
                     _animator.SetInteger("ComboCounter", comboCounter);
                     _animator.SetTrigger("IsAttack");
+                    StartAttackMove(1.5f);
                     comboCounter++;
                 }
             }
@@ -116,16 +125,20 @@ public class PlayerController : MonoBehaviour
     {
         if(context.performed && skillCoolTime <0 && _isGrounded == true)
         {
+            _rigidBody.velocity = new Vector3(0, _rigidBody.velocity.y, 0);
             _isLook = false;
             _isAttack = true;
             _animator.SetTrigger("HeavyAttack");
+            StartAttackMove(1.5f);
             skillCoolTime = 4f;
         }
         if (context.performed && skillCoolTime < 0 && _isJumping == true)
         {
+            _rigidBody.velocity = new Vector3(0, _rigidBody.velocity.y, 0);
             _isLook = false;
             _isAttack = true;
             _animator.SetTrigger("AirHeavyAttack");
+            StartAttackMove(2.5f);
             _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, jumpForce, _rigidBody.velocity.z);
             skillCoolTime = 4f;
         }
@@ -143,14 +156,25 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
         LookAt();
-        if (_isAttack || _isLanding)
+        if (_isLanding)
         {
-            // 공격 중일 때 이동하지 않도록 속도를 0으로 설정
             _rigidBody.velocity = new Vector3(0, _rigidBody.velocity.y, 0);
             return;
-          
-           
-        }  
+        }
+        if( _isAttack)
+        {
+            // 공격 중 이동 처리
+            float elapsedTime = Time.time - _attackMoveStartTime;
+            float fraction = elapsedTime / _attackMoveDuration;
+            float distanceToMove = Mathf.Lerp(0, _attackMoveDistance, fraction);
+
+            Vector3 forwardMovement = _attackMoveDirection * (distanceToMove - _currentMoveDistance);
+            _rigidBody.MovePosition(_rigidBody.position + forwardMovement);
+
+            _currentMoveDistance = distanceToMove;
+
+            return;
+        }
             _animator.SetBool("IsMoving", _moveDirection != Vector3.zero && _isGrounded);
             Vector3 velocity = new Vector3(_moveDirection.x * moveSpeed, _rigidBody.velocity.y, _moveDirection.z * moveSpeed);
             _rigidBody.velocity = velocity;
@@ -205,13 +229,6 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawLine(origin, origin + Vector3.down * (groundCheckDistance));
     }
 
-    // 애니메이션 이벤트를 통해 콤보 공격이 끝났을 때 호출될 메서드
-    public void ComboAttackEndAnimationEvent()
-    {
-        //_isAttack = false;
-        //_canCombo = false;   
-        //_animator.ResetTrigger("IsAttack");
-    }
 
     public void IdleAnimationEvent()
     {
@@ -231,7 +248,10 @@ public class PlayerController : MonoBehaviour
     public void CanChangeAnimationEvent()
     {
         _canChangeAnimation = true; 
-        if(comboCounter <3)
+    }
+
+    public void IsLookAnimationEvent()
+    {
         _isLook = true;
     }
 
@@ -253,5 +273,14 @@ public class PlayerController : MonoBehaviour
     {
         _isLanding = true;
         _isLook = false;
+    }
+
+    private void StartAttackMove(float distance)
+    {
+        _isAttack = true;
+        _attackMoveDistance = distance;
+        _attackMoveStartTime = Time.time;
+        _currentMoveDistance = 0;
+        _attackMoveDirection = transform.forward; // 현재 보고 있는 방향으로 이동
     }
 }

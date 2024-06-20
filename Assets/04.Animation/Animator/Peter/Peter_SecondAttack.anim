@@ -8820,7 +8820,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.4
+    m_StopTime: 1.3833333
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -56433,10 +56433,10 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.4
-    functionName: ComboAttackEndAnimationEvent
+  - time: 0.6666667
+    functionName: IsLookAnimationEvent
     data: 
-    objectReferenceParameter: {fileID: 11500000, guid: 8e6d8a121cba24d48bc090a6ba111292, type: 3}
+    objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
