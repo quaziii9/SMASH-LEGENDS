@@ -21,8 +21,8 @@ public class PlayerController : MonoBehaviour
     private bool _canChangeAnimation;
     private bool _isJumping;
     private bool _hasAirAttacked;
-    private bool _isLook;
     private bool _isLanding;
+    private bool _isCanMove;
 
     private float _attackMoveDistance; // 공격 중 이동할 거리
     private Vector3 _attackMoveDirection; // 공격 중 이동 방향
@@ -90,7 +90,6 @@ public class PlayerController : MonoBehaviour
             if (_isGrounded)
             {
                 _rigidBody.velocity = new Vector3(0, _rigidBody.velocity.y, 0);
-                _isLook = false;
                 if (_canCombo == true)
                 {
 /*                    if (comboCounter == 2) */
@@ -126,7 +125,6 @@ public class PlayerController : MonoBehaviour
         if(context.performed && skillCoolTime <0 && _isGrounded == true)
         {
             _rigidBody.velocity = new Vector3(0, _rigidBody.velocity.y, 0);
-            _isLook = false;
             _isAttack = true;
             _animator.SetTrigger("HeavyAttack");
             StartAttackMove(1.5f);
@@ -135,7 +133,6 @@ public class PlayerController : MonoBehaviour
         if (context.performed && skillCoolTime < 0 && _isJumping == true)
         {
             _rigidBody.velocity = new Vector3(0, _rigidBody.velocity.y, 0);
-            _isLook = false;
             _isAttack = true;
             _animator.SetTrigger("AirHeavyAttack");
             StartAttackMove(2.5f);
@@ -147,7 +144,6 @@ public class PlayerController : MonoBehaviour
     public void OnSkillAttackInput(InputAction.CallbackContext context)
     {
         _isAttack = true;
-        _isLook = false;
         _animator.SetTrigger("SkillAttack");
     }
 
@@ -155,7 +151,6 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        LookAt();
         if (_isLanding)
         {
             _rigidBody.velocity = new Vector3(0, _rigidBody.velocity.y, 0);
@@ -175,9 +170,10 @@ public class PlayerController : MonoBehaviour
 
             return;
         }
-            _animator.SetBool("IsMoving", _moveDirection != Vector3.zero && _isGrounded);
-            Vector3 velocity = new Vector3(_moveDirection.x * moveSpeed, _rigidBody.velocity.y, _moveDirection.z * moveSpeed);
-            _rigidBody.velocity = velocity;
+        LookAt();
+        _animator.SetBool("IsMoving", _moveDirection != Vector3.zero && _isGrounded);
+        Vector3 velocity = new Vector3(_moveDirection.x * moveSpeed, _rigidBody.velocity.y, _moveDirection.z * moveSpeed);
+        _rigidBody.velocity = velocity;
         
     }
 
@@ -188,7 +184,7 @@ public class PlayerController : MonoBehaviour
 
     protected void LookAt()
     {
-        if (_moveDirection != Vector3.zero && _isLook == true)
+        if (_moveDirection != Vector3.zero)
         {
             Quaternion targetAngle = Quaternion.LookRotation(_moveDirection);
             _rigidBody.rotation = targetAngle;
@@ -233,7 +229,6 @@ public class PlayerController : MonoBehaviour
     public void IdleAnimationEvent()
     {
         _isLanding = false;
-        _isLook = true;
         _canCombo = false;
         _animator.ResetTrigger("IsAttack");
         _isAttack = false;
@@ -250,17 +245,12 @@ public class PlayerController : MonoBehaviour
         _canChangeAnimation = true; 
     }
 
-    public void IsLookAnimationEvent()
-    {
-        _isLook = true;
-    }
-
     // 애니메이션 이벤트를 통해 콤보 가능 상태로 만들기
     public void EnableComboAnimationEvent()
     {
         _canChangeAnimation = false;
         _canCombo = true;
-        _isAttack = true;
+        //_isAttack = true;
     }
 
     // 점프 애니메이션 이벤트
@@ -272,7 +262,6 @@ public class PlayerController : MonoBehaviour
     public void LookFalseAnimationEvent()
     {
         _isLanding = true;
-        _isLook = false;
     }
 
     private void StartAttackMove(float distance)
