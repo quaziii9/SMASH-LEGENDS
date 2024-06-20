@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnJumpInput(InputAction.CallbackContext context)
     {
-        if (context.performed && _isGrounded && _isAttack == false)
+        if (context.performed && _isGrounded && _isAttack == false && _isLanding == false)
         {
             _animator.SetTrigger("IsJump");
             Jump();
@@ -92,7 +92,6 @@ public class PlayerController : MonoBehaviour
                 _rigidBody.velocity = new Vector3(0, _rigidBody.velocity.y, 0);
                 if (_canCombo == true)
                 {
-/*                    if (comboCounter == 2) */
                     if (comboCounter > 2)
                     {                       
                         comboCounter = 0; // 콤보 카운터가 3을 초과하지 않도록 설정
@@ -146,7 +145,6 @@ public class PlayerController : MonoBehaviour
         _isAttack = true;
         _animator.SetTrigger("SkillAttack");
     }
-
     #endregion
 
     private void Move()
