@@ -19,9 +19,11 @@ public class PlayerController : MonoBehaviour
     private bool _isAttack;
     private bool _canCombo;
     private bool _canChangeAnimation;
-    public bool _isJumping;
+    private bool _isJumping;
     private bool _hasAirAttacked;
-    private bool _isLook; 
+    private bool _isLook;
+    private bool _isLanding;
+
 
     [Header("Attack")]
     private int comboCounter = 0;
@@ -51,6 +53,7 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateAnimator()
     {
+        _animator.SetBool("AirAttacking", _hasAirAttacked);
         _animator.SetBool("IsGround", _isGrounded);
         _animator.SetBool("IsJumping", _isJumping);
         _animator.SetBool("IsFalling", _rigidBody.velocity.y < -1f);
@@ -140,16 +143,17 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
         LookAt();
-        if (_isAttack)
+        if (_isAttack || _isLanding)
         {
             // 공격 중일 때 이동하지 않도록 속도를 0으로 설정
             _rigidBody.velocity = new Vector3(0, _rigidBody.velocity.y, 0);
             return;
-        }
-        _animator.SetBool("IsMoving", _moveDirection != Vector3.zero && _isGrounded);
-        Vector3 velocity = new Vector3(_moveDirection.x * moveSpeed, _rigidBody.velocity.y, _moveDirection.z * moveSpeed);
-        _rigidBody.velocity = velocity;
-
+          
+           
+        }  
+            _animator.SetBool("IsMoving", _moveDirection != Vector3.zero && _isGrounded);
+            Vector3 velocity = new Vector3(_moveDirection.x * moveSpeed, _rigidBody.velocity.y, _moveDirection.z * moveSpeed);
+            _rigidBody.velocity = velocity;
         
     }
 
@@ -211,6 +215,7 @@ public class PlayerController : MonoBehaviour
 
     public void IdleAnimationEvent()
     {
+        _isLanding = false;
         _isLook = true;
         _canCombo = false;
         _animator.ResetTrigger("IsAttack");
@@ -241,8 +246,12 @@ public class PlayerController : MonoBehaviour
     // 점프 애니메이션 이벤트
     public void JumpLandAnimationEvent()
     {
-        //_isJumping = false;
-        //_hasAirAttacked = false;
-        //_animator.ResetTrigger("AirAttack");
+        _hasAirAttacked = false;
+    }
+
+    public void LookFalseAnimationEvent()
+    {
+        _isLanding = true;
+        _isLook = false;
     }
 }
