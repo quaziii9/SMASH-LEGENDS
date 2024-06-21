@@ -1149,6 +1149,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundCheck: {fileID: 8575020770430485035}
+  _animator: {fileID: 0}
+  _isGrounded: 0
 --- !u!114 &1083122375429704005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1231,7 +1233,7 @@ MonoBehaviour:
   syncDirection: 1
   syncMode: 0
   syncInterval: 0
-  clientAuthority: 0
+  clientAuthority: 1
   animator: {fileID: 4305383287991186980}
 --- !u!1 &3785853611246990569
 GameObject:

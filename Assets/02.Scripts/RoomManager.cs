@@ -1,6 +1,7 @@
 using Mirror;
 using UnityEngine;
 using System.Collections;
+using Cysharp.Threading.Tasks;
 
 public class RoomManager : NetworkRoomManager
 {
@@ -16,6 +17,7 @@ public class RoomManager : NetworkRoomManager
         {
             Destroy(gameObject);
         }
+        maxConnections = 2;
     }
 
     public override void OnStartHost()
@@ -28,30 +30,30 @@ public class RoomManager : NetworkRoomManager
     {
         base.OnRoomServerConnect(conn);
         Debug.Log("Player connected: " + conn.connectionId);
+
+       // WaitToStartGame().Forget();
     }
 
     public override void OnRoomServerAddPlayer(NetworkConnectionToClient conn)
     {
         base.OnRoomServerAddPlayer(conn);
-
-        if (roomSlots.Count == maxConnections)
-        {
-            StartCoroutine(WaitToStartGame());
-        }
     }
 
     public override void OnRoomServerPlayersReady()
     {
         if (allPlayersReady)
         {
-            StartCoroutine(WaitToStartGame());
+            ServerChangeScene(GameplayScene);
         }
     }
 
-    private IEnumerator WaitToStartGame()
+    private async UniTaskVoid WaitToStartGame()
     {
-        yield return new WaitForSeconds(3);
-        ServerChangeScene(GameplayScene);
+        await UniTask.Delay(1500); // 1.5초 대기
+        if (numPlayers == maxConnections)
+        {
+            ServerChangeScene(GameplayScene);
+        }
     }
 
     public override void OnServerSceneChanged(string sceneName)
@@ -93,7 +95,8 @@ public class RoomManager : NetworkRoomManager
         NetworkConnectionToClient[] connections = new NetworkConnectionToClient[NetworkServer.connections.Values.Count];
         NetworkServer.connections.Values.CopyTo(connections, 0);
 
-        if (connections.Length > 0)
+        Debug.Log(connections.Length);
+        if (connections.Length == 1)
         {
             NetworkConnectionToClient hostConnection = connections[0];
             if (hostConnection.identity != null)
@@ -101,14 +104,15 @@ public class RoomManager : NetworkRoomManager
                 hostConnection.identity.transform.position = startPosition1.position;
             }
         }
-
-        if (connections.Length > 1)
+        Debug.Log(connections.Length);
+        if (connections.Length == 2)
         {
-            NetworkConnectionToClient clientConnection = connections[1];
-            if (clientConnection.identity != null)
-            {
-                clientConnection.identity.transform.position = startPosition2.position;
-            }
+            //NetworkConnectionToClient clientConnection = connections[1];
+            //if (clientConnection.identity != null)
+            //{
+                connections[0].identity.transform.position = startPosition1.position;
+                connections[1].identity.transform.position = startPosition2.position;
+            //}
         }
     }
 }
