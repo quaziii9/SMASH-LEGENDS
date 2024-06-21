@@ -39,6 +39,7 @@ public class IdleState : StateBase
 
     public override void ExecuteOnUpdate()
     {
+
     }
 
     public override void OnInputCallback(InputAction.CallbackContext context)
@@ -59,7 +60,7 @@ public class JumpState : StateBase
     public JumpState(PlayerController player)
     {
         _player = player;
-        _player.BindInputCallback(isBind:true, OnInputCallback);
+         _player.BindInputCallback(isBind:true, OnInputCallback);
     }
 
     public override void Exit() 
@@ -69,10 +70,10 @@ public class JumpState : StateBase
 
     public override void ExecuteOnUpdate()
     {
-        // 땅에 닿았는지 판단 후
-        // if (_player.IsGrounded)
-        // {
-        //     _player.ChangeState(new IdleState(_player));
-        // }
+        //땅에 닿았는지 판단 후
+         if (_player._isGrounded)
+        {
+            _player.ChangeState(new IdleState(_player));
+        }
     }
 }

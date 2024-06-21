@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,7 +15,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody _rigidBody;
     public Animator _animator;
     private Vector3 _moveDirection;
-    private bool _isGrounded;
+    public bool _isGrounded;
     private bool _isAttack;
     private bool _canCombo;
     private bool _canChangeAnimation;
@@ -61,6 +62,7 @@ public class PlayerController : MonoBehaviour
         {
             skillCoolTime -= Time.deltaTime;
         }
+        _curState.ExecuteOnUpdate();
     }
 
     public void ChangeState(IState newState)
