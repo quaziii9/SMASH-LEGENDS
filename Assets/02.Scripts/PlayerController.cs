@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
 
     private float groundCheckDistance = 1f; // 지면 체크를 위한 거리
 
-    private Rigidbody _rigidBody;
+    public Rigidbody _rigidBody;
     public Animator _animator;
     private Vector3 _moveDirection;
     public bool _isGrounded;
@@ -36,6 +36,10 @@ public class PlayerController : MonoBehaviour
 
     private IState _curState;
     private Action<InputAction.CallbackContext> _inputCallback;
+    public readonly int IsIdle = Animator.StringToHash("IsIdle");
+    public readonly int IsJumpingUp = Animator.StringToHash("IsJumpingUp");
+    public readonly int IsJumpingDown = Animator.StringToHash("IsJumpingDown");
+    public readonly int IsLanding = Animator.StringToHash("IsLanding");
 
     private void Awake()
     {
@@ -82,11 +86,11 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateAnimator()
     {
-        _animator.SetBool("AirAttacking", _hasAirAttacked);
-        _animator.SetBool("IsGround", _isGrounded);
-        _animator.SetBool("IsJumping", _isJumping);
-        _animator.SetBool("IsFalling", _rigidBody.velocity.y < -1f);
-        _animator.SetBool("CanChangeAnimation", _canChangeAnimation);
+        //_animator.SetBool("AirAttacking", _hasAirAttacked);
+        //_animator.SetBool("IsGround", _isGrounded);
+        //_animator.SetBool("IsJumping", _isJumping);
+        //_animator.SetBool("IsFalling", _rigidBody.velocity.y < -1f);
+        //_animator.SetBool("CanChangeAnimation", _canChangeAnimation);
     }
 
     #region InputSystem
