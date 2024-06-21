@@ -1,42 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public interface IState
-{
-    void Enter();
-    void ExecuteOnUpdate();
-    void Exit();
-}
-
-public class IdleState : IState
-{
-    private readonly PlayerController _player;
-    public IdleState(PlayerController player)
-    {
-        _player = player;
-    }
-
-    public void Enter()
-    {
-    }
-
-    public void ExecuteOnUpdate()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            // _player.ChangeState(new JumpState(_player));
-        }
-        else if (Input.GetKeyDown(KeyCode.W))
-        {
-            // _player.ChangeState(new RunState(_player));
-        }
-    }
-
-    public void Exit()
-    {
-    }
-}
-
 public class PlayerController : MonoBehaviour
 {
     private float moveSpeed = 5.4f; // 피터의 이동속도
@@ -64,7 +28,6 @@ public class PlayerController : MonoBehaviour
     private float _attackMoveDuration = 0.3f; // 공격 중 이동하는 데 걸리는 시간
     private float _attackMoveStartTime; // 공격 중 이동 시작 시간
     private float _currentMoveDistance; // 현재까지 이동한 거리
-
 
     [Header("Attack")]
     private int comboCounter = 0;
