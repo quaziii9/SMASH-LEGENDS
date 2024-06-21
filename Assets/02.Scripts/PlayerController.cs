@@ -1,6 +1,42 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public interface IState
+{
+    void Enter();
+    void ExecuteOnUpdate();
+    void Exit();
+}
+
+public class IdleState : IState
+{
+    private readonly PlayerController _player;
+    public IdleState(PlayerController player)
+    {
+        _player = player;
+    }
+
+    public void Enter()
+    {
+    }
+
+    public void ExecuteOnUpdate()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            // _player.ChangeState(new JumpState(_player));
+        }
+        else if (Input.GetKeyDown(KeyCode.W))
+        {
+            // _player.ChangeState(new RunState(_player));
+        }
+    }
+
+    public void Exit()
+    {
+    }
+}
+
 public class PlayerController : MonoBehaviour
 {
     private float moveSpeed = 5.4f; // 피터의 이동속도
@@ -34,10 +70,17 @@ public class PlayerController : MonoBehaviour
     private int comboCounter = 0;
     private float skillCoolTime = 4f;
 
+    private IState _curState;
+
     private void Awake()
     {
         _rigidBody = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
+    }
+
+    private void Start()
+    {
+        ChangeState(new IdleState(this));
     }
 
     private void FixedUpdate()
@@ -54,6 +97,13 @@ public class PlayerController : MonoBehaviour
         {
             skillCoolTime -= Time.deltaTime;
         }
+    }
+
+    public void ChangeState(IState newState)
+    {
+        _curState?.Exit();
+        _curState = newState;
+        _curState.Enter();
     }
 
     private void UpdateAnimator()
