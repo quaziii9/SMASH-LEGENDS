@@ -30,6 +30,7 @@ public class PlayPositionManager : NetworkBehaviour
         {
             case 1:
                 playerObjects[0].transform.position = startPosition1;
+                playerObjects[0].SetActive(true);
                 Debug.Log(playerObjects[0].transform.position);
                 break;
             case 2:

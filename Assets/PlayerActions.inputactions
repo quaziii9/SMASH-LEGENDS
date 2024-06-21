@@ -220,11 +220,6 @@
                     "isOR": false
                 }
             ]
-        },
-        {
-            "name": "MOBILE",
-            "bindingGroup": "MOBILE",
-            "devices": []
         }
     ]
 }
