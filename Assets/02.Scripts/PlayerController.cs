@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     private float groundCheckDistance = 1f; // 지면 체크를 위한 거리
 
     private Rigidbody _rigidBody;
-    private Animator _animator;
+    public Animator _animator;
     private Vector3 _moveDirection;
     private bool _isGrounded;
     private bool _isAttack;
@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
     private float skillCoolTime = 4f;
 
     private IState _curState;
+    private Action<InputAction.CallbackContext> _inputCallback;
 
     private void Awake()
     {
@@ -69,6 +70,14 @@ public class PlayerController : MonoBehaviour
         _curState.Enter();
     }
 
+    public void BindInputCallback(bool isBind, Action<InputAction.CallbackContext> callback)
+    {
+        if (isBind)
+            _inputCallback += callback;
+        else
+            _inputCallback -= callback;
+    }
+
     private void UpdateAnimator()
     {
         _animator.SetBool("AirAttacking", _hasAirAttacked);
@@ -87,12 +96,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnJumpInput(InputAction.CallbackContext context)
     {
-        if (context.performed && _isGrounded && _isAttack == false && _isLanding == false)
-        {
-            _animator.SetTrigger("IsJump");
-            Jump();
-            _isJumping = true;
-        }
+        _inputCallback.Invoke(context);
     }
 
     public void OnDefaultAttackInput(InputAction.CallbackContext context)
@@ -187,7 +191,7 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    private void Jump()
+    public void Jump()
     {
         _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, jumpForce, _rigidBody.velocity.z);
     }
