@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
         {
             skillCoolTime -= Time.deltaTime;
         }
-        _curState.ExecuteOnUpdate();
+        _curState?.ExecuteOnUpdate();
     }
 
     public void ChangeState(IState newState)
