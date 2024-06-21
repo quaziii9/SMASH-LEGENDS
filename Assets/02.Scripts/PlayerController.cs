@@ -34,12 +34,14 @@ public class PlayerController : MonoBehaviour
     private int comboCounter = 0;
     private float skillCoolTime = 4f;
 
-    private IState _curState;
+    public IState _curState;
     private Action<InputAction.CallbackContext> _inputCallback;
     public readonly int IsIdle = Animator.StringToHash("IsIdle");
     public readonly int IsJumpingUp = Animator.StringToHash("IsJumpingUp");
     public readonly int IsJumpingDown = Animator.StringToHash("IsJumpingDown");
     public readonly int IsLanding = Animator.StringToHash("IsLanding");
+    public readonly int IsAirAttacking = Animator.StringToHash("IsAirAttacking");
+    public readonly int IsLightLanding = Animator.StringToHash("IsLightLanding");
 
     private void Awake()
     {
@@ -78,15 +80,31 @@ public class PlayerController : MonoBehaviour
 
     public void BindInputCallback(bool isBind, Action<InputAction.CallbackContext> callback)
     {
-        if (isBind)
-            _inputCallback += callback;
-        else
-            _inputCallback -= callback;
+        if (callback == null)
+        {
+            Debug.LogError("Callback is null!");
+            return;
+        }
+
+        var inputActions = GetComponent<PlayerInput>().actions;
+        foreach (var action in inputActions)
+        {
+            if (isBind)
+            {
+                action.performed += callback;
+                action.canceled += callback;
+            }
+            else
+            {
+                action.performed -= callback;
+                action.canceled -= callback;
+            }
+        }
     }
 
     private void UpdateAnimator()
     {
-        //_animator.SetBool("AirAttacking", _hasAirAttacked);
+       //_animator.SetBool("AirAttacking", _hasAirAttacked);
         //_animator.SetBool("IsGround", _isGrounded);
         //_animator.SetBool("IsJumping", _isJumping);
         //_animator.SetBool("IsFalling", _rigidBody.velocity.y < -1f);
@@ -100,10 +118,6 @@ public class PlayerController : MonoBehaviour
         _moveDirection = context.performed ? new Vector3(input.x, 0, input.y) : Vector3.zero;
     }
 
-    public void OnJumpInput(InputAction.CallbackContext context)
-    {
-        _inputCallback.Invoke(context);
-    }
 
     public void OnDefaultAttackInput(InputAction.CallbackContext context)
     {
@@ -250,11 +264,11 @@ public class PlayerController : MonoBehaviour
     {
         _isLanding = false;
         _canCombo = false;
-        _animator.ResetTrigger("IsAttack");
+        //_animator.ResetTrigger("IsAttack");
         _isAttack = false;
         _isJumping = false;
         _hasAirAttacked = false;
-        _animator.ResetTrigger("AirAttack");
+        //_animator.ResetTrigger("AirAttack");
         _animator.ResetTrigger("HeavyAttack");
         _animator.ResetTrigger("SkillAttack");
         _animator.ResetTrigger("AirHeavyAttack");
