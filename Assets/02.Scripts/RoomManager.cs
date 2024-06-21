@@ -17,6 +17,11 @@ public class RoomManager : NetworkRoomManager
             Destroy(gameObject);
         }
     }
+    public void Update()
+    {
+        Debug.Log(roomSlots.Count);
+        Debug.Log(numPlayers);
+    }
 
     public override void OnStartHost()
     {
