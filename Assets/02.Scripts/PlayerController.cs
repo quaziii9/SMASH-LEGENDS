@@ -1,4 +1,3 @@
-using Sirenix.OdinInspector.Editor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -93,8 +92,8 @@ public class PlayerController : MonoBehaviour
                 if (_canCombo == true)
                 {
                     if (comboCounter > 2)
-                    {                       
-                        comboCounter = 0; // 콤보 카운터가 3을 초과하지 않도록 설정
+                    {
+                        return;
                     }
                     _animator.SetInteger("ComboCounter", comboCounter);
                     _animator.SetTrigger("IsAttack");

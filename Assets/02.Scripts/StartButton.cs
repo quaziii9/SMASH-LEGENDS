@@ -1,23 +1,36 @@
 using UnityEngine;
-using UnityEngine.UI;
 using Mirror;
+using System.Threading.Tasks;
 
 public class StartButton : MonoBehaviour
 {
     public RoomManager roomManager;
     public void OnStartButtonClicked()
     {
-        if (!NetworkClient.isConnected && !NetworkServer.active)
+        TryStartClient();
+    }
+
+    private async void TryStartClient()
+    {
+        try
         {
-            roomManager.StartHost();
-        }
-        else if (NetworkClient.isConnected && !NetworkClient.ready)
-        {
-            NetworkClient.Ready();
-            if (NetworkClient.localPlayer == null)
+            roomManager.StartClient();
+            await Task.Delay(1000);  // 연결 시도 후 대기 시간 설정
+
+            if (!NetworkClient.isConnected)
             {
-                NetworkClient.AddPlayer();
+                Debug.Log("Client connection failed, starting host.");
+                roomManager.StartHost();
             }
+            else
+            {
+                Debug.Log("Client connected successfully.");
+            }
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"Exception occurred: {ex.Message}");
+            roomManager.StartHost();
         }
     }
 }
