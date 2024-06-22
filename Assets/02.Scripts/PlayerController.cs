@@ -248,10 +248,11 @@ public class PlayerController : MonoBehaviour
     public void CanMoveAnimationEvent()
     {
         CanMove = true;
-    }
-    public void LookTrueAnimationEvent()
-    {
         CanLook = true;
+    }
+    public void CanChangeAnimationEvent()
+    {
+        CanChange = true;
     }
 
     // 애니메이션 이벤트를 통해 콤보 가능 상태로 만들기
