@@ -26,10 +26,15 @@ public class PlayerController : MonoBehaviour
     [Header("Attack")]
     private float skillCoolTime = 4f;
 
-    public IState _curState;
+    private IState _curState;
     public bool CanMove { get; set; }
     public bool CanLook { get; set; }
     public bool CanChange { get; set; }
+    public bool IsMoveInputActive { get; private set; }
+
+    private bool isJumping = false;
+    private bool isIdleJump = false;
+    private float jumpMoveSpeed = 2.0f; // 점프 중 이동 속도
 
     public readonly int IsIdle = Animator.StringToHash("IsIdle");
     public readonly int IsJumpingUp = Animator.StringToHash("IsJumpingUp");
@@ -44,7 +49,6 @@ public class PlayerController : MonoBehaviour
     public readonly int IsComboAttack2 = Animator.StringToHash("IsComboAttack2");
     public readonly int IsComboAttack3 = Animator.StringToHash("IsComboAttack3");
     public readonly int IsSkillAttack = Animator.StringToHash("IsSkillAttack");
-
 
     private void Awake()
     {
@@ -78,9 +82,19 @@ public class PlayerController : MonoBehaviour
 
     public void ChangeState(IState newState)
     {
-        _curState?.Exit();
+        if (_curState != null)
+        {
+            Debug.Log($"Exiting state: {_curState.GetType().Name}");
+            _curState.Exit();
+        }
+
         _curState = newState;
-        _curState.Enter();
+
+        if (_curState != null)
+        {
+            Debug.Log($"Entering state: {_curState.GetType().Name}");
+            _curState.Enter();
+        }
     }
 
     public void BindInputCallback(bool isBind, Action<InputAction.CallbackContext> callback)
@@ -107,16 +121,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
     #region InputSystem
     public void OnMoveInput(InputAction.CallbackContext context)
     {
         Vector2 input = context.ReadValue<Vector2>();
         _moveDirection = context.performed ? new Vector3(input.x, 0, input.y) : Vector3.zero;
+        IsMoveInputActive = context.performed;
 
         _curState?.OnInputCallback(context);
     }
-
 
     public void OnDefaultAttackInput(InputAction.CallbackContext context)
     {
@@ -139,23 +152,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
     public void OnSkillAttackInput(InputAction.CallbackContext context)
     {
         _curState?.OnInputCallback(context);
     }
-
     #endregion
 
     public void Move()
     {
-        if (_curState is JumpLightLandingState)
-        {
-            _rigidBody.velocity = new Vector3(0, _rigidBody.velocity.y, 0);
-            return;
-        }
-
-        if (_curState is ComboAttack1State || _curState is ComboAttack2State || _curState is ComboAttack3State || _curState is JumpHeavyAttackState || _curState is HeavyAttackState || _curState is SkillAttackState)
+        if (_curState is ComboAttack1State || _curState is ComboAttack2State || _curState is ComboAttack3State ||
+            _curState is JumpHeavyAttackState || _curState is HeavyAttackState || _curState is SkillAttackState)
         {
             // 공격 중 이동 처리
             float elapsedTime = Time.time - _attackMoveStartTime;
@@ -175,10 +181,13 @@ public class PlayerController : MonoBehaviour
             LookAt();
         }
 
-        Vector3 velocity = new Vector3(_moveDirection.x * moveSpeed, _rigidBody.velocity.y, _moveDirection.z * moveSpeed);
-        _rigidBody.velocity = velocity;
+        if (CanMove)
+        {
+            float currentMoveSpeed = isJumping && isIdleJump ? jumpMoveSpeed : moveSpeed;
+            Vector3 velocity = new Vector3(_moveDirection.x * currentMoveSpeed, _rigidBody.velocity.y, _moveDirection.z * currentMoveSpeed);
+            _rigidBody.velocity = velocity;
+        }
     }
-
 
     public void LookAt()
     {
@@ -189,12 +198,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
-    public void Jump()
+    public void Jump(bool idleJump = false)
     {
         _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, jumpForce, _rigidBody.velocity.z);
+        isJumping = true;
+        isIdleJump = idleJump;
     }
 
+    public void Land()
+    {
+        isJumping = false;
+        isIdleJump = false;
+    }
 
     private void ApplyCustomGravity()
     {
@@ -230,43 +245,15 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawLine(origin, origin + Vector3.down * (groundCheckDistance));
     }
 
-
-    //public void IdleAnimationEvent()
-    //{
-    //    _isLanding = false;
-    //    _canCombo = false;
-    //    //_animator.ResetTrigger("IsAttack");
-    //    _isAttack = false;
-    //    _isJumping = false;
-    //    _hasAirAttacked = false;
-    //    //_animator.ResetTrigger("AirAttack");
-    //    _animator.ResetTrigger("HeavyAttack");
-    //    _animator.ResetTrigger("SkillAttack");
-    //    _animator.ResetTrigger("AirHeavyAttack");
-    //}
-
     public void CanMoveAnimationEvent()
     {
         CanMove = true;
         CanLook = true;
     }
+
     public void CanChangeAnimationEvent()
     {
         CanChange = true;
-    }
-
-    // 애니메이션 이벤트를 통해 콤보 가능 상태로 만들기
-    public void EnableComboAnimationEvent()
-    {
-        //_canChangeAnimation = false;
-        //_canCombo = true;
-        //_isAttack = true;
-    }
-
-    // 점프 애니메이션 이벤트
-    public void JumpLandAnimationEvent()
-    {
-        //_hasAirAttacked = false;
     }
 
     public void StartAttackMove(float distance)

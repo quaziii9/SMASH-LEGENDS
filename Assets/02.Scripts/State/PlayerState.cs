@@ -10,7 +10,7 @@ public class JumpUpState : StateBase
     {
         base.Enter();
         Player._animator.SetBool(nameof(Player.IsJumpingUp), true);
-        Player.Jump();
+        Player.Jump(Player._moveDirection == Vector3.zero); // idle에서 점프인지 아닌지 확인
     }
 
     public override void Exit()
@@ -24,6 +24,12 @@ public class JumpUpState : StateBase
         if (Player._rigidBody.velocity.y < -1f)
         {
             Player.ChangeState(new JumpDownState(Player));
+        }
+
+        // 점프 중 이동 처리
+        if (Player.IsMoveInputActive)
+        {
+            Player.Move();
         }
     }
 
@@ -39,6 +45,7 @@ public class JumpUpState : StateBase
         }
     }
 }
+
 
 
 public class JumpDownState : StateBase
@@ -63,6 +70,12 @@ public class JumpDownState : StateBase
         {
             Player.ChangeState(new JumpLandState(Player));
         }
+
+        // 점프 중 이동 처리
+        if (Player.IsMoveInputActive)
+        {
+            Player.Move();
+        }
     }
 
     public override void OnInputCallback(InputAction.CallbackContext context)
@@ -81,13 +94,13 @@ public class JumpDownState : StateBase
 
 public class JumpLandState : StateBase
 {
-
     public JumpLandState(PlayerController player) : base(player) { }
 
     public override void Enter()
     {
         base.Enter();
         Player._animator.SetBool(Player.IsLanding, true);
+        Player.Land();
     }
 
     public override void Exit()
@@ -98,22 +111,21 @@ public class JumpLandState : StateBase
 
     public override void ExecuteOnUpdate()
     {
-        AnimatorStateInfo stateInfo = Player._animator.GetCurrentAnimatorStateInfo(0);
-
-        Debug.Log(stateInfo.normalizedTime);
         if (Player._isGrounded)
         {
-            Player.ChangeState(new IdleState(Player));
-        }
-    }
-    public override void OnInputCallback(InputAction.CallbackContext context)
-    {
-        if (context.action.name == "DefaultAttack" && context.performed)
-        {
-            Player.ChangeState(new JumpAttackState(Player));
+            if (Player.IsMoveInputActive)
+            {
+                Player.ChangeState(new RunState(Player));
+            }
+            else
+            {
+                Player.ChangeState(new IdleState(Player));
+            }
         }
     }
 }
+
+
 
 public class JumpAttackState : StateBase
 {
@@ -157,6 +169,9 @@ public class JumpLightLandingState : StateBase
     {
         base.Enter();
         Player._animator.SetBool(nameof(Player.IsLightLanding), true);
+        Player.CanMove = false;
+        Player.CanLook = false;
+        Player.Land();
     }
 
     public override void Exit()
@@ -168,12 +183,20 @@ public class JumpLightLandingState : StateBase
     public override void ExecuteOnUpdate()
     {
         AnimatorStateInfo stateInfo = Player._animator.GetCurrentAnimatorStateInfo(0);
-        if (stateInfo.IsName("JumpLightLanding") && stateInfo.normalizedTime >= .5f)
+        if (stateInfo.IsName("JumpLightLanding") && stateInfo.normalizedTime >= 0.8f)
         {
-            Player.ChangeState(new IdleState(Player));
+            if (Player.IsMoveInputActive)
+            {
+                Player.ChangeState(new RunState(Player));
+            }
+            else
+            {
+                Player.ChangeState(new IdleState(Player));
+            }
         }
     }
 }
+
 
 
 public class RunState : StateBase

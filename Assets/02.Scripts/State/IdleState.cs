@@ -8,15 +8,24 @@ public class IdleState : StateBase
     public override void Enter()
     {
         base.Enter();
+        Player._rigidBody.velocity = new Vector3(0, Player._rigidBody.velocity.y, 0);
         Player._animator.SetBool(Player.IsIdle, true);
-        Player.CanMove = true;
-        Player.CanLook = true;
+        Player.CanMove = true; // Idle 상태에서는 이동 가능하게 설정
+        Player.CanLook = true; // Idle 상태에서는 Look 가능하게 설정
     }
 
     public override void Exit()
     {
         base.Exit();
         Player._animator.SetBool(Player.IsIdle, false);
+    }
+
+    public override void ExecuteOnUpdate()
+    {
+        if (Player._moveDirection != Vector3.zero)
+        {
+            Player.ChangeState(new RunState(Player));
+        }
     }
 
     public override void OnInputCallback(InputAction.CallbackContext context)
