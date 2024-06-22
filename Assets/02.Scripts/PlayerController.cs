@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
 
     public Rigidbody _rigidBody;
     public Animator _animator;
-    private Vector3 _moveDirection;
+    public Vector3 _moveDirection;
     public bool _isGrounded;
     private bool _isAttack;
     private bool _canCombo;
@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
     public readonly int IsJumpingUp = Animator.StringToHash("IsJumpingUp");
     public readonly int IsJumpingDown = Animator.StringToHash("IsJumpingDown");
     public readonly int IsLanding = Animator.StringToHash("IsLanding");
-    public readonly int IsAirAttacking = Animator.StringToHash("IsAirAttacking");
+    public readonly int IsJumpAttacking = Animator.StringToHash("IsAirAttacking");
     public readonly int IsLightLanding = Animator.StringToHash("IsLightLanding");
 
     private void Awake()
@@ -59,7 +59,6 @@ public class PlayerController : MonoBehaviour
         Move();
         ApplyCustomGravity();
         CheckGroundStatus();
-        UpdateAnimator();
     }
 
     private void Update()
@@ -102,14 +101,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void UpdateAnimator()
-    {
-       //_animator.SetBool("AirAttacking", _hasAirAttacked);
-        //_animator.SetBool("IsGround", _isGrounded);
-        //_animator.SetBool("IsJumping", _isJumping);
-        //_animator.SetBool("IsFalling", _rigidBody.velocity.y < -1f);
-        //_animator.SetBool("CanChangeAnimation", _canChangeAnimation);
-    }
 
     #region InputSystem
     public void OnMoveInput(InputAction.CallbackContext context)

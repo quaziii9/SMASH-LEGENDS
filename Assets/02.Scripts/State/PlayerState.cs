@@ -1,75 +1,7 @@
-using System;
-using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine;
 
-public interface IState
-{
-    void Enter();
-    void ExecuteOnUpdate();
-    void Exit();
-    void OnInputCallback(InputAction.CallbackContext context);
-}
 
-public abstract class StateBase : IState
-{
-    protected PlayerController Player { get; private set; }
-
-    protected StateBase(PlayerController player)
-    {
-        Player = player;
-    }
-
-    public virtual void Enter()
-    {
-        if (Player == null)
-        {
-            Debug.LogError("Player is null in Enter!");
-            return;
-        }
-
-        Player.BindInputCallback(true, OnInputCallback);
-    }
-
-    public virtual void Exit()
-    {
-        if (Player == null)
-        {
-            Debug.LogError("Player is null in Exit!");
-            return;
-        }
-        Player.BindInputCallback(false, OnInputCallback);
-    }
-
-    public virtual void ExecuteOnUpdate() { }
-    public virtual void OnInputCallback(InputAction.CallbackContext context) { }
-}
-
-public class IdleState : StateBase
-{
-    public IdleState(PlayerController player) : base(player) { }
-
-    public override void Enter()
-    {
-        base.Enter();
-        
-        Player._animator.SetBool(nameof(Player.IsIdle), true);
-    }
-    
-    public override void Exit()
-    {
-        base.Exit();
-        Player._animator.SetBool(nameof(Player.IsIdle), false);
-    }
-
-    public override void OnInputCallback(InputAction.CallbackContext context)
-    {
-        if (context.action.name == "Jump" && context.performed)
-        {
-            Player.ChangeState(new JumpUpState(Player));
-        }
-    }
-}
-    
 public class JumpUpState : StateBase
 {
     public JumpUpState(PlayerController player) : base(player) { }
@@ -100,7 +32,7 @@ public class JumpUpState : StateBase
         Debug.Log(context.action.name);
         if (context.action.name == "DefaultAttack" && context.performed)
         {
-            Player.ChangeState(new AirAttackState(Player));
+            Player.ChangeState(new JumpAttack(Player));
         }
     }
 }
@@ -133,7 +65,7 @@ public class JumpUpState : StateBase
     {
         if (context.action.name == "DefaultAttack" && context.performed)
         {
-            Player.ChangeState(new AirAttackState(Player));
+            Player.ChangeState(new JumpAttack(Player));
         }
     }
 }
@@ -169,25 +101,25 @@ public class JumpLandState : StateBase
     {
         if (context.action.name == "DefaultAttack" && context.performed)
         {
-            Player.ChangeState(new AirAttackState(Player));
+            Player.ChangeState(new JumpAttack(Player));
         }
     }
 }
 
-public class AirAttackState : StateBase
+public class JumpAttack : StateBase
 {
-    public AirAttackState(PlayerController player) : base(player) { }
+    public JumpAttack(PlayerController player) : base(player) { }
 
     public override void Enter()
     {
         base.Enter();
-        Player._animator.SetBool(nameof(Player.IsAirAttacking), true);
+        Player._animator.SetBool(nameof(Player.IsJumpAttacking), true);
     }
 
     public override void Exit()
     {
         base.Exit();
-        Player._animator.SetBool(nameof(Player.IsAirAttacking), false);
+        Player._animator.SetBool(nameof(Player.IsJumpAttacking), false);
     }
 
     public override void ExecuteOnUpdate()
@@ -230,6 +162,40 @@ public class JumpLightLandingState : StateBase
         if (stateInfo.IsName("JumpLightLanding") && stateInfo.normalizedTime >= .5f)
         {
             Player.ChangeState(new IdleState(Player));
+        }
+    }
+}
+
+
+public class RunState : StateBase
+{
+    public RunState(PlayerController player) : base(player) { }
+
+    public override void Enter()
+    {
+        base.Enter();
+        Player._animator.SetBool("IsRunning", true);
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        Player._animator.SetBool("IsRunning", false);
+    }
+
+    public override void ExecuteOnUpdate()
+    {
+        if (Player._moveDirection == Vector3.zero)
+        {
+            Player.ChangeState(new IdleState(Player));
+        }
+    }
+
+    public override void OnInputCallback(InputAction.CallbackContext context)
+    {
+        if (context.action.name == "Jump" && context.performed)
+        {
+            Player.ChangeState(new JumpUpState(Player));
         }
     }
 }
