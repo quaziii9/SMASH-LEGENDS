@@ -86,7 +86,7 @@ public class JumpDownState : StateBase
         {
             Player.ChangeState(new JumpHeavyAttackState(Player));
         }
-        else if (context.action.name == "DefaultAttack" && context.performed)
+        else if (context.action.name == "DefaultAttack" && context.performed && Player._isGrounded == false)
         {
             Player.ChangeState(new JumpAttackState(Player));
         }
