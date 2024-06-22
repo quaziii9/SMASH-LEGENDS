@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     private float moveSpeed = 5.4f; // 피터의 이동속도
-    private float jumpForce = 14.28f; // 피터의 점프가속도
+    public float jumpForce = 14.28f; // 피터의 점프가속도
     private float gravityScale = 36f; // 피터의 중력가속도
     private float maxFallSpeed = 20f; // 피터의 최대 낙하속도
     public GameObject groundCheck;
@@ -24,21 +24,27 @@ public class PlayerController : MonoBehaviour
     private float _currentMoveDistance; // 현재까지 이동한 거리
 
     [Header("Attack")]
-    //private int comboCounter = 0;
     private float skillCoolTime = 4f;
 
     public IState _curState;
-    private Action<InputAction.CallbackContext> _inputCallback;
+    public bool CanMove { get; set; }
+    public bool CanLook { get; set; }
+    public bool CanChange { get; set; }
+
     public readonly int IsIdle = Animator.StringToHash("IsIdle");
     public readonly int IsJumpingUp = Animator.StringToHash("IsJumpingUp");
     public readonly int IsJumpingDown = Animator.StringToHash("IsJumpingDown");
     public readonly int IsLanding = Animator.StringToHash("IsLanding");
-    public readonly int IsJumpAttacking = Animator.StringToHash("IsAirAttacking");
+    public readonly int IsJumpAttacking = Animator.StringToHash("IsJumpAttacking");
     public readonly int IsLightLanding = Animator.StringToHash("IsLightLanding");
     public readonly int IsHeavyAttacking = Animator.StringToHash("IsHeavyAttacking");
-    public readonly int IsAirHeavyAttacking = Animator.StringToHash("IsAirHeavyAttacking");
-    public readonly int CanMove = Animator.StringToHash("CanMove");
-    public readonly int CanLook = Animator.StringToHash("CanLook");
+    public readonly int IsJumpHeavyAttacking = Animator.StringToHash("IsJumpHeavyAttacking");
+    public readonly int IsRunning = Animator.StringToHash("IsRunning");
+    public readonly int IsComboAttack1 = Animator.StringToHash("IsComboAttack1");
+    public readonly int IsComboAttack2 = Animator.StringToHash("IsComboAttack2");
+    public readonly int IsComboAttack3 = Animator.StringToHash("IsComboAttack3");
+    public readonly int IsSkillAttack = Animator.StringToHash("IsSkillAttack");
+
 
     private void Awake()
     {
@@ -53,7 +59,10 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move();
+        if (CanMove)
+        {
+            Move();
+        }
         ApplyCustomGravity();
         CheckGroundStatus();
     }
@@ -104,6 +113,8 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 input = context.ReadValue<Vector2>();
         _moveDirection = context.performed ? new Vector3(input.x, 0, input.y) : Vector3.zero;
+
+        _curState?.OnInputCallback(context);
     }
 
 
@@ -144,7 +155,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (_curState is AttackState || _curState is JumpHeavyAttackState || _curState is HeavyAttackState)
+        if (_curState is ComboAttack1State || _curState is ComboAttack2State || _curState is ComboAttack3State || _curState is JumpHeavyAttackState || _curState is HeavyAttackState || _curState is SkillAttackState)
         {
             // 공격 중 이동 처리
             float elapsedTime = Time.time - _attackMoveStartTime;
@@ -159,24 +170,25 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (!(_curState is JumpAttackState) || _curState is JumpUpState || _curState is JumpDownState || _curState is JumpLandState)
+        if (CanLook && _moveDirection != Vector3.zero)
         {
             LookAt();
         }
 
-        _animator.SetBool("IsMoving", _moveDirection != Vector3.zero && _isGrounded);
         Vector3 velocity = new Vector3(_moveDirection.x * moveSpeed, _rigidBody.velocity.y, _moveDirection.z * moveSpeed);
         _rigidBody.velocity = velocity;
     }
 
+
     public void LookAt()
     {
-        if (_moveDirection != Vector3.zero && !(_curState is JumpLightLandingState))
+        if (_moveDirection != Vector3.zero)
         {
             Quaternion targetAngle = Quaternion.LookRotation(_moveDirection);
             _rigidBody.rotation = targetAngle;
         }
     }
+
 
     public void Jump()
     {
@@ -233,9 +245,13 @@ public class PlayerController : MonoBehaviour
     //    _animator.ResetTrigger("AirHeavyAttack");
     //}
 
-    public void CanChangeAnimationEvent()
+    public void CanMoveAnimationEvent()
     {
-        //_canChangeAnimation = true;
+        CanMove = true;
+    }
+    public void LookTrueAnimationEvent()
+    {
+        CanLook = true;
     }
 
     // 애니메이션 이벤트를 통해 콤보 가능 상태로 만들기
@@ -250,11 +266,6 @@ public class PlayerController : MonoBehaviour
     public void JumpLandAnimationEvent()
     {
         //_hasAirAttacked = false;
-    }
-
-    public void LookFalseAnimationEvent()
-    {
-        //_isLanding = true;
     }
 
     public void StartAttackMove(float distance)

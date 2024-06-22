@@ -183,13 +183,15 @@ public class RunState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._animator.SetBool("IsRunning", true);
+        Player._animator.SetBool(Player.IsRunning, true);
+        Player.CanMove = true;
+        Player.CanLook = true;
     }
 
     public override void Exit()
     {
         base.Exit();
-        Player._animator.SetBool("IsRunning", false);
+        Player._animator.SetBool(Player.IsRunning, false);
     }
 
     public override void ExecuteOnUpdate()
@@ -209,56 +211,122 @@ public class RunState : StateBase
         else if (context.action.name == "DefaultAttack" && context.performed)
         {
             Player._rigidBody.velocity = new Vector3(0, Player._rigidBody.velocity.y, 0);
-            Player.ChangeState(new AttackState(Player));
+            Player.ChangeState(new ComboAttack1State(Player));
+        }
+        else if (context.action.name == "HeavyAttack" && context.performed)
+        {
+            Player._rigidBody.velocity = new Vector3(0, Player._rigidBody.velocity.y, 0);
+            Player.ChangeState(new HeavyAttackState(Player));
+        }
+        else if (context.action.name == "SkillAttack" && context.performed)
+        {
+            Player.ChangeState(new SkillAttackState(Player));
         }
     }
 }
 
-public class AttackState : StateBase
-{
-    private int comboCounter = 0;
 
-    public AttackState(PlayerController player) : base(player) { }
+public class ComboAttack1State : StateBase
+{
+    public ComboAttack1State(PlayerController player) : base(player) { }
 
     public override void Enter()
     {
         base.Enter();
-        PerformComboAttack();
+        Player._animator.SetBool(Player.IsComboAttack1, true);
+        Player.StartAttackMove(1.0f);
+        Player.CanMove = false;
+        Player.CanLook = false;
+        Player.CanChange = false;
     }
 
-    public override void Exit()
+    public override void ExecuteOnUpdate()
     {
-        base.Exit();
-        Player._animator.SetTrigger("EndCombo");
-        comboCounter = 0;
+        if (!Player._animator.GetBool(Player.IsComboAttack1))
+        {
+            Player.ChangeState(new IdleState(Player));
+        }
     }
 
     public override void OnInputCallback(InputAction.CallbackContext context)
     {
-        if (context.action.name == "DefaultAttack" && context.performed && comboCounter < 3)
+        if (context.action.name == "DefaultAttack" && context.performed && Player.CanChange)
         {
-            comboCounter++;
-            PerformComboAttack();
+            Player.ChangeState(new ComboAttack2State(Player));
         }
-        else if (context.action.name == "Move")
+        else if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanChange)
         {
-            Vector2 input = context.ReadValue<Vector2>();
-            if (input != Vector2.zero && Player._animator.GetBool("CanMove"))
-            {
-                Player.ChangeState(new RunState(Player));
-            }
+            Player.ChangeState(new RunState(Player));
+        }
+    }
+}
+
+public class ComboAttack2State : StateBase
+{
+    public ComboAttack2State(PlayerController player) : base(player) { }
+
+    public override void Enter()
+    {
+        base.Enter();
+        Player._animator.SetBool(Player.IsComboAttack2, true);
+        Player.StartAttackMove(1.0f);
+        Player.CanMove = false;
+        Player.CanLook = false;
+        Player.CanChange = false;
+    }
+
+    public override void ExecuteOnUpdate()
+    {
+        if (!Player._animator.GetBool(Player.IsComboAttack2))
+        {
+            Player.ChangeState(new IdleState(Player));
         }
     }
 
-    private void PerformComboAttack()
+    public override void OnInputCallback(InputAction.CallbackContext context)
     {
-        Player._animator.SetInteger("ComboCounter", comboCounter);
-        Player._animator.SetTrigger("IsAttack");
-        Player.StartAttackMove(1.5f);
+        if (context.action.name == "DefaultAttack" && context.performed && Player.CanChange)
+        {
+            Player.ChangeState(new ComboAttack3State(Player));
+        }
+        else if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanChange)
+        {
+            Player.ChangeState(new RunState(Player));
+        }
     }
 }
 
 
+public class ComboAttack3State : StateBase
+{
+    public ComboAttack3State(PlayerController player) : base(player) { }
+
+    public override void Enter()
+    {
+        base.Enter();
+        Player._animator.SetBool(Player.IsComboAttack3, true);
+        Player.StartAttackMove(1.0f);
+        Player.CanMove = false;
+        Player.CanLook = false;
+        Player.CanChange = false;
+    }
+
+    public override void ExecuteOnUpdate()
+    {
+        if (!Player._animator.GetBool(Player.IsComboAttack3))
+        {
+            Player.ChangeState(new IdleState(Player));
+        }
+    }
+
+    public override void OnInputCallback(InputAction.CallbackContext context)
+    {
+        if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanChange)
+        {
+            Player.ChangeState(new RunState(Player));
+        }
+    }
+}
 
 public class HeavyAttackState : StateBase
 {
@@ -267,13 +335,17 @@ public class HeavyAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._animator.SetTrigger("HeavyAttack");
+        Player._animator.SetBool(Player.IsHeavyAttacking, true);
         Player.StartAttackMove(1.5f);
+        Player.CanMove = false;
+        Player.CanLook = false;
+        Player.CanChange = false;
     }
 
     public override void ExecuteOnUpdate()
     {
-        if (Player._animator.GetBool("CanMove"))
+        // Attack animation has ended
+        if (!Player._animator.GetBool(Player.IsHeavyAttacking))
         {
             Player.ChangeState(new IdleState(Player));
         }
@@ -281,7 +353,10 @@ public class HeavyAttackState : StateBase
 
     public override void OnInputCallback(InputAction.CallbackContext context)
     {
-        // No specific input handling for HeavyAttackState
+        if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanChange)
+        {
+            Player.ChangeState(new RunState(Player));
+        }
     }
 }
 
@@ -293,7 +368,6 @@ public class JumpHeavyAttackState : StateBase
     {
         base.Enter();
         Player._animator.SetTrigger("AirHeavyAttack");
-        Player.StartAttackMove(2.5f);
         Player._rigidBody.velocity = new Vector3(Player._rigidBody.velocity.x, Player.jumpForce, Player._rigidBody.velocity.z);
     }
 
@@ -332,6 +406,37 @@ public class JumpHeavyAttackLandingState : StateBase
         if (Player._isGrounded)
         {
             Player.ChangeState(new IdleState(Player));
+        }
+    }
+}
+
+public class SkillAttackState : StateBase
+{
+    public SkillAttackState(PlayerController player) : base(player) { }
+
+    public override void Enter()
+    {
+        base.Enter();
+        Player._animator.SetBool(Player.IsSkillAttack, true);
+        Player.StartAttackMove(1.5f);
+        Player.CanMove = false;
+        Player.CanLook = false;
+        Player.CanChange = false;
+    }
+
+    public override void ExecuteOnUpdate()
+    {
+        if (!Player._animator.GetBool(Player.IsSkillAttack))
+        {
+            Player.ChangeState(new IdleState(Player));
+        }
+    }
+
+    public override void OnInputCallback(InputAction.CallbackContext context)
+    {
+        if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanChange)
+        {
+            Player.ChangeState(new RunState(Player));
         }
     }
 }

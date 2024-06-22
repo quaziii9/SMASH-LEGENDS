@@ -8,13 +8,15 @@ public class IdleState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._animator.SetBool(nameof(Player.IsIdle), true);
+        Player._animator.SetBool(Player.IsIdle, true);
+        Player.CanMove = true;
+        Player.CanLook = true;
     }
 
     public override void Exit()
     {
         base.Exit();
-        Player._animator.SetBool(nameof(Player.IsIdle), false);
+        Player._animator.SetBool(Player.IsIdle, false);
     }
 
     public override void OnInputCallback(InputAction.CallbackContext context)
@@ -29,11 +31,15 @@ public class IdleState : StateBase
         }
         else if (context.action.name == "DefaultAttack" && context.performed)
         {
-            Player.ChangeState(new AttackState(Player));
+            Player.ChangeState(new ComboAttack1State(Player));
         }
         else if (context.action.name == "HeavyAttack" && context.performed)
         {
             Player.ChangeState(new HeavyAttackState(Player));
+        }
+        else if (context.action.name == "SkillAttack" && context.performed)
+        {
+            Player.ChangeState(new SkillAttackState(Player));
         }
     }
 }
