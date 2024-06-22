@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class IdleState : StateBase
 {
+    private float enterTime;
+
     public IdleState(PlayerController player) : base(player) { }
 
     public override void Enter()
@@ -12,6 +14,7 @@ public class IdleState : StateBase
         Player._animator.SetBool(Player.IsIdle, true);
         Player.CanMove = true; // Idle 상태에서는 이동 가능하게 설정
         Player.CanLook = true; // Idle 상태에서는 Look 가능하게 설정
+        enterTime = Time.time; // 현재 시간을 저장
     }
 
     public override void Exit()
@@ -40,7 +43,7 @@ public class IdleState : StateBase
         }
         else if (context.action.name == "DefaultAttack" && context.performed)
         {
-            Player.ChangeState(new ComboAttack1State(Player));
+            Player.ChangeState(new FirstAttackState(Player));
         }
         else if (context.action.name == "HeavyAttack" && context.performed)
         {
@@ -51,4 +54,5 @@ public class IdleState : StateBase
             Player.ChangeState(new SkillAttackState(Player));
         }
     }
+    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("Idle");
 }

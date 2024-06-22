@@ -44,6 +44,8 @@ public class JumpUpState : StateBase
             Player.ChangeState(new JumpAttackState(Player));
         }
     }
+
+    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("JumpUp");
 }
 
 
@@ -80,7 +82,7 @@ public class JumpDownState : StateBase
 
     public override void OnInputCallback(InputAction.CallbackContext context)
     {
-        if (context.action.name == "HeavyAttack" && context.performed)
+        if (context.action.name == "HeavyAttack" && context.performed && Player._Ground == false)
         {
             Player.ChangeState(new JumpHeavyAttackState(Player));
         }
@@ -89,6 +91,9 @@ public class JumpDownState : StateBase
             Player.ChangeState(new JumpAttackState(Player));
         }
     }
+
+    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("JumpDown");
+
 }
 
 
@@ -123,6 +128,7 @@ public class JumpLandState : StateBase
             }
         }
     }
+    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("JumpLand");
 }
 
 
@@ -159,6 +165,8 @@ public class JumpAttackState : StateBase
             }
         }
     }
+    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("JumpAttack");
+
 }
 
 public class JumpLightLandingState : StateBase
@@ -195,6 +203,7 @@ public class JumpLightLandingState : StateBase
             }
         }
     }
+    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("JumpLightLanding");
 }
 
 
@@ -234,7 +243,7 @@ public class RunState : StateBase
         else if (context.action.name == "DefaultAttack" && context.performed)
         {
             Player._rigidBody.velocity = new Vector3(0, Player._rigidBody.velocity.y, 0);
-            Player.ChangeState(new ComboAttack1State(Player));
+            Player.ChangeState(new FirstAttackState(Player));
         }
         else if (context.action.name == "HeavyAttack" && context.performed)
         {
@@ -246,12 +255,13 @@ public class RunState : StateBase
             Player.ChangeState(new SkillAttackState(Player));
         }
     }
+    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("Run");
 }
 
 
-public class ComboAttack1State : StateBase
+public class FirstAttackState : StateBase
 {
-    public ComboAttack1State(PlayerController player) : base(player) { }
+    public FirstAttackState(PlayerController player) : base(player) { }
 
     public override void Enter()
     {
@@ -275,18 +285,20 @@ public class ComboAttack1State : StateBase
     {
         if (context.action.name == "DefaultAttack" && context.performed && Player.CanChange)
         {
-            Player.ChangeState(new ComboAttack2State(Player));
+            Player.ChangeState(new SecondAttackState(Player));
         }
         else if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanChange)
         {
             Player.ChangeState(new RunState(Player));
         }
     }
+    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("FirstAttack");
+
 }
 
-public class ComboAttack2State : StateBase
+public class SecondAttackState : StateBase
 {
-    public ComboAttack2State(PlayerController player) : base(player) { }
+    public SecondAttackState(PlayerController player) : base(player) { }
 
     public override void Enter()
     {
@@ -310,19 +322,20 @@ public class ComboAttack2State : StateBase
     {
         if (context.action.name == "DefaultAttack" && context.performed && Player.CanChange)
         {
-            Player.ChangeState(new ComboAttack3State(Player));
+            Player.ChangeState(new FinishAttackState(Player));
         }
         else if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanChange)
         {
             Player.ChangeState(new RunState(Player));
         }
     }
+    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("SecondAttack");
 }
 
 
-public class ComboAttack3State : StateBase
+public class FinishAttackState : StateBase
 {
-    public ComboAttack3State(PlayerController player) : base(player) { }
+    public FinishAttackState(PlayerController player) : base(player) { }
 
     public override void Enter()
     {
@@ -349,6 +362,8 @@ public class ComboAttack3State : StateBase
             Player.ChangeState(new RunState(Player));
         }
     }
+    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("FinishAttack");
+
 }
 
 public class HeavyAttackState : StateBase
@@ -381,6 +396,8 @@ public class HeavyAttackState : StateBase
             Player.ChangeState(new RunState(Player));
         }
     }
+    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("HeavyAttack");
+
 }
 
 public class JumpHeavyAttackState : StateBase
@@ -405,7 +422,7 @@ public class JumpHeavyAttackState : StateBase
 
     public override void ExecuteOnUpdate()
     {
-        if (Player._isGrounded)
+        if (Player._Ground)
         {
             Player.ChangeState(new JumpHeavyAttackLandingState(Player));
         }
@@ -415,6 +432,8 @@ public class JumpHeavyAttackState : StateBase
     {
         // No specific input handling for JumpHeavyAttackState
     }
+    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("JumpHeavyAttack");
+
 }
 
 
@@ -445,6 +464,7 @@ public class JumpHeavyAttackLandingState : StateBase
             Player.ChangeState(new IdleState(Player));
         }
     }
+    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("JumpHeavyAttack");
 }
 
 
@@ -478,4 +498,6 @@ public class SkillAttackState : StateBase
             Player.ChangeState(new RunState(Player));
         }
     }
+    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("SkillAttack");
+
 }

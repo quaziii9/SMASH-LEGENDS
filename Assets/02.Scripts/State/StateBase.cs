@@ -7,6 +7,7 @@ public interface IState
     void ExecuteOnUpdate();
     void Exit();
     void OnInputCallback(InputAction.CallbackContext context);
+    bool IsTransitioning { get; }
 }
 
 public abstract class StateBase : IState
@@ -25,6 +26,7 @@ public abstract class StateBase : IState
             Debug.LogError("Player is null in Enter!");
             return;
         }
+        Debug.Log($"Entering state: {Player._curState.GetType().Name}");
 
         Player.BindInputCallback(true, OnInputCallback);
     }
@@ -36,9 +38,13 @@ public abstract class StateBase : IState
             Debug.LogError("Player is null in Exit!");
             return;
         }
+        Debug.Log($"Exiting state: {Player._curState.GetType().Name}");
         Player.BindInputCallback(false, OnInputCallback);
     }
 
     public virtual void ExecuteOnUpdate() { }
     public virtual void OnInputCallback(InputAction.CallbackContext context) { }
+
+    public abstract bool IsTransitioning { get; }
+
 }

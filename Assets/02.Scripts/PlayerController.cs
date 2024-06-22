@@ -11,11 +11,13 @@ public class PlayerController : MonoBehaviour
     public GameObject groundCheck;
 
     private float groundCheckDistance = 1f; // 지면 체크를 위한 거리
+    private float groundDistance = .4f; // 지면 체크를 위한 거리
 
     public Rigidbody _rigidBody;
     public Animator _animator;
     public Vector3 _moveDirection;
     public bool _isGrounded;
+    public bool _Ground;
 
     private float _attackMoveDistance; // 공격 중 이동할 거리
     private Vector3 _attackMoveDirection; // 공격 중 이동 방향
@@ -26,7 +28,7 @@ public class PlayerController : MonoBehaviour
     [Header("Attack")]
     private float skillCoolTime = 4f;
 
-    private IState _curState;
+    public IState _curState;
     public bool CanMove { get; set; }
     public bool CanLook { get; set; }
     public bool CanChange { get; set; }
@@ -34,7 +36,7 @@ public class PlayerController : MonoBehaviour
 
     private bool isJumping = false;
     private bool isIdleJump = false;
-    private float jumpMoveSpeed = 2.0f; // 점프 중 이동 속도
+    private float jumpMoveSpeed = 2.2f; // 점프 중 이동 속도
 
     public readonly int IsIdle = Animator.StringToHash("IsIdle");
     public readonly int IsJumpingUp = Animator.StringToHash("IsJumpingUp");
@@ -76,13 +78,28 @@ public class PlayerController : MonoBehaviour
             skillCoolTime -= Time.deltaTime;
         }
         _curState?.ExecuteOnUpdate();
+        HandleInput();
+    }
+
+    private void HandleInput()
+    {
+        if (_curState == null || _curState.IsTransitioning)
+        {
+            return;
+        }
+
+        var keyboard = Keyboard.current;
+        if (keyboard.spaceKey.wasPressedThisFrame)
+        {
+            _curState.OnInputCallback(new InputAction.CallbackContext());
+        }
     }
 
     public void ChangeState(IState newState)
     {
         if (_curState != null)
         {
-            Debug.Log($"Exiting state: {_curState.GetType().Name}");
+            
             _curState.Exit();
         }
 
@@ -90,7 +107,7 @@ public class PlayerController : MonoBehaviour
 
         if (_curState != null)
         {
-            Debug.Log($"Entering state: {_curState.GetType().Name}");
+
             _curState.Enter();
         }
     }
@@ -158,11 +175,9 @@ public class PlayerController : MonoBehaviour
 
     public void Move()
     {
-        if (_curState is ComboAttack1State || _curState is ComboAttack2State || _curState is ComboAttack3State ||
+        if (_curState is FirstAttackState || _curState is SecondAttackState || _curState is FinishAttackState ||
             _curState is JumpHeavyAttackState || _curState is HeavyAttackState || _curState is SkillAttackState)
         {
-            // 공격 중 이동 처리
-            Debug.Log("?");
             float elapsedTime = Time.time - _attackMoveStartTime;
             float fraction = elapsedTime / _attackMoveDuration;
             float distanceToMove = Mathf.Lerp(0, _attackMoveDistance, fraction);
@@ -234,6 +249,7 @@ public class PlayerController : MonoBehaviour
         RaycastHit hit;
         Vector3 origin = groundCheck.transform.position; // 플레이어의 위치에서 약간 위쪽
         _isGrounded = Physics.Raycast(origin, Vector3.down, out hit, groundCheckDistance);
+        _Ground = Physics.Raycast(origin, Vector3.down, out hit, groundDistance);
     }
 
     private void OnDrawGizmosSelected()
@@ -242,6 +258,9 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.red;
         Vector3 origin = groundCheck.transform.position;
         Gizmos.DrawLine(origin, origin + Vector3.down * (groundCheckDistance));
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(origin, origin + Vector3.down * (groundDistance));
     }
 
     public void CanMoveAnimationEvent()
@@ -260,7 +279,6 @@ public class PlayerController : MonoBehaviour
         _attackMoveDistance = distance;
         _attackMoveStartTime = Time.time;
         _currentMoveDistance = 0;
-        _attackMoveDirection = transform.forward; // 현재 보고 있는 방향으로 이동
-        Debug.Log($"StartAttackMove: direction = {_attackMoveDirection}, distance = {distance}");
+        _attackMoveDirection = transform.forward; // 현재 보고 있는 방향으로 이동    
     }
 }
