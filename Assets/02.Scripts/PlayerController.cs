@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour
     public readonly int IsLightLanding = Animator.StringToHash("IsLightLanding");
     public readonly int IsHeavyAttacking = Animator.StringToHash("IsHeavyAttacking");
     public readonly int IsJumpHeavyAttacking = Animator.StringToHash("IsJumpHeavyAttacking");
+    public readonly int IsHeavyLanding = Animator.StringToHash("IsHeavyLanding");
     public readonly int IsRunning = Animator.StringToHash("IsRunning");
     public readonly int IsComboAttack1 = Animator.StringToHash("IsComboAttack1");
     public readonly int IsComboAttack2 = Animator.StringToHash("IsComboAttack2");
@@ -63,10 +64,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (CanMove)
-        {
-            Move();
-        }
+        Move();
         ApplyCustomGravity();
         CheckGroundStatus();
     }
@@ -164,6 +162,7 @@ public class PlayerController : MonoBehaviour
             _curState is JumpHeavyAttackState || _curState is HeavyAttackState || _curState is SkillAttackState)
         {
             // 공격 중 이동 처리
+            Debug.Log("?");
             float elapsedTime = Time.time - _attackMoveStartTime;
             float fraction = elapsedTime / _attackMoveDuration;
             float distanceToMove = Mathf.Lerp(0, _attackMoveDistance, fraction);
@@ -258,10 +257,10 @@ public class PlayerController : MonoBehaviour
 
     public void StartAttackMove(float distance)
     {
-        //_isAttack = true;
         _attackMoveDistance = distance;
         _attackMoveStartTime = Time.time;
         _currentMoveDistance = 0;
         _attackMoveDirection = transform.forward; // 현재 보고 있는 방향으로 이동
+        Debug.Log($"StartAttackMove: direction = {_attackMoveDirection}, distance = {distance}");
     }
 }

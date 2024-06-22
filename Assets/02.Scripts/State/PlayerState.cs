@@ -390,8 +390,17 @@ public class JumpHeavyAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._animator.SetTrigger("AirHeavyAttack");
+        Player._animator.SetBool(Player.IsJumpHeavyAttacking, true);
+        Player.StartAttackMove(2.5f);
         Player._rigidBody.velocity = new Vector3(Player._rigidBody.velocity.x, Player.jumpForce, Player._rigidBody.velocity.z);
+        Player.CanMove = false;
+        Player.CanLook = false;
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        Player._animator.SetBool(Player.IsJumpHeavyAttacking, false);
     }
 
     public override void ExecuteOnUpdate()
@@ -408,6 +417,7 @@ public class JumpHeavyAttackState : StateBase
     }
 }
 
+
 public class JumpHeavyAttackLandingState : StateBase
 {
     public JumpHeavyAttackLandingState(PlayerController player) : base(player) { }
@@ -415,23 +425,29 @@ public class JumpHeavyAttackLandingState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._animator.SetBool(nameof(Player.IsLanding), true);
+        Player._animator.SetBool(Player.IsHeavyLanding, true);
+        Player.CanMove = false;
+        Player.CanLook = false;
+        Player.Land();
     }
 
     public override void Exit()
     {
         base.Exit();
-        Player._animator.SetBool(nameof(Player.IsLanding), false);
+        Player._animator.SetBool(Player.IsHeavyLanding, false);
     }
 
     public override void ExecuteOnUpdate()
     {
-        if (Player._isGrounded)
+        AnimatorStateInfo stateInfo = Player._animator.GetCurrentAnimatorStateInfo(0);
+        if (stateInfo.IsName("JumpHeavyAttackLanding") && stateInfo.normalizedTime >= 1.0f)
         {
             Player.ChangeState(new IdleState(Player));
         }
     }
 }
+
+
 
 public class SkillAttackState : StateBase
 {
