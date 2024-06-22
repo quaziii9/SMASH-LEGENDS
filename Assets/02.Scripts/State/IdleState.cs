@@ -8,7 +8,6 @@ public class IdleState : StateBase
     public override void Enter()
     {
         base.Enter();
-
         Player._animator.SetBool(nameof(Player.IsIdle), true);
     }
 
@@ -27,6 +26,14 @@ public class IdleState : StateBase
         else if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero)
         {
             Player.ChangeState(new RunState(Player));
+        }
+        else if (context.action.name == "DefaultAttack" && context.performed)
+        {
+            Player.ChangeState(new AttackState(Player));
+        }
+        else if (context.action.name == "HeavyAttack" && context.performed)
+        {
+            Player.ChangeState(new HeavyAttackState(Player));
         }
     }
 }

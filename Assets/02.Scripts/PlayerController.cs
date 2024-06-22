@@ -16,13 +16,6 @@ public class PlayerController : MonoBehaviour
     public Animator _animator;
     public Vector3 _moveDirection;
     public bool _isGrounded;
-    private bool _isAttack;
-    private bool _canCombo;
-    private bool _canChangeAnimation;
-    private bool _isJumping;
-    private bool _hasAirAttacked;
-    private bool _isLanding;
-    private bool _isCanMove;
 
     private float _attackMoveDistance; // 공격 중 이동할 거리
     private Vector3 _attackMoveDirection; // 공격 중 이동 방향
@@ -31,7 +24,7 @@ public class PlayerController : MonoBehaviour
     private float _currentMoveDistance; // 현재까지 이동한 거리
 
     [Header("Attack")]
-    private int comboCounter = 0;
+    //private int comboCounter = 0;
     private float skillCoolTime = 4f;
 
     public IState _curState;
@@ -42,6 +35,10 @@ public class PlayerController : MonoBehaviour
     public readonly int IsLanding = Animator.StringToHash("IsLanding");
     public readonly int IsJumpAttacking = Animator.StringToHash("IsAirAttacking");
     public readonly int IsLightLanding = Animator.StringToHash("IsLightLanding");
+    public readonly int IsHeavyAttacking = Animator.StringToHash("IsHeavyAttacking");
+    public readonly int IsAirHeavyAttacking = Animator.StringToHash("IsAirHeavyAttacking");
+    public readonly int CanMove = Animator.StringToHash("CanMove");
+    public readonly int CanLook = Animator.StringToHash("CanLook");
 
     private void Awake()
     {
@@ -112,76 +109,42 @@ public class PlayerController : MonoBehaviour
 
     public void OnDefaultAttackInput(InputAction.CallbackContext context)
     {
+        _curState?.OnInputCallback(context);
+    }
+
+    public void OnHeavyAttackInput(InputAction.CallbackContext context)
+    {
         if (context.performed)
         {
             if (_isGrounded)
             {
                 _rigidBody.velocity = new Vector3(0, _rigidBody.velocity.y, 0);
-                if (_canCombo == true)
-                {
-                    if (comboCounter > 2)
-                    {
-                        return;
-                    }
-                    _animator.SetInteger("ComboCounter", comboCounter);
-                    _animator.SetTrigger("IsAttack");
-                    StartAttackMove(1.5f);
-                    comboCounter++;
-                    _canCombo = false; // 콤보 상태를 비활성화
-                }
-                else
-                {              
-                    comboCounter = 0; // 첫 번째 공격                   
-                    _animator.SetInteger("ComboCounter", comboCounter);
-                    _animator.SetTrigger("IsAttack");
-                    StartAttackMove(1.5f);
-                    comboCounter++;
-                }
+                ChangeState(new HeavyAttackState(this));
             }
-            else if (_isJumping == true && _hasAirAttacked == false) // 점프 중 공격
+            else
             {
-                _hasAirAttacked = true;
-                _animator.SetTrigger("AirAttack");
+                ChangeState(new JumpHeavyAttackState(this));
             }
         }
     }
 
-    public void OnHeavyAttackInput(InputAction.CallbackContext context)
-    {
-        if(context.performed && skillCoolTime <0 && _isGrounded == true)
-        {
-            _rigidBody.velocity = new Vector3(0, _rigidBody.velocity.y, 0);
-            _isAttack = true;
-            _animator.SetTrigger("HeavyAttack");
-            StartAttackMove(1.5f);
-            skillCoolTime = 4f;
-        }
-        if (context.performed && skillCoolTime < 0 && _isJumping == true)
-        {
-            _rigidBody.velocity = new Vector3(0, _rigidBody.velocity.y, 0);
-            _isAttack = true;
-            _animator.SetTrigger("AirHeavyAttack");
-            StartAttackMove(2.5f);
-            _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, jumpForce, _rigidBody.velocity.z);
-            skillCoolTime = 4f;
-        }
-    }
 
     public void OnSkillAttackInput(InputAction.CallbackContext context)
     {
-        _isAttack = true;
-        _animator.SetTrigger("SkillAttack");
+        _curState?.OnInputCallback(context);
     }
+
     #endregion
 
-    private void Move()
+    public void Move()
     {
-        if (_isLanding)
+        if (_curState is JumpLightLandingState)
         {
             _rigidBody.velocity = new Vector3(0, _rigidBody.velocity.y, 0);
             return;
         }
-        if( _isAttack)
+
+        if (_curState is AttackState || _curState is JumpHeavyAttackState || _curState is HeavyAttackState)
         {
             // 공격 중 이동 처리
             float elapsedTime = Time.time - _attackMoveStartTime;
@@ -195,11 +158,24 @@ public class PlayerController : MonoBehaviour
 
             return;
         }
-        LookAt();
+
+        if (!(_curState is JumpAttackState) || _curState is JumpUpState || _curState is JumpDownState || _curState is JumpLandState)
+        {
+            LookAt();
+        }
+
         _animator.SetBool("IsMoving", _moveDirection != Vector3.zero && _isGrounded);
         Vector3 velocity = new Vector3(_moveDirection.x * moveSpeed, _rigidBody.velocity.y, _moveDirection.z * moveSpeed);
         _rigidBody.velocity = velocity;
-        
+    }
+
+    public void LookAt()
+    {
+        if (_moveDirection != Vector3.zero && !(_curState is JumpLightLandingState))
+        {
+            Quaternion targetAngle = Quaternion.LookRotation(_moveDirection);
+            _rigidBody.rotation = targetAngle;
+        }
     }
 
     public void Jump()
@@ -207,14 +183,6 @@ public class PlayerController : MonoBehaviour
         _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, jumpForce, _rigidBody.velocity.z);
     }
 
-    protected void LookAt()
-    {
-        if (_moveDirection != Vector3.zero)
-        {
-            Quaternion targetAngle = Quaternion.LookRotation(_moveDirection);
-            _rigidBody.rotation = targetAngle;
-        }
-    }
 
     private void ApplyCustomGravity()
     {
@@ -251,47 +219,47 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    public void IdleAnimationEvent()
-    {
-        _isLanding = false;
-        _canCombo = false;
-        //_animator.ResetTrigger("IsAttack");
-        _isAttack = false;
-        _isJumping = false;
-        _hasAirAttacked = false;
-        //_animator.ResetTrigger("AirAttack");
-        _animator.ResetTrigger("HeavyAttack");
-        _animator.ResetTrigger("SkillAttack");
-        _animator.ResetTrigger("AirHeavyAttack");
-    }
+    //public void IdleAnimationEvent()
+    //{
+    //    _isLanding = false;
+    //    _canCombo = false;
+    //    //_animator.ResetTrigger("IsAttack");
+    //    _isAttack = false;
+    //    _isJumping = false;
+    //    _hasAirAttacked = false;
+    //    //_animator.ResetTrigger("AirAttack");
+    //    _animator.ResetTrigger("HeavyAttack");
+    //    _animator.ResetTrigger("SkillAttack");
+    //    _animator.ResetTrigger("AirHeavyAttack");
+    //}
 
     public void CanChangeAnimationEvent()
     {
-        _canChangeAnimation = true; 
+        //_canChangeAnimation = true;
     }
 
     // 애니메이션 이벤트를 통해 콤보 가능 상태로 만들기
     public void EnableComboAnimationEvent()
     {
-        _canChangeAnimation = false;
-        _canCombo = true;
+        //_canChangeAnimation = false;
+        //_canCombo = true;
         //_isAttack = true;
     }
 
     // 점프 애니메이션 이벤트
     public void JumpLandAnimationEvent()
     {
-        _hasAirAttacked = false;
+        //_hasAirAttacked = false;
     }
 
     public void LookFalseAnimationEvent()
     {
-        _isLanding = true;
+        //_isLanding = true;
     }
 
-    private void StartAttackMove(float distance)
+    public void StartAttackMove(float distance)
     {
-        _isAttack = true;
+        //_isAttack = true;
         _attackMoveDistance = distance;
         _attackMoveStartTime = Time.time;
         _currentMoveDistance = 0;
