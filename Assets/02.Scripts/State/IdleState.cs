@@ -12,9 +12,9 @@ public class IdleState : StateBase
         base.Enter();
         Player._rigidBody.velocity = new Vector3(0, Player._rigidBody.velocity.y, 0);
         Player._animator.SetBool(Player.IsIdle, true);
-        Player.CanMove = true; // Idle 상태에서는 이동 가능하게 설정
-        Player.CanLook = true; // Idle 상태에서는 Look 가능하게 설정
-        enterTime = Time.time; // 현재 시간을 저장
+        Player.CanMove = true;
+        Player.CanLook = true;
+        enterTime = Time.time;
     }
 
     public override void Exit()
@@ -29,10 +29,29 @@ public class IdleState : StateBase
         {
             Player.ChangeState(new RunState(Player));
         }
+
+        if (Time.time - enterTime > 0.5f)
+        {
+            // 0.5초 후 상태 변경을 위한 입력 처리
+            var keyboard = Keyboard.current;
+
+            if (keyboard.zKey.wasPressedThisFrame)
+            {
+                Player.ChangeState(new FirstAttackState(Player));
+                return;
+            }
+            else if (keyboard.xKey.wasPressedThisFrame)
+            {
+                Player.ChangeState(new HeavyAttackState(Player));
+                return;
+            }
+        }
     }
 
     public override void OnInputCallback(InputAction.CallbackContext context)
     {
+        if (isTransitioning) return; // 상태 전환 중에는 입력 무시
+
         if (context.action.name == "Jump" && context.performed)
         {
             Player.ChangeState(new JumpUpState(Player));
@@ -54,5 +73,7 @@ public class IdleState : StateBase
             Player.ChangeState(new SkillAttackState(Player));
         }
     }
+
     public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("Idle");
 }
+

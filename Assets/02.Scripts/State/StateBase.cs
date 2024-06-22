@@ -13,6 +13,7 @@ public interface IState
 public abstract class StateBase : IState
 {
     protected PlayerController Player { get; private set; }
+    protected bool isTransitioning = true; // 상태 전환 중임을 나타내는 플래그
 
     protected StateBase(PlayerController player)
     {
@@ -26,9 +27,11 @@ public abstract class StateBase : IState
             Debug.LogError("Player is null in Enter!");
             return;
         }
-        Debug.Log($"Entering state: {Player._curState.GetType().Name}");
+        Debug.Log($"Entering state: {this.GetType().Name}");
 
         Player.BindInputCallback(true, OnInputCallback);
+        isTransitioning = true;
+        Player.StartCoroutine(TransitionDelay()); // 상태 전환 딜레이 시작
     }
 
     public virtual void Exit()
@@ -38,13 +41,22 @@ public abstract class StateBase : IState
             Debug.LogError("Player is null in Exit!");
             return;
         }
-        Debug.Log($"Exiting state: {Player._curState.GetType().Name}");
+        Debug.Log($"Exiting state: {this.GetType().Name}");
         Player.BindInputCallback(false, OnInputCallback);
     }
 
     public virtual void ExecuteOnUpdate() { }
-    public virtual void OnInputCallback(InputAction.CallbackContext context) { }
+
+    public virtual void OnInputCallback(InputAction.CallbackContext context)
+    {
+        if (isTransitioning) return; // 상태 전환 중에는 입력 무시
+    }
 
     public abstract bool IsTransitioning { get; }
 
+    private System.Collections.IEnumerator TransitionDelay()
+    {
+        yield return new WaitForSeconds(0.1f); // 상태 전환 후 0.1초 딜레이
+        isTransitioning = false;
+    }
 }

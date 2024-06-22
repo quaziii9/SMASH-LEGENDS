@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
     public GameObject groundCheck;
 
     private float groundCheckDistance = 1f; // 지면 체크를 위한 거리
-    private float groundDistance = .4f; // 지면 체크를 위한 거리
 
     public Rigidbody _rigidBody;
     public Animator _animator;
@@ -153,18 +152,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnHeavyAttackInput(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            if (_isGrounded)
-            {
-                _rigidBody.velocity = new Vector3(0, _rigidBody.velocity.y, 0);
-                ChangeState(new HeavyAttackState(this));
-            }
-            else
-            {
-                ChangeState(new JumpHeavyAttackState(this));
-            }
-        }
+        _curState?.OnInputCallback(context);
     }
 
     public void OnSkillAttackInput(InputAction.CallbackContext context)
@@ -249,7 +237,6 @@ public class PlayerController : MonoBehaviour
         RaycastHit hit;
         Vector3 origin = groundCheck.transform.position; // 플레이어의 위치에서 약간 위쪽
         _isGrounded = Physics.Raycast(origin, Vector3.down, out hit, groundCheckDistance);
-        _Ground = Physics.Raycast(origin, Vector3.down, out hit, groundDistance);
     }
 
     private void OnDrawGizmosSelected()
@@ -258,9 +245,6 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.red;
         Vector3 origin = groundCheck.transform.position;
         Gizmos.DrawLine(origin, origin + Vector3.down * (groundCheckDistance));
-
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(origin, origin + Vector3.down * (groundDistance));
     }
 
     public void CanMoveAnimationEvent()
