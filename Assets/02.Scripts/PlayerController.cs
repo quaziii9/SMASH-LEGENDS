@@ -1,8 +1,9 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Mirror;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : NetworkBehaviour
 {
     private float moveSpeed = 5.4f; // 피터의 이동속도
     public float jumpForce = 14.28f; // 피터의 점프가속도
@@ -62,25 +63,34 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        ChangeState(new IdleState(this));
-        currentHeavyAttackCoolTime = 0f;
+        if (isLocalPlayer)
+        {
+            ChangeState(new IdleState(this));
+            currentHeavyAttackCoolTime = 0f;
+        }
     }
 
     private void FixedUpdate()
     {
-        Move();
-        ApplyCustomGravity();
-        CheckGroundStatus();
+        if (isLocalPlayer)
+        {
+            Move();
+            ApplyCustomGravity();
+            CheckGroundStatus();
+        }
     }
 
     private void Update()
     {
-        if (heavyAttackCoolTime > 0)
+        if (isLocalPlayer)
         {
-            heavyAttackCoolTime -= Time.deltaTime;
+            if (currentHeavyAttackCoolTime > 0)
+            {
+                currentHeavyAttackCoolTime -= Time.deltaTime;
+            }
+            _curState?.ExecuteOnUpdate();
+            HandleInput();
         }
-        _curState?.ExecuteOnUpdate();
-        HandleInput();
     }
 
     private void HandleInput()
@@ -101,7 +111,6 @@ public class PlayerController : MonoBehaviour
     {
         if (_curState != null)
         {
-            
             _curState.Exit();
         }
 
@@ -109,7 +118,6 @@ public class PlayerController : MonoBehaviour
 
         if (_curState != null)
         {
-
             _curState.Enter();
         }
     }
@@ -141,6 +149,8 @@ public class PlayerController : MonoBehaviour
     #region InputSystem
     public void OnMoveInput(InputAction.CallbackContext context)
     {
+        if (!isLocalPlayer) return;
+
         Vector2 input = context.ReadValue<Vector2>();
         _moveDirection = context.performed ? new Vector3(input.x, 0, input.y) : Vector3.zero;
         IsMoveInputActive = context.performed;
@@ -150,12 +160,19 @@ public class PlayerController : MonoBehaviour
 
     public void OnDefaultAttackInput(InputAction.CallbackContext context)
     {
-        _curState?.OnInputCallback(context);
+        if (!isLocalPlayer) return;
+
+        if (context.performed)
+        {
+            _curState?.OnInputCallback(context);
+        }
     }
 
     public void OnHeavyAttackInput(InputAction.CallbackContext context)
     {
-        if (currentHeavyAttackCoolTime <= 0)
+        if (!isLocalPlayer) return;
+
+        if (currentHeavyAttackCoolTime <= 0 && context.performed)
         {
             _curState?.OnInputCallback(context);
         }
@@ -163,7 +180,12 @@ public class PlayerController : MonoBehaviour
 
     public void OnSkillAttackInput(InputAction.CallbackContext context)
     {
-        _curState?.OnInputCallback(context);
+        if (!isLocalPlayer) return;
+
+        if (context.performed)
+        {
+            _curState?.OnInputCallback(context);
+        }
     }
     #endregion
 
@@ -287,6 +309,7 @@ public class PlayerController : MonoBehaviour
     {
         StartAttackMove(5f, 0.5f);
     }
+
     public void StartHeavyAttackCooldown()
     {
         currentHeavyAttackCoolTime = heavyAttackCoolTime; // 스킬 사용 후 쿨타임 설정
