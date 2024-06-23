@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Mirror;
+using UnityEngine.InputSystem;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -15,7 +15,7 @@ public class PlayerController : NetworkBehaviour
     private float groundDistance = .4f; // 지면 체크를 위한 거리
 
     public Rigidbody _rigidBody;
-    public Animator _animator;
+    public AnimationController _animationController;
     public Vector3 _moveDirection;
     public bool _isGrounded;
     public bool _Ground;
@@ -40,25 +40,10 @@ public class PlayerController : NetworkBehaviour
     private bool isIdleJump = false;
     private float jumpMoveSpeed = 2.2f; // 점프 중 이동 속도
 
-    public readonly int IsIdle = Animator.StringToHash("IsIdle");
-    public readonly int IsJumpingUp = Animator.StringToHash("IsJumpingUp");
-    public readonly int IsJumpingDown = Animator.StringToHash("IsJumpingDown");
-    public readonly int IsLanding = Animator.StringToHash("IsLanding");
-    public readonly int IsJumpAttacking = Animator.StringToHash("IsJumpAttacking");
-    public readonly int IsLightLanding = Animator.StringToHash("IsLightLanding");
-    public readonly int IsHeavyAttacking = Animator.StringToHash("IsHeavyAttacking");
-    public readonly int IsJumpHeavyAttacking = Animator.StringToHash("IsJumpHeavyAttacking");
-    public readonly int IsHeavyLanding = Animator.StringToHash("IsHeavyLanding");
-    public readonly int IsRunning = Animator.StringToHash("IsRunning");
-    public readonly int IsComboAttack1 = Animator.StringToHash("IsComboAttack1");
-    public readonly int IsComboAttack2 = Animator.StringToHash("IsComboAttack2");
-    public readonly int IsComboAttack3 = Animator.StringToHash("IsComboAttack3");
-    public readonly int IsSkillAttack = Animator.StringToHash("IsSkillAttack");
-
     private void Awake()
     {
         _rigidBody = GetComponent<Rigidbody>();
-        _animator = GetComponent<Animator>();
+        _animationController = GetComponent<AnimationController>();
     }
 
     private void Start()
@@ -284,18 +269,6 @@ public class PlayerController : NetworkBehaviour
         Gizmos.DrawLine(origin, origin + Vector3.down * (groundDistance));
     }
 
-    public void CanMoveAnimationEvent()
-    {
-        CanMove = true;
-        CanLook = true;
-    }
-
-    public void CanChangeAnimationEvent()
-    {
-        CanChange = true;
-        CanLook = true;
-    }
-
     public void StartAttackMove(float distance, float duration)
     {
         _attackMoveDistance = distance;
@@ -303,11 +276,6 @@ public class PlayerController : NetworkBehaviour
         _attackMoveStartTime = Time.time;
         _currentMoveDistance = 0;
         _attackMoveDirection = transform.forward; // 현재 보고 있는 방향으로 이동    
-    }
-
-    public void StartAttackMovingAnimationEvent()
-    {
-        StartAttackMove(8f, 0.5f);
     }
 
     public void StartHeavyAttackCooldown()

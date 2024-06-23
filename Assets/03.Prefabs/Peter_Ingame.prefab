@@ -928,6 +928,7 @@ GameObject:
   - component: {fileID: 4423739838715542270}
   - component: {fileID: 7484040802297583954}
   - component: {fileID: 3484213790484439417}
+  - component: {fileID: 3577672954344978972}
   m_Layer: 0
   m_Name: Peter_Ingame
   m_TagString: Player
@@ -1149,10 +1150,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e6d8a121cba24d48bc090a6ba111292, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  jumpForce: 14.28
   groundCheck: {fileID: 8575020770430485035}
   _rigidBody: {fileID: 0}
-  _animator: {fileID: 0}
+  _animationController: {fileID: 0}
+  _moveDirection: {x: 0, y: 0, z: 0}
   _isGrounded: 0
+  _Ground: 0
 --- !u!114 &1083122375429704005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1252,6 +1259,18 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+--- !u!114 &3577672954344978972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3697806329183979239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 262d4c4575b7a09468e96a585eba6fdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3785853611246990569
 GameObject:
   m_ObjectHideFlags: 0

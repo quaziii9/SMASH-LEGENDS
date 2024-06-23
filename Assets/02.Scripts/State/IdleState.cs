@@ -11,7 +11,7 @@ public class IdleState : StateBase
     {
         base.Enter();
         Player._rigidBody.velocity = new Vector3(0, Player._rigidBody.velocity.y, 0);
-        Player._animator.SetBool(Player.IsIdle, true);
+        Player._animationController.SetBool(Player._animationController.IsIdle, true);
         Player.CanMove = true;
         Player.CanLook = true;
         enterTime = Time.time;
@@ -20,7 +20,7 @@ public class IdleState : StateBase
     public override void Exit()
     {
         base.Exit();
-        Player._animator.SetBool(Player.IsIdle, false);
+        Player._animationController.SetBool(Player._animationController.IsIdle, false);
     }
 
     public override void ExecuteOnUpdate()
@@ -74,6 +74,6 @@ public class IdleState : StateBase
         }
     }
 
-    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("Idle");
+    public override bool IsTransitioning => !Player._animationController.GetCurrentAnimatorStateInfo(0).IsName("Idle");
 }
 

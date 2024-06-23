@@ -1,7 +1,6 @@
 using UnityEngine.InputSystem;
 using UnityEngine;
 
-
 public class JumpUpState : StateBase
 {
     public JumpUpState(PlayerController player) : base(player) { }
@@ -9,14 +8,14 @@ public class JumpUpState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._animator.SetBool(nameof(Player.IsJumpingUp), true);
+        Player._animationController.SetBool(Player._animationController.IsJumpingUp, true);
         Player.Jump(Player._moveDirection == Vector3.zero); // idle에서 점프인지 아닌지 확인
     }
 
     public override void Exit()
     {
         base.Exit();
-        Player._animator.SetBool(nameof(Player.IsJumpingUp), false);
+        Player._animationController.SetBool(Player._animationController.IsJumpingUp, false);
     }
 
     public override void ExecuteOnUpdate()
@@ -45,8 +44,9 @@ public class JumpUpState : StateBase
         }
     }
 
-    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("JumpUp");
+    public override bool IsTransitioning => !Player._animationController.GetCurrentAnimatorStateInfo(0).IsName("JumpUp");
 }
+
 
 
 
@@ -57,13 +57,13 @@ public class JumpDownState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._animator.SetBool(nameof(Player.IsJumpingDown), true);
+        Player._animationController.SetBool((Player._animationController.IsJumpingDown), true);
     }
 
     public override void Exit()
     {
         base.Exit();
-        Player._animator.SetBool(nameof(Player.IsJumpingDown), false);
+        Player._animationController.SetBool((Player._animationController.IsJumpingDown), false);
     }
 
     public override void ExecuteOnUpdate()
@@ -92,7 +92,7 @@ public class JumpDownState : StateBase
         }
     }
 
-    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("JumpDown");
+    public override bool IsTransitioning => !Player._animationController.GetCurrentAnimatorStateInfo(0).IsName("JumpDown");
 
 }
 
@@ -104,14 +104,14 @@ public class JumpLandState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._animator.SetBool(Player.IsLanding, true);
+        Player._animationController.SetBool(Player._animationController.IsLanding, true);
         Player.Land();
     }
 
     public override void Exit()
     {
         base.Exit();
-        Player._animator.SetBool(Player.IsLanding, false);
+        Player._animationController.SetBool(Player._animationController.IsLanding, false);
     }
 
     public override void ExecuteOnUpdate()
@@ -128,7 +128,7 @@ public class JumpLandState : StateBase
             }
         }
     }
-    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("JumpLand");
+    public override bool IsTransitioning => !Player._animationController.GetCurrentAnimatorStateInfo(0).IsName("JumpLand");
 }
 
 
@@ -140,19 +140,19 @@ public class JumpAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._animator.SetBool(nameof(Player.IsJumpAttacking), true);
+        Player._animationController.SetBool((Player._animationController.IsJumpAttacking), true);
     }
 
     public override void Exit()
     {
         base.Exit();
-        Player._animator.SetBool(nameof(Player.IsJumpAttacking), false);
+        Player._animationController.SetBool((Player._animationController.IsJumpAttacking), false);
     }
 
     public override void ExecuteOnUpdate()
     {
         // Attack animation finished
-        AnimatorStateInfo stateInfo = Player._animator.GetCurrentAnimatorStateInfo(0);
+        AnimatorStateInfo stateInfo = Player._animationController.GetCurrentAnimatorStateInfo(0);
         if (Player._isGrounded)
         {
             if (stateInfo.IsName("JumpAttack") && stateInfo.normalizedTime >= 0.3f)
@@ -165,7 +165,7 @@ public class JumpAttackState : StateBase
             }
         }
     }
-    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("JumpAttack");
+    public override bool IsTransitioning => !Player._animationController.GetCurrentAnimatorStateInfo(0).IsName("JumpAttack");
 
 }
 
@@ -176,7 +176,7 @@ public class JumpLightLandingState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._animator.SetBool(nameof(Player.IsLightLanding), true);
+        Player._animationController.SetBool((Player._animationController.IsLightLanding), true);
         Player.CanMove = false;
         Player.CanLook = false;
         Player.Land();
@@ -185,12 +185,12 @@ public class JumpLightLandingState : StateBase
     public override void Exit()
     {
         base.Exit();
-        Player._animator.SetBool(nameof(Player.IsLightLanding), false);
+        Player._animationController.SetBool((Player._animationController.IsLightLanding), false);
     }
 
     public override void ExecuteOnUpdate()
     {
-        AnimatorStateInfo stateInfo = Player._animator.GetCurrentAnimatorStateInfo(0);
+        AnimatorStateInfo stateInfo = Player._animationController.GetCurrentAnimatorStateInfo(0);
         if (stateInfo.IsName("JumpLightLanding") && stateInfo.normalizedTime >= 0.8f)
         {
             if (Player.IsMoveInputActive)
@@ -203,7 +203,7 @@ public class JumpLightLandingState : StateBase
             }
         }
     }
-    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("JumpLightLanding");
+    public override bool IsTransitioning => !Player._animationController.GetCurrentAnimatorStateInfo(0).IsName("JumpLightLanding");
 }
 
 
@@ -215,7 +215,7 @@ public class RunState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._animator.SetBool(Player.IsRunning, true);
+        Player._animationController.SetBool(Player._animationController.IsRunning, true);
         Player.CanMove = true;
         Player.CanLook = true;
     }
@@ -223,7 +223,7 @@ public class RunState : StateBase
     public override void Exit()
     {
         base.Exit();
-        Player._animator.SetBool(Player.IsRunning, false);
+        Player._animationController.SetBool(Player._animationController.IsRunning, false);
     }
 
     public override void ExecuteOnUpdate()
@@ -255,7 +255,7 @@ public class RunState : StateBase
             Player.ChangeState(new SkillAttackState(Player));
         }
     }
-    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("Run");
+    public override bool IsTransitioning => !Player._animationController.GetCurrentAnimatorStateInfo(0).IsName("Run");
 }
 
 
@@ -268,7 +268,7 @@ public class FirstAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._animator.SetBool(Player.IsComboAttack1, true);
+        Player._animationController.SetBool(Player._animationController.IsComboAttack1, true);
         Player.StartAttackMove(_attackMoveDistance , _attackMoveDuration);
         Player.CanMove = false;
         Player.CanLook = false;
@@ -278,12 +278,12 @@ public class FirstAttackState : StateBase
     public override void Exit()
     {
         base.Exit();
-        Player._animator.SetBool(Player.IsComboAttack1, false);
+        Player._animationController.SetBool(Player._animationController.IsComboAttack1, false);
     }
 
     public override void ExecuteOnUpdate()
     {
-        var animatorStateInfo = Player._animator.GetCurrentAnimatorStateInfo(0);
+        var animatorStateInfo = Player._animationController.GetCurrentAnimatorStateInfo(0);
 
         // FirstAttack 애니메이션이 끝났는지 확인
         if (animatorStateInfo.normalizedTime >= 1.0f)
@@ -310,7 +310,7 @@ public class FirstAttackState : StateBase
         }
     }
 
-    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("FirstAttack");
+    public override bool IsTransitioning => !Player._animationController.GetCurrentAnimatorStateInfo(0).IsName("FirstAttack");
 }
 
 public class SecondAttackState : StateBase
@@ -323,7 +323,7 @@ public class SecondAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._animator.SetBool(Player.IsComboAttack2, true);
+        Player._animationController.SetBool(Player._animationController.IsComboAttack2, true);
         Player.StartAttackMove(_attackMoveDistance, _attackMoveDuration);
         Player.CanMove = false;
         Player.CanLook = false;
@@ -333,12 +333,12 @@ public class SecondAttackState : StateBase
     public override void Exit()
     {
         base.Exit();
-        Player._animator.SetBool(Player.IsComboAttack2, false);
+        Player._animationController.SetBool(Player._animationController.IsComboAttack2, false);
     }
 
     public override void ExecuteOnUpdate()
     {
-        var animatorStateInfo = Player._animator.GetCurrentAnimatorStateInfo(0);
+        var animatorStateInfo = Player._animationController.GetCurrentAnimatorStateInfo(0);
 
         // SecondAttack 애니메이션이 끝났는지 확인
         if (animatorStateInfo.IsName("SecondAttack") && animatorStateInfo.normalizedTime >= 1.0f)
@@ -365,7 +365,7 @@ public class SecondAttackState : StateBase
         }
     }
 
-    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("SecondAttack");
+    public override bool IsTransitioning => !Player._animationController.GetCurrentAnimatorStateInfo(0).IsName("SecondAttack");
 }
 
 public class FinishAttackState : StateBase
@@ -377,7 +377,7 @@ public class FinishAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._animator.SetBool(Player.IsComboAttack3, true);
+        Player._animationController.SetBool(Player._animationController.IsComboAttack3, true);
         Player.StartAttackMove(_attackMoveDistance , _attackMoveDuration);
         Player.CanMove = false;
         Player.CanLook = false;
@@ -387,12 +387,12 @@ public class FinishAttackState : StateBase
     public override void Exit()
     {
         base.Exit();
-        Player._animator.SetBool(Player.IsComboAttack3, false);
+        Player._animationController.SetBool(Player._animationController.IsComboAttack3, false);
     }
 
     public override void ExecuteOnUpdate()
     {
-        var animatorStateInfo = Player._animator.GetCurrentAnimatorStateInfo(0);
+        var animatorStateInfo = Player._animationController.GetCurrentAnimatorStateInfo(0);
 
         // FinishAttack 애니메이션이 끝났는지 확인
         if (animatorStateInfo.IsName("FinishAttack") && animatorStateInfo.normalizedTime >= 1.0f)
@@ -415,7 +415,7 @@ public class FinishAttackState : StateBase
         }
     }
 
-    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("FinishAttack");
+    public override bool IsTransitioning => !Player._animationController.GetCurrentAnimatorStateInfo(0).IsName("FinishAttack");
 }
 
 public class HeavyAttackState : StateBase
@@ -427,7 +427,7 @@ public class HeavyAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._animator.SetBool(Player.IsHeavyAttacking, true);
+        Player._animationController.SetBool(Player._animationController.IsHeavyAttacking, true);
         Player.StartAttackMove(_attackMoveDistance, _attackMoveDuration);
         Player.CanMove = false;
         Player.CanLook = false;
@@ -437,13 +437,13 @@ public class HeavyAttackState : StateBase
     public override void Exit()
     {
         base.Exit();
-        Player._animator.SetBool(Player.IsHeavyAttacking, false);
+        Player._animationController.SetBool(Player._animationController.IsHeavyAttacking, false);
         Player.StartHeavyAttackCooldown();
     }
 
     public override void ExecuteOnUpdate()
     {
-        var animatorStateInfo = Player._animator.GetCurrentAnimatorStateInfo(0);
+        var animatorStateInfo = Player._animationController.GetCurrentAnimatorStateInfo(0);
 
         // HeavyAttack 애니메이션이 끝났는지 확인
         if (animatorStateInfo.IsName("HeavyAttack") && animatorStateInfo.normalizedTime >= 1.0f)
@@ -466,7 +466,7 @@ public class HeavyAttackState : StateBase
         }
     }
 
-    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("HeavyAttack");
+    public override bool IsTransitioning => !Player._animationController.GetCurrentAnimatorStateInfo(0).IsName("HeavyAttack");
 }
 
 
@@ -481,7 +481,7 @@ public class JumpHeavyAttackState : StateBase
     {
         base.Enter();
         Player._rigidBody.velocity = new Vector3(0, Player.jumpForce, 0);
-        Player._animator.SetBool(Player.IsJumpHeavyAttacking, true);
+        Player._animationController.SetBool(Player._animationController.IsJumpHeavyAttacking, true);
         Player.StartAttackMove(_attackMoveDistance, _attackMoveDuration);
         Player._rigidBody.velocity = new Vector3(Player._rigidBody.velocity.x, Player.jumpForce, Player._rigidBody.velocity.z);
         Player.CanMove = false;
@@ -491,7 +491,7 @@ public class JumpHeavyAttackState : StateBase
     public override void Exit()
     {
         base.Exit();
-        Player._animator.SetBool(Player.IsJumpHeavyAttacking, false);
+        Player._animationController.SetBool(Player._animationController.IsJumpHeavyAttacking, false);
     }
 
     public override void ExecuteOnUpdate()
@@ -506,7 +506,7 @@ public class JumpHeavyAttackState : StateBase
     {
         // No specific input handling for JumpHeavyAttackState
     }
-    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("JumpHeavyAttack");
+    public override bool IsTransitioning => !Player._animationController.GetCurrentAnimatorStateInfo(0).IsName("JumpHeavyAttack");
 
 }
 
@@ -518,7 +518,7 @@ public class JumpHeavyAttackLandingState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._animator.SetBool(Player.IsHeavyLanding, true);
+        Player._animationController.SetBool(Player._animationController.IsHeavyLanding, true);
         Player.CanMove = false;
         Player.CanLook = false;
         Player.Land();
@@ -527,18 +527,18 @@ public class JumpHeavyAttackLandingState : StateBase
     public override void Exit()
     {
         base.Exit();
-        Player._animator.SetBool(Player.IsHeavyLanding, false);
+        Player._animationController.SetBool(Player._animationController.IsHeavyLanding, false);
     }
 
     public override void ExecuteOnUpdate()
     {
-        AnimatorStateInfo stateInfo = Player._animator.GetCurrentAnimatorStateInfo(0);
+        AnimatorStateInfo stateInfo = Player._animationController.GetCurrentAnimatorStateInfo(0);
         if (stateInfo.IsName("JumpHeavyAttackLanding") && stateInfo.normalizedTime >= 1.0f)
         {
             Player.ChangeState(new IdleState(Player));
         }
     }
-    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("JumpHeavyAttack");
+    public override bool IsTransitioning => !Player._animationController.GetCurrentAnimatorStateInfo(0).IsName("JumpHeavyAttack");
 }
 
 
@@ -550,7 +550,7 @@ public class SkillAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._animator.SetBool(Player.IsSkillAttack, true);
+        Player._animationController.SetBool(Player._animationController.IsSkillAttack, true);
         Player.CanMove = false;
         Player.CanLook = false;
         Player.CanChange = false;
@@ -559,13 +559,13 @@ public class SkillAttackState : StateBase
     public override void Exit()
     {
         base.Exit();
-        Player._animator.SetBool(Player.IsSkillAttack, false);
+        Player._animationController.SetBool(Player._animationController.IsSkillAttack, false);
     }
 
     public override void ExecuteOnUpdate()
     {
         // 스킬 애니메이션이 끝났는지 확인
-        var animatorStateInfo = Player._animator.GetCurrentAnimatorStateInfo(0);
+        var animatorStateInfo = Player._animationController.GetCurrentAnimatorStateInfo(0);
         if (animatorStateInfo.IsName("SkillAttack") && animatorStateInfo.normalizedTime >= 1.0f)
         {
             Player.ChangeState(new IdleState(Player));
@@ -586,5 +586,5 @@ public class SkillAttackState : StateBase
         }
     }
 
-    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("SkillAttack");
+    public override bool IsTransitioning => !Player._animationController.GetCurrentAnimatorStateInfo(0).IsName("SkillAttack");
 }

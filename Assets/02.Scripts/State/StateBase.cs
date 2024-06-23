@@ -13,7 +13,7 @@ public interface IState
 public abstract class StateBase : IState
 {
     protected PlayerController Player { get; private set; }
-    protected bool isTransitioning = true; // »óÅÂ ÀüÈ¯ ÁßÀÓÀ» ³ªÅ¸³»´Â ÇÃ·¡±×
+    protected bool isTransitioning = true; // ìƒíƒœ ì „í™˜ ì¤‘ì„ì„ ë‚˜íƒ€ë‚´ëŠ” í”Œë˜ê·¸
 
     protected StateBase(PlayerController player)
     {
@@ -24,24 +24,20 @@ public abstract class StateBase : IState
     {
         if (Player == null)
         {
-            Debug.LogError("Player is null in Enter!");
             return;
         }
-        Debug.Log($"Entering state: {this.GetType().Name}");
 
         Player.BindInputCallback(true, OnInputCallback);
         isTransitioning = true;
-        Player.StartCoroutine(TransitionDelay()); // »óÅÂ ÀüÈ¯ µô·¹ÀÌ ½ÃÀÛ
+        Player.StartCoroutine(TransitionDelay()); // ìƒíƒœ ì „í™˜ ë”œë ˆì´ ì‹œì‘
     }
 
     public virtual void Exit()
     {
         if (Player == null)
         {
-            Debug.LogError("Player is null in Exit!");
             return;
         }
-        Debug.Log($"Exiting state: {this.GetType().Name}");
         Player.BindInputCallback(false, OnInputCallback);
     }
 
@@ -49,14 +45,14 @@ public abstract class StateBase : IState
 
     public virtual void OnInputCallback(InputAction.CallbackContext context)
     {
-        if (isTransitioning) return; // »óÅÂ ÀüÈ¯ Áß¿¡´Â ÀÔ·Â ¹«½Ã
+        if (isTransitioning) return; // ìƒíƒœ ì „í™˜ ì¤‘ì—ëŠ” ì…ë ¥ ë¬´ì‹œ
     }
 
     public abstract bool IsTransitioning { get; }
 
     private System.Collections.IEnumerator TransitionDelay()
     {
-        yield return new WaitForSeconds(0.1f); // »óÅÂ ÀüÈ¯ ÈÄ 0.1ÃÊ µô·¹ÀÌ
+        yield return new WaitForSeconds(0.1f); // ìƒíƒœ ì „í™˜ í›„ 0.1ì´ˆ ë”œë ˆì´
         isTransitioning = false;
     }
 }
