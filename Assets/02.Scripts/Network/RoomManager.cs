@@ -8,7 +8,7 @@ public class RoomManager : NetworkRoomManager
 {
     public static RoomManager Instance;
     private bool isSceneChanging = false;  // 씬 전환 상태를 추적하는 플래그
-
+    public GameObject[] playerPrefabs;
     private void Awake()
     {
         if (Instance == null)

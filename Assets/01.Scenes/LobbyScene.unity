@@ -512,6 +512,7 @@ MonoBehaviour:
   _allPlayersReady: 0
   roomSlots: []
   clientIndex: 0
+  playerPrefabs: []
 --- !u!4 &819710971
 Transform:
   m_ObjectHideFlags: 0
