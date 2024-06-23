@@ -266,28 +266,36 @@ public class FirstAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
+        Debug.Log("firstattack");
         Player._animator.SetBool(Player.IsComboAttack1, true);
         Player.StartAttackMove(1.0f);
         Player.CanMove = false;
         Player.CanLook = false;
         Player.CanChange = false;
     }
+    public override void Exit()
+    {
+        base.Exit();
+        Player._animator.SetBool(Player.IsComboAttack1, false);
+    }
 
     public override void ExecuteOnUpdate()
     {
-        if (!Player._animator.GetBool(Player.IsComboAttack1))
+        var animatorStateInfo = Player._animator.GetCurrentAnimatorStateInfo(0);
+
+        // FirstAttack 애니메이션이 끝났는지 확인
+        if (animatorStateInfo.normalizedTime >= 1.0f)
         {
             Player.ChangeState(new IdleState(Player));
         }
     }
-
     public override void OnInputCallback(InputAction.CallbackContext context)
     {
         if (context.action.name == "DefaultAttack" && context.performed && Player.CanChange)
         {
             Player.ChangeState(new SecondAttackState(Player));
         }
-        else if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanChange)
+        else if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanMove)
         {
             Player.ChangeState(new RunState(Player));
         }
@@ -303,6 +311,7 @@ public class SecondAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
+        Debug.Log("secondattack");
         Player._animator.SetBool(Player.IsComboAttack2, true);
         Player.StartAttackMove(1.0f);
         Player.CanMove = false;
@@ -310,9 +319,18 @@ public class SecondAttackState : StateBase
         Player.CanChange = false;
     }
 
+    public override void Exit()
+    {
+        base.Exit();
+        Player._animator.SetBool(Player.IsComboAttack2, false);
+    }
+
     public override void ExecuteOnUpdate()
     {
-        if (!Player._animator.GetBool(Player.IsComboAttack2))
+        var animatorStateInfo = Player._animator.GetCurrentAnimatorStateInfo(0);
+
+        // SecondAttack 애니메이션이 끝났는지 확인
+        if (animatorStateInfo.IsName("SecondAttack") && animatorStateInfo.normalizedTime >= 1.0f)
         {
             Player.ChangeState(new IdleState(Player));
         }
@@ -324,11 +342,12 @@ public class SecondAttackState : StateBase
         {
             Player.ChangeState(new FinishAttackState(Player));
         }
-        else if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanChange)
+        else if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanMove)
         {
             Player.ChangeState(new RunState(Player));
         }
     }
+
     public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("SecondAttack");
 }
 
@@ -340,6 +359,7 @@ public class FinishAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
+        Debug.Log("finishattack");
         Player._animator.SetBool(Player.IsComboAttack3, true);
         Player.StartAttackMove(1.0f);
         Player.CanMove = false;
@@ -347,9 +367,18 @@ public class FinishAttackState : StateBase
         Player.CanChange = false;
     }
 
+    public override void Exit()
+    {
+        base.Exit();
+        Player._animator.SetBool(Player.IsComboAttack3, false);
+    }
+
     public override void ExecuteOnUpdate()
     {
-        if (!Player._animator.GetBool(Player.IsComboAttack3))
+        var animatorStateInfo = Player._animator.GetCurrentAnimatorStateInfo(0);
+
+        // FinishAttack 애니메이션이 끝났는지 확인
+        if (animatorStateInfo.IsName("FinishAttack") && animatorStateInfo.normalizedTime >= 1.0f)
         {
             Player.ChangeState(new IdleState(Player));
         }
@@ -357,14 +386,15 @@ public class FinishAttackState : StateBase
 
     public override void OnInputCallback(InputAction.CallbackContext context)
     {
-        if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanChange)
+        if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanMove)
         {
             Player.ChangeState(new RunState(Player));
         }
     }
-    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("FinishAttack");
 
+    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("FinishAttack");
 }
+
 
 public class HeavyAttackState : StateBase
 {

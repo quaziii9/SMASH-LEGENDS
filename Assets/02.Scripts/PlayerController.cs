@@ -176,6 +176,11 @@ public class PlayerController : MonoBehaviour
 
             _currentMoveDistance = distanceToMove;
 
+            if (CanLook && _moveDirection != Vector3.zero)
+            {
+                LookAt();
+            }
+
             return;
         }
 
@@ -261,6 +266,7 @@ public class PlayerController : MonoBehaviour
     public void CanChangeAnimationEvent()
     {
         CanChange = true;
+        CanLook = true;
     }
 
     public void StartAttackMove(float distance)
