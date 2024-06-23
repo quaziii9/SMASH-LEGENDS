@@ -135,9 +135,9 @@ GameObject:
   - component: {fileID: 335474578}
   - component: {fileID: 335474577}
   - component: {fileID: 335474576}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SM_AL_SingleLogBridge_GroundA (1)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -560,9 +560,9 @@ GameObject:
   - component: {fileID: 1827779152}
   - component: {fileID: 1827779151}
   - component: {fileID: 1827779150}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SM_AL_SingleLogBridge_GroundA
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -665,9 +665,9 @@ GameObject:
   - component: {fileID: 2118803188}
   - component: {fileID: 2118803187}
   - component: {fileID: 2118803186}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SM_AL_SingleLogBridge_GroundA (2)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

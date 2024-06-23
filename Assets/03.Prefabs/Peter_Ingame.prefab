@@ -604,9 +604,10 @@ GameObject:
   - component: {fileID: 4782393471511711427}
   - component: {fileID: 385187857778228959}
   - component: {fileID: 7749004208666986913}
-  m_Layer: 0
+  - component: {fileID: 2646281647749375838}
+  m_Layer: 6
   m_Name: Sk_Peter_Skin_000_Weapon
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -677,6 +678,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &2646281647749375838
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2815294537608691153}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.005196596, y: 0.022243163, z: 0.0035876108}
+  m_Center: {x: 0.000039950348, y: -0.00011225289, z: 0.00012692159}
 --- !u!1 &2909616071555852607
 GameObject:
   m_ObjectHideFlags: 0
@@ -935,7 +957,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6266769638259840795
 Transform:
   m_ObjectHideFlags: 0
@@ -1136,7 +1158,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &7584932860044005032
 MonoBehaviour:
@@ -1970,7 +1992,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9060786583433639987}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Anchor_Sk_Peter_Skin_000_Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
