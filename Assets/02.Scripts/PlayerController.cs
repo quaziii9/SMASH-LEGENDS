@@ -19,14 +19,15 @@ public class PlayerController : MonoBehaviour
     public bool _isGrounded;
     public bool _Ground;
 
-    private float _attackMoveDistance; // 공격 중 이동할 거리
     private Vector3 _attackMoveDirection; // 공격 중 이동 방향
-    private float _attackMoveDuration = 0.3f; // 공격 중 이동하는 데 걸리는 시간
+    private float _attackMoveDistance; // 공격 중 이동할 거리
+    private float _attackMoveDuration; // 공격 중 이동하는 데 걸리는 시간
     private float _attackMoveStartTime; // 공격 중 이동 시작 시간
     private float _currentMoveDistance; // 현재까지 이동한 거리
 
     [Header("Attack")]
-    private float skillCoolTime = 4f;
+    private float heavyAttackCoolTime = 4f;
+    private float currentHeavyAttackCoolTime = 0f; // 현재 쿨타임
 
     public IState _curState;
     public bool CanMove { get; set; }
@@ -62,6 +63,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         ChangeState(new IdleState(this));
+        currentHeavyAttackCoolTime = 0f;
     }
 
     private void FixedUpdate()
@@ -73,9 +75,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (skillCoolTime > 0)
+        if (heavyAttackCoolTime > 0)
         {
-            skillCoolTime -= Time.deltaTime;
+            heavyAttackCoolTime -= Time.deltaTime;
         }
         _curState?.ExecuteOnUpdate();
         HandleInput();
@@ -153,7 +155,10 @@ public class PlayerController : MonoBehaviour
 
     public void OnHeavyAttackInput(InputAction.CallbackContext context)
     {
-        _curState?.OnInputCallback(context);
+        if (currentHeavyAttackCoolTime <= 0)
+        {
+            _curState?.OnInputCallback(context);
+        }
     }
 
     public void OnSkillAttackInput(InputAction.CallbackContext context)
@@ -269,11 +274,21 @@ public class PlayerController : MonoBehaviour
         CanLook = true;
     }
 
-    public void StartAttackMove(float distance)
+    public void StartAttackMove(float distance, float duration)
     {
         _attackMoveDistance = distance;
+        _attackMoveDuration = duration;
         _attackMoveStartTime = Time.time;
         _currentMoveDistance = 0;
         _attackMoveDirection = transform.forward; // 현재 보고 있는 방향으로 이동    
+    }
+
+    public void StartAttackMovingAnimationEvent()
+    {
+        StartAttackMove(5f, 0.5f);
+    }
+    public void StartHeavyAttackCooldown()
+    {
+        currentHeavyAttackCoolTime = heavyAttackCoolTime; // 스킬 사용 후 쿨타임 설정
     }
 }

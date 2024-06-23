@@ -261,14 +261,15 @@ public class RunState : StateBase
 
 public class FirstAttackState : StateBase
 {
+    private float _attackMoveDistance = 1.0f; // 공격 중 이동할 거리
+    private float _attackMoveDuration = 0.3f; // 공격 중 이동하는 데 걸리는 시간
     public FirstAttackState(PlayerController player) : base(player) { }
 
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("firstattack");
         Player._animator.SetBool(Player.IsComboAttack1, true);
-        Player.StartAttackMove(1.0f);
+        Player.StartAttackMove(_attackMoveDistance , _attackMoveDuration);
         Player.CanMove = false;
         Player.CanLook = false;
         Player.CanChange = false;
@@ -314,14 +315,16 @@ public class FirstAttackState : StateBase
 
 public class SecondAttackState : StateBase
 {
+    private float _attackMoveDistance = 1.0f; // 공격 중 이동할 거리
+    private float _attackMoveDuration = 0.3f; // 공격 중 이동하는 데 걸리는 시간
+
     public SecondAttackState(PlayerController player) : base(player) { }
 
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("secondattack");
         Player._animator.SetBool(Player.IsComboAttack2, true);
-        Player.StartAttackMove(1.0f);
+        Player.StartAttackMove(_attackMoveDistance, _attackMoveDuration);
         Player.CanMove = false;
         Player.CanLook = false;
         Player.CanChange = false;
@@ -367,13 +370,15 @@ public class SecondAttackState : StateBase
 
 public class FinishAttackState : StateBase
 {
+    private float _attackMoveDistance = 1.0f; // 공격 중 이동할 거리
+    private float _attackMoveDuration = 0.3f; // 공격 중 이동하는 데 걸리는 시간
     public FinishAttackState(PlayerController player) : base(player) { }
 
     public override void Enter()
     {
         base.Enter();
         Player._animator.SetBool(Player.IsComboAttack3, true);
-        Player.StartAttackMove(1.0f);
+        Player.StartAttackMove(_attackMoveDistance , _attackMoveDuration);
         Player.CanMove = false;
         Player.CanLook = false;
         Player.CanChange = false;
@@ -415,13 +420,15 @@ public class FinishAttackState : StateBase
 
 public class HeavyAttackState : StateBase
 {
+    private float _attackMoveDistance = 1.5f; // 공격 중 이동할 거리
+    private float _attackMoveDuration = 0.3f; // 공격 중 이동하는 데 걸리는 시간
     public HeavyAttackState(PlayerController player) : base(player) { }
 
     public override void Enter()
     {
         base.Enter();
         Player._animator.SetBool(Player.IsHeavyAttacking, true);
-        Player.StartAttackMove(1.5f);
+        Player.StartAttackMove(_attackMoveDistance, _attackMoveDuration);
         Player.CanMove = false;
         Player.CanLook = false;
         Player.CanChange = false;
@@ -431,6 +438,7 @@ public class HeavyAttackState : StateBase
     {
         base.Exit();
         Player._animator.SetBool(Player.IsHeavyAttacking, false);
+        Player.StartHeavyAttackCooldown();
     }
 
     public override void ExecuteOnUpdate()
@@ -465,13 +473,16 @@ public class HeavyAttackState : StateBase
 
 public class JumpHeavyAttackState : StateBase
 {
+    private float _attackMoveDistance = 2.5f; // 공격 중 이동할 거리
+    private float _attackMoveDuration = 0.3f; // 공격 중 이동하는 데 걸리는 시간
     public JumpHeavyAttackState(PlayerController player) : base(player) { }
 
     public override void Enter()
     {
         base.Enter();
+        Player._rigidBody.velocity = new Vector3(0, Player.jumpForce, 0);
         Player._animator.SetBool(Player.IsJumpHeavyAttacking, true);
-        Player.StartAttackMove(2.5f);
+        Player.StartAttackMove(_attackMoveDistance, _attackMoveDuration);
         Player._rigidBody.velocity = new Vector3(Player._rigidBody.velocity.x, Player.jumpForce, Player._rigidBody.velocity.z);
         Player.CanMove = false;
         Player.CanLook = false;
@@ -540,27 +551,40 @@ public class SkillAttackState : StateBase
     {
         base.Enter();
         Player._animator.SetBool(Player.IsSkillAttack, true);
-        Player.StartAttackMove(1.5f);
         Player.CanMove = false;
         Player.CanLook = false;
         Player.CanChange = false;
     }
 
+    public override void Exit()
+    {
+        base.Exit();
+        Player._animator.SetBool(Player.IsSkillAttack, false);
+    }
+
     public override void ExecuteOnUpdate()
     {
-        if (!Player._animator.GetBool(Player.IsSkillAttack))
+        // 스킬 애니메이션이 끝났는지 확인
+        var animatorStateInfo = Player._animator.GetCurrentAnimatorStateInfo(0);
+        if (animatorStateInfo.IsName("SkillAttack") && animatorStateInfo.normalizedTime >= 1.0f)
         {
             Player.ChangeState(new IdleState(Player));
+        }
+
+        // CanMove가 true일 때 이동 처리
+        if (Player.CanMove && Player.IsMoveInputActive)
+        {
+            Player.ChangeState(new RunState(Player));
         }
     }
 
     public override void OnInputCallback(InputAction.CallbackContext context)
     {
-        if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanChange)
+        if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanMove)
         {
             Player.ChangeState(new RunState(Player));
         }
     }
-    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("SkillAttack");
 
+    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("SkillAttack");
 }
