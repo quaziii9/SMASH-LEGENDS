@@ -307,7 +307,7 @@ public class PlayerController : NetworkBehaviour
 
     public void StartAttackMovingAnimationEvent()
     {
-        StartAttackMove(5f, 0.5f);
+        StartAttackMove(8f, 0.5f);
     }
 
     public void StartHeavyAttackCooldown()

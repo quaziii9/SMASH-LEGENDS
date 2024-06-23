@@ -261,7 +261,7 @@ public class RunState : StateBase
 
 public class FirstAttackState : StateBase
 {
-    private float _attackMoveDistance = 1.0f; // 공격 중 이동할 거리
+    private float _attackMoveDistance = 1.5f; // 공격 중 이동할 거리
     private float _attackMoveDuration = 0.3f; // 공격 중 이동하는 데 걸리는 시간
     public FirstAttackState(PlayerController player) : base(player) { }
 
@@ -315,7 +315,7 @@ public class FirstAttackState : StateBase
 
 public class SecondAttackState : StateBase
 {
-    private float _attackMoveDistance = 1.0f; // 공격 중 이동할 거리
+    private float _attackMoveDistance = 1.5f; // 공격 중 이동할 거리
     private float _attackMoveDuration = 0.3f; // 공격 중 이동하는 데 걸리는 시간
 
     public SecondAttackState(PlayerController player) : base(player) { }
@@ -370,7 +370,7 @@ public class SecondAttackState : StateBase
 
 public class FinishAttackState : StateBase
 {
-    private float _attackMoveDistance = 1.0f; // 공격 중 이동할 거리
+    private float _attackMoveDistance = 1.5f; // 공격 중 이동할 거리
     private float _attackMoveDuration = 0.3f; // 공격 중 이동하는 데 걸리는 시간
     public FinishAttackState(PlayerController player) : base(player) { }
 
