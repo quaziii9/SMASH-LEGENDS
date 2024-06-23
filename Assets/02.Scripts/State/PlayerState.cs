@@ -273,6 +273,7 @@ public class FirstAttackState : StateBase
         Player.CanLook = false;
         Player.CanChange = false;
     }
+
     public override void Exit()
     {
         base.Exit();
@@ -288,7 +289,14 @@ public class FirstAttackState : StateBase
         {
             Player.ChangeState(new IdleState(Player));
         }
+
+        // CanMove가 true일 때 이동 처리
+        if (Player.CanMove && Player.IsMoveInputActive)
+        {
+            Player.ChangeState(new RunState(Player));
+        }
     }
+
     public override void OnInputCallback(InputAction.CallbackContext context)
     {
         if (context.action.name == "DefaultAttack" && context.performed && Player.CanChange)
@@ -300,8 +308,8 @@ public class FirstAttackState : StateBase
             Player.ChangeState(new RunState(Player));
         }
     }
-    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("FirstAttack");
 
+    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("FirstAttack");
 }
 
 public class SecondAttackState : StateBase
@@ -334,6 +342,12 @@ public class SecondAttackState : StateBase
         {
             Player.ChangeState(new IdleState(Player));
         }
+
+        // CanMove가 true일 때 이동 처리
+        if (Player.CanMove && Player.IsMoveInputActive)
+        {
+            Player.ChangeState(new RunState(Player));
+        }
     }
 
     public override void OnInputCallback(InputAction.CallbackContext context)
@@ -351,7 +365,6 @@ public class SecondAttackState : StateBase
     public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("SecondAttack");
 }
 
-
 public class FinishAttackState : StateBase
 {
     public FinishAttackState(PlayerController player) : base(player) { }
@@ -359,7 +372,6 @@ public class FinishAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("finishattack");
         Player._animator.SetBool(Player.IsComboAttack3, true);
         Player.StartAttackMove(1.0f);
         Player.CanMove = false;
@@ -382,6 +394,12 @@ public class FinishAttackState : StateBase
         {
             Player.ChangeState(new IdleState(Player));
         }
+
+        // CanMove가 true일 때 이동 처리
+        if (Player.CanMove && Player.IsMoveInputActive)
+        {
+            Player.ChangeState(new RunState(Player));
+        }
     }
 
     public override void OnInputCallback(InputAction.CallbackContext context)
@@ -394,7 +412,6 @@ public class FinishAttackState : StateBase
 
     public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("FinishAttack");
 }
-
 
 public class HeavyAttackState : StateBase
 {
@@ -410,25 +427,41 @@ public class HeavyAttackState : StateBase
         Player.CanChange = false;
     }
 
+    public override void Exit()
+    {
+        base.Exit();
+        Player._animator.SetBool(Player.IsHeavyAttacking, false);
+    }
+
     public override void ExecuteOnUpdate()
     {
-        // Attack animation has ended
-        if (!Player._animator.GetBool(Player.IsHeavyAttacking))
+        var animatorStateInfo = Player._animator.GetCurrentAnimatorStateInfo(0);
+
+        // HeavyAttack 애니메이션이 끝났는지 확인
+        if (animatorStateInfo.IsName("HeavyAttack") && animatorStateInfo.normalizedTime >= 1.0f)
         {
             Player.ChangeState(new IdleState(Player));
+        }
+
+        // CanMove가 true일 때 이동 처리
+        if (Player.CanMove && Player.IsMoveInputActive)
+        {
+            Player.ChangeState(new RunState(Player));
         }
     }
 
     public override void OnInputCallback(InputAction.CallbackContext context)
     {
-        if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanChange)
+        if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanMove)
         {
             Player.ChangeState(new RunState(Player));
         }
     }
-    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("HeavyAttack");
 
+    public override bool IsTransitioning => !Player._animator.GetCurrentAnimatorStateInfo(0).IsName("HeavyAttack");
 }
+
+
 
 public class JumpHeavyAttackState : StateBase
 {
