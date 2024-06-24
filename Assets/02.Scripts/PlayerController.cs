@@ -38,7 +38,7 @@ public class PlayerController : NetworkBehaviour
     public float _skillAttackDamage = 1500;
     [SyncVar] public float _playerHp = 10000;
 
-    public float DamageAmount { get; set; }
+    [SyncVar] public float DamageAmount;
     public float KnockBackPower { get; set; }
 
     [Header("State")]
@@ -300,22 +300,24 @@ public class PlayerController : NetworkBehaviour
 
 
     [Command]
-    public void CmdHitted()
+    public void CmdHitted(float damaged)
     {
-        RpcHitted();
+        Debug.Log("CmdHitted damaged: " + damaged);
+        RpcHitted(damaged);
     }
 
     [ClientRpc]
-    public void RpcHitted()
+    public void RpcHitted(float damaged)
     {
-        PlayerGetDamaged();
+        Debug.Log("RpcHitted damaged: " + damaged);
+        PlayerGetDamaged(damaged);
         PlayerGetKnockBack();
-        
     }
 
-    private void PlayerGetDamaged()
+    private void PlayerGetDamaged(float damaged)
     {
-        _playerHp -= 100;
+        Debug.Log("PlayerGetDamaged damaged: " + damaged);
+        _playerHp -= damaged;
     }
 
     public void PlayerGetKnockBack()
@@ -323,8 +325,8 @@ public class PlayerController : NetworkBehaviour
         Debug.Log("KnockBackPower");
     }
 
-    public void Hitted()
+    public void Hitted(float damaged)
     {
-       CmdHitted();     
+       CmdHitted(damaged);     
     }
 }
