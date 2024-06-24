@@ -39,7 +39,7 @@ public class PlayerController : NetworkBehaviour
     [SyncVar] public float _playerHp = 10000;
 
     [SyncVar] public float DamageAmount;
-    public float KnockBackPower { get; set; }
+    [SyncVar] public float KnockBackPower = 1;
 
     [Header("State")]
     public IState _curState;
