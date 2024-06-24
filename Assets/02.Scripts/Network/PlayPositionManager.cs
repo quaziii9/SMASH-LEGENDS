@@ -17,11 +17,9 @@ public class PlayPositionManager : NetworkBehaviour
         await UniTask.Delay(800); // 플레이어들이 모두 생성되도록 잠시 대기
 
         GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
-        Debug.Log(playerObjects.Length);
 
         foreach (GameObject player in playerObjects)
         {
-            Debug.Log("fase");
             player.SetActive(false); // 초기 위치 설정 전에 비활성화
             await UniTask.Delay(300); // 플레이어들이 모두 생성되도록 잠시 대기
         }

@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using Mirror;
 using UnityEngine.InputSystem;
+using EventLibrary;
+using EnumTypes;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -11,10 +13,10 @@ public class PlayerController : NetworkBehaviour
     private float maxFallSpeed = 20f; // 피터의 최대 낙하속도
 
     private Vector3 _attackMoveDirection; // 공격 중 이동 방향
-    private float _attackMoveDistance; // 공격 중 이동할 거리
-    private float _attackMoveDuration; // 공격 중 이동하는 데 걸리는 시간
-    private float _attackMoveStartTime; // 공격 중 이동 시작 시간
-    private float _currentMoveDistance; // 현재까지 이동한 거리
+    public float _attackMoveDistance; // 공격 중 이동할 거리
+    public float _attackMoveDuration; // 공격 중 이동하는 데 걸리는 시간
+    public float _attackMoveStartTime; // 공격 중 이동 시작 시간
+    public float _currentMoveDistance; // 현재까지 이동한 거리
 
     public Vector3 _moveDirection;
 
@@ -31,7 +33,7 @@ public class PlayerController : NetworkBehaviour
     [Header("Attack")]
     private float heavyAttackCoolTime = 4f;
     private float currentHeavyAttackCoolTime = 0f; // 현재 쿨타임
-    public int DamageAmount { get; set; }
+    public float DamageAmount { get; set; }
     public float KnockBackPower { get; set; }
 
     [Header("State")]
@@ -49,6 +51,7 @@ public class PlayerController : NetworkBehaviour
     {
         _rigidBody = GetComponent<Rigidbody>();
         _animationController = GetComponent<AnimationController>();
+        EventManager<IngameEvents>.StartListening(IngameEvents.Hitted, Hitted);
     }
 
     private void Start()
@@ -287,4 +290,22 @@ public class PlayerController : NetworkBehaviour
     {
         currentHeavyAttackCoolTime = heavyAttackCoolTime; // 스킬 사용 후 쿨타임 설정
     }
+
+
+    public void Hitted()
+    {
+        PlayerGetDamaged();
+        PlayerGetKnockBack();
+    }
+
+    public void PlayerGetDamaged()
+    {
+        Debug.Log(DamageAmount);
+    }
+
+    public void PlayerGetKnockBack()
+    {
+        Debug.Log(KnockBackPower);
+    }
+
 }

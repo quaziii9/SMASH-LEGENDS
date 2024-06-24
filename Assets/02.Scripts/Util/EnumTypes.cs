@@ -3,7 +3,6 @@ using UnityEngine;
 namespace EnumTypes
 {
 
-
     public enum GlobalEvents
     {
         PlayerDead,
@@ -34,6 +33,10 @@ namespace EnumTypes
         playerDie,
     }
 
+    public enum IngameEvents
+    {
+        Hitted,
+    }
 
     public enum PlayerEvents
     {

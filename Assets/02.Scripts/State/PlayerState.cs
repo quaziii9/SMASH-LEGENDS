@@ -48,8 +48,6 @@ public class JumpUpState : StateBase
 }
 
 
-
-
 public class JumpDownState : StateBase
 {
     public JumpDownState(PlayerController player) : base(player) { }
@@ -317,11 +315,12 @@ public class SecondAttackState : StateBase
 {
     private float _attackMoveDistance = 1.5f; // 공격 중 이동할 거리
     private float _attackMoveDuration = 0.3f; // 공격 중 이동하는 데 걸리는 시간
-
     public SecondAttackState(PlayerController player) : base(player) { }
+    
 
     public override void Enter()
     {
+        //Player._attackmove
         base.Enter();
         Player._animationController.SetBool(Player._animationController.IsComboAttack2, true);
         Player.StartAttackMove(_attackMoveDistance, _attackMoveDuration);
