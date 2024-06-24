@@ -17,19 +17,11 @@ public class WeaponController : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             Debug.Log(other.name);
-            EventManager<IngameEvents>.TriggerEvent(IngameEvents.Hitted);
-            WeaponColliderDisable();
+
+            PlayerController player = other.GetComponent<PlayerController>();
+            player.Hitted();
+
+            weaponCollider.enabled = false;
         }
     }
-
-    public void WeaponColliderEnable()
-    {
-        weaponCollider.enabled = true;
-    }
-
-    public void WeaponColliderDisable()
-    {
-        weaponCollider.enabled = false;
-    }
-
 }

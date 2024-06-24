@@ -3,6 +3,7 @@ using UnityEngine;
 public class AnimationController : MonoBehaviour
 {
     private Animator _animator;
+    public BoxCollider _weaponCollider;
 
     public readonly int IsIdle = Animator.StringToHash("IsIdle");
     public readonly int IsJumpingUp = Animator.StringToHash("IsJumpingUp");
@@ -19,12 +20,17 @@ public class AnimationController : MonoBehaviour
     public readonly int IsComboAttack3 = Animator.StringToHash("IsComboAttack3");
     public readonly int IsSkillAttack = Animator.StringToHash("IsSkillAttack");
 
-    private PlayerController _playerController;
+    private PlayerController Player;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
-        _playerController = GetComponent<PlayerController>();
+        Player = GetComponent<PlayerController>();
+        _weaponCollider = GetComponentInChildren<BoxCollider>();
+        if (_weaponCollider == null)
+        {
+            Debug.LogError("No BoxCollider found in children");
+        }
     }
 
     public void SetBool(int parameter, bool value)
@@ -44,18 +50,34 @@ public class AnimationController : MonoBehaviour
 
     public void StartAttackMovingAnimationEvent()
     {
-        _playerController.StartAttackMove();
+        Player.StartAttackMove();
     }
 
     public void CanMoveAnimationEvent()
     {
-        _playerController.CanMove = true;
-        _playerController.CanLook = true;
+        Player.CanMove = true;
+        Player.CanLook = true;
     }
 
     public void CanChangeAnimationEvent()
     {
-        _playerController.CanChange = true;
-        _playerController.CanLook = true;
+        Player.CanChange = true;
+        Player.CanLook = true;
+    }
+
+    public void WeaponColliderEnable()
+    {
+        _weaponCollider.enabled = true;
+    }
+
+    public void WeaponColliderDisable()
+    {
+        _weaponCollider.enabled = false;
+    }
+
+    public void SkillLastAttackDamage()
+    {
+        Player.DamageAmount = (Player._skillAttackDamage) / 5 + 500;
+
     }
 }

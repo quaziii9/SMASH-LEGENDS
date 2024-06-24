@@ -33,6 +33,9 @@ public class PlayerController : NetworkBehaviour
     [Header("Attack")]
     private float heavyAttackCoolTime = 4f;
     private float currentHeavyAttackCoolTime = 0f; // 현재 쿨타임
+    public float _defaultAttackDamage = 600;
+    public float _heavyAttackDamage = 900;
+    public float _skillAttackDamage = 1500;
     public float DamageAmount { get; set; }
     public float KnockBackPower { get; set; }
 
@@ -49,9 +52,10 @@ public class PlayerController : NetworkBehaviour
 
     private void Awake()
     {
+        
         _rigidBody = GetComponent<Rigidbody>();
         _animationController = GetComponent<AnimationController>();
-        EventManager<IngameEvents>.StartListening(IngameEvents.Hitted, Hitted);
+        //EventManager<IngameEvents>.StartListening(IngameEvents.Hitted, Hitted);
     }
 
     private void Start()
@@ -308,7 +312,7 @@ public class PlayerController : NetworkBehaviour
 
     public void PlayerGetKnockBack()
     {
-        Debug.Log(KnockBackPower);
+        Debug.Log("KnockBackPower");
     }
 
 }
