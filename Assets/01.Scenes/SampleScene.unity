@@ -1011,7 +1011,7 @@ Transform:
   m_GameObject: {fileID: 6973535352667032494}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.2, y: 0.79, z: -0.61}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -1479,7 +1479,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6665421146216056593}
   - component: {fileID: 183528290610141522}
-  - component: {fileID: 5234147619796710901}
   m_Layer: 9
   m_Name: FinishAttackHitZone
   m_TagString: HitZone
@@ -1912,18 +1911,6 @@ Transform:
   - {fileID: 6450656268727318123}
   m_Father: {fileID: 4819147655374762607}
   m_LocalEulerAnglesHint: {x: -0.0000017367101, y: 0.0000006578564, z: 79.16845}
---- !u!114 &4710838853955139338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4710838855612202329}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4710838854063712312
 GameObject:
   m_ObjectHideFlags: 0
@@ -1934,7 +1921,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4710838854063712315}
   - component: {fileID: 4710838855426731140}
-  - component: {fileID: 4710838854787856776}
   m_Layer: 9
   m_Name: AttackHitZone
   m_TagString: HitZone
@@ -1957,30 +1943,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 391760389123430994}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4710838854117791720
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4710838855504371781}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4710838854787856776
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4710838854063712312}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &4710838855426731140
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2027,7 +1989,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4710838855504371780}
   - component: {fileID: 4710838855933776544}
-  - component: {fileID: 4710838854117791720}
   m_Layer: 9
   m_Name: SkillAttackHitZone
   m_TagString: HitZone
@@ -2060,7 +2021,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4710838855612202328}
   - component: {fileID: 4710838855687776879}
-  - component: {fileID: 4710838853955139338}
   m_Layer: 9
   m_Name: HeavyAttackHitZone
   m_TagString: HitZone
@@ -2099,7 +2059,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4710838855802028829}
   - component: {fileID: 4710838855802028828}
-  - component: {fileID: 4710838855938755059}
   m_Layer: 9
   m_Name: JumpAttackHitZone
   m_TagString: HitZone
@@ -2164,18 +2123,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.05, y: 0.01, z: 0.08}
   m_Center: {x: 0, y: 0.01, z: 0}
---- !u!114 &4710838855938755059
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4710838855802028826}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4739507790209289615
 GameObject:
   m_ObjectHideFlags: 0
@@ -2319,18 +2266,6 @@ Transform:
   - {fileID: 2300840018755798198}
   m_Father: {fileID: 3505288670200800167}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5234147619796710901
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2237114103198790180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5267226962264642303
 GameObject:
   m_ObjectHideFlags: 0

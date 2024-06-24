@@ -9,16 +9,6 @@ public class PlayerController : NetworkBehaviour
     public float jumpForce = 14.28f; // 피터의 점프가속도
     private float gravityScale = 36f; // 피터의 중력가속도
     private float maxFallSpeed = 20f; // 피터의 최대 낙하속도
-    public GameObject groundCheck;
-
-    private float groundCheckDistance = 1f; // 지면 체크를 위한 거리
-    private float groundDistance = .4f; // 지면 체크를 위한 거리
-
-    public Rigidbody _rigidBody;
-    public AnimationController _animationController;
-    public Vector3 _moveDirection;
-    public bool _isGrounded;
-    public bool _Ground;
 
     private Vector3 _attackMoveDirection; // 공격 중 이동 방향
     private float _attackMoveDistance; // 공격 중 이동할 거리
@@ -26,10 +16,25 @@ public class PlayerController : NetworkBehaviour
     private float _attackMoveStartTime; // 공격 중 이동 시작 시간
     private float _currentMoveDistance; // 현재까지 이동한 거리
 
+    public Vector3 _moveDirection;
+
+    [Header("GroundCheck")]
+    public GameObject groundCheck;
+    private float groundCheckDistance = 1f; // 지면 체크를 위한 거리
+    private float groundDistance = .4f; // 지면 체크를 위한 거리
+    public bool _isGrounded;
+    public bool _Ground;
+
+    public Rigidbody _rigidBody;
+    public AnimationController _animationController;
+
     [Header("Attack")]
     private float heavyAttackCoolTime = 4f;
     private float currentHeavyAttackCoolTime = 0f; // 현재 쿨타임
+    public int DamageAmount { get; set; }
+    public float KnockBackPower { get; set; }
 
+    [Header("State")]
     public IState _curState;
     public bool CanMove { get; set; }
     public bool CanLook { get; set; }
