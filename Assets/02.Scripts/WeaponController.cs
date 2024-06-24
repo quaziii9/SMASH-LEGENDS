@@ -1,8 +1,5 @@
 using UnityEngine;
-using EventLibrary;
-using EnumTypes;
-using System;
-using UnityEngine.EventSystems;
+using Mirror;
 
 public class WeaponController : MonoBehaviour
 {

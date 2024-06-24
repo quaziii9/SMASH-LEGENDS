@@ -36,6 +36,8 @@ public class PlayerController : NetworkBehaviour
     public float _defaultAttackDamage = 600;
     public float _heavyAttackDamage = 900;
     public float _skillAttackDamage = 1500;
+    [SyncVar] public float _playerHp = 10000;
+
     public float DamageAmount { get; set; }
     public float KnockBackPower { get; set; }
 
@@ -51,11 +53,9 @@ public class PlayerController : NetworkBehaviour
     private float jumpMoveSpeed = 2.2f; // 점프 중 이동 속도
 
     private void Awake()
-    {
-        
+    {     
         _rigidBody = GetComponent<Rigidbody>();
         _animationController = GetComponent<AnimationController>();
-        //EventManager<IngameEvents>.StartListening(IngameEvents.Hitted, Hitted);
     }
 
     private void Start()
@@ -299,15 +299,23 @@ public class PlayerController : NetworkBehaviour
     }
 
 
-    public void Hitted()
+    [Command]
+    public void CmdHitted()
+    {
+        RpcHitted();
+    }
+
+    [ClientRpc]
+    public void RpcHitted()
     {
         PlayerGetDamaged();
         PlayerGetKnockBack();
+        
     }
 
-    public void PlayerGetDamaged()
+    private void PlayerGetDamaged()
     {
-        Debug.Log(DamageAmount);
+        _playerHp -= 100;
     }
 
     public void PlayerGetKnockBack()
@@ -315,4 +323,8 @@ public class PlayerController : NetworkBehaviour
         Debug.Log("KnockBackPower");
     }
 
+    public void Hitted()
+    {
+       CmdHitted();     
+    }
 }

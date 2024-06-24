@@ -26,7 +26,6 @@ public abstract class StateBase : IState
         {
             return;
         }
-
         Player.BindInputCallback(true, OnInputCallback);
         isTransitioning = true;
         Player.StartCoroutine(TransitionDelay()); // 상태 전환 딜레이 시작

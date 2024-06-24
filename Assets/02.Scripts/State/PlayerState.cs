@@ -321,6 +321,7 @@ public class SecondAttackState : StateBase
     {
         base.Enter();
         Player.DamageAmount = Player._defaultAttackDamage / 6;
+        Debug.Log(Player.DamageAmount);
         Player._attackMoveDistance = 1.5f;
         Player._attackMoveDuration = 0.3f;
         Player._animationController.SetBool(Player._animationController.IsComboAttack2, true);
@@ -427,6 +428,7 @@ public class HeavyAttackState : StateBase
     {
         base.Enter();
         Player.DamageAmount = Player._heavyAttackDamage;
+        Debug.Log(Player.DamageAmount);
         Player._attackMoveDistance = 1.5f;
         Player._attackMoveDuration = 0.3f;
         Player._animationController.SetBool(Player._animationController.IsHeavyAttacking, true);
