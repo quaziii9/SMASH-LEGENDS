@@ -277,10 +277,13 @@ public class PlayerController : NetworkBehaviour
         Gizmos.DrawLine(origin, origin + Vector3.down * (groundDistance));
     }
 
-    public void StartAttackMove(float distance, float duration)
-    {
-        _attackMoveDistance = distance;
-        _attackMoveDuration = duration;
+    public void StartAttackMove()
+    {    
+        if(_curState.ToString() == "SkillAttackState")
+        {
+            _attackMoveDistance = 8f;
+            _attackMoveDuration = 1.5f;
+        }
         _attackMoveStartTime = Time.time;
         _currentMoveDistance = 0;
         _attackMoveDirection = transform.forward; // 현재 보고 있는 방향으로 이동    

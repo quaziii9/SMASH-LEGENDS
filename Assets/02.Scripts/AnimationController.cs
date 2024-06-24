@@ -44,7 +44,7 @@ public class AnimationController : MonoBehaviour
 
     public void StartAttackMovingAnimationEvent()
     {
-        _playerController.StartAttackMove(8f, 1.5f);
+        _playerController.StartAttackMove();
     }
 
     public void CanMoveAnimationEvent()

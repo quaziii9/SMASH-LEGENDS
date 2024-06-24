@@ -259,15 +259,15 @@ public class RunState : StateBase
 
 public class FirstAttackState : StateBase
 {
-    private float _attackMoveDistance = 1.5f; // 공격 중 이동할 거리
-    private float _attackMoveDuration = 0.3f; // 공격 중 이동하는 데 걸리는 시간
     public FirstAttackState(PlayerController player) : base(player) { }
 
     public override void Enter()
     {
         base.Enter();
+        Player._attackMoveDistance = 1.5f;
+        Player._attackMoveDuration = 0.3f;
         Player._animationController.SetBool(Player._animationController.IsComboAttack1, true);
-        Player.StartAttackMove(_attackMoveDistance , _attackMoveDuration);
+        Player.StartAttackMove();
         Player.CanMove = false;
         Player.CanLook = false;
         Player.CanChange = false;
@@ -313,17 +313,16 @@ public class FirstAttackState : StateBase
 
 public class SecondAttackState : StateBase
 {
-    private float _attackMoveDistance = 1.5f; // 공격 중 이동할 거리
-    private float _attackMoveDuration = 0.3f; // 공격 중 이동하는 데 걸리는 시간
     public SecondAttackState(PlayerController player) : base(player) { }
     
 
     public override void Enter()
     {
-        //Player._attackmove
         base.Enter();
+        Player._attackMoveDistance = 1.5f;
+        Player._attackMoveDuration = 0.3f;
         Player._animationController.SetBool(Player._animationController.IsComboAttack2, true);
-        Player.StartAttackMove(_attackMoveDistance, _attackMoveDuration);
+        Player.StartAttackMove();
         Player.CanMove = false;
         Player.CanLook = false;
         Player.CanChange = false;
@@ -369,15 +368,15 @@ public class SecondAttackState : StateBase
 
 public class FinishAttackState : StateBase
 {
-    private float _attackMoveDistance = 1.5f; // 공격 중 이동할 거리
-    private float _attackMoveDuration = 0.3f; // 공격 중 이동하는 데 걸리는 시간
     public FinishAttackState(PlayerController player) : base(player) { }
 
     public override void Enter()
     {
         base.Enter();
+        Player._attackMoveDistance = 1.5f;
+        Player._attackMoveDuration = 0.3f;
         Player._animationController.SetBool(Player._animationController.IsComboAttack3, true);
-        Player.StartAttackMove(_attackMoveDistance , _attackMoveDuration);
+        Player.StartAttackMove();
         Player.CanMove = false;
         Player.CanLook = false;
         Player.CanChange = false;
@@ -419,15 +418,15 @@ public class FinishAttackState : StateBase
 
 public class HeavyAttackState : StateBase
 {
-    private float _attackMoveDistance = 1.5f; // 공격 중 이동할 거리
-    private float _attackMoveDuration = 0.3f; // 공격 중 이동하는 데 걸리는 시간
     public HeavyAttackState(PlayerController player) : base(player) { }
 
     public override void Enter()
     {
         base.Enter();
+        Player._attackMoveDistance = 1.5f;
+        Player._attackMoveDuration = 0.3f;
         Player._animationController.SetBool(Player._animationController.IsHeavyAttacking, true);
-        Player.StartAttackMove(_attackMoveDistance, _attackMoveDuration);
+        Player.StartAttackMove();
         Player.CanMove = false;
         Player.CanLook = false;
         Player.CanChange = false;
@@ -472,16 +471,16 @@ public class HeavyAttackState : StateBase
 
 public class JumpHeavyAttackState : StateBase
 {
-    private float _attackMoveDistance = 2.5f; // 공격 중 이동할 거리
-    private float _attackMoveDuration = 0.3f; // 공격 중 이동하는 데 걸리는 시간
     public JumpHeavyAttackState(PlayerController player) : base(player) { }
 
     public override void Enter()
     {
         base.Enter();
+        Player._attackMoveDistance = 2.5f;
+        Player._attackMoveDuration = 0.3f;
         Player._rigidBody.velocity = new Vector3(0, Player.jumpForce, 0);
         Player._animationController.SetBool(Player._animationController.IsJumpHeavyAttacking, true);
-        Player.StartAttackMove(_attackMoveDistance, _attackMoveDuration);
+        Player.StartAttackMove();
         Player._rigidBody.velocity = new Vector3(Player._rigidBody.velocity.x, Player.jumpForce, Player._rigidBody.velocity.z);
         Player.CanMove = false;
         Player.CanLook = false;
