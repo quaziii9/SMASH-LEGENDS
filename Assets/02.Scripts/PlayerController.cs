@@ -39,9 +39,8 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] private float _skillAttackDamage = 1500;
 
     [Header("Kncokback")]
-    [SerializeField] private float _defaultAttackKnockBackPower = 3f;
-    [SerializeField] private float _heavyAttackKnockBackPower = 7f;
-   
+    private float _defaultAttackKnockBackPower = 2.8f;
+    private float _heavyAttackKnockBackPower = 8f;
 
     [SyncVar] public float _playerHp = 10000;
 
