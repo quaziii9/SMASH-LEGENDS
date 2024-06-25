@@ -315,7 +315,7 @@ public class FirstAttackState : StateBase
 public class SecondAttackState : StateBase
 {
     public SecondAttackState(PlayerController player) : base(player) { }
-    
+
 
     public override void Enter()
     {
@@ -555,7 +555,7 @@ public class SkillAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player.DamageAmount = (Player._skillAttackDamage - 500) / 5 ;
+        Player.DamageAmount = (Player._skillAttackDamage - 500) / 5;
         Player._animationController.SetBool(Player._animationController.IsSkillAttack, true);
         Player.CanMove = false;
         Player.CanLook = false;

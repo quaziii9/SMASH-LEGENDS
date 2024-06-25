@@ -38,8 +38,8 @@ public class PlayerController : NetworkBehaviour
     public float _skillAttackDamage = 1500;
     [SyncVar] public float _playerHp = 10000;
 
-    public float DamageAmount { get; set; }
-    public float KnockBackPower { get; set; }
+    [SyncVar] public float DamageAmount;
+    [SyncVar] public float KnockBackPower = 1;
 
     [Header("State")]
     public IState _curState;
@@ -53,7 +53,7 @@ public class PlayerController : NetworkBehaviour
     private float jumpMoveSpeed = 2.2f; // 점프 중 이동 속도
 
     private void Awake()
-    {     
+    {
         _rigidBody = GetComponent<Rigidbody>();
         _animationController = GetComponent<AnimationController>();
     }
@@ -282,8 +282,8 @@ public class PlayerController : NetworkBehaviour
     }
 
     public void StartAttackMove()
-    {    
-        if(_curState.ToString() == "SkillAttackState")
+    {
+        if (_curState.ToString() == "SkillAttackState")
         {
             _attackMoveDistance = 8f;
             _attackMoveDuration = 1.5f;
@@ -300,22 +300,24 @@ public class PlayerController : NetworkBehaviour
 
 
     [Command]
-    public void CmdHitted()
+    public void CmdHitted(float damaged)
     {
-        RpcHitted();
+        Debug.Log("CmdHitted damaged: " + damaged);
+        RpcHitted(damaged);
     }
 
     [ClientRpc]
-    public void RpcHitted()
+    public void RpcHitted(float damaged)
     {
-        PlayerGetDamaged();
+        Debug.Log("RpcHitted damaged: " + damaged);
+        PlayerGetDamaged(damaged);
         PlayerGetKnockBack();
-        
     }
 
-    private void PlayerGetDamaged()
+    private void PlayerGetDamaged(float damaged)
     {
-        _playerHp -= 100;
+        Debug.Log("PlayerGetDamaged damaged: " + damaged);
+        _playerHp -= damaged;
     }
 
     public void PlayerGetKnockBack()
@@ -323,8 +325,8 @@ public class PlayerController : NetworkBehaviour
         Debug.Log("KnockBackPower");
     }
 
-    public void Hitted()
+    public void Hitted(float damaged)
     {
-       CmdHitted();     
+        CmdHitted(damaged);
     }
 }
