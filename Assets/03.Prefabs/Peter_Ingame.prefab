@@ -712,6 +712,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 678e8e692e0c928428a378536ad698cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!1 &2909616071555852607
 GameObject:
   m_ObjectHideFlags: 0
@@ -1190,12 +1193,23 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   jumpForce: 14.28
+  _attackMoveDistance: 0
+  _attackMoveDuration: 0
+  _attackMoveStartTime: 0
+  _currentMoveDistance: 0
   _moveDirection: {x: 0, y: 0, z: 0}
   groundCheck: {fileID: 8575020770430485035}
   _isGrounded: 0
   _Ground: 0
   _rigidBody: {fileID: 0}
   _animationController: {fileID: 0}
+  _defaultAttackDamage: 600
+  _heavyAttackDamage: 900
+  _skillAttackDamage: 1500
+  _playerHp: 10000
+  DamageAmount: 0
+  KnockBackPower: 1
+  _curStateString: 
 --- !u!114 &1083122375429704005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1307,6 +1321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 262d4c4575b7a09468e96a585eba6fdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _weaponCollider: {fileID: 0}
 --- !u!114 &7702634980453190979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1331,6 +1346,8 @@ MonoBehaviour:
   - {fileID: 4924041956568858271, guid: 34b26521f87033d41b237a70e8779175, type: 3}
   - {fileID: 2326422481478165339, guid: ca19f25a857cde849b776c701dfda18e, type: 3}
   - {fileID: 164321923476620983, guid: 3e7d3149614c4f3468faf3c7f4b5e2d4, type: 3}
+  - {fileID: 6384743031000915386, guid: 83193ff730ad8484490422c01dfa8d9f, type: 3}
+  - {fileID: 1978237871136502195, guid: 7332fe29a9d6f134c8f3f4ecf65dbb97, type: 3}
   _dieEffect: {fileID: 5560711985344258914, guid: 612a1d8e5fbaf8a4a9fa75c2e78bbc26, type: 3}
 --- !u!1 &3785853611246990569
 GameObject:
