@@ -65,7 +65,7 @@ public class PlayerController : NetworkBehaviour
         if (isLocalPlayer)
         {
             ChangeState(new IdleState(this));
-            //_curStateString = _curState.ToString();
+            _curStateString = _curState.ToString();
             currentHeavyAttackCoolTime = 0f;
         }
     }
@@ -124,8 +124,6 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-
-
     [Command]
     void CmdUpdateState(string newState)
     {
@@ -133,8 +131,7 @@ public class PlayerController : NetworkBehaviour
     }
 
     void OnStateChanged(string oldState, string newState)
-    {
-        Debug.Log($"State changed from {oldState} to {newState}");
+    {   
         switch(_curStateString)
         {
             case nameof(FirstAttackState):
@@ -156,8 +153,11 @@ public class PlayerController : NetworkBehaviour
             case nameof(SkillAttackState):
                 DamageAmount = (_skillAttackDamage - 500) / 5;
                 break;
-
         }
+    }
+    public void SkillLastAttackDamage()
+    {
+        DamageAmount = _skillAttackDamage/ 5 + 500;
     }
 
 
@@ -344,21 +344,18 @@ public class PlayerController : NetworkBehaviour
     [Command]
     public void CmdHitted(float damaged)
     {
-        Debug.Log("CmdHitted damaged: " + damaged);
         RpcHitted(damaged);
     }
 
     [ClientRpc]
     public void RpcHitted(float damaged)
     {
-        Debug.Log("RpcHitted damaged: " + damaged);
         PlayerGetDamaged(damaged);
         PlayerGetKnockBack();
     }
 
     private void PlayerGetDamaged(float damaged)
     {
-        Debug.Log("PlayerGetDamaged damaged: " + damaged);
         _playerHp -= damaged;
     }
 

@@ -75,9 +75,5 @@ public class AnimationController : MonoBehaviour
         _weaponCollider.enabled = false;
     }
 
-    public void SkillLastAttackDamage()
-    {
-        Player.DamageAmount = (Player._skillAttackDamage) / 5 + 500;
 
-    }
 }
