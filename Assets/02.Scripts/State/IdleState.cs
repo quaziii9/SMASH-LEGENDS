@@ -27,6 +27,7 @@ public class IdleState : StateBase
     {
         if (Player._moveDirection != Vector3.zero)
         {
+            Debug.Log("change");
             Player.ChangeState(new RunState(Player));
         }
 
