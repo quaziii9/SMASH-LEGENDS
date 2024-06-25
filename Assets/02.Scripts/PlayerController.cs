@@ -148,39 +148,44 @@ public class PlayerController : NetworkBehaviour
     {   
         switch(_curStateString)
         {
-            case nameof(FirstAttackState):
-            case nameof(FinishAttackState):
+            case nameof(FirstAttackState):            
                 DamageAmount = _defaultAttackDamage / 3;
                 KnockBackPower = _defaultAttackKnockBackPower;
-                KnockBackDireciton = transform.forward + transform.up * 0.1f;
+                KnockBackDireciton = transform.forward + transform.up * 0.5f;
                 break;
             case nameof(SecondAttackState):
                 DamageAmount = _defaultAttackDamage / 6;
                 KnockBackPower = _defaultAttackKnockBackPower;
-                KnockBackDireciton = transform.forward + transform.up * 0.1f;
+                KnockBackDireciton = transform.forward + transform.up * 0.5f;
+                break;
+            case nameof(FinishAttackState):
+                DamageAmount = _defaultAttackDamage / 3;
+                KnockBackPower = _heavyAttackKnockBackPower;
+                KnockBackDireciton = transform.forward + transform.up;
                 break;
             case nameof(JumpAttackState):
                 DamageAmount = _defaultAttackDamage * 0.6f;
                 KnockBackPower = _heavyAttackKnockBackPower;
-                KnockBackDireciton = transform.forward + transform.up * 0.1f;
+                KnockBackDireciton = transform.forward + transform.up;
                 break;
             case nameof(HeavyAttackState):
                 DamageAmount = _heavyAttackDamage;
                 KnockBackPower = _heavyAttackKnockBackPower;
-                KnockBackDireciton = transform.forward + transform.up * 0.1f;
+                KnockBackDireciton = transform.forward + transform.up;
                 break;
             case nameof(JumpHeavyAttackState):
                 DamageAmount = _heavyAttackDamage / 3 * 2;
                 KnockBackPower = _heavyAttackKnockBackPower;
-                KnockBackDireciton = transform.forward + transform.up * 0.1f;
+                KnockBackDireciton = transform.forward + transform.up;
                 break;
             case nameof(SkillAttackState):
                 DamageAmount = (_skillAttackDamage - 500) / 5;
                 KnockBackPower = _heavyAttackKnockBackPower;
-                KnockBackDireciton = transform.forward + transform.up * 0.1f;
+                KnockBackDireciton = transform.forward + transform.up;
                 break;
         }
     }
+
     public void SkillLastAttackDamage()
     {
         DamageAmount = _skillAttackDamage/ 5 + 500;
