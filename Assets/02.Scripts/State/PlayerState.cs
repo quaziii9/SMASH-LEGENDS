@@ -20,7 +20,7 @@ public class JumpUpState : StateBase
 
     public override void ExecuteOnUpdate()
     {
-        if (Player._rigidBody.velocity.y < -1f)
+        if (Player._rigidbody.velocity.y < -1f)
         {
             Player.ChangeState(new JumpDownState(Player));
         }
@@ -240,12 +240,12 @@ public class RunState : StateBase
         }
         else if (context.action.name == "DefaultAttack" && context.performed)
         {
-            Player._rigidBody.velocity = new Vector3(0, Player._rigidBody.velocity.y, 0);
+            Player._rigidbody.velocity = new Vector3(0, Player._rigidbody.velocity.y, 0);
             Player.ChangeState(new FirstAttackState(Player));
         }
         else if (context.action.name == "HeavyAttack" && context.performed)
         {
-            Player._rigidBody.velocity = new Vector3(0, Player._rigidBody.velocity.y, 0);
+            Player._rigidbody.velocity = new Vector3(0, Player._rigidbody.velocity.y, 0);
             Player.ChangeState(new HeavyAttackState(Player));
         }
         else if (context.action.name == "SkillAttack" && context.performed)
@@ -480,10 +480,10 @@ public class JumpHeavyAttackState : StateBase
         base.Enter();
         Player._attackMoveDistance = 2.5f;
         Player._attackMoveDuration = 0.3f;
-        Player._rigidBody.velocity = new Vector3(0, Player.jumpForce, 0);
+        Player._rigidbody.velocity = new Vector3(0, Player.jumpForce, 0);
         Player._animationController.SetBool(Player._animationController.IsJumpHeavyAttacking, true);
         Player.StartAttackMove();
-        Player._rigidBody.velocity = new Vector3(Player._rigidBody.velocity.x, Player.jumpForce, Player._rigidBody.velocity.z);
+        Player._rigidbody.velocity = new Vector3(Player._rigidbody.velocity.x, Player.jumpForce, Player._rigidbody.velocity.z);
         Player.CanMove = false;
         Player.CanLook = false;
     }

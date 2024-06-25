@@ -28,19 +28,27 @@ public class PlayerController : NetworkBehaviour
     public bool _isGrounded;
     public bool _Ground;
 
-    public Rigidbody _rigidBody;
+    public Rigidbody _rigidbody;
     public AnimationController _animationController;
 
     [Header("Attack")]
     private float heavyAttackCoolTime = 4f;
     private float currentHeavyAttackCoolTime = 0f; // 현재 쿨타임
-    public float _defaultAttackDamage = 600;
-    public float _heavyAttackDamage = 900;
-    public float _skillAttackDamage = 1500;
+    [SerializeField] private float _defaultAttackDamage = 600;
+    [SerializeField] private float _heavyAttackDamage = 900;
+    [SerializeField] private float _skillAttackDamage = 1500;
+
+    [Header("Kncokback")]
+    [SerializeField] private float _defaultAttackKnockBackPower = 3f;
+    [SerializeField] private float _heavyAttackKnockBackPower = 7f;
+   
+
     [SyncVar] public float _playerHp = 10000;
 
     [SyncVar] public float DamageAmount;
     [SyncVar] public float KnockBackPower = 1;
+    [SyncVar] public Vector3 KnockBackDireciton;
+
 
     [Header("State")]
     public IState _curState;
@@ -56,7 +64,7 @@ public class PlayerController : NetworkBehaviour
 
     private void Awake()
     {
-        _rigidBody = GetComponent<Rigidbody>();
+        _rigidbody = GetComponent<Rigidbody>();
         _animationController = GetComponent<AnimationController>();
     }
 
@@ -137,21 +145,33 @@ public class PlayerController : NetworkBehaviour
             case nameof(FirstAttackState):
             case nameof(FinishAttackState):
                 DamageAmount = _defaultAttackDamage / 3;
+                KnockBackPower = _defaultAttackKnockBackPower;
+                KnockBackDireciton = transform.forward;
                 break;
             case nameof(SecondAttackState):
                 DamageAmount = _defaultAttackDamage / 6;
+                KnockBackPower = _defaultAttackKnockBackPower;
+                KnockBackDireciton = transform.forward;
                 break;
             case nameof(JumpAttackState):
                 DamageAmount = _defaultAttackDamage * 0.6f;
+                KnockBackPower = _heavyAttackKnockBackPower;
+                KnockBackDireciton = transform.forward + transform.up;
                 break;
             case nameof(HeavyAttackState):
                 DamageAmount = _heavyAttackDamage;
+                KnockBackPower = _heavyAttackKnockBackPower;
+                KnockBackDireciton = transform.forward;
                 break;
             case nameof(JumpHeavyAttackState):
                 DamageAmount = _heavyAttackDamage / 3 * 2;
+                KnockBackPower = _heavyAttackKnockBackPower;
+                KnockBackDireciton = transform.forward + transform.up;
                 break;
             case nameof(SkillAttackState):
                 DamageAmount = (_skillAttackDamage - 500) / 5;
+                KnockBackPower = _heavyAttackKnockBackPower;
+                KnockBackDireciton = transform.forward + transform.up;
                 break;
         }
     }
@@ -238,7 +258,7 @@ public class PlayerController : NetworkBehaviour
             float distanceToMove = Mathf.Lerp(0, _attackMoveDistance, fraction);
 
             Vector3 forwardMovement = _attackMoveDirection * (distanceToMove - _currentMoveDistance);
-            _rigidBody.MovePosition(_rigidBody.position + forwardMovement);
+            _rigidbody.MovePosition(_rigidbody.position + forwardMovement);
 
             _currentMoveDistance = distanceToMove;
 
@@ -258,8 +278,8 @@ public class PlayerController : NetworkBehaviour
         if (CanMove)
         {
             float currentMoveSpeed = isJumping && isIdleJump ? jumpMoveSpeed : moveSpeed;
-            Vector3 velocity = new Vector3(_moveDirection.x * currentMoveSpeed, _rigidBody.velocity.y, _moveDirection.z * currentMoveSpeed);
-            _rigidBody.velocity = velocity;
+            Vector3 velocity = new Vector3(_moveDirection.x * currentMoveSpeed, _rigidbody.velocity.y, _moveDirection.z * currentMoveSpeed);
+            _rigidbody.velocity = velocity;
         }
     }
 
@@ -268,13 +288,13 @@ public class PlayerController : NetworkBehaviour
         if (_moveDirection != Vector3.zero)
         {
             Quaternion targetAngle = Quaternion.LookRotation(_moveDirection);
-            _rigidBody.rotation = targetAngle;
+            _rigidbody.rotation = targetAngle;
         }
     }
 
     public void Jump(bool idleJump = false)
     {
-        _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, jumpForce, _rigidBody.velocity.z);
+        _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, jumpForce, _rigidbody.velocity.z);
         isJumping = true;
         isIdleJump = idleJump;
     }
@@ -289,18 +309,18 @@ public class PlayerController : NetworkBehaviour
     {
         if (!_isGrounded)
         {
-            _rigidBody.AddForce(Vector3.down * gravityScale, ForceMode.Acceleration);
+            _rigidbody.AddForce(Vector3.down * gravityScale, ForceMode.Acceleration);
 
-            if (_rigidBody.velocity.y < 0)
+            if (_rigidbody.velocity.y < 0)
             {
-                _rigidBody.velocity += Vector3.up * gravityScale * 0.5f * Time.fixedDeltaTime; // 감속 비율 적용
+                _rigidbody.velocity += Vector3.up * gravityScale * 0.5f * Time.fixedDeltaTime; // 감속 비율 적용
             }
         }
 
         // 최대 낙하속도를 초과하지 않도록 제한
-        if (_rigidBody.velocity.y < -maxFallSpeed)
+        if (_rigidbody.velocity.y < -maxFallSpeed)
         {
-            _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, -maxFallSpeed, _rigidBody.velocity.z);
+            _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, -maxFallSpeed, _rigidbody.velocity.z);
         }
     }
 
@@ -342,16 +362,16 @@ public class PlayerController : NetworkBehaviour
 
 
     [Command]
-    public void CmdHitted(float damaged)
+    public void CmdHitted(float damaged, float KnockBackPower,Vector3 KnockBackDireciton)
     {
-        RpcHitted(damaged);
+        RpcHitted(damaged, KnockBackPower, KnockBackDireciton);
     }
 
     [ClientRpc]
-    public void RpcHitted(float damaged)
+    public void RpcHitted(float damaged, float KnockBackPower, Vector3 KnockBackDireciton)
     {
         PlayerGetDamaged(damaged);
-        PlayerGetKnockBack();
+        PlayerGetKnockBack(KnockBackPower, KnockBackDireciton);
     }
 
     private void PlayerGetDamaged(float damaged)
@@ -359,13 +379,15 @@ public class PlayerController : NetworkBehaviour
         _playerHp -= damaged;
     }
 
-    public void PlayerGetKnockBack()
+    public void PlayerGetKnockBack(float KnockBackPower, Vector3 KnockBackDireciton)
     {
-        Debug.Log("KnockBackPower");
+        _rigidbody.velocity = Vector3.zero;
+        Debug.Log(KnockBackPower);
+        _rigidbody.AddForce(KnockBackDireciton * KnockBackPower, ForceMode.Impulse);
     }
 
-    public void Hitted(float damaged)
+    public void Hitted(float damaged, float KnockBackPower, Vector3 KnockBackDireciton)
     {
-        CmdHitted(damaged);
+        CmdHitted(damaged, KnockBackPower, KnockBackDireciton);
     }
 }

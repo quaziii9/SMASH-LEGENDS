@@ -10,7 +10,7 @@ public class IdleState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._rigidBody.velocity = new Vector3(0, Player._rigidBody.velocity.y, 0);
+        Player._rigidbody.velocity = new Vector3(0, Player._rigidbody.velocity.y, 0);
         Player._animationController.SetBool(Player._animationController.IsIdle, true);
         Player.CanMove = true;
         Player.CanLook = true;

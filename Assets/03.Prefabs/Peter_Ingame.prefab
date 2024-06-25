@@ -696,7 +696,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.005196596, y: 0.022243163, z: 0.0035876108}
   m_Center: {x: 0.000039950348, y: -0.00011225289, z: 0.00012692159}
@@ -1158,8 +1158,8 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3697806329183979239}
   serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
+  m_Mass: 0.05
+  m_Drag: 0.5
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -1201,14 +1201,17 @@ MonoBehaviour:
   groundCheck: {fileID: 8575020770430485035}
   _isGrounded: 0
   _Ground: 0
-  _rigidBody: {fileID: 0}
+  _rigidbody: {fileID: 0}
   _animationController: {fileID: 0}
   _defaultAttackDamage: 600
   _heavyAttackDamage: 900
   _skillAttackDamage: 1500
+  _defaultAttackKncokBackPower: 0.8
+  _HeavyAttackKncokBackPower: 0.66
   _playerHp: 10000
   DamageAmount: 0
   KnockBackPower: 1
+  KnockBackDireciton: {x: 0, y: 0, z: 0}
   _curStateString: 
 --- !u!114 &1083122375429704005
 MonoBehaviour:
