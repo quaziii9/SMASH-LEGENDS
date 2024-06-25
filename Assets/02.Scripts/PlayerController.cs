@@ -3,9 +3,6 @@ using UnityEngine;
 using Mirror;
 using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks;
-using EventLibrary;
-using EnumTypes;
-using static UnityEngine.CullingGroup;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -362,7 +359,7 @@ public class PlayerController : NetworkBehaviour
         if (_curState.ToString() == "SkillAttackState")
         {
             _attackMoveDistance = 8f;
-            _attackMoveDuration = 1.5f;
+            _attackMoveDuration = 1.2f;
         }
         _attackMoveStartTime = Time.time;
         _currentMoveDistance = 0;

@@ -6,6 +6,7 @@ public class AnimationController : MonoBehaviour
     public BoxCollider _weaponCollider;
 
     public readonly int IsIdle = Animator.StringToHash("IsIdle");
+    public readonly int IsRunning = Animator.StringToHash("IsRunning");
     public readonly int IsJumpingUp = Animator.StringToHash("IsJumpingUp");
     public readonly int IsJumpingDown = Animator.StringToHash("IsJumpingDown");
     public readonly int IsLanding = Animator.StringToHash("IsLanding");
@@ -14,7 +15,6 @@ public class AnimationController : MonoBehaviour
     public readonly int IsHeavyAttacking = Animator.StringToHash("IsHeavyAttacking");
     public readonly int IsJumpHeavyAttacking = Animator.StringToHash("IsJumpHeavyAttacking");
     public readonly int IsHeavyLanding = Animator.StringToHash("IsHeavyLanding");
-    public readonly int IsRunning = Animator.StringToHash("IsRunning");
     public readonly int IsComboAttack1 = Animator.StringToHash("IsComboAttack1");
     public readonly int IsComboAttack2 = Animator.StringToHash("IsComboAttack2");
     public readonly int IsComboAttack3 = Animator.StringToHash("IsComboAttack3");
