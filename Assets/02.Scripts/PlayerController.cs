@@ -4,6 +4,7 @@ using Mirror;
 using UnityEngine.InputSystem;
 using EventLibrary;
 using EnumTypes;
+using static UnityEngine.CullingGroup;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -43,6 +44,7 @@ public class PlayerController : NetworkBehaviour
 
     [Header("State")]
     public IState _curState;
+    [SyncVar(hook = nameof(OnStateChanged))] public string _curStateString;
     public bool CanMove { get; set; }
     public bool CanLook { get; set; }
     public bool CanChange { get; set; }
@@ -63,6 +65,7 @@ public class PlayerController : NetworkBehaviour
         if (isLocalPlayer)
         {
             ChangeState(new IdleState(this));
+            //_curStateString = _curState.ToString();
             currentHeavyAttackCoolTime = 0f;
         }
     }
@@ -116,8 +119,47 @@ public class PlayerController : NetworkBehaviour
         if (_curState != null)
         {
             _curState.Enter();
+            _curStateString = _curState.ToString();
+            CmdUpdateState(_curStateString);
         }
     }
+
+
+
+    [Command]
+    void CmdUpdateState(string newState)
+    {
+        _curStateString = newState;
+    }
+
+    void OnStateChanged(string oldState, string newState)
+    {
+        Debug.Log($"State changed from {oldState} to {newState}");
+        switch(_curStateString)
+        {
+            case nameof(FirstAttackState):
+            case nameof(FinishAttackState):
+                DamageAmount = _defaultAttackDamage / 3;
+                break;
+            case nameof(SecondAttackState):
+                DamageAmount = _defaultAttackDamage / 6;
+                break;
+            case nameof(JumpAttackState):
+                DamageAmount = _defaultAttackDamage * 0.6f;
+                break;
+            case nameof(HeavyAttackState):
+                DamageAmount = _heavyAttackDamage;
+                break;
+            case nameof(JumpHeavyAttackState):
+                DamageAmount = _heavyAttackDamage / 3 * 2;
+                break;
+            case nameof(SkillAttackState):
+                DamageAmount = (_skillAttackDamage - 500) / 5;
+                break;
+
+        }
+    }
+
 
     public void BindInputCallback(bool isBind, Action<InputAction.CallbackContext> callback)
     {

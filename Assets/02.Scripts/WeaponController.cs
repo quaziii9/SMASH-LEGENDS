@@ -15,7 +15,6 @@ public class WeaponController : NetworkBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            //GetPlayerDamageAmount();
             Debug.Log(Player.DamageAmount);
             PlayerController otherplayer = other.GetComponent<PlayerController>();
             otherplayer.Hitted(Player.DamageAmount);

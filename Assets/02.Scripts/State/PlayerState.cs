@@ -264,7 +264,7 @@ public class FirstAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player.DamageAmount = Player._defaultAttackDamage / 3;
+        //Player.DamageAmount = Player._defaultAttackDamage / 3;
         Player._attackMoveDistance = 1.5f;
         Player._attackMoveDuration = 0.3f;
         Player._animationController.SetBool(Player._animationController.IsComboAttack1, true);
@@ -320,7 +320,7 @@ public class SecondAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player.DamageAmount = Player._defaultAttackDamage / 6;
+       // Player.DamageAmount = Player._defaultAttackDamage / 6;
         Debug.Log(Player.DamageAmount);
         Player._attackMoveDistance = 1.5f;
         Player._attackMoveDuration = 0.3f;
@@ -376,7 +376,7 @@ public class FinishAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player.DamageAmount = Player._defaultAttackDamage / 3;
+        //Player.DamageAmount = Player._defaultAttackDamage / 3;
         Player._attackMoveDistance = 1.5f;
         Player._attackMoveDuration = 0.3f;
         Player._animationController.SetBool(Player._animationController.IsComboAttack3, true);
@@ -427,7 +427,7 @@ public class HeavyAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player.DamageAmount = Player._heavyAttackDamage;
+        //Player.DamageAmount = Player._heavyAttackDamage;
         Debug.Log(Player.DamageAmount);
         Player._attackMoveDistance = 1.5f;
         Player._attackMoveDuration = 0.3f;
@@ -482,7 +482,7 @@ public class JumpHeavyAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player.DamageAmount = Player._heavyAttackDamage / 3 * 2;
+        //Player.DamageAmount = Player._heavyAttackDamage / 3 * 2;
         Player._attackMoveDistance = 2.5f;
         Player._attackMoveDuration = 0.3f;
         Player._rigidBody.velocity = new Vector3(0, Player.jumpForce, 0);
@@ -555,7 +555,7 @@ public class SkillAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player.DamageAmount = (Player._skillAttackDamage - 500) / 5;
+        //Player.DamageAmount = (Player._skillAttackDamage - 500) / 5;
         Player._animationController.SetBool(Player._animationController.IsSkillAttack, true);
         Player.CanMove = false;
         Player.CanLook = false;
