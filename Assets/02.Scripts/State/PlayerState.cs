@@ -739,7 +739,122 @@ public class DownIdleState : StateBase
         Player._animationController.SetBool(Player._animationController.IsDownIdle, false);
     }
 
+    public override void ExecuteOnUpdate()
+    {
+        if (Player._moveDirection.z > 0 || Player._moveDirection.x!=0) // 방향키 위나 W
+        {
+            Player.ChangeState(new RollUpFrontState(Player));
+        }
+        else if (Player._moveDirection.z < 0) // 방향키 아래나 S
+        {
+            Player.ChangeState(new RollUpBackState(Player));
+        }
+    }
 
+    public override void OnInputCallback(InputAction.CallbackContext context)
+    {       
+
+        if (context.action.name == "Jump" && context.performed)
+        {
+            Player.ChangeState(new StandUpState(Player));
+        }
+    }
 
     public override bool IsTransitioning => !Player._animationController.GetCurrentAnimatorStateInfo(0).IsName("HitUp");
 }
+
+public class RollUpFrontState : StateBase
+{
+    public RollUpFrontState(PlayerController player) : base(player) { }
+
+    public override void Enter()
+    {
+        base.Enter();
+        Player.IsHitted = false;
+        Player._animationController.SetBool(Player._animationController.IsRollUpFront, true);
+        Player.CanMove = false;
+        Player.CanLook = false;
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        Player._animationController.SetBool(Player._animationController.IsRollUpFront, false);
+    }
+
+    public override void ExecuteOnUpdate()
+    {
+        AnimatorStateInfo animatorStateInfo = Player._animationController.GetCurrentAnimatorStateInfo(0);
+        if (animatorStateInfo.IsName("RollUpFront") && animatorStateInfo.normalizedTime >= .9f)
+        {
+            Player.ChangeState(new IdleState(Player));
+        }
+    }
+
+    public override bool IsTransitioning => !Player._animationController.GetCurrentAnimatorStateInfo(0).IsName("HitUp");
+}
+
+public class RollUpBackState : StateBase
+{
+    public RollUpBackState(PlayerController player) : base(player) { }
+
+    public override void Enter()
+    {
+        base.Enter();
+        Player.IsHitted = false;
+        Player._animationController.SetBool(Player._animationController.IsRollUpBack, true);
+        Player.CanMove = false;
+        Player.CanLook = false;
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        Player._animationController.SetBool(Player._animationController.IsRollUpBack, false);
+    }
+
+    public override void ExecuteOnUpdate()
+    {
+        AnimatorStateInfo animatorStateInfo = Player._animationController.GetCurrentAnimatorStateInfo(0);
+        if (animatorStateInfo.IsName("RollUpBack") && animatorStateInfo.normalizedTime >= .9f)
+        {
+            Player.ChangeState(new IdleState(Player));
+        }
+    }
+
+    public override bool IsTransitioning => !Player._animationController.GetCurrentAnimatorStateInfo(0).IsName("HitUp");
+}
+
+
+public class StandUpState : StateBase
+{
+    public StandUpState(PlayerController player) : base(player) { }
+
+    public override void Enter()
+    {
+        base.Enter();
+        Player.IsHitted = false;
+        Player._animationController.SetBool(Player._animationController.IsStandUp, true);
+        Player.CanMove = false;
+        Player.CanLook = false;
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        Player._animationController.SetBool(Player._animationController.IsStandUp, false);
+    }
+
+    public override void ExecuteOnUpdate()
+    {
+        AnimatorStateInfo animatorStateInfo = Player._animationController.GetCurrentAnimatorStateInfo(0);
+        if (animatorStateInfo.IsName("StandUp") && animatorStateInfo.normalizedTime >= .9f)
+        {
+            Player.ChangeState(new IdleState(Player));
+        }
+    }
+
+    public override bool IsTransitioning => !Player._animationController.GetCurrentAnimatorStateInfo(0).IsName("HitUp");
+}
+
+

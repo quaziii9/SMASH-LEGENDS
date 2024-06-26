@@ -122,6 +122,29 @@ public class PlayerController : NetworkBehaviour
         {
             _curState.OnInputCallback(new InputAction.CallbackContext());
         }
+
+        Vector2 moveInput = Vector2.zero;
+        if (keyboard.wKey.isPressed || keyboard.upArrowKey.isPressed)
+        {
+            moveInput.y = 1;
+        }
+        else if (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed)
+        {
+            moveInput.y = -1;
+        }
+
+        if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed)
+        {
+            moveInput.x = -1;
+        }
+        else if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed)
+        {
+            moveInput.x = 1;
+        }
+
+        _moveDirection = new Vector3(moveInput.x, 0, moveInput.y);
+
+        _curState?.ExecuteOnUpdate();
     }
 
     public void ChangeState(IState newState)
@@ -254,7 +277,7 @@ public class PlayerController : NetworkBehaviour
         _moveDirection = context.performed ? new Vector3(input.x, 0, input.y) : Vector3.zero;
         IsMoveInputActive = context.performed;
 
-        _curState?.OnInputCallback(context);
+       // _curState?.OnInputCallback(context);
     }
 
     public void OnDefaultAttackInput(InputAction.CallbackContext context)
