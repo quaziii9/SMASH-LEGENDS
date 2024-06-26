@@ -177,7 +177,7 @@ public class PlayerController : NetworkBehaviour
                 break;
             case nameof(SkillAttackState):
                 DamageAmount = (_skillAttackDamage - 500) / 5;
-                KnockBackPower = _heavyAttackKnockBackPower;
+                KnockBackPower = _defaultAttackKnockBackPower;
                 KnockBackDireciton = transform.forward + transform.up;
                 break;
         }
@@ -186,6 +186,7 @@ public class PlayerController : NetworkBehaviour
     public void SkillLastAttackDamage()
     {
         DamageAmount = _skillAttackDamage/ 5 + 500;
+        KnockBackPower = _heavyAttackKnockBackPower;
     }
 
 

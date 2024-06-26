@@ -29,16 +29,16 @@ public class PlayPositionManager : NetworkBehaviour
             case 1:
                 playerObjects[0].transform.position = startPosition1;
                 playerObjects[0].SetActive(true);
-                Debug.Log(playerObjects[0].transform.position);
+                //Debug.Log(playerObjects[0].transform.position);
                 break;
             case 2:
                 playerObjects[0].transform.position = startPosition1;
                 playerObjects[0].SetActive(true);
-                Debug.Log(playerObjects[0].transform.position);
+                //Debug.Log(playerObjects[0].transform.position);
                 await UniTask.Delay(200);
                 playerObjects[1].transform.position = startPosition2;
                 playerObjects[1].SetActive(true);
-                Debug.Log(playerObjects[1].transform.position);
+                //Debug.Log(playerObjects[1].transform.position);
                 break;
         }
     }
