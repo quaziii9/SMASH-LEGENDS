@@ -18,7 +18,7 @@ public class WeaponController : NetworkBehaviour
             Debug.Log(Player.DamageAmount);
             Debug.Log(Player.KnockBackPower);
             PlayerController otherplayer = other.GetComponent<PlayerController>();
-            otherplayer.Hitted(Player.DamageAmount, Player.KnockBackPower, Player.KnockBackDireciton);
+            otherplayer.Hitted(Player.DamageAmount, Player.KnockBackPower, Player.KnockBackDireciton, Player.hitType);
 
             weaponCollider.enabled = false;
         }

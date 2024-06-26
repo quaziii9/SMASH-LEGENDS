@@ -4,6 +4,12 @@ using Mirror;
 using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks;
 
+public enum HitType
+{
+    Hit,
+    HitUp,
+}
+
 public class PlayerController : NetworkBehaviour
 {
     private float moveSpeed = 5.4f; // 피터의 이동속도
@@ -45,7 +51,7 @@ public class PlayerController : NetworkBehaviour
     [SyncVar] public float DamageAmount;
     [SyncVar] public float KnockBackPower = 1;
     [SyncVar] public Vector3 KnockBackDireciton;
-
+    [SyncVar] public HitType hitType;
 
     [Header("State")]
     public IState _curState;
@@ -134,6 +140,14 @@ public class PlayerController : NetworkBehaviour
             CmdUpdateState(_curStateString);
         }
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            _Ground = true;
+        }
+    }
+
 
     [Command]
     void CmdUpdateState(string newState)
@@ -149,36 +163,50 @@ public class PlayerController : NetworkBehaviour
                 DamageAmount = _defaultAttackDamage / 3;
                 KnockBackPower = _defaultAttackKnockBackPower;
                 KnockBackDireciton = transform.forward + transform.up * 0.5f;
+                hitType = HitType.Hit;
+
                 break;
             case nameof(SecondAttackState):
                 DamageAmount = _defaultAttackDamage / 6;
                 KnockBackPower = _defaultAttackKnockBackPower;
                 KnockBackDireciton = transform.forward + transform.up * 0.5f;
+                hitType = HitType.Hit;
+
                 break;
             case nameof(FinishAttackState):
                 DamageAmount = _defaultAttackDamage / 3;
                 KnockBackPower = _heavyAttackKnockBackPower;
-                KnockBackDireciton = transform.forward + transform.up;
+                KnockBackDireciton = transform.forward + transform.up * 1.2f;
+                hitType = HitType.HitUp;
+
                 break;
             case nameof(JumpAttackState):
                 DamageAmount = _defaultAttackDamage * 0.6f;
                 KnockBackPower = _heavyAttackKnockBackPower;
-                KnockBackDireciton = transform.forward + transform.up;
+                KnockBackDireciton = transform.forward + transform.up * 1.2f;
+                hitType = HitType.HitUp;
+
                 break;
             case nameof(HeavyAttackState):
                 DamageAmount = _heavyAttackDamage;
                 KnockBackPower = _heavyAttackKnockBackPower;
-                KnockBackDireciton = transform.forward + transform.up;
+                KnockBackDireciton = transform.forward + transform.up * 1.2f;
+                hitType = HitType.HitUp;
+
                 break;
             case nameof(JumpHeavyAttackState):
                 DamageAmount = _heavyAttackDamage / 3 * 2;
                 KnockBackPower = _heavyAttackKnockBackPower;
-                KnockBackDireciton = transform.forward + transform.up;
+                KnockBackDireciton = transform.forward + transform.up * 1.2f;
+                hitType = HitType.HitUp;
+
                 break;
             case nameof(SkillAttackState):
                 DamageAmount = (_skillAttackDamage - 500) / 5;
                 KnockBackPower = _defaultAttackKnockBackPower;
                 KnockBackDireciton = transform.forward + transform.up;
+                hitType = HitType.Hit;
+
                 break;
         }
     }
@@ -187,6 +215,9 @@ public class PlayerController : NetworkBehaviour
     {
         DamageAmount = _skillAttackDamage/ 5 + 500;
         KnockBackPower = _heavyAttackKnockBackPower;
+        KnockBackDireciton = transform.forward + transform.up * 1.2f;
+        hitType = HitType.HitUp;
+
     }
 
 
@@ -341,7 +372,7 @@ public class PlayerController : NetworkBehaviour
         RaycastHit hit;
         Vector3 origin = groundCheck.transform.position; // 플레이어의 위치에서 약간 위쪽
         _isGrounded = Physics.Raycast(origin, Vector3.down, out hit, groundCheckDistance);
-        _Ground = Physics.Raycast(origin, Vector3.down, out hit, groundDistance);
+        //_Ground = Physics.Raycast(origin, Vector3.down, out hit, groundDistance);
     }
 
     private void OnDrawGizmosSelected()
@@ -351,12 +382,13 @@ public class PlayerController : NetworkBehaviour
         Vector3 origin = groundCheck.transform.position;
         Gizmos.DrawLine(origin, origin + Vector3.down * (groundCheckDistance));
 
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(origin, origin + Vector3.down * (groundDistance));
+        //Gizmos.color = Color.blue;
+        //Gizmos.DrawLine(origin, origin + Vector3.down * (groundDistance));
     }
 
     public void StartAttackMove()
     {
+        if (!isLocalPlayer) return;
         if (_curState.ToString() == "SkillAttackState")
         {
             _attackMoveDistance = 8f;
@@ -374,16 +406,16 @@ public class PlayerController : NetworkBehaviour
 
 
     [Command]
-    public void CmdHitted(float damaged, float KnockBackPower,Vector3 KnockBackDireciton)
+    public void CmdHitted(float damaged, float knockBackPower,Vector3 knockBackDireciton, HitType hitType)
     {
-        RpcHitted(damaged, KnockBackPower, KnockBackDireciton);
+        RpcHitted(damaged, knockBackPower, knockBackDireciton, hitType);
     }
 
     [ClientRpc]
-    public void RpcHitted(float damaged, float KnockBackPower, Vector3 KnockBackDireciton)
+    public void RpcHitted(float damaged, float knockBackPower, Vector3 knockBackDireciton, HitType hitType)
     {
         PlayerGetDamaged(damaged);
-        PlayerGetKnockBack(KnockBackPower, KnockBackDireciton);
+        PlayerGetKnockBack(knockBackPower, knockBackDireciton, hitType);
     }
 
     private void PlayerGetDamaged(float damaged)
@@ -391,36 +423,26 @@ public class PlayerController : NetworkBehaviour
         _playerHp -= damaged;
     }
 
-    public void PlayerGetKnockBack(float KnockBackPower, Vector3 KnockBackDireciton)
+    public void PlayerGetKnockBack(float knockBackPower, Vector3 knockBackDireciton, HitType hitType)
     {
-        IsHitted = true;
-        _rigidbody.velocity = Vector3.zero;
-        Debug.Log(KnockBackPower);
-        Debug.Log(KnockBackDireciton);
-        //ApplyKnockBackOverTime(KnockBackPower, KnockBackDireciton, 0.5f).Forget();
-        _rigidbody.AddForce(KnockBackDireciton * KnockBackPower, ForceMode.Impulse);
-   
-    }
-
-     
-    private async UniTaskVoid ApplyKnockBackOverTime(float knockBackPower, Vector3 knockBackDirection, float duration)
-    {
-        float elapsedTime = 0f;
-        Vector3 knockBackVelocity = knockBackDirection.normalized * knockBackPower;
-
-        while (elapsedTime < duration)
+        switch(hitType)
         {
-            _rigidbody.velocity = knockBackVelocity;
-            elapsedTime += Time.fixedDeltaTime;
-            await UniTask.Yield(PlayerLoopTiming.FixedUpdate);
+            case HitType.Hit:
+                ChangeState(new HitState(this));
+                break;
+            case HitType.HitUp:
+                ChangeState(new HitUpState(this));
+                break;
         }
-
-        // 넉백이 끝난 후 속도를 줄임
         _rigidbody.velocity = Vector3.zero;
+        Debug.Log(knockBackPower);
+        Debug.Log(knockBackDireciton);
+        _rigidbody.AddForce(knockBackDireciton * knockBackPower, ForceMode.Impulse);
+        
     }
 
-    public void Hitted(float damaged, float KnockBackPower, Vector3 KnockBackDireciton)
+    public void Hitted(float damaged, float knockBackPower, Vector3 knockBackDireciton, HitType hitType)
     {
-        CmdHitted(damaged, KnockBackPower, KnockBackDireciton);
+        CmdHitted(damaged, knockBackPower, knockBackDireciton, hitType);
     }
 }

@@ -20,6 +20,11 @@ public class AnimationController : MonoBehaviour
     public readonly int IsComboAttack3 = Animator.StringToHash("IsComboAttack3");
     public readonly int IsSkillAttack = Animator.StringToHash("IsSkillAttack");
 
+    public readonly int IsHit = Animator.StringToHash("IsHit");
+    public readonly int IsHitUp = Animator.StringToHash("IsHitUp");
+    public readonly int IsHitDown = Animator.StringToHash("IsHitDown");
+    public readonly int IsHitLand = Animator.StringToHash("IsHitLand");
+
     private PlayerController Player;
 
     private void Awake()

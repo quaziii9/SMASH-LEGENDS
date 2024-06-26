@@ -1,5 +1,5 @@
-using UnityEngine.InputSystem;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class JumpUpState : StateBase
 {
@@ -8,6 +8,7 @@ public class JumpUpState : StateBase
     public override void Enter()
     {
         base.Enter();
+        Player._Ground = false;
         Player._animationController.SetBool(Player._animationController.IsJumpingUp, true);
         Player.Jump(Player._moveDirection == Vector3.zero); // idle에서 점프인지 아닌지 확인
     }
@@ -587,4 +588,138 @@ public class SkillAttackState : StateBase
     }
 
     public override bool IsTransitioning => !Player._animationController.GetCurrentAnimatorStateInfo(0).IsName("SkillAttack");
+}
+
+
+public class HitState : StateBase
+{
+    public HitState(PlayerController player) : base(player) { }
+
+
+    public override void Enter()
+    {
+        base.Enter();
+        Player._animationController.SetBool(Player._animationController.IsHit, true);
+        Player.IsHitted = true;
+        Player.CanMove = false;
+        Player.CanLook = false;
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        Player._animationController.SetBool(Player._animationController.IsHit, false);
+    }
+
+    public override void ExecuteOnUpdate()
+    {
+        // 스킬 애니메이션이 끝났는지 확인
+
+        AnimatorStateInfo animatorStateInfo = Player._animationController.GetCurrentAnimatorStateInfo(0);
+        if (animatorStateInfo.IsName("Hit") && animatorStateInfo.normalizedTime >= .9f)
+        {
+            Player.ChangeState(new IdleState(Player));
+        }
+    }
+
+    public override bool IsTransitioning => !Player._animationController.GetCurrentAnimatorStateInfo(0).IsName("Hit");
+}
+
+public class HitUpState : StateBase
+{
+    public HitUpState(PlayerController player) : base(player) { }
+
+    public override void Enter()
+    {
+        base.Enter();
+        Player.IsHitted = true;
+        Player._animationController.SetBool(Player._animationController.IsHitUp, true);
+        Player.CanMove = false;
+        Player.CanLook = false;
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        Player._animationController.SetBool(Player._animationController.IsHitUp, false);
+    }
+
+    public override void ExecuteOnUpdate()
+    {
+
+        AnimatorStateInfo animatorStateInfo = Player._animationController.GetCurrentAnimatorStateInfo(0);
+        if (Player._isGrounded == true && animatorStateInfo.IsName("HitUp") && animatorStateInfo.normalizedTime >= .5f)
+        {
+            Player.ChangeState(new HitDownState(Player));
+        }
+    }
+
+    public override bool IsTransitioning => !Player._animationController.GetCurrentAnimatorStateInfo(0).IsName("HitUp");
+}
+
+public class HitDownState : StateBase
+{
+    public HitDownState(PlayerController player) : base(player) { }
+
+    public override void Enter()
+    {
+        base.Enter();
+        Debug.Log("enterhitdown");
+        Player.IsHitted = true;
+        Player._animationController.SetBool(Player._animationController.IsHitDown, true);
+        Player.CanMove = false;
+        Player.CanLook = false;
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        Player._animationController.SetBool(Player._animationController.IsHitDown, false);
+    }
+
+    public override void ExecuteOnUpdate()
+    {
+        // 스킬 애니메이션이 끝났는지 확인
+        AnimatorStateInfo animatorStateInfo = Player._animationController.GetCurrentAnimatorStateInfo(0);
+        Debug.Log(animatorStateInfo.IsName("HitDown"));
+        Debug.Log(animatorStateInfo.normalizedTime);
+        if (animatorStateInfo.IsName("HitDown") && animatorStateInfo.normalizedTime >= .9f)
+        {
+            Player.ChangeState(new HitLand(Player));
+        }
+    }
+
+    public override bool IsTransitioning => !Player._animationController.GetCurrentAnimatorStateInfo(0).IsName("HitUp");
+}
+
+public class HitLand : StateBase
+{
+    public HitLand(PlayerController player) : base(player) { }
+
+    public override void Enter()
+    {
+        base.Enter();
+        Player.IsHitted = true;
+        Player._animationController.SetBool(Player._animationController.IsHitLand, true);
+        Player.CanMove = false;
+        Player.CanLook = false;
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        Player._animationController.SetBool(Player._animationController.IsHitLand, false);
+    }
+
+    public override void ExecuteOnUpdate()
+    {
+        // 스킬 애니메이션이 끝났는지 확인
+        //var animatorStateInfo = Player._animationController.GetCurrentAnimatorStateInfo(0);
+        //if (animatorStateInfo.IsName("HitDownState") && animatorStateInfo.normalizedTime >= 1.0f)
+        //{
+        //    Player.ChangeState(new IdleState(Player));
+        //}
+    }
+
+    public override bool IsTransitioning => !Player._animationController.GetCurrentAnimatorStateInfo(0).IsName("HitUp");
 }

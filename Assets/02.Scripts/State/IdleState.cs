@@ -12,6 +12,7 @@ public class IdleState : StateBase
         base.Enter();
         Player._rigidbody.velocity = new Vector3(0, Player._rigidbody.velocity.y, 0);
         Player._animationController.SetBool(Player._animationController.IsIdle, true);
+        Player.IsHitted = false;
         Player.CanMove = true;
         Player.CanLook = true;
         enterTime = Time.time;
@@ -27,7 +28,6 @@ public class IdleState : StateBase
     {
         if (Player._moveDirection != Vector3.zero)
         {
-            Debug.Log("change");
             Player.ChangeState(new RunState(Player));
         }
 
