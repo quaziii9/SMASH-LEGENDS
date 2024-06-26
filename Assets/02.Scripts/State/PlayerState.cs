@@ -727,7 +727,7 @@ public class DownIdleState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player.IsHitted = true;
+        Player.IsHitted = false;
         Player._animationController.SetBool(Player._animationController.IsDownIdle, true);
         Player.CanMove = false;
         Player.CanLook = false;
@@ -741,13 +741,29 @@ public class DownIdleState : StateBase
 
     public override void ExecuteOnUpdate()
     {
-        if (Player._moveDirection.z > 0 || Player._moveDirection.x!=0) // 방향키 위나 W
+        if (Player._moveDirection != Vector3.zero)
         {
-            Player.ChangeState(new RollUpFrontState(Player));
-        }
-        else if (Player._moveDirection.z < 0) // 방향키 아래나 S
-        {
-            Player.ChangeState(new RollUpBackState(Player));
+            Vector3 currentDirection = Player.transform.forward;
+            Vector3 inputDirection = new Vector3(Player._moveDirection.x, 0, Player._moveDirection.z).normalized;
+            if (Player._moveDirection.x != 0)
+            {
+                float angle = Vector3.SignedAngle(currentDirection, inputDirection, Vector3.up);
+                if (angle > 90 || angle < -90) // 반대 방향이면 RollUpBackState로 전환
+                {
+                    Player.ChangeState(new RollUpBackState(Player));
+                }
+                else // 같은 방향이면 RollUpFrontState로 전환
+                {
+                    Player.ChangeState(new RollUpFrontState(Player));
+                }
+            }
+            // z축으로 이동할 때는 회전하고 RollUpFrontState로 전환
+            else if (Player._moveDirection.z != 0)
+            {
+                Player.transform.rotation = Quaternion.LookRotation(inputDirection);
+                Player.CanLook = true;
+                Player.ChangeState(new RollUpFrontState(Player));
+            }
         }
     }
 
@@ -770,10 +786,13 @@ public class RollUpFrontState : StateBase
     public override void Enter()
     {
         base.Enter();
+        Player._attackMoveDistance = 2.5f;
+        Player._attackMoveDuration = 0.3f;
+        Player.StartAttackMove();
         Player.IsHitted = false;
         Player._animationController.SetBool(Player._animationController.IsRollUpFront, true);
         Player.CanMove = false;
-        Player.CanLook = false;
+        Player.CanLook = true;
     }
 
     public override void Exit()
@@ -801,6 +820,9 @@ public class RollUpBackState : StateBase
     public override void Enter()
     {
         base.Enter();
+        Player._attackMoveDistance = 2.5f;
+        Player._attackMoveDuration = 0.3f;
+        Player.StartAttackMove();
         Player.IsHitted = false;
         Player._animationController.SetBool(Player._animationController.IsRollUpBack, true);
         Player.CanMove = false;

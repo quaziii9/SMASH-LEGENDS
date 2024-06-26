@@ -317,7 +317,8 @@ public class PlayerController : NetworkBehaviour
         if (!isLocalPlayer) return;
 
         if (_curState is FirstAttackState || _curState is SecondAttackState || _curState is FinishAttackState ||
-            _curState is JumpHeavyAttackState || _curState is HeavyAttackState || _curState is SkillAttackState)
+            _curState is JumpHeavyAttackState || _curState is HeavyAttackState || _curState is SkillAttackState ||
+            _curState is RollUpBackState || _curState is RollUpFrontState)
         {
             float elapsedTime = Time.time - _attackMoveStartTime;
             float fraction = elapsedTime / _attackMoveDuration;
@@ -353,6 +354,7 @@ public class PlayerController : NetworkBehaviour
     {
         if (_moveDirection != Vector3.zero)
         {
+            Debug.Log("Look");
             Quaternion targetAngle = Quaternion.LookRotation(_moveDirection);
             _rigidbody.rotation = targetAngle;
         }
@@ -412,13 +414,15 @@ public class PlayerController : NetworkBehaviour
     public void StartAttackMove()
     {
         if (!isLocalPlayer) return;
-        if (_curState.ToString() == "SkillAttackState")
+        if (_curState.ToString() == nameof(SkillAttackState))
         {
             _attackMoveDistance = 8f;
             _attackMoveDuration = 1.2f;
         }
         _attackMoveStartTime = Time.time;
         _currentMoveDistance = 0;
+        if (_curState.ToString() == nameof(RollUpBackState)) _attackMoveDirection = -transform.forward;
+        else
         _attackMoveDirection = transform.forward; // 현재 보고 있는 방향으로 이동    
     }
 
