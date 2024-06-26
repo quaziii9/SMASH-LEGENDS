@@ -745,25 +745,39 @@ public class DownIdleState : StateBase
         {
             Vector3 currentDirection = Player.transform.forward;
             Vector3 inputDirection = new Vector3(Player._moveDirection.x, 0, Player._moveDirection.z).normalized;
-            if (Player._moveDirection.x != 0)
+
+            float angle = Vector3.SignedAngle(currentDirection, inputDirection, Vector3.up);
+
+            if (angle > 135 || angle < -135) // 반대 방향이면 RollUpBackState로 전환
             {
-                float angle = Vector3.SignedAngle(currentDirection, inputDirection, Vector3.up);
-                if (angle > 90 || angle < -90) // 반대 방향이면 RollUpBackState로 전환
-                {
-                    Player.ChangeState(new RollUpBackState(Player));
-                }
-                else // 같은 방향이면 RollUpFrontState로 전환
-                {
-                    Player.ChangeState(new RollUpFrontState(Player));
-                }
+                Player.ChangeState(new RollUpBackState(Player));
             }
-            // z축으로 이동할 때는 회전하고 RollUpFrontState로 전환
-            else if (Player._moveDirection.z != 0)
+            else // 같은 방향이면 좌우 회전 후 RollUpFrontState로 전환
             {
                 Player.transform.rotation = Quaternion.LookRotation(inputDirection);
                 Player.CanLook = true;
                 Player.ChangeState(new RollUpFrontState(Player));
             }
+
+            //if (Player._moveDirection.x != 0)
+            //{
+            //    float angle = Vector3.SignedAngle(currentDirection, inputDirection, Vector3.up);
+            //    if (angle > 90 || angle < -90) // 반대 방향이면 RollUpBackState로 전환
+            //    {
+            //        Player.ChangeState(new RollUpBackState(Player));
+            //    }
+            //    else // 같은 방향이면 RollUpFrontState로 전환
+            //    {
+            //        Player.ChangeState(new RollUpFrontState(Player));
+            //    }
+            //}
+            //// z축으로 이동할 때는 회전하고 RollUpFrontState로 전환
+            //else if (Player._moveDirection.z != 0)
+            //{
+            //    Player.transform.rotation = Quaternion.LookRotation(inputDirection);
+            //    Player.CanLook = true;
+            //    Player.ChangeState(new RollUpFrontState(Player));
+            //}
         }
     }
 
