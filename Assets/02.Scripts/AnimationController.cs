@@ -25,6 +25,12 @@ public class AnimationController : MonoBehaviour
     public readonly int IsHitDown = Animator.StringToHash("IsHitDown");
     public readonly int IsHitLand = Animator.StringToHash("IsHitLand");
 
+    public readonly int IsDownIdle = Animator.StringToHash("IsDownIdle");
+    public readonly int IsRollUpFront = Animator.StringToHash("IsRollUpFront");
+    public readonly int IsRollUpBack = Animator.StringToHash("IsRollUpBack");
+    public readonly int IsStandUp = Animator.StringToHash("IsStandUp");
+
+
     private PlayerController Player;
 
     private void Awake()
