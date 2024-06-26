@@ -14,7 +14,7 @@ public class PlayPositionManager : NetworkBehaviour
 
     private async UniTaskVoid PositionPlayersAsync()
     {
-        await UniTask.Delay(800); // 플레이어들이 모두 생성되도록 잠시 대기
+        await UniTask.Delay(300); // 플레이어들이 모두 생성되도록 잠시 대기
 
         GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
 
@@ -35,7 +35,7 @@ public class PlayPositionManager : NetworkBehaviour
                 playerObjects[0].transform.position = startPosition1;
                 playerObjects[0].SetActive(true);
                 //Debug.Log(playerObjects[0].transform.position);
-                await UniTask.Delay(200);
+                //await UniTask.Delay(200);
                 playerObjects[1].transform.position = startPosition2;
                 playerObjects[1].SetActive(true);
                 //Debug.Log(playerObjects[1].transform.position);
