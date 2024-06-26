@@ -683,7 +683,7 @@ public class HitDownState : StateBase
         AnimatorStateInfo animatorStateInfo = Player._animationController.GetCurrentAnimatorStateInfo(0);
         Debug.Log(animatorStateInfo.IsName("HitDown"));
         Debug.Log(animatorStateInfo.normalizedTime);
-        if (animatorStateInfo.IsName("HitDown") && animatorStateInfo.normalizedTime >= .9f)
+        if (animatorStateInfo.IsName("HitDown") && animatorStateInfo.normalizedTime >= .5f)
         {
             Player.ChangeState(new HitLand(Player));
         }
