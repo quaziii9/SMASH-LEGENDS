@@ -46,6 +46,8 @@ public class PlayerController : NetworkBehaviour
     public bool IsMoveInputActive { get; private set; }
     public bool IsHitted;
 
+    public bool PositionSet = false;
+
     private bool isJumping = false;
     private bool isIdleJump = false;
     private float jumpMoveSpeed = 2.2f; // 점프 중 이동 속도
@@ -174,7 +176,10 @@ public class PlayerController : NetworkBehaviour
 
     void OnStateChanged(string oldState, string newState)
     {
-        _attackController.HandleAttack(newState);
+        if (this != null)
+        {
+            _attackController.HandleAttack(newState);
+        }
     }
 
     public void BindInputCallback(bool isBind, Action<InputAction.CallbackContext> callback)
@@ -246,6 +251,7 @@ public class PlayerController : NetworkBehaviour
 
     public void Move()
     {
+        if (PositionSet == false) return;
         if (IsHitted) return;
         if (!isLocalPlayer) return;
 

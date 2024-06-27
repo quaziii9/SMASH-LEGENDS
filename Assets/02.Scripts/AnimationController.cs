@@ -46,7 +46,10 @@ public class AnimationController : MonoBehaviour
 
     public void SetBool(int parameter, bool value)
     {
-        _animator.SetBool(parameter, value);
+        if (_animator != null)
+        {
+            _animator.SetBool(parameter, value);
+        }
     }
 
     public bool GetBool(int parameter)

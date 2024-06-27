@@ -22,11 +22,15 @@ public class IdleState : StateBase
     public override void Exit()
     {
         base.Exit();
-        Player._animationController.SetBool(Player._animationController.IsIdle, false);
+        if (Player._animationController != null)
+        {
+            Player._animationController.SetBool(Player._animationController.IsIdle, false);
+        }
     }
 
     public override void ExecuteOnUpdate()
     {
+        if (Player.PositionSet == false) return;
         if (Player._moveDirection != Vector3.zero)
         {
             Player.ChangeState(new RunState(Player));
@@ -52,6 +56,7 @@ public class IdleState : StateBase
 
     public override void OnInputCallback(InputAction.CallbackContext context)
     {
+        if (Player.PositionSet == false) return;
         if (isTransitioning) return; // 상태 전환 중에는 입력 무시
 
         if (context.action.name == "Jump" && context.performed)
