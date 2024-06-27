@@ -4,12 +4,6 @@ using Mirror;
 using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks;
 
-public enum HitType
-{
-    Hit,
-    HitUp,
-}
-
 public class PlayerController : NetworkBehaviour
 {
     private float moveSpeed = 5.4f; // 피터의 이동속도
@@ -94,10 +88,6 @@ public class PlayerController : NetworkBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            _rigidbody.AddForce(Vector3.one * 200f);
-        }
         if (isLocalPlayer)
         {
             _attackController.UpdateCooldowns();
