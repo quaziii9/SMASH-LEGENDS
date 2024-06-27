@@ -265,8 +265,8 @@ public class FirstAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._attackMoveDistance = 1.5f;
-        Player._attackMoveDuration = 0.3f;
+        AttackController._attackMoveDistance = 1.5f;
+        AttackController._attackMoveDuration = 0.3f;
         Player._animationController.SetBool(Player._animationController.IsComboAttack1, true);
         Player.StartAttackMove();
         Player.CanMove = false;
@@ -320,8 +320,8 @@ public class SecondAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._attackMoveDistance = 1.5f;
-        Player._attackMoveDuration = 0.3f;
+        AttackController._attackMoveDistance = 1.5f;
+        AttackController._attackMoveDuration = 0.3f;
         Player._animationController.SetBool(Player._animationController.IsComboAttack2, true);
         Player.StartAttackMove();
         Player.CanMove = false;
@@ -374,8 +374,8 @@ public class FinishAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._attackMoveDistance = 1.5f;
-        Player._attackMoveDuration = 0.3f;
+        AttackController._attackMoveDistance = 1.5f;
+        AttackController._attackMoveDuration = 0.3f;
         Player._animationController.SetBool(Player._animationController.IsComboAttack3, true);
         Player.StartAttackMove();
         Player.CanMove = false;
@@ -424,8 +424,8 @@ public class HeavyAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._attackMoveDistance = 1.5f;
-        Player._attackMoveDuration = 0.3f;
+        AttackController._attackMoveDistance = 1.5f;
+        AttackController._attackMoveDuration = 0.3f;
         Player._animationController.SetBool(Player._animationController.IsHeavyAttacking, true);
         Player.StartAttackMove();
         Player.CanMove = false;
@@ -478,12 +478,12 @@ public class JumpHeavyAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._attackMoveDistance = 2.5f;
-        Player._attackMoveDuration = 0.3f;
-        Player._rigidbody.velocity = new Vector3(0, Player.jumpForce, 0);
+        AttackController._attackMoveDistance = 2.5f;
+        AttackController._attackMoveDuration = 0.3f;
+        Player._rigidbody.velocity = new Vector3(0, AttackController.jumpForce, 0);
         Player._animationController.SetBool(Player._animationController.IsJumpHeavyAttacking, true);
         Player.StartAttackMove();
-        Player._rigidbody.velocity = new Vector3(Player._rigidbody.velocity.x, Player.jumpForce, Player._rigidbody.velocity.z);
+        Player._rigidbody.velocity = new Vector3(Player._rigidbody.velocity.x, AttackController.jumpForce, Player._rigidbody.velocity.z);
         Player.CanMove = false;
         Player.CanLook = false;
     }
@@ -809,8 +809,8 @@ public class RollUpFrontState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._attackMoveDistance = 2.5f;
-        Player._attackMoveDuration = 0.3f;
+        AttackController._attackMoveDistance = 2.5f;
+        AttackController._attackMoveDuration = 0.3f;
         Player.StartAttackMove();
         Player.IsHitted = false;
         Player._animationController.SetBool(Player._animationController.IsRollUpFront, true);
@@ -843,8 +843,8 @@ public class RollUpBackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._attackMoveDistance = 2.5f;
-        Player._attackMoveDuration = 0.3f;
+        AttackController._attackMoveDistance = 2.5f;
+        AttackController._attackMoveDuration = 0.3f;
         Player.StartAttackMove();
         Player.IsHitted = false;
         Player._animationController.SetBool(Player._animationController.IsRollUpBack, true);

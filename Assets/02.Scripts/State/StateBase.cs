@@ -25,6 +25,7 @@ public abstract class StateBase : IState
     protected StateBase(PlayerController player)
     {
         Player = player;
+        AttackController = player._attackController;
     }
 
     public virtual void Enter()
