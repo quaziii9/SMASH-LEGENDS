@@ -612,7 +612,9 @@ public class HitState : StateBase
 
     public override void ExecuteOnUpdate()
     {
-        // 스킬 애니메이션이 끝났는지 확인
+        Quaternion rotation = Player.transform.rotation;
+        rotation.eulerAngles = new Vector3(0, rotation.eulerAngles.y, rotation.eulerAngles.z);
+        Player.transform.rotation = rotation;
 
         AnimatorStateInfo animatorStateInfo = Player._animationController.GetCurrentAnimatorStateInfo(0);
         if (animatorStateInfo.IsName("Hit") && animatorStateInfo.normalizedTime >= .9f)
@@ -685,7 +687,7 @@ public class HitDownState : StateBase
         Quaternion rotation = Player.transform.rotation;
         rotation.eulerAngles = new Vector3(0, rotation.eulerAngles.y, rotation.eulerAngles.z);
         Player.transform.rotation = rotation;
-        // 스킬 애니메이션이 끝났는지 확인
+
         AnimatorStateInfo animatorStateInfo = Player._animationController.GetCurrentAnimatorStateInfo(0);
         if (animatorStateInfo.IsName("HitDown") && animatorStateInfo.normalizedTime >= .5f)
         {
