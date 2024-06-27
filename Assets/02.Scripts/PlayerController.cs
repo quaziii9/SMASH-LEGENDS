@@ -67,7 +67,7 @@ public class PlayerController : NetworkBehaviour
     private float jumpMoveSpeed = 2.2f; // 점프 중 이동 속도
 
     [Header("Detection")]
-    public float detectionRadius = 5f; // 탐지 반경
+    private float detectionRadius = 5f; // 탐지 반경
     public LayerMask playerLayer; // 플레이어가 속한 레이어
 
     private void Awake()
@@ -188,43 +188,43 @@ public class PlayerController : NetworkBehaviour
             case nameof(FirstAttackState):
                 DamageAmount = _defaultAttackDamage / 3;
                 KnockBackPower = _defaultAttackKnockBackPower;
-                KnockBackDireciton = /*transform.forward + */transform.up * 0.5f;
+                KnockBackDireciton = transform.up * 0.5f;
                 hitType = HitType.Hit;
                 break;
             case nameof(SecondAttackState):
                 DamageAmount = _defaultAttackDamage / 6;
                 KnockBackPower = _defaultAttackKnockBackPower;
-                KnockBackDireciton = /*transform.forward +*/ transform.up * 0.5f;
+                KnockBackDireciton = transform.up * 0.5f;
                 hitType = HitType.Hit;
                 break;
             case nameof(FinishAttackState):
                 DamageAmount = _defaultAttackDamage / 3;
                 KnockBackPower = _heavyAttackKnockBackPower;
-                KnockBackDireciton = /*transform.forward +*/ transform.up * 1.2f;
+                KnockBackDireciton = transform.up * 1.2f;
                 hitType = HitType.HitUp;
                 break;
             case nameof(JumpAttackState):
                 DamageAmount = _defaultAttackDamage * 0.6f;
                 KnockBackPower = _heavyAttackKnockBackPower;
-                KnockBackDireciton =/* transform.forward + */transform.up * 1.2f;
+                KnockBackDireciton = transform.up * 1.2f;
                 hitType = HitType.HitUp;
                 break;
             case nameof(HeavyAttackState):
                 DamageAmount = _heavyAttackDamage;
                 KnockBackPower = _heavyAttackKnockBackPower;
-                KnockBackDireciton = /*transform.forward + */transform.up * 1.2f;
+                KnockBackDireciton = transform.up * 1.2f;
                 hitType = HitType.HitUp;
                 break;
             case nameof(JumpHeavyAttackState):
                 DamageAmount = _heavyAttackDamage / 3 * 2;
                 KnockBackPower = _heavyAttackKnockBackPower;
-                KnockBackDireciton = /*transform.forward + */transform.up * 1.2f;
+                KnockBackDireciton = transform.up * 1.2f;
                 hitType = HitType.HitUp;
                 break;
             case nameof(SkillAttackState):
                 DamageAmount = (_skillAttackDamage - 500) / 5;
                 KnockBackPower = _defaultAttackKnockBackPower;
-                KnockBackDireciton = /*transform.forward + */transform.up;
+                KnockBackDireciton = transform.up;
                 hitType = HitType.Hit;
                 break;
         }
@@ -279,9 +279,7 @@ public class PlayerController : NetworkBehaviour
         if (!isLocalPlayer) return;
 
         if (context.performed)
-        {
-            Debug.Log("Default Attack Input Performed");
-            RotateTowardsNearestPlayer();
+        {        
             _curState?.OnInputCallback(context);
         }
     }
@@ -292,8 +290,6 @@ public class PlayerController : NetworkBehaviour
 
         if (currentHeavyAttackCoolTime <= 0 && context.performed)
         {
-            Debug.Log("Heavy Attack Input Performed");
-            RotateTowardsNearestPlayer();
             _curState?.OnInputCallback(context);
         }
     }
@@ -304,8 +300,6 @@ public class PlayerController : NetworkBehaviour
 
         if (context.performed)
         {
-            Debug.Log("Skill Attack Input Performed");
-            RotateTowardsNearestPlayer();
             _curState?.OnInputCallback(context);
         }
     }
@@ -396,7 +390,6 @@ public class PlayerController : NetworkBehaviour
         RaycastHit hit;
         Vector3 origin = groundCheck.transform.position; // 플레이어의 위치에서 약간 위쪽
         _isGrounded = Physics.Raycast(origin, Vector3.down, out hit, groundCheckDistance);
-        //_Ground = Physics.Raycast(origin, Vector3.down, out hit, groundDistance);
     }
 
     private void OnDrawGizmosSelected()
@@ -413,6 +406,9 @@ public class PlayerController : NetworkBehaviour
     public void StartAttackMove()
     {
         if (!isLocalPlayer) return;
+        if (!(_curState.ToString() == nameof(RollUpBackState) || _curState.ToString() == nameof(RollUpFrontState)))
+            RotateTowardsNearestPlayer();
+
         if (_curState.ToString() == nameof(SkillAttackState))
         {
             _attackMoveDistance = 8f;
@@ -430,19 +426,6 @@ public class PlayerController : NetworkBehaviour
         currentHeavyAttackCoolTime = heavyAttackCoolTime; // 스킬 사용 후 쿨타임 설정
     }
 
-    //[Command]
-    //public void CmdHitted(float damaged, float knockBackPower, Vector3 knockBackDireciton, HitType hitType, Vector3 attackerPosition)
-    //{
-    //    RpcHitted(damaged, knockBackPower, knockBackDireciton, hitType, attackerPosition);
-    //}
-
-    //[ClientRpc]
-    //public void RpcHitted(float damaged, float knockBackPower, Vector3 knockBackDireciton, HitType hitType, Vector3 attackerPosition)
-    //{
-    //    PlayerGetDamaged(damaged);
-    //    RotateTowardsAttacker(attackerPosition);
-    //    PlayerGetKnockBack(knockBackPower, knockBackDireciton, hitType);
-    //}
     [Command]
     public void CmdHitted(float damaged, float knockBackPower, Vector3 knockBackDirection, HitType hitType)
     {
@@ -481,10 +464,6 @@ public class PlayerController : NetworkBehaviour
         _rigidbody.AddForce(knockBackDirection * knockBackPower, ForceMode.Impulse);
     }
 
-    //public void Hitted(float damaged, float knockBackPower, Vector3 knockBackDireciton, HitType hitType, Vector3 attackerPosition)
-    //{
-    //    CmdHitted(damaged, knockBackPower, knockBackDireciton, hitType, attackerPosition);
-    //}
     public void Hitted(float damaged, float knockBackPower, Vector3 attackerPosition, Vector3 attackerDirection, HitType hitType)
     {
         // 피격 방향 계산
@@ -499,9 +478,6 @@ public class PlayerController : NetworkBehaviour
         CmdHitted(damaged, knockBackPower, KnockBackDireciton, hitType);
     }
 
-
-
-
     private void RotateTowardsAttacker(Vector3 attackerPosition)
     {
         Vector3 direction = (attackerPosition - transform.position).normalized;
@@ -509,13 +485,11 @@ public class PlayerController : NetworkBehaviour
         {
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
             transform.rotation = lookRotation; // 즉시 회전
-            Debug.Log($"Rotating towards attacker at position: {attackerPosition}");
         }
     }
 
     private void RotateTowardsNearestPlayer()
     {
-        Debug.Log("Rotating towards nearest player...");
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRadius, playerLayer);
         if (hitColliders.Length > 0)
         {
@@ -529,7 +503,6 @@ public class PlayerController : NetworkBehaviour
                     continue;
 
                 float distance = Vector3.Distance(transform.position, collider.transform.position);
-                Debug.Log($"Found player at distance: {distance}");
                 if (distance < minDistance)
                 {
                     minDistance = distance;
@@ -544,7 +517,6 @@ public class PlayerController : NetworkBehaviour
                 {
                     Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
                     transform.rotation = lookRotation; // 즉시 회전
-                    Debug.Log($"Rotating towards player at position: {nearestPlayer.position}");
                 }
             }
         }
