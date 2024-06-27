@@ -5,6 +5,7 @@ public class WeaponController : NetworkBehaviour
 {
     Collider weaponCollider;
     AttackController attackController;
+    PlayerController playerController;
 
     private void Start()
     {
@@ -16,9 +17,8 @@ public class WeaponController : NetworkBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            PlayerController otherplayer = other.GetComponent<PlayerController>();
+            PlayerController otherplayer = other.GetComponent<PlayerController>(); 
             otherplayer.Hitted(attackController.DamageAmount, attackController.KnockBackPower, attackController.transform.position, attackController.KnockBackDireciton, attackController.hitType);
-
             weaponCollider.enabled = false;
         }
     }

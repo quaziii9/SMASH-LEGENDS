@@ -397,16 +397,19 @@ public class PlayerController : NetworkBehaviour
 
     public void Hitted(float damaged, float knockBackPower, Vector3 attackerPosition, Vector3 attackerDirection, HitType hitType)
     {
+        Debug.Log(attackerDirection);
         // 피격 방향 계산
         Vector3 direction = (transform.position - attackerPosition).normalized;
-        Vector3 knockBackDirection = direction + attackerDirection;
+        //Vector3 knockBackDirection = direction + attackerDirection;
+        //Debug.Log($"{attackerDirection}, {direction}, = {knockBackDirection}");
+
 
         // 공격자를 바라보도록 회전
         Quaternion lookRotation = Quaternion.LookRotation(-direction);
         transform.rotation = lookRotation;
 
         // 넉백을 적용
-        CmdHitted(damaged, knockBackPower, knockBackDirection, hitType);
+        CmdHitted(damaged, knockBackPower, attackerDirection, hitType);
     }
 
     private void RotateTowardsAttacker(Vector3 attackerPosition)

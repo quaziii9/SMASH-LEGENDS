@@ -30,28 +30,30 @@ public class AttackController : NetworkBehaviour
         switch (attackType)
         {
             case nameof(FirstAttackState):
-                SetAttackValues(_defaultAttackDamage / 3, _defaultAttackKnockBackPower, player.transform.up * 0.5f, HitType.Hit);
+                SetAttackValues(_defaultAttackDamage / 3, _defaultAttackKnockBackPower, player.transform.forward + player.transform.up * 0.5f, HitType.Hit);
                 break;
             case nameof(SecondAttackState):
-                SetAttackValues(_defaultAttackDamage / 6, _defaultAttackKnockBackPower, player.transform.up * 0.5f, HitType.Hit);
+                SetAttackValues(_defaultAttackDamage / 6, _defaultAttackKnockBackPower, player.transform.forward + player.transform.up * 0.5f, HitType.Hit);
                 break;
             case nameof(FinishAttackState):
-                SetAttackValues(_defaultAttackDamage / 3, _heavyAttackKnockBackPower, player.transform.up * 1.2f, HitType.HitUp);
+                SetAttackValues(_defaultAttackDamage / 3, _heavyAttackKnockBackPower, player.transform.forward + player.transform.up * 1.2f, HitType.HitUp);
                 break;
             case nameof(JumpAttackState):
-                SetAttackValues(_defaultAttackDamage * 0.6f, _heavyAttackKnockBackPower, player.transform.up * 1.2f, HitType.HitUp);
+                SetAttackValues(_defaultAttackDamage * 0.6f, _heavyAttackKnockBackPower, player.transform.forward + player.transform.up * 1.2f, HitType.HitUp);
                 break;
             case nameof(HeavyAttackState):
-                SetAttackValues(_heavyAttackDamage, _heavyAttackKnockBackPower, player.transform.up * 1.2f, HitType.HitUp);
+                SetAttackValues(_heavyAttackDamage, _heavyAttackKnockBackPower, player.transform.forward + player.transform.up * 1.2f, HitType.HitUp);
                 break;
+            case nameof(JumpHeavyAttackLandingState):
             case nameof(JumpHeavyAttackState):
-                SetAttackValues(_heavyAttackDamage / 3 * 2, _heavyAttackKnockBackPower, player.transform.up * 1.2f, HitType.HitUp);
+                SetAttackValues(_heavyAttackDamage / 3 * 2, _heavyAttackKnockBackPower, player.transform.forward + player.transform.up * 1.2f, HitType.HitUp);
                 break;
             case nameof(SkillAttackState):
-                SetAttackValues((_skillAttackDamage - 500) / 5, _defaultAttackKnockBackPower, player.transform.up, HitType.Hit);
+                SetAttackValues((_skillAttackDamage - 500) / 5, _defaultAttackKnockBackPower, player.transform.forward + player.transform.up, HitType.Hit);
                 break;
         }
     }
+
 
     private void SetAttackValues(float damage, float knockBackPower, Vector3 knockBackDirection, HitType hitType)
     {
