@@ -13,7 +13,14 @@ public interface IState
 public abstract class StateBase : IState
 {
     protected PlayerController Player { get; private set; }
+    protected AttackController AttackController { get; private set; }
     protected bool isTransitioning = true; // 상태 전환 중임을 나타내는 플래그
+
+    protected StateBase(PlayerController player, AttackController attackController)
+    {
+        Player = player;
+        AttackController = attackController;
+    }
 
     protected StateBase(PlayerController player)
     {

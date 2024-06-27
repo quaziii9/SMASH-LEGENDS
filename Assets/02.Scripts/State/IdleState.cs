@@ -6,6 +6,7 @@ public class IdleState : StateBase
     private float enterTime;
 
     public IdleState(PlayerController player) : base(player) { }
+    public IdleState(PlayerController player, AttackController attackController) : base(player, attackController) { }
 
     public override void Enter()
     {

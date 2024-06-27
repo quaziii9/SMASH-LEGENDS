@@ -28,30 +28,14 @@ public class PlayerController : NetworkBehaviour
     [Header("GroundCheck")]
     public GameObject groundCheck;
     private float groundCheckDistance = 1f; // 지면 체크를 위한 거리
-   // private float groundDistance = .4f; // 지면 체크를 위한 거리
+                                            // private float groundDistance = .4f; // 지면 체크를 위한 거리
     public bool _isGrounded;
     public bool _Ground;
 
     public Rigidbody _rigidbody;
     public AnimationController _animationController;
 
-    [Header("Attack")]
-    private float heavyAttackCoolTime = 4f;
-    private float currentHeavyAttackCoolTime = 0f; // 현재 쿨타임
-    [SerializeField] private float _defaultAttackDamage = 600;
-    [SerializeField] private float _heavyAttackDamage = 900;
-    [SerializeField] private float _skillAttackDamage = 1500;
-
-    [Header("Kncokback")]
-    private float _defaultAttackKnockBackPower = 0.2f;
-    private float _heavyAttackKnockBackPower = 0.38f;
-
     [SyncVar] public float _playerHp = 10000;
-
-    [SyncVar] public float DamageAmount;
-    [SyncVar] public float KnockBackPower = 1;
-    [SyncVar] public Vector3 KnockBackDireciton;
-    [SyncVar] public HitType hitType;
 
     [Header("State")]
     public IState _curState;
@@ -70,19 +54,29 @@ public class PlayerController : NetworkBehaviour
     private float detectionRadius = 5f; // 탐지 반경
     public LayerMask playerLayer; // 플레이어가 속한 레이어
 
+    public AttackController _attackController;
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _animationController = GetComponent<AnimationController>();
+        _attackController = GetComponent<AttackController>(); // AddComponent 대신 GetComponent 사용
+        if (_attackController != null)
+        {
+            _attackController.Initialize(this);
+        }
+        else
+        {
+            Debug.LogError("AttackController is not attached to the PlayerController gameObject");
+        }
     }
 
     private void Start()
     {
         if (isLocalPlayer)
         {
-            ChangeState(new IdleState(this));
+            ChangeState(new IdleState(this, _attackController));
             _curStateString = _curState.ToString();
-            currentHeavyAttackCoolTime = 0f;
         }
     }
 
@@ -104,10 +98,7 @@ public class PlayerController : NetworkBehaviour
         }
         if (isLocalPlayer)
         {
-            if (currentHeavyAttackCoolTime > 0)
-            {
-                currentHeavyAttackCoolTime -= Time.deltaTime;
-            }
+            _attackController.UpdateCooldowns();
             _curState?.ExecuteOnUpdate();
             HandleInput();
         }
@@ -183,59 +174,7 @@ public class PlayerController : NetworkBehaviour
 
     void OnStateChanged(string oldState, string newState)
     {
-        switch (_curStateString)
-        {
-            case nameof(FirstAttackState):
-                DamageAmount = _defaultAttackDamage / 3;
-                KnockBackPower = _defaultAttackKnockBackPower;
-                KnockBackDireciton = transform.up * 0.5f;
-                hitType = HitType.Hit;
-                break;
-            case nameof(SecondAttackState):
-                DamageAmount = _defaultAttackDamage / 6;
-                KnockBackPower = _defaultAttackKnockBackPower;
-                KnockBackDireciton = transform.up * 0.5f;
-                hitType = HitType.Hit;
-                break;
-            case nameof(FinishAttackState):
-                DamageAmount = _defaultAttackDamage / 3;
-                KnockBackPower = _heavyAttackKnockBackPower;
-                KnockBackDireciton = transform.up * 1.2f;
-                hitType = HitType.HitUp;
-                break;
-            case nameof(JumpAttackState):
-                DamageAmount = _defaultAttackDamage * 0.6f;
-                KnockBackPower = _heavyAttackKnockBackPower;
-                KnockBackDireciton = transform.up * 1.2f;
-                hitType = HitType.HitUp;
-                break;
-            case nameof(HeavyAttackState):
-                DamageAmount = _heavyAttackDamage;
-                KnockBackPower = _heavyAttackKnockBackPower;
-                KnockBackDireciton = transform.up * 1.2f;
-                hitType = HitType.HitUp;
-                break;
-            case nameof(JumpHeavyAttackState):
-                DamageAmount = _heavyAttackDamage / 3 * 2;
-                KnockBackPower = _heavyAttackKnockBackPower;
-                KnockBackDireciton = transform.up * 1.2f;
-                hitType = HitType.HitUp;
-                break;
-            case nameof(SkillAttackState):
-                DamageAmount = (_skillAttackDamage - 500) / 5;
-                KnockBackPower = _defaultAttackKnockBackPower;
-                KnockBackDireciton = transform.up;
-                hitType = HitType.Hit;
-                break;
-        }
-    }
-
-    public void SkillLastAttackDamage()
-    {
-        DamageAmount = _skillAttackDamage / 5 + 500;
-        KnockBackPower = _heavyAttackKnockBackPower;
-        KnockBackDireciton = transform.forward + transform.up * 1.2f;
-        hitType = HitType.HitUp;
+        _attackController.HandleAttack(newState);
     }
 
     public void BindInputCallback(bool isBind, Action<InputAction.CallbackContext> callback)
@@ -279,7 +218,7 @@ public class PlayerController : NetworkBehaviour
         if (!isLocalPlayer) return;
 
         if (context.performed)
-        {        
+        {
             _curState?.OnInputCallback(context);
         }
     }
@@ -288,7 +227,7 @@ public class PlayerController : NetworkBehaviour
     {
         if (!isLocalPlayer) return;
 
-        if (currentHeavyAttackCoolTime <= 0 && context.performed)
+        if (_attackController.currentHeavyAttackCoolTime <= 0 && context.performed)
         {
             _curState?.OnInputCallback(context);
         }
@@ -421,26 +360,18 @@ public class PlayerController : NetworkBehaviour
             _attackMoveDirection = transform.forward; // 현재 보고 있는 방향으로 이동    
     }
 
-    public void StartHeavyAttackCooldown()
-    {
-        currentHeavyAttackCoolTime = heavyAttackCoolTime; // 스킬 사용 후 쿨타임 설정
-    }
-
     [Command]
     public void CmdHitted(float damaged, float knockBackPower, Vector3 knockBackDirection, HitType hitType)
     {
         RpcHitted(damaged, knockBackPower, knockBackDirection, hitType);
     }
 
-
-    // RpcHitted 수정
     [ClientRpc]
     public void RpcHitted(float damaged, float knockBackPower, Vector3 knockBackDirection, HitType hitType)
     {
         PlayerGetDamaged(damaged);
         PlayerGetKnockBack(knockBackPower, knockBackDirection, hitType);
     }
-
 
     private void PlayerGetDamaged(float damaged)
     {
@@ -452,10 +383,10 @@ public class PlayerController : NetworkBehaviour
         switch (hitType)
         {
             case HitType.Hit:
-                ChangeState(new HitState(this));
+                ChangeState(new HitState(this, _attackController));
                 break;
             case HitType.HitUp:
-                ChangeState(new HitUpState(this));
+                ChangeState(new HitUpState(this, _attackController));
                 break;
         }
         _rigidbody.velocity = Vector3.zero;
@@ -468,14 +399,14 @@ public class PlayerController : NetworkBehaviour
     {
         // 피격 방향 계산
         Vector3 direction = (transform.position - attackerPosition).normalized;
-        KnockBackDireciton = direction + attackerDirection; 
+        Vector3 knockBackDirection = direction + attackerDirection;
 
         // 공격자를 바라보도록 회전
         Quaternion lookRotation = Quaternion.LookRotation(-direction);
         transform.rotation = lookRotation;
 
         // 넉백을 적용
-        CmdHitted(damaged, knockBackPower, KnockBackDireciton, hitType);
+        CmdHitted(damaged, knockBackPower, knockBackDirection, hitType);
     }
 
     private void RotateTowardsAttacker(Vector3 attackerPosition)

@@ -320,7 +320,6 @@ public class SecondAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Debug.Log(Player.DamageAmount);
         Player._attackMoveDistance = 1.5f;
         Player._attackMoveDuration = 0.3f;
         Player._animationController.SetBool(Player._animationController.IsComboAttack2, true);
@@ -438,7 +437,8 @@ public class HeavyAttackState : StateBase
     {
         base.Exit();
         Player._animationController.SetBool(Player._animationController.IsHeavyAttacking, false);
-        Player.StartHeavyAttackCooldown();
+        Player._attackController.StartHeavyAttackCooldown();
+
     }
 
     public override void ExecuteOnUpdate()
@@ -593,7 +593,7 @@ public class SkillAttackState : StateBase
 public class HitState : StateBase
 {
     public HitState(PlayerController player) : base(player) { }
-
+    public HitState(PlayerController player, AttackController attackController) : base(player, attackController) { }
 
     public override void Enter()
     {
@@ -627,6 +627,7 @@ public class HitState : StateBase
 public class HitUpState : StateBase
 {
     public HitUpState(PlayerController player) : base(player) { }
+    public HitUpState(PlayerController player, AttackController attackController) : base(player, attackController) { }
 
     public override void Enter()
     {
