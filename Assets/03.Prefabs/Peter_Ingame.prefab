@@ -1206,13 +1206,17 @@ MonoBehaviour:
   _defaultAttackDamage: 600
   _heavyAttackDamage: 900
   _skillAttackDamage: 1500
-  _defaultAttackKncokBackPower: 0.8
-  _HeavyAttackKncokBackPower: 0.66
   _playerHp: 10000
   DamageAmount: 0
   KnockBackPower: 1
   KnockBackDireciton: {x: 0, y: 0, z: 0}
+  hitType: 0
   _curStateString: 
+  IsHitted: 0
+  detectionRadius: 10
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!114 &1083122375429704005
 MonoBehaviour:
   m_ObjectHideFlags: 0
