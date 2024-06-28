@@ -1193,11 +1193,6 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  jumpForce: 14.28
-  _attackMoveDistance: 0
-  _attackMoveDuration: 0
-  _attackMoveStartTime: 0
-  _currentMoveDistance: 0
   _moveDirection: {x: 0, y: 0, z: 0}
   groundCheck: {fileID: 8575020770430485035}
   _isGrounded: 0
@@ -1207,9 +1202,11 @@ MonoBehaviour:
   _playerHp: 10000
   _curStateString: 
   IsHitted: 0
+  PositionSet: 0
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
+  _attackController: {fileID: 0}
 --- !u!114 &1083122375429704005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1372,6 +1369,18 @@ MonoBehaviour:
   KnockBackPower: 1
   KnockBackDireciton: {x: 0, y: 0, z: 0}
   hitType: 0
+  jumpForce: 14.28
+  gravityScale: 36
+  maxFallSpeed: 20
+  groundCheckDistance: 1
+  detectionRadius: 5
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  _attackMoveDistance: 0
+  _attackMoveDuration: 0
+  _attackMoveStartTime: 0
+  _currentMoveDistance: 0
 --- !u!1 &3785853611246990569
 GameObject:
   m_ObjectHideFlags: 0
