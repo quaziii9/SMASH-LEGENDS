@@ -20,11 +20,8 @@ public class PlayerController : NetworkBehaviour
     public bool _isGrounded;
     public bool _Ground;
 
-    //[SyncVar] public float _playerHp;
-
     [Header("State")]
     [SyncVar(hook = nameof(OnStateChanged))] public PlayerState _curState;
-
 
     public bool CanMove { get; set; }
     public bool CanLook { get; set; }
@@ -47,15 +44,13 @@ public class PlayerController : NetworkBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _animationController = GetComponent<AnimationController>();
-        _attackController = GetComponent<AttackController>(); // AddComponent 대신 GetComponent 사용
+        _attackController = GetComponent<AttackController>();
         _stateController = GetComponent<StateController>();
-        _statController = GetComponent<StatController>(); // StatController 추가
-
-        //_playerHp = _statController.maxHp; // 초기 HP 설정
+        _statController = GetComponent<StatController>();
 
         if (_attackController != null)
         {
-            _attackController.Initialize(this, _statController); // StatController를 AttackController에 전달
+            _attackController.Initialize(this, _statController);
         }
         else
         {
@@ -340,36 +335,5 @@ public class PlayerController : NetworkBehaviour
 
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, _attackController.detectionRadius);
-    }
-
-    [Command]
-    public void CmdHitted(float damaged, float knockBackPower, Vector3 knockBackDirection, HitType hitType)
-    {
-        RpcHitted(damaged, knockBackPower, knockBackDirection, hitType);
-    }
-
-    [ClientRpc]
-    public void RpcHitted(float damaged, float knockBackPower, Vector3 knockBackDirection, HitType hitType)
-    {
-        PlayerGetDamaged(damaged);
-        _attackController.PlayerGetKnockBack(knockBackPower, knockBackDirection, hitType);
-    }
-
-    private void PlayerGetDamaged(float damaged)
-    {
-        _statController.ApplyDamage(damaged); // 스탯 컨트롤러를 통해 데미지 적용
-    }
-
-    public void Hitted(float damaged, float knockBackPower, Vector3 attackerPosition, Vector3 attackerDirection, HitType hitType)
-    {
-        Vector3 direction = (transform.position - attackerPosition).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(-direction);
-        transform.rotation = lookRotation;
-
-        Vector3 knockBackDirection = -transform.forward;
-        knockBackDirection.y = attackerDirection.y;
-        knockBackDirection.x = knockBackDirection.x >= 0 ? 1 : -1;
-
-        CmdHitted(damaged, knockBackPower, knockBackDirection, hitType);
     }
 }

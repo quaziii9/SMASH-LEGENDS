@@ -17,7 +17,7 @@ public class WeaponController : NetworkBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            PlayerController otherplayer = other.GetComponent<PlayerController>(); 
+            StatController otherplayer = other.GetComponent<StatController>(); 
             otherplayer.Hitted(attackController.DamageAmount, attackController.KnockBackPower, attackController.transform.position, attackController.KnockBackDireciton, attackController.hitType);
             weaponCollider.enabled = false;
         }
