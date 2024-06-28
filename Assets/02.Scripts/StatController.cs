@@ -8,8 +8,8 @@ public class StatController : NetworkBehaviour
     public float jumpMoveSpeed = 2.2f;
 
     [Header("Health")]
-    public float maxHp = 10000f;
-    [SyncVar(hook = nameof(OnHpChanged))] public float currentHp;
+    public int maxHp = 9000;
+    [SyncVar(hook = nameof(OnHpChanged))] public int currentHp;
 
     [Header("Jumping")]
     public float jumpForce = 14.28f;
@@ -17,9 +17,9 @@ public class StatController : NetworkBehaviour
     public float maxFallSpeed = 20f;
 
     [Header("Attacks")]
-    public float defaultAttackDamage = 600f;
-    public float heavyAttackDamage = 900f;
-    public float skillAttackDamage = 1500f;
+    public int defaultAttackDamage = 600;
+    public int heavyAttackDamage = 900;
+    public int skillAttackDamage = 1500;
 
     [Header("Knockback")]
     public float defaultKnockBackPower = 0.2f;
@@ -36,13 +36,13 @@ public class StatController : NetworkBehaviour
         playerController = GetComponent<PlayerController>(); // PlayerController 인스턴스 설정
     }
 
-    private void OnHpChanged(float oldHp, float newHp)
+    private void OnHpChanged(int oldHp, int newHp)
     {
         // 현재 체력이 변경될 때 처리할 로직이 있으면 여기에 추가
         Debug.Log($"HP changed from {oldHp} to {newHp}");
     }
 
-    public void ApplyDamage(float damage)
+    public void ApplyDamage(int damage)
     {
         currentHp -= damage;
         if (currentHp <= 0)
@@ -53,23 +53,23 @@ public class StatController : NetworkBehaviour
     }
 
     [Command]
-    public void CmdHitted(float damaged, float knockBackPower, Vector3 knockBackDirection, HitType hitType)
+    public void CmdHitted(int damaged, float knockBackPower, Vector3 knockBackDirection, HitType hitType, bool plusAddForce)
     {
         ApplyDamage(damaged);
-        RpcHitted(damaged, knockBackPower, knockBackDirection, hitType);
+        RpcHitted(damaged, knockBackPower, knockBackDirection, hitType, plusAddForce);
     }
 
     [ClientRpc]
-    public void RpcHitted(float damaged, float knockBackPower, Vector3 knockBackDirection, HitType hitType)
+    public void RpcHitted(int damaged, float knockBackPower, Vector3 knockBackDirection, HitType hitType, bool plusAddForce)
     {
         if (!isServer) // 서버에서는 이미 데미지를 처리했으므로 클라이언트에서만 처리
         {
             ApplyDamage(damaged);
         }
-        playerController.AttackController.PlayerGetKnockBack(knockBackPower, knockBackDirection, hitType);
+        playerController.AttackController.PlayerGetKnockBack(knockBackPower, knockBackDirection, hitType, plusAddForce);
     }
 
-    public void Hitted(float damaged, float knockBackPower, Vector3 attackerPosition, Vector3 attackerDirection, HitType hitType)
+    public void Hitted(int damaged, float knockBackPower, Vector3 attackerPosition, Vector3 attackerDirection, HitType hitType, bool plusAddForce)
     {
         Vector3 direction = (transform.position - attackerPosition).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(-direction);
@@ -79,6 +79,6 @@ public class StatController : NetworkBehaviour
         knockBackDirection.y = attackerDirection.y;
         knockBackDirection.x = knockBackDirection.x >= 0 ? 1 : -1;
 
-        CmdHitted(damaged, knockBackPower, knockBackDirection, hitType);
+        CmdHitted(damaged, knockBackPower, knockBackDirection, hitType, plusAddForce);
     }
 }

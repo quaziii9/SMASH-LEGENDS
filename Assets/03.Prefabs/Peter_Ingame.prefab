@@ -1144,15 +1144,11 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  _statController: {fileID: 0}
-  _animationController: {fileID: 0}
-  _attackController: {fileID: 0}
-  _stateController: {fileID: 0}
-  _moveDirection: {x: 0, y: 0, z: 0}
-  _rigidbody: {fileID: 0}
+  moveDirection: {x: 0, y: 0, z: 0}
+  rigidbody: {fileID: 0}
   groundCheck: {fileID: 8575020770430485035}
-  _isGrounded: 0
-  _Ground: 0
+  IsGrounded: 0
+  Ground: 0
 --- !u!114 &3147114990716042990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1188,7 +1184,7 @@ MonoBehaviour:
   syncInterval: 0
   moveSpeed: 5.4
   jumpMoveSpeed: 2.2
-  maxHp: 10000
+  maxHp: 9000
   currentHp: 0
   jumpForce: 14.28
   gravityScale: 36
@@ -1219,12 +1215,13 @@ MonoBehaviour:
   KnockBackPower: 1
   KnockBackDireciton: {x: 0, y: 0, z: 0}
   hitType: 0
+  PlusAddForce: 1
   detectionRadius: 5
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
-  _attackMoveDistance: 0
-  _attackMoveDuration: 0
+  attackMoveDistance: 0
+  attackMoveDuration: 0
 --- !u!136 &4538277467411647906
 CapsuleCollider:
   m_ObjectHideFlags: 0

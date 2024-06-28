@@ -14,10 +14,11 @@ public class AttackController : NetworkBehaviour
 
     public float currentHeavyAttackCoolTime = 0f;
 
-    [SyncVar] public float DamageAmount;
+    [SyncVar] public int DamageAmount;
     [SyncVar] public float KnockBackPower = 1;
     [SyncVar] public Vector3 KnockBackDireciton;
     [SyncVar] public HitType hitType;
+    [SyncVar] public bool PlusAddForce = true;
 
     [Header("Detection")]
     public float detectionRadius = 5f;
@@ -28,6 +29,7 @@ public class AttackController : NetworkBehaviour
     private float _attackMoveStartTime;
     private float _currentMoveDistance;
     private Vector3 _attackMoveDirection;
+
 
     public void Initialize(PlayerController playerController, StatController StatController)
     {
@@ -40,41 +42,42 @@ public class AttackController : NetworkBehaviour
         switch (state)
         {
             case PlayerState.FirstAttack:
-                SetAttackValues(statController.defaultAttackDamage / 3, statController.defaultKnockBackPower, player.transform.up * 0.5f, HitType.Hit);
+                SetAttackValues(statController.defaultAttackDamage / 3, statController.defaultKnockBackPower, player.transform.up * 0.5f, HitType.Hit, false);
                 break;
             case PlayerState.SecondAttack:
-                SetAttackValues(statController.defaultAttackDamage / 6, statController.defaultKnockBackPower, player.transform.up * 0.5f, HitType.Hit);
+                SetAttackValues(statController.defaultAttackDamage / 6, statController.defaultKnockBackPower, player.transform.up * 0.5f, HitType.Hit, false);
                 break;
             case PlayerState.FinishAttack:
-                SetAttackValues(statController.defaultAttackDamage / 3, statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp);
+                SetAttackValues(statController.defaultAttackDamage / 3, statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp, true);
                 break;
             case PlayerState.JumpAttack:
-                SetAttackValues(statController.defaultAttackDamage * 0.6f, statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp);
+                SetAttackValues((int)(statController.defaultAttackDamage * 0.6f), statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp, false);
                 break;
             case PlayerState.HeavyAttack:
-                SetAttackValues(statController.heavyAttackDamage, statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp);
+                SetAttackValues(statController.heavyAttackDamage, statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp, true);
                 break;
             case PlayerState.JumpHeavyAttackLanding:
             case PlayerState.JumpHeavyAttack:
-                SetAttackValues(statController.heavyAttackDamage / 3 * 2, statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp);
+                SetAttackValues(statController.heavyAttackDamage / 3 * 2, statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp, true);
                 break;
             case PlayerState.SkillAttack:
-                SetAttackValues((statController.skillAttackDamage - 500) / 5, statController.defaultKnockBackPower, player.transform.up, HitType.Hit);
+                SetAttackValues((statController.skillAttackDamage - 500) / 5, statController.defaultKnockBackPower, player.transform.up, HitType.Hit, false);
                 break;
         }
     }
 
-    private void SetAttackValues(float damage, float knockBackPower, Vector3 knockBackDirection, HitType hitType)
+    private void SetAttackValues(int damage, float knockBackPower, Vector3 knockBackDirection, HitType hitType, bool plusAddForce)
     {
         DamageAmount = damage;
         KnockBackPower = knockBackPower;
         KnockBackDireciton = knockBackDirection;
         this.hitType = hitType;
+        PlusAddForce = plusAddForce;
     }
 
     public void SkillLastAttackDamage()
     {
-        SetAttackValues(statController.skillAttackDamage / 5 + 500, statController.heavyKnockBackPower, player.transform.forward + player.transform.up * 1.2f, HitType.HitUp);
+        SetAttackValues(statController.skillAttackDamage / 5 + 500, statController.heavyKnockBackPower, player.transform.forward + player.transform.up * 1.2f, HitType.HitUp, true);
     }
 
     public void UpdateCooldowns()
@@ -125,8 +128,12 @@ public class AttackController : NetworkBehaviour
             _attackMoveDirection = player.transform.forward;
     }
 
-    public void PlayerGetKnockBack(float knockBackPower, Vector3 knockBackDirection, HitType hitType)
+    public void PlayerGetKnockBack(float knockBackPower, Vector3 knockBackDirection, HitType hitType, bool plusAddForce)
     {
+        float finalKnockBackPower = knockBackPower;
+        float currentHp = player.StatController.currentHp;
+        float maxHp = player.StatController.maxHp;
+
         switch (hitType)
         {
             case HitType.Hit:
@@ -136,8 +143,35 @@ public class AttackController : NetworkBehaviour
                 player.ChangeState(PlayerState.HitUp);
                 break;
         }
+
+        if (plusAddForce == true)
+        {
+            Debug.Log("Current HP: " + currentHp);
+            Debug.Log("Max HP / 3: " + maxHp / 3);
+            Debug.Log("Max HP / 3 * 2: " + maxHp / 3 * 2);
+
+            if (currentHp > maxHp / 3 * 2)
+            {
+                finalKnockBackPower = knockBackPower;
+            }
+            else if (currentHp > maxHp / 3 && currentHp <= maxHp / 3 * 2)
+            {
+                finalKnockBackPower = knockBackPower * 1.4f;
+                Debug.Log("2");
+            }
+            else if (currentHp > 0 && currentHp <= maxHp / 3)
+            {
+                finalKnockBackPower = knockBackPower * 1.8f;
+                Debug.Log("3");
+            }
+            else if (currentHp <= 0)
+            {
+                finalKnockBackPower = knockBackPower * 4f;
+            }
+        }
         player.rigidbody.velocity = Vector3.zero;
-        player.rigidbody.AddForce(knockBackDirection * knockBackPower, ForceMode.Impulse);
+        Debug.Log($"{currentHp} - {maxHp/3} : {finalKnockBackPower} ");
+        player.rigidbody.AddForce(knockBackDirection * finalKnockBackPower, ForceMode.Impulse);
     }
 
     public void RotateTowardsNearestPlayer()
