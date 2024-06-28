@@ -1,6 +1,32 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
+public enum PlayerState
+{
+    Idle,
+    Run,
+    JumpUp,
+    JumpDown,
+    JumpLand,
+    JumpAttack,
+    JumpHeavyAttack,
+    JumpHeavyAttackLanding,
+    JumpAttackLanding,  
+    SkillAttack,
+    FirstAttack,
+    SecondAttack,
+    FinishAttack,
+    HeavyAttack,
+    Hit,
+    HitUp,
+    HitDown,
+    HitLand,
+    DownIdle,
+    RollUpFront,
+    RollUpBack,
+    StandUp
+}
 public interface IState
 {
     void Enter();

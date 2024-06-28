@@ -23,8 +23,7 @@ public class PlayerController : NetworkBehaviour
     [SyncVar] public float _playerHp = 10000;
 
     [Header("State")]
-    public IState _curState;
-    [SyncVar(hook = nameof(OnStateChanged))] public string _curStateString;
+    [SyncVar(hook = nameof(OnStateChanged))] public PlayerState _curState;
     public bool CanMove { get; set; }
     public bool CanLook { get; set; }
     public bool CanChange { get; set; }
@@ -40,6 +39,8 @@ public class PlayerController : NetworkBehaviour
     public LayerMask playerLayer; // 플레이어가 속한 레이어
 
     public AttackController _attackController;
+
+    private IState _currentStateInstance; // 현재 상태 인스턴스
 
     private void Awake()
     {
@@ -60,8 +61,7 @@ public class PlayerController : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            ChangeState(new IdleState(this, _attackController));
-            _curStateString = _curState.ToString();
+            ChangeState(PlayerState.Idle);
         }
     }
 
@@ -84,14 +84,14 @@ public class PlayerController : NetworkBehaviour
         if (isLocalPlayer)
         {
             _attackController.UpdateCooldowns();
-            _curState?.ExecuteOnUpdate();
+            _currentStateInstance?.ExecuteOnUpdate();
             HandleInput();
         }
     }
 
     private void HandleInput()
     {
-        if (_curState == null || _curState.IsTransitioning)
+        if (_currentStateInstance == null || _currentStateInstance.IsTransitioning)
         {
             return;
         }
@@ -99,7 +99,7 @@ public class PlayerController : NetworkBehaviour
         var keyboard = Keyboard.current;
         if (keyboard.spaceKey.wasPressedThisFrame)
         {
-            _curState.OnInputCallback(new InputAction.CallbackContext());
+            _currentStateInstance.OnInputCallback(new InputAction.CallbackContext());
         }
 
         Vector2 moveInput = Vector2.zero;
@@ -123,23 +123,70 @@ public class PlayerController : NetworkBehaviour
 
         _moveDirection = new Vector3(moveInput.x, 0, moveInput.y);
 
-        _curState?.ExecuteOnUpdate();
+        _currentStateInstance?.ExecuteOnUpdate();
     }
 
-    public void ChangeState(IState newState)
+    public void ChangeState(PlayerState newState)
     {
-        if (_curState != null)
-        {
-            _curState.Exit();
-        }
+        _currentStateInstance?.Exit(); // 현재 상태의 Exit 호출
 
         _curState = newState;
+        CmdUpdateState(newState);
 
-        if (_curState != null)
+        _currentStateInstance = CreateStateInstance(newState); // 새로운 상태 인스턴스 생성
+        _currentStateInstance?.Enter(); // 새로운 상태의 Enter 호출
+    }
+
+    private IState CreateStateInstance(PlayerState state)
+    {
+        switch (state)
         {
-            _curState.Enter();
-            _curStateString = _curState.ToString();
-            CmdUpdateState(_curStateString);
+            case PlayerState.Idle:
+                return new IdleState(this, _attackController);
+            case PlayerState.Run:
+                return new RunState(this);
+            case PlayerState.JumpUp:
+                return new JumpUpState(this);
+            case PlayerState.JumpDown:
+                return new JumpDownState(this);
+            case PlayerState.JumpLand:
+                return new JumpLandState(this);
+            case PlayerState.JumpAttack:
+                return new JumpAttackState(this);
+            case PlayerState.JumpHeavyAttack:
+                return new JumpHeavyAttackState(this);
+            case PlayerState.JumpHeavyAttackLanding:
+                return new JumpHeavyAttackLandingState(this);
+            case PlayerState.JumpAttackLanding:
+                return new JumpAttackLandingState(this);
+            case PlayerState.SkillAttack:
+                return new SkillAttackState(this);
+            case PlayerState.FirstAttack:
+                return new FirstAttackState(this);
+            case PlayerState.SecondAttack:
+                return new SecondAttackState(this);
+            case PlayerState.FinishAttack:
+                return new FinishAttackState(this);
+            case PlayerState.HeavyAttack:
+                return new HeavyAttackState(this);
+            case PlayerState.Hit:
+                return new HitState(this);
+            case PlayerState.HitUp:
+                return new HitUpState(this);
+            case PlayerState.HitDown:
+                return new HitDownState(this);
+            case PlayerState.HitLand:
+                return new HitLandState(this);
+            case PlayerState.DownIdle:
+                return new DownIdleState(this);
+            case PlayerState.RollUpFront:
+                return new RollUpFrontState(this);
+            case PlayerState.RollUpBack:
+                return new RollUpBackState(this);
+            case PlayerState.StandUp:
+                return new StandUpState(this);
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 
@@ -152,17 +199,14 @@ public class PlayerController : NetworkBehaviour
     }
 
     [Command]
-    void CmdUpdateState(string newState)
+    void CmdUpdateState(PlayerState newState)
     {
-        _curStateString = newState;
+        _curState = newState;
     }
 
-    void OnStateChanged(string oldState, string newState)
+    void OnStateChanged(PlayerState oldState, PlayerState newState)
     {
-        if (this != null)
-        {
-            _attackController.HandleAttack(newState);
-        }
+        _attackController.HandleAttack(newState); // 상태 변경 시 공격 값 설정
     }
 
     public void BindInputCallback(bool isBind, Action<InputAction.CallbackContext> callback)
@@ -205,7 +249,7 @@ public class PlayerController : NetworkBehaviour
 
         if (context.performed)
         {
-            _curState?.OnInputCallback(context);
+            _currentStateInstance?.OnInputCallback(context);
         }
     }
 
@@ -215,7 +259,7 @@ public class PlayerController : NetworkBehaviour
 
         if (_attackController.currentHeavyAttackCoolTime <= 0 && context.performed)
         {
-            _curState?.OnInputCallback(context);
+            _currentStateInstance?.OnInputCallback(context);
         }
     }
 
@@ -225,7 +269,7 @@ public class PlayerController : NetworkBehaviour
 
         if (context.performed)
         {
-            _curState?.OnInputCallback(context);
+            _currentStateInstance?.OnInputCallback(context);
         }
     }
     #endregion
@@ -236,9 +280,9 @@ public class PlayerController : NetworkBehaviour
         if (IsHitted) return;
         if (!isLocalPlayer) return;
 
-        if (_curState is FirstAttackState || _curState is SecondAttackState || _curState is FinishAttackState ||
-            _curState is JumpHeavyAttackState || _curState is HeavyAttackState || _curState is SkillAttackState ||
-            _curState is RollUpBackState || _curState is RollUpFrontState)
+        if (_currentStateInstance is FirstAttackState || _currentStateInstance is SecondAttackState || _currentStateInstance is FinishAttackState ||
+            _currentStateInstance is JumpHeavyAttackState || _currentStateInstance is HeavyAttackState || _currentStateInstance is SkillAttackState ||
+            _currentStateInstance is RollUpBackState || _currentStateInstance is RollUpFrontState)
         {
             _attackController.HandleAttackMove();
             return;

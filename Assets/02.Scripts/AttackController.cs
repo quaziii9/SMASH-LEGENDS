@@ -48,30 +48,30 @@ public class AttackController : NetworkBehaviour
         player = playerController;
     }
 
-    public void HandleAttack(string attackType)
+    public void HandleAttack(PlayerState state)
     {
-        switch (attackType)
+        switch (state)
         {
-            case nameof(FirstAttackState):
+            case PlayerState.FirstAttack:
                 SetAttackValues(_defaultAttackDamage / 3, _defaultAttackKnockBackPower, player.transform.up * 0.5f, HitType.Hit);
                 break;
-            case nameof(SecondAttackState):
+            case PlayerState.SecondAttack:
                 SetAttackValues(_defaultAttackDamage / 6, _defaultAttackKnockBackPower, player.transform.up * 0.5f, HitType.Hit);
                 break;
-            case nameof(FinishAttackState):
+            case PlayerState.FinishAttack:
                 SetAttackValues(_defaultAttackDamage / 3, _heavyAttackKnockBackPower, player.transform.up * 1.2f, HitType.HitUp);
                 break;
-            case nameof(JumpAttackState):
+            case PlayerState.JumpAttack:
                 SetAttackValues(_defaultAttackDamage * 0.6f, _heavyAttackKnockBackPower, player.transform.up * 1.2f, HitType.HitUp);
                 break;
-            case nameof(HeavyAttackState):
+            case PlayerState.HeavyAttack:
                 SetAttackValues(_heavyAttackDamage, _heavyAttackKnockBackPower, player.transform.up * 1.2f, HitType.HitUp);
                 break;
-            case nameof(JumpHeavyAttackLandingState):
-            case nameof(JumpHeavyAttackState):
+            case PlayerState.JumpHeavyAttackLanding:
+            case PlayerState.JumpHeavyAttack:
                 SetAttackValues(_heavyAttackDamage / 3 * 2, _heavyAttackKnockBackPower, player.transform.up * 1.2f, HitType.HitUp);
                 break;
-            case nameof(SkillAttackState):
+            case PlayerState.SkillAttack:
                 SetAttackValues((_skillAttackDamage - 500) / 5, _defaultAttackKnockBackPower, player.transform.up, HitType.Hit);
                 break;
         }
@@ -123,17 +123,17 @@ public class AttackController : NetworkBehaviour
     public void StartAttackMove()
     {
         if (!player.isLocalPlayer) return;
-        if (!(player._curState.ToString() == nameof(RollUpBackState) || player._curState.ToString() == nameof(RollUpFrontState)))
+        if (player._curState != PlayerState.RollUpBack && player._curState != PlayerState.RollUpFront)
             RotateTowardsNearestPlayer();
 
-        if (player._curState.ToString() == nameof(SkillAttackState))
+        if (player._curState == PlayerState.SkillAttack)
         {
             _attackMoveDistance = 8f;
             _attackMoveDuration = 1.2f;
         }
         _attackMoveStartTime = Time.time;
         _currentMoveDistance = 0;
-        if (player._curState.ToString() == nameof(RollUpBackState)) _attackMoveDirection = -player.transform.forward;
+        if (player._curState == PlayerState.RollUpBack) _attackMoveDirection = -player.transform.forward;
         else
             _attackMoveDirection = player.transform.forward;
     }
@@ -143,10 +143,10 @@ public class AttackController : NetworkBehaviour
         switch (hitType)
         {
             case HitType.Hit:
-                player.ChangeState(new HitState(player, this));
+                player.ChangeState(PlayerState.Hit);
                 break;
             case HitType.HitUp:
-                player.ChangeState(new HitUpState(player, this));
+                player.ChangeState(PlayerState.HitUp);
                 break;
         }
         player._rigidbody.velocity = Vector3.zero;

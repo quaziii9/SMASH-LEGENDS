@@ -32,8 +32,8 @@ public class IdleState : StateBase
     {
         if (Player.PositionSet == false) return;
         if (Player._moveDirection != Vector3.zero)
-        {
-            Player.ChangeState(new RunState(Player));
+        {            
+            Player.ChangeState(PlayerState.Run);
         }
 
         if (Time.time - enterTime > 0.5f)
@@ -42,13 +42,13 @@ public class IdleState : StateBase
             var keyboard = Keyboard.current;
 
             if (keyboard.zKey.wasPressedThisFrame)
-            {
-                Player.ChangeState(new FirstAttackState(Player));
+            {                
+                Player.ChangeState(PlayerState.FirstAttack);
                 return;
             }
             else if (keyboard.xKey.wasPressedThisFrame)
-            {
-                Player.ChangeState(new HeavyAttackState(Player));
+            {               
+                Player.ChangeState(PlayerState.HeavyAttack);
                 return;
             }
         }
@@ -60,24 +60,24 @@ public class IdleState : StateBase
         if (isTransitioning) return; // 상태 전환 중에는 입력 무시
 
         if (context.action.name == "Jump" && context.performed)
-        {
-            Player.ChangeState(new JumpUpState(Player));
+        {          
+            Player.ChangeState(PlayerState.JumpUp);
         }
         else if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero)
         {
-            Player.ChangeState(new RunState(Player));
+            Player.ChangeState(PlayerState.Run);
         }
         else if (context.action.name == "DefaultAttack" && context.performed)
         {
-            Player.ChangeState(new FirstAttackState(Player));
+            Player.ChangeState(PlayerState.FirstAttack);
         }
         else if (context.action.name == "HeavyAttack" && context.performed)
         {
-            Player.ChangeState(new HeavyAttackState(Player));
+            Player.ChangeState(PlayerState.HeavyAttack);
         }
         else if (context.action.name == "SkillAttack" && context.performed)
         {
-            Player.ChangeState(new SkillAttackState(Player));
+            Player.ChangeState(PlayerState.SkillAttack);
         }
     }
 

@@ -22,8 +22,8 @@ public class JumpUpState : StateBase
     public override void ExecuteOnUpdate()
     {
         if (Player._rigidbody.velocity.y < -1f)
-        {
-            Player.ChangeState(new JumpDownState(Player));
+        {           
+            Player.ChangeState(PlayerState.JumpDown);
         }
 
         // 점프 중 이동 처리
@@ -36,12 +36,12 @@ public class JumpUpState : StateBase
     public override void OnInputCallback(InputAction.CallbackContext context)
     {
         if (context.action.name == "HeavyAttack" && context.performed)
-        {
-            Player.ChangeState(new JumpHeavyAttackState(Player));
+        {   
+            Player.ChangeState(PlayerState.JumpHeavyAttack);
         }
         else if (context.action.name == "DefaultAttack" && context.performed)
-        {
-            Player.ChangeState(new JumpAttackState(Player));
+        {            
+            Player.ChangeState(PlayerState.JumpAttack);
         }
     }
 
@@ -68,8 +68,8 @@ public class JumpDownState : StateBase
     public override void ExecuteOnUpdate()
     {
         if (Player._isGrounded)
-        {
-            Player.ChangeState(new JumpLandState(Player));
+        {     
+            Player.ChangeState(PlayerState.JumpLand);
         }
 
         // 점프 중 이동 처리
@@ -83,11 +83,11 @@ public class JumpDownState : StateBase
     {
         if (context.action.name == "HeavyAttack" && context.performed && Player._Ground == false)
         {
-            Player.ChangeState(new JumpHeavyAttackState(Player));
+            Player.ChangeState(PlayerState.JumpHeavyAttack);
         }
         else if (context.action.name == "DefaultAttack" && context.performed && Player._isGrounded == false)
         {
-            Player.ChangeState(new JumpAttackState(Player));
+            Player.ChangeState(PlayerState.JumpAttack);
         }
     }
 
@@ -118,12 +118,12 @@ public class JumpLandState : StateBase
         if (Player._isGrounded)
         {
             if (Player.IsMoveInputActive)
-            {
-                Player.ChangeState(new RunState(Player));
+            {              
+                Player.ChangeState(PlayerState.Run);
             }
             else
             {
-                Player.ChangeState(new IdleState(Player));
+                Player.ChangeState(PlayerState.Idle);
             }
         }
     }
@@ -156,11 +156,11 @@ public class JumpAttackState : StateBase
         {
             if (stateInfo.IsName("JumpAttack") && stateInfo.normalizedTime >= 0.3f)
             {
-                Player.ChangeState(new JumpLandState(Player));
+                Player.ChangeState(PlayerState.JumpLand);
             }
             else
             {
-                Player.ChangeState(new JumpLightLandingState(Player));
+                Player.ChangeState(PlayerState.JumpAttackLanding);
             }
         }
     }
@@ -168,9 +168,9 @@ public class JumpAttackState : StateBase
 
 }
 
-public class JumpLightLandingState : StateBase
+public class JumpAttackLandingState : StateBase
 {
-    public JumpLightLandingState(PlayerController player) : base(player) { }
+    public JumpAttackLandingState(PlayerController player) : base(player) { }
 
     public override void Enter()
     {
@@ -194,11 +194,11 @@ public class JumpLightLandingState : StateBase
         {
             if (Player.IsMoveInputActive)
             {
-                Player.ChangeState(new RunState(Player));
+                Player.ChangeState(PlayerState.Run);
             }
             else
             {
-                Player.ChangeState(new IdleState(Player));
+                Player.ChangeState(PlayerState.Idle);
             }
         }
     }
@@ -229,7 +229,7 @@ public class RunState : StateBase
     {
         if (Player._moveDirection == Vector3.zero)
         {
-            Player.ChangeState(new IdleState(Player));
+            Player.ChangeState(PlayerState.Idle);
         }
     }
 
@@ -237,21 +237,21 @@ public class RunState : StateBase
     {
         if (context.action.name == "Jump" && context.performed)
         {
-            Player.ChangeState(new JumpUpState(Player));
+            Player.ChangeState(PlayerState.JumpUp);
         }
         else if (context.action.name == "DefaultAttack" && context.performed)
         {
             Player._rigidbody.velocity = new Vector3(0, Player._rigidbody.velocity.y, 0);
-            Player.ChangeState(new FirstAttackState(Player));
+            Player.ChangeState(PlayerState.FirstAttack);
         }
         else if (context.action.name == "HeavyAttack" && context.performed)
         {
             Player._rigidbody.velocity = new Vector3(0, Player._rigidbody.velocity.y, 0);
-            Player.ChangeState(new HeavyAttackState(Player));
+            Player.ChangeState(PlayerState.HeavyAttack);
         }
         else if (context.action.name == "SkillAttack" && context.performed)
         {
-            Player.ChangeState(new SkillAttackState(Player));
+            Player.ChangeState(PlayerState.SkillAttack);
         }
     }
     public override bool IsTransitioning => !Player._animationController.GetCurrentAnimatorStateInfo(0).IsName("Run");
@@ -287,13 +287,13 @@ public class FirstAttackState : StateBase
         // FirstAttack 애니메이션이 끝났는지 확인
         if (animatorStateInfo.normalizedTime >= 1.0f)
         {
-            Player.ChangeState(new IdleState(Player));
+            Player.ChangeState(PlayerState.Idle);
         }
 
         // CanMove가 true일 때 이동 처리
         if (Player.CanMove && Player.IsMoveInputActive)
         {
-            Player.ChangeState(new RunState(Player));
+            Player.ChangeState(PlayerState.Run);
         }
     }
 
@@ -301,11 +301,11 @@ public class FirstAttackState : StateBase
     {
         if (context.action.name == "DefaultAttack" && context.performed && Player.CanChange)
         {
-            Player.ChangeState(new SecondAttackState(Player));
+            Player.ChangeState(PlayerState.SecondAttack);
         }
         else if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanMove)
         {
-            Player.ChangeState(new RunState(Player));
+            Player.ChangeState(PlayerState.Run);
         }
     }
 
@@ -342,13 +342,13 @@ public class SecondAttackState : StateBase
         // SecondAttack 애니메이션이 끝났는지 확인
         if (animatorStateInfo.IsName("SecondAttack") && animatorStateInfo.normalizedTime >= 1.0f)
         {
-            Player.ChangeState(new IdleState(Player));
+            Player.ChangeState(PlayerState.Idle);
         }
 
         // CanMove가 true일 때 이동 처리
         if (Player.CanMove && Player.IsMoveInputActive)
         {
-            Player.ChangeState(new RunState(Player));
+            Player.ChangeState(PlayerState.Run);
         }
     }
 
@@ -356,11 +356,11 @@ public class SecondAttackState : StateBase
     {
         if (context.action.name == "DefaultAttack" && context.performed && Player.CanChange)
         {
-            Player.ChangeState(new FinishAttackState(Player));
+            Player.ChangeState(PlayerState.FinishAttack);
         }
         else if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanMove)
         {
-            Player.ChangeState(new RunState(Player));
+            Player.ChangeState(PlayerState.Run);
         }
     }
 
@@ -396,13 +396,13 @@ public class FinishAttackState : StateBase
         // FinishAttack 애니메이션이 끝났는지 확인
         if (animatorStateInfo.IsName("FinishAttack") && animatorStateInfo.normalizedTime >= 1.0f)
         {
-            Player.ChangeState(new IdleState(Player));
+            Player.ChangeState(PlayerState.Idle);
         }
 
         // CanMove가 true일 때 이동 처리
         if (Player.CanMove && Player.IsMoveInputActive)
         {
-            Player.ChangeState(new RunState(Player));
+            Player.ChangeState(PlayerState.Run);
         }
     }
 
@@ -410,7 +410,7 @@ public class FinishAttackState : StateBase
     {
         if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanMove)
         {
-            Player.ChangeState(new RunState(Player));
+            Player.ChangeState(PlayerState.Run);
         }
     }
 
@@ -448,13 +448,13 @@ public class HeavyAttackState : StateBase
         // HeavyAttack 애니메이션이 끝났는지 확인
         if (animatorStateInfo.IsName("HeavyAttack") && animatorStateInfo.normalizedTime >= 1.0f)
         {
-            Player.ChangeState(new IdleState(Player));
+            Player.ChangeState(PlayerState.Idle);
         }
 
         // CanMove가 true일 때 이동 처리
         if (Player.CanMove && Player.IsMoveInputActive)
         {
-            Player.ChangeState(new RunState(Player));
+            Player.ChangeState(PlayerState.Run);
         }
     }
 
@@ -462,7 +462,7 @@ public class HeavyAttackState : StateBase
     {
         if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanMove)
         {
-            Player.ChangeState(new RunState(Player));
+            Player.ChangeState(PlayerState.Run);
         }
     }
 
@@ -497,8 +497,8 @@ public class JumpHeavyAttackState : StateBase
     public override void ExecuteOnUpdate()
     {
         if (Player._Ground)
-        {
-            Player.ChangeState(new JumpHeavyAttackLandingState(Player));
+        {          
+            Player.ChangeState(PlayerState.JumpHeavyAttackLanding);
         }
     }
 
@@ -535,7 +535,7 @@ public class JumpHeavyAttackLandingState : StateBase
         AnimatorStateInfo stateInfo = Player._animationController.GetCurrentAnimatorStateInfo(0);
         if (stateInfo.IsName("JumpHeavyAttackLanding") && stateInfo.normalizedTime >= 1.0f)
         {
-            Player.ChangeState(new IdleState(Player));
+            Player.ChangeState(PlayerState.Idle);
         }
     }
     public override bool IsTransitioning => !Player._animationController.GetCurrentAnimatorStateInfo(0).IsName("JumpHeavyAttack");
@@ -568,13 +568,13 @@ public class SkillAttackState : StateBase
         var animatorStateInfo = Player._animationController.GetCurrentAnimatorStateInfo(0);
         if (animatorStateInfo.IsName("SkillAttack") && animatorStateInfo.normalizedTime >= 1.0f)
         {
-            Player.ChangeState(new IdleState(Player));
+            Player.ChangeState(PlayerState.Idle);
         }
 
         // CanMove가 true일 때 이동 처리
         if (Player.CanMove && Player.IsMoveInputActive)
         {
-            Player.ChangeState(new RunState(Player));
+            Player.ChangeState(PlayerState.Run);
         }
     }
 
@@ -582,7 +582,7 @@ public class SkillAttackState : StateBase
     {
         if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanMove)
         {
-            Player.ChangeState(new RunState(Player));
+            Player.ChangeState(PlayerState.Run);
         }
     }
 
@@ -619,7 +619,7 @@ public class HitState : StateBase
         AnimatorStateInfo animatorStateInfo = Player._animationController.GetCurrentAnimatorStateInfo(0);
         if (animatorStateInfo.IsName("Hit") && animatorStateInfo.normalizedTime >= .9f)
         {
-            Player.ChangeState(new IdleState(Player));
+            Player.ChangeState(PlayerState.Idle);
         }
     }
 
@@ -655,7 +655,7 @@ public class HitUpState : StateBase
         AnimatorStateInfo animatorStateInfo = Player._animationController.GetCurrentAnimatorStateInfo(0);
         if (Player._isGrounded == true && animatorStateInfo.IsName("HitUp") && animatorStateInfo.normalizedTime >= .5f)
         {
-            Player.ChangeState(new HitDownState(Player));
+            Player.ChangeState(PlayerState.HitDown);
         }
     }
 
@@ -691,7 +691,7 @@ public class HitDownState : StateBase
         AnimatorStateInfo animatorStateInfo = Player._animationController.GetCurrentAnimatorStateInfo(0);
         if (animatorStateInfo.IsName("HitDown") && animatorStateInfo.normalizedTime >= .5f)
         {
-            Player.ChangeState(new HitLandState(Player));
+            Player.ChangeState(PlayerState.HitLand);
         }
     }
 
@@ -722,7 +722,7 @@ public class HitLandState : StateBase
         AnimatorStateInfo animatorStateInfo = Player._animationController.GetCurrentAnimatorStateInfo(0);
         if (animatorStateInfo.IsName("HitLand") && animatorStateInfo.normalizedTime >= .9f)
         {
-            Player.ChangeState(new DownIdleState(Player));
+            Player.ChangeState(PlayerState.DownIdle);
         }
     }
 
@@ -759,13 +759,13 @@ public class DownIdleState : StateBase
 
             if (angle > 135 || angle < -135) // 반대 방향이면 RollUpBackState로 전환
             {
-                Player.ChangeState(new RollUpBackState(Player));
+                Player.ChangeState(PlayerState.RollUpBack);
             }
             else // 같은 방향이면 좌우 회전 후 RollUpFrontState로 전환
             {
                 Player.transform.rotation = Quaternion.LookRotation(inputDirection);
                 Player.CanLook = true;
-                Player.ChangeState(new RollUpFrontState(Player));
+                Player.ChangeState(PlayerState.RollUpFront);
             }
 
             //if (Player._moveDirection.x != 0)
@@ -795,7 +795,7 @@ public class DownIdleState : StateBase
 
         if (context.action.name == "Jump" && context.performed)
         {
-            Player.ChangeState(new StandUpState(Player));
+            Player.ChangeState(PlayerState.StandUp);
         }
     }
 
@@ -828,8 +828,8 @@ public class RollUpFrontState : StateBase
     {
         AnimatorStateInfo animatorStateInfo = Player._animationController.GetCurrentAnimatorStateInfo(0);
         if (animatorStateInfo.IsName("RollUpFront") && animatorStateInfo.normalizedTime >= .9f)
-        {
-            Player.ChangeState(new IdleState(Player));
+        {           
+            Player.ChangeState(PlayerState.Idle);
         }
     }
 
@@ -863,7 +863,7 @@ public class RollUpBackState : StateBase
         AnimatorStateInfo animatorStateInfo = Player._animationController.GetCurrentAnimatorStateInfo(0);
         if (animatorStateInfo.IsName("RollUpBack") && animatorStateInfo.normalizedTime >= .9f)
         {
-            Player.ChangeState(new IdleState(Player));
+            Player.ChangeState(PlayerState.Idle);
         }
     }
 
@@ -895,7 +895,7 @@ public class StandUpState : StateBase
         AnimatorStateInfo animatorStateInfo = Player._animationController.GetCurrentAnimatorStateInfo(0);
         if (animatorStateInfo.IsName("StandUp") && animatorStateInfo.normalizedTime >= .9f)
         {
-            Player.ChangeState(new IdleState(Player));
+            Player.ChangeState(PlayerState.Idle);
         }
     }
 
