@@ -970,6 +970,7 @@ GameObject:
   - component: {fileID: 7702634980453190979}
   - component: {fileID: 2422262704306656028}
   - component: {fileID: 3147114990716042990}
+  - component: {fileID: 1333971530343124259}
   m_Layer: 7
   m_Name: Peter_Ingame
   m_TagString: Player
@@ -1194,12 +1195,13 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  _statController: {fileID: 0}
+  _animationController: {fileID: 0}
   _moveDirection: {x: 0, y: 0, z: 0}
   groundCheck: {fileID: 8575020770430485035}
   _isGrounded: 0
   _Ground: 0
   _rigidbody: {fileID: 0}
-  _animationController: {fileID: 0}
   _playerHp: 10000
   _curState: 0
   IsHitted: 0
@@ -1369,16 +1371,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   currentHeavyAttackCoolTime: 0
-  _defaultAttackDamage: 600
-  _heavyAttackDamage: 900
-  _skillAttackDamage: 1500
   DamageAmount: 0
   KnockBackPower: 1
   KnockBackDireciton: {x: 0, y: 0, z: 0}
   hitType: 0
-  jumpForce: 14.28
-  gravityScale: 36
-  maxFallSpeed: 20
   groundCheckDistance: 1
   detectionRadius: 5
   playerLayer:
@@ -1400,6 +1396,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e5148fa212dce2429f0ebcb0f4e947f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1333971530343124259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3697806329183979239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd4ab4402b807e643aadbbdd9b0f8e10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5.4
+  jumpMoveSpeed: 2.2
+  maxHp: 10000
+  jumpForce: 14.28
+  gravityScale: 36
+  maxFallSpeed: 20
+  defaultAttackDamage: 600
+  heavyAttackDamage: 900
+  skillAttackDamage: 1500
+  defaultKnockBackPower: 0.2
+  heavyKnockBackPower: 0.38
+  heavyAttackCoolTime: 4
 --- !u!1 &3785853611246990569
 GameObject:
   m_ObjectHideFlags: 0

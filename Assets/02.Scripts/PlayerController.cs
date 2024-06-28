@@ -5,10 +5,14 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : NetworkBehaviour
 {
-    private float moveSpeed = 5.4f; // 피터의 이동속도
-    private float jumpMoveSpeed = 2.2f; // 점프 중 이동 속도
+    [Header("Controller")]
+    public StatController _statController; // StatController 추가
+    public AnimationController _animationController;
+    public AttackController _attackController;
+    public StateController _stateController;
 
     public Vector3 _moveDirection;
+    public Rigidbody _rigidbody;
 
     [Header("GroundCheck")]
     public GameObject groundCheck;
@@ -16,35 +20,28 @@ public class PlayerController : NetworkBehaviour
     public bool _isGrounded;
     public bool _Ground;
 
-    public Rigidbody _rigidbody;
-    public AnimationController _animationController;
-
-    [SyncVar] public float _playerHp = 10000;
+    //[SyncVar] public float _playerHp;
 
     [Header("State")]
     [SyncVar(hook = nameof(OnStateChanged))] public PlayerState _curState;
+
+
     public bool CanMove { get; set; }
     public bool CanLook { get; set; }
     public bool CanChange { get; set; }
+
     public bool IsMoveInputActive { get; private set; }
     public bool IsHitted;
-
     public bool PositionSet = false;
 
     private bool isJumping = false;
     private bool isIdleJump = false;
 
-    [Header("Detection")]
-    public LayerMask playerLayer; // 플레이어가 속한 레이어
-
-    public AttackController _attackController;
-    public StateController _stateController;
-
     private Vector3 _rollUpMoveDirection;
-    public float _rollUpMoveDistance;
-    public float _rollUpMoveDuration;
-    public float _rollUpMoveStartTime;
-    public float _currentMoveDistance;
+    private float _rollUpMoveDistance = 2.5f;
+    private float _rollUpMoveDuration = 0.3f;
+    private float _rollUpMoveStartTime;
+    private float _currentMoveDistance;
 
     private void Awake()
     {
@@ -52,10 +49,13 @@ public class PlayerController : NetworkBehaviour
         _animationController = GetComponent<AnimationController>();
         _attackController = GetComponent<AttackController>(); // AddComponent 대신 GetComponent 사용
         _stateController = GetComponent<StateController>();
+        _statController = GetComponent<StatController>(); // StatController 추가
+
+        //_playerHp = _statController.maxHp; // 초기 HP 설정
 
         if (_attackController != null)
         {
-            _attackController.Initialize(this);
+            _attackController.Initialize(this, _statController); // StatController를 AttackController에 전달
         }
         else
         {
@@ -252,7 +252,7 @@ public class PlayerController : NetworkBehaviour
 
         if (CanMove)
         {
-            float currentMoveSpeed = isJumping && isIdleJump ? jumpMoveSpeed : moveSpeed;
+            float currentMoveSpeed = isJumping && isIdleJump ? _statController.jumpMoveSpeed : _statController.moveSpeed;
             Vector3 velocity = new Vector3(_moveDirection.x * currentMoveSpeed, _rigidbody.velocity.y, _moveDirection.z * currentMoveSpeed);
             _rigidbody.velocity = velocity;
         }
@@ -269,7 +269,7 @@ public class PlayerController : NetworkBehaviour
 
     public void Jump(bool idleJump = false)
     {
-        _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, _attackController.jumpForce, _rigidbody.velocity.z);
+        _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, _statController.jumpForce, _rigidbody.velocity.z);
         isJumping = true;
         isIdleJump = idleJump;
     }
@@ -311,17 +311,17 @@ public class PlayerController : NetworkBehaviour
     {
         if (!_isGrounded)
         {
-            _rigidbody.AddForce(Vector3.down * _attackController.gravityScale, ForceMode.Acceleration);
+            _rigidbody.AddForce(Vector3.down * _statController.gravityScale, ForceMode.Acceleration);
 
             if (_rigidbody.velocity.y < 0)
             {
-                _rigidbody.velocity += Vector3.up * _attackController.gravityScale * 0.5f * Time.fixedDeltaTime;
+                _rigidbody.velocity += Vector3.up * _statController.gravityScale * 0.5f * Time.fixedDeltaTime;
             }
         }
 
-        if (_rigidbody.velocity.y < -_attackController.maxFallSpeed)
+        if (_rigidbody.velocity.y < -_statController.maxFallSpeed)
         {
-            _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, -_attackController.maxFallSpeed, _rigidbody.velocity.z);
+            _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, -_statController.maxFallSpeed, _rigidbody.velocity.z);
         }
     }
 
@@ -357,7 +357,7 @@ public class PlayerController : NetworkBehaviour
 
     private void PlayerGetDamaged(float damaged)
     {
-        _playerHp -= damaged;
+        _statController.ApplyDamage(damaged); // 스탯 컨트롤러를 통해 데미지 적용
     }
 
     public void Hitted(float damaged, float knockBackPower, Vector3 attackerPosition, Vector3 attackerDirection, HitType hitType)

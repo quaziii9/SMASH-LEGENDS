@@ -10,42 +10,29 @@ public enum HitType
 public class AttackController : NetworkBehaviour
 {
     private PlayerController player;
+    private StatController statController; // StatController 추가
 
-    private float heavyAttackCoolTime = 4f;
     public float currentHeavyAttackCoolTime = 0f;
-    [SerializeField] private float _defaultAttackDamage = 600;
-    [SerializeField] private float _heavyAttackDamage = 900;
-    [SerializeField] private float _skillAttackDamage = 1500;
-
-    [Header("Knockback")]
-    private float _defaultAttackKnockBackPower = 0.2f;
-    private float _heavyAttackKnockBackPower = 0.38f;
 
     [SyncVar] public float DamageAmount;
     [SyncVar] public float KnockBackPower = 1;
     [SyncVar] public Vector3 KnockBackDireciton;
     [SyncVar] public HitType hitType;
 
-    public float jumpForce = 14.28f;
-    public float gravityScale = 36f;
-    public float maxFallSpeed = 20f;
-
-    [Header("GroundCheck")]
-    public float groundCheckDistance = 1f;
-
     [Header("Detection")]
     public float detectionRadius = 5f;
     public LayerMask playerLayer;
 
-    private Vector3 _attackMoveDirection;
     public float _attackMoveDistance;
     public float _attackMoveDuration;
-    public float _attackMoveStartTime;
-    public float _currentMoveDistance;
+    private float _attackMoveStartTime;
+    private float _currentMoveDistance;
+    private Vector3 _attackMoveDirection;
 
-    public void Initialize(PlayerController playerController)
+    public void Initialize(PlayerController playerController, StatController statCtrl)
     {
         player = playerController;
+        statController = statCtrl; // StatController 초기화
     }
 
     public void HandleAttack(PlayerState state)
@@ -53,26 +40,26 @@ public class AttackController : NetworkBehaviour
         switch (state)
         {
             case PlayerState.FirstAttack:
-                SetAttackValues(_defaultAttackDamage / 3, _defaultAttackKnockBackPower, player.transform.up * 0.5f, HitType.Hit);
+                SetAttackValues(statController.defaultAttackDamage / 3, statController.defaultKnockBackPower, player.transform.up * 0.5f, HitType.Hit);
                 break;
             case PlayerState.SecondAttack:
-                SetAttackValues(_defaultAttackDamage / 6, _defaultAttackKnockBackPower, player.transform.up * 0.5f, HitType.Hit);
+                SetAttackValues(statController.defaultAttackDamage / 6, statController.defaultKnockBackPower, player.transform.up * 0.5f, HitType.Hit);
                 break;
             case PlayerState.FinishAttack:
-                SetAttackValues(_defaultAttackDamage / 3, _heavyAttackKnockBackPower, player.transform.up * 1.2f, HitType.HitUp);
+                SetAttackValues(statController.defaultAttackDamage / 3, statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp);
                 break;
             case PlayerState.JumpAttack:
-                SetAttackValues(_defaultAttackDamage * 0.6f, _heavyAttackKnockBackPower, player.transform.up * 1.2f, HitType.HitUp);
+                SetAttackValues(statController.defaultAttackDamage * 0.6f, statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp);
                 break;
             case PlayerState.HeavyAttack:
-                SetAttackValues(_heavyAttackDamage, _heavyAttackKnockBackPower, player.transform.up * 1.2f, HitType.HitUp);
+                SetAttackValues(statController.heavyAttackDamage, statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp);
                 break;
             case PlayerState.JumpHeavyAttackLanding:
             case PlayerState.JumpHeavyAttack:
-                SetAttackValues(_heavyAttackDamage / 3 * 2, _heavyAttackKnockBackPower, player.transform.up * 1.2f, HitType.HitUp);
+                SetAttackValues(statController.heavyAttackDamage / 3 * 2, statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp);
                 break;
             case PlayerState.SkillAttack:
-                SetAttackValues((_skillAttackDamage - 500) / 5, _defaultAttackKnockBackPower, player.transform.up, HitType.Hit);
+                SetAttackValues((statController.skillAttackDamage - 500) / 5, statController.defaultKnockBackPower, player.transform.up, HitType.Hit);
                 break;
         }
     }
@@ -87,7 +74,7 @@ public class AttackController : NetworkBehaviour
 
     public void SkillLastAttackDamage()
     {
-        SetAttackValues(_skillAttackDamage / 5 + 500, _heavyAttackKnockBackPower, player.transform.forward + player.transform.up * 1.2f, HitType.HitUp);
+        SetAttackValues(statController.skillAttackDamage / 5 + 500, statController.heavyKnockBackPower, player.transform.forward + player.transform.up * 1.2f, HitType.HitUp);
     }
 
     public void UpdateCooldowns()
@@ -100,7 +87,7 @@ public class AttackController : NetworkBehaviour
 
     public void StartHeavyAttackCooldown()
     {
-        currentHeavyAttackCoolTime = heavyAttackCoolTime;
+        currentHeavyAttackCoolTime = statController.heavyAttackCoolTime;
     }
 
     public void HandleAttackMove()

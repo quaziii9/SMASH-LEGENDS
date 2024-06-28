@@ -480,10 +480,10 @@ public class JumpHeavyAttackState : StateBase
         base.Enter();
         AttackController._attackMoveDistance = 2.5f;
         AttackController._attackMoveDuration = 0.3f;
-        Player._rigidbody.velocity = new Vector3(0, AttackController.jumpForce, 0);
+        Player._rigidbody.velocity = new Vector3(0, StatController.jumpForce, 0);
         Player._animationController.SetBool(Player._animationController.IsJumpHeavyAttacking, true);
         AttackController.StartAttackMove();
-        Player._rigidbody.velocity = new Vector3(Player._rigidbody.velocity.x, AttackController.jumpForce, Player._rigidbody.velocity.z);
+        Player._rigidbody.velocity = new Vector3(Player._rigidbody.velocity.x, StatController.jumpForce, Player._rigidbody.velocity.z);
         Player.CanMove = false;
         Player.CanLook = false;
     }
@@ -788,8 +788,6 @@ public class RollUpFrontState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._rollUpMoveDistance = 2.5f;
-        Player._rollUpMoveDuration = 0.3f;
         Player.StartRollUpMove();
         Player.IsHitted = false;
         Player._animationController.SetBool(Player._animationController.IsRollUpFront, true);
@@ -822,8 +820,6 @@ public class RollUpBackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._rollUpMoveDistance = 2.5f;
-        Player._rollUpMoveDuration = 0.3f;
         Player.StartRollUpMove();
         Player.IsHitted = false;
         Player._animationController.SetBool(Player._animationController.IsRollUpBack, true);
