@@ -969,6 +969,7 @@ GameObject:
   - component: {fileID: 3577672954344978972}
   - component: {fileID: 7702634980453190979}
   - component: {fileID: 2422262704306656028}
+  - component: {fileID: 3147114990716042990}
   m_Layer: 7
   m_Name: Peter_Ingame
   m_TagString: Player
@@ -1200,13 +1201,18 @@ MonoBehaviour:
   _rigidbody: {fileID: 0}
   _animationController: {fileID: 0}
   _playerHp: 10000
-  _curStateString: 
+  _curState: 0
   IsHitted: 0
   PositionSet: 0
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
   _attackController: {fileID: 0}
+  _stateController: {fileID: 0}
+  _rollUpMoveDistance: 0
+  _rollUpMoveDuration: 0
+  _rollUpMoveStartTime: 0
+  _currentMoveDistance: 0
 --- !u!114 &1083122375429704005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1319,6 +1325,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _weaponCollider: {fileID: 0}
+  _attackController: {fileID: 0}
 --- !u!114 &7702634980453190979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1381,6 +1388,18 @@ MonoBehaviour:
   _attackMoveDuration: 0
   _attackMoveStartTime: 0
   _currentMoveDistance: 0
+--- !u!114 &3147114990716042990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3697806329183979239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e5148fa212dce2429f0ebcb0f4e947f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3785853611246990569
 GameObject:
   m_ObjectHideFlags: 0
