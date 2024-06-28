@@ -788,9 +788,9 @@ public class RollUpFrontState : StateBase
     public override void Enter()
     {
         base.Enter();
-        AttackController._attackMoveDistance = 2.5f;
-        AttackController._attackMoveDuration = 0.3f;
-        AttackController.StartAttackMove();
+        Player._rollUpMoveDistance = 2.5f;
+        Player._rollUpMoveDuration = 0.3f;
+        Player.StartRollUpMove();
         Player.IsHitted = false;
         Player._animationController.SetBool(Player._animationController.IsRollUpFront, true);
         Player.CanMove = false;
@@ -822,9 +822,9 @@ public class RollUpBackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        AttackController._attackMoveDistance = 2.5f;
-        AttackController._attackMoveDuration = 0.3f;
-        AttackController.StartAttackMove();
+        Player._rollUpMoveDistance = 2.5f;
+        Player._rollUpMoveDuration = 0.3f;
+        Player.StartRollUpMove();
         Player.IsHitted = false;
         Player._animationController.SetBool(Player._animationController.IsRollUpBack, true);
         Player.CanMove = false;

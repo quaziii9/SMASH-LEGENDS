@@ -42,6 +42,12 @@ public class PlayerController : NetworkBehaviour
 
     private IState _currentStateInstance; // 현재 상태 인스턴스
 
+    private Vector3 _rollUpMoveDirection;
+    public float _rollUpMoveDistance;
+    public float _rollUpMoveDuration;
+    public float _rollUpMoveStartTime;
+    public float _currentMoveDistance;
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -276,9 +282,15 @@ public class PlayerController : NetworkBehaviour
         if (IsHitted) return;
         if (!isLocalPlayer) return;
 
+        if(_currentStateInstance is RollUpBackState || _currentStateInstance is RollUpFrontState)
+        {
+            HandleRollUpMOVE();
+        }
+
+
         if (_currentStateInstance is FirstAttackState || _currentStateInstance is SecondAttackState || _currentStateInstance is FinishAttackState ||
-            _currentStateInstance is JumpHeavyAttackState || _currentStateInstance is HeavyAttackState || _currentStateInstance is SkillAttackState ||
-            _currentStateInstance is RollUpBackState || _currentStateInstance is RollUpFrontState)
+            _currentStateInstance is JumpHeavyAttackState || _currentStateInstance is HeavyAttackState || _currentStateInstance is SkillAttackState )
+            
         {
             _attackController.HandleAttackMove();
             return;
@@ -317,6 +329,34 @@ public class PlayerController : NetworkBehaviour
     {
         isJumping = false;
         isIdleJump = false;
+    }
+
+
+    public void HandleRollUpMOVE()
+    {
+        float elapsedTime = Time.time - _rollUpMoveStartTime;
+        float fraction = elapsedTime / _rollUpMoveDuration;
+        float distanceToMove = Mathf.Lerp(0, _rollUpMoveDistance, fraction);
+
+        Vector3 forwardMovement = _rollUpMoveDirection * (distanceToMove - _currentMoveDistance);
+        _rigidbody.MovePosition(_rigidbody.position + forwardMovement);
+
+        _currentMoveDistance = distanceToMove;
+
+        if (CanLook && _moveDirection != Vector3.zero)
+        {
+            LookAt();
+        }
+    }
+
+    public void StartRollUpMove()
+    {
+        if (!isLocalPlayer) return;
+        _rollUpMoveStartTime = Time.time;
+        _currentMoveDistance = 0;
+        if (_curState == PlayerState.RollUpBack) _rollUpMoveDirection = -transform.forward;
+        else
+            _rollUpMoveDirection = transform.forward;
     }
 
     private void ApplyCustomGravity()
