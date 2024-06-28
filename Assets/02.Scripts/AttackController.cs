@@ -23,16 +23,16 @@ public class AttackController : NetworkBehaviour
     public float detectionRadius = 5f;
     public LayerMask playerLayer;
 
-    public float _attackMoveDistance;
-    public float _attackMoveDuration;
+    public float attackMoveDistance;
+    public float attackMoveDuration;
     private float _attackMoveStartTime;
     private float _currentMoveDistance;
     private Vector3 _attackMoveDirection;
 
-    public void Initialize(PlayerController playerController, StatController statCtrl)
+    public void Initialize(PlayerController playerController, StatController StatController)
     {
         player = playerController;
-        statController = statCtrl; // StatController 초기화
+        statController = StatController; 
     }
 
     public void HandleAttack(PlayerState state)
@@ -93,15 +93,15 @@ public class AttackController : NetworkBehaviour
     public void HandleAttackMove()
     {
         float elapsedTime = Time.time - _attackMoveStartTime;
-        float fraction = elapsedTime / _attackMoveDuration;
-        float distanceToMove = Mathf.Lerp(0, _attackMoveDistance, fraction);
+        float fraction = elapsedTime / attackMoveDuration;
+        float distanceToMove = Mathf.Lerp(0, attackMoveDistance, fraction);
 
         Vector3 forwardMovement = _attackMoveDirection * (distanceToMove - _currentMoveDistance);
-        player._rigidbody.MovePosition(player._rigidbody.position + forwardMovement);
+        player.rigidbody.MovePosition(player.rigidbody.position + forwardMovement);
 
         _currentMoveDistance = distanceToMove;
 
-        if (player.CanLook && player._moveDirection != Vector3.zero)
+        if (player.CanLook && player.moveDirection != Vector3.zero)
         {
             player.LookAt();
         }
@@ -110,17 +110,17 @@ public class AttackController : NetworkBehaviour
     public void StartAttackMove()
     {
         if (!player.isLocalPlayer) return;
-        if (player._curState != PlayerState.RollUpBack && player._curState != PlayerState.RollUpFront)
+        if (player.StateController._curState != PlayerState.RollUpBack && player.StateController._curState != PlayerState.RollUpFront)
             RotateTowardsNearestPlayer();
 
-        if (player._curState == PlayerState.SkillAttack)
+        if (player.StateController._curState == PlayerState.SkillAttack)
         {
-            _attackMoveDistance = 8f;
-            _attackMoveDuration = 1.2f;
+            attackMoveDistance = 8f;
+            attackMoveDuration = 1.2f;
         }
         _attackMoveStartTime = Time.time;
         _currentMoveDistance = 0;
-        if (player._curState == PlayerState.RollUpBack) _attackMoveDirection = -player.transform.forward;
+        if (player.StateController._curState == PlayerState.RollUpBack) _attackMoveDirection = -player.transform.forward;
         else
             _attackMoveDirection = player.transform.forward;
     }
@@ -136,8 +136,8 @@ public class AttackController : NetworkBehaviour
                 player.ChangeState(PlayerState.HitUp);
                 break;
         }
-        player._rigidbody.velocity = Vector3.zero;
-        player._rigidbody.AddForce(knockBackDirection * knockBackPower, ForceMode.Impulse);
+        player.rigidbody.velocity = Vector3.zero;
+        player.rigidbody.AddForce(knockBackDirection * knockBackPower, ForceMode.Impulse);
     }
 
     public void RotateTowardsNearestPlayer()

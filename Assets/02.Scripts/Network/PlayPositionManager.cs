@@ -43,7 +43,7 @@ public class PlayPositionManager : NetworkBehaviour
         // 각 로컬 플레이어의 InputSystem 활성화
         foreach (GameObject player in playerObjects)
         {
-            player.GetComponent<PlayerController>().PositionSet = true;
+            player.GetComponent<StateController>().PositionSet = true;
         }
     }
 }

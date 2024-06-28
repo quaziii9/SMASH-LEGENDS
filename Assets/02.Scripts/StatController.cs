@@ -66,7 +66,7 @@ public class StatController : NetworkBehaviour
         {
             ApplyDamage(damaged);
         }
-        playerController._attackController.PlayerGetKnockBack(knockBackPower, knockBackDirection, hitType);
+        playerController.AttackController.PlayerGetKnockBack(knockBackPower, knockBackDirection, hitType);
     }
 
     public void Hitted(float damaged, float knockBackPower, Vector3 attackerPosition, Vector3 attackerDirection, HitType hitType)

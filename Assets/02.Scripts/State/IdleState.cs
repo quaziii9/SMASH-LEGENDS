@@ -11,9 +11,9 @@ public class IdleState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player._rigidbody.velocity = new Vector3(0, Player._rigidbody.velocity.y, 0);
-        Player._animationController.SetBool(Player._animationController.IsIdle, true);
-        Player.IsHitted = false;
+        Player.rigidbody.velocity = new Vector3(0, Player.rigidbody.velocity.y, 0);
+        Player.AimationController.SetBool(Player.AimationController.IsIdle, true);
+        Player.StateController.IsHitted = false;
         Player.CanMove = true;
         Player.CanLook = true;
         enterTime = Time.time;
@@ -22,16 +22,16 @@ public class IdleState : StateBase
     public override void Exit()
     {
         base.Exit();
-        if (Player._animationController != null)
+        if (Player.AimationController != null)
         {
-            Player._animationController.SetBool(Player._animationController.IsIdle, false);
+            Player.AimationController.SetBool(Player.AimationController.IsIdle, false);
         }
     }
 
     public override void ExecuteOnUpdate()
     {
-        if (Player.PositionSet == false) return;
-        if (Player._moveDirection != Vector3.zero)
+        if (Player.StateController.PositionSet == false) return;
+        if (Player.moveDirection != Vector3.zero)
         {            
             Player.ChangeState(PlayerState.Run);
         }
@@ -56,7 +56,7 @@ public class IdleState : StateBase
 
     public override void OnInputCallback(InputAction.CallbackContext context)
     {
-        if (Player.PositionSet == false) return;
+        if (Player.StateController.PositionSet == false) return;
         if (isTransitioning) return; // 상태 전환 중에는 입력 무시
 
         if (context.action.name == "Jump" && context.performed)
@@ -81,6 +81,6 @@ public class IdleState : StateBase
         }
     }
 
-    public override bool IsTransitioning => !Player._animationController.GetCurrentAnimatorStateInfo(0).IsName("Idle");
+    public override bool IsTransitioning => !Player.AimationController.GetCurrentAnimatorStateInfo(0).IsName("Idle");
 }
 

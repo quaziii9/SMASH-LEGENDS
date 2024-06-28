@@ -5,31 +5,25 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : NetworkBehaviour
 {
-    [Header("Controller")]
-    public StatController _statController; // StatController 추가
-    public AnimationController _animationController;
-    public AttackController _attackController;
-    public StateController _stateController;
+    public StatController StatController { get; set; } 
+    public AnimationController AimationController { get; set; }
+    public AttackController AttackController { get; set; }
+    public StateController StateController { get; set; }
 
-    public Vector3 _moveDirection;
-    public Rigidbody _rigidbody;
+    public Vector3 moveDirection;
+    public Rigidbody rigidbody;
 
     [Header("GroundCheck")]
     public GameObject groundCheck;
-    private float groundCheckDistance = 1f; // 지면 체크를 위한 거리
-    public bool _isGrounded;
-    public bool _Ground;
-
-    [Header("State")]
-    [SyncVar(hook = nameof(OnStateChanged))] public PlayerState _curState;
+    private float _groundCheckDistance = 1f; // 지면 체크를 위한 거리
+    public bool IsGrounded;
+    public bool Ground;
 
     public bool CanMove { get; set; }
     public bool CanLook { get; set; }
     public bool CanChange { get; set; }
 
     public bool IsMoveInputActive { get; private set; }
-    public bool IsHitted;
-    public bool PositionSet = false;
 
     private bool isJumping = false;
     private bool isIdleJump = false;
@@ -42,24 +36,24 @@ public class PlayerController : NetworkBehaviour
 
     private void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody>();
-        _animationController = GetComponent<AnimationController>();
-        _attackController = GetComponent<AttackController>();
-        _stateController = GetComponent<StateController>();
-        _statController = GetComponent<StatController>();
+        rigidbody = GetComponent<Rigidbody>();
+        AimationController = GetComponent<AnimationController>();
+        AttackController = GetComponent<AttackController>();
+        StateController = GetComponent<StateController>();
+        StatController = GetComponent<StatController>();
 
-        if (_attackController != null)
+        if (AttackController != null)
         {
-            _attackController.Initialize(this, _statController);
+            AttackController.Initialize(this, StatController);
         }
         else
         {
             Debug.LogError("AttackController is not attached to the PlayerController gameObject");
         }
 
-        if (_stateController != null)
+        if (StateController != null)
         {
-            _stateController.Initialize(this, _attackController);
+            StateController.Initialize(this, AttackController);
         }
         else
         {
@@ -71,7 +65,7 @@ public class PlayerController : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            _stateController.ChangeState(PlayerState.Idle);
+            StateController.ChangeState(PlayerState.Idle);
         }
     }
 
@@ -89,15 +83,15 @@ public class PlayerController : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            _attackController.UpdateCooldowns();
-            _stateController.ExecuteOnUpdate();
+            AttackController.UpdateCooldowns();
+            StateController.ExecuteOnUpdate();
             HandleInput();
         }
     }
 
     private void HandleInput()
     {
-        if (_stateController.CurrentStateInstance == null || _stateController.CurrentStateInstance.IsTransitioning)
+        if (StateController.CurrentStateInstance == null || StateController.CurrentStateInstance.IsTransitioning)
         {
             return;
         }
@@ -105,7 +99,7 @@ public class PlayerController : NetworkBehaviour
         var keyboard = Keyboard.current;
         if (keyboard.spaceKey.wasPressedThisFrame)
         {
-            _stateController.CurrentStateInstance.OnInputCallback(new InputAction.CallbackContext());
+            StateController.CurrentStateInstance.OnInputCallback(new InputAction.CallbackContext());
         }
 
         Vector2 moveInput = Vector2.zero;
@@ -127,33 +121,27 @@ public class PlayerController : NetworkBehaviour
             moveInput.x = 1;
         }
 
-        _moveDirection = new Vector3(moveInput.x, 0, moveInput.y);
+        moveDirection = new Vector3(moveInput.x, 0, moveInput.y);
 
-        _stateController.ExecuteOnUpdate();
+        StateController.ExecuteOnUpdate();
     }
 
     public void ChangeState(PlayerState newState)
     {
-        _stateController.ChangeState(newState);
+        StateController.ChangeState(newState);
     }
 
     private void OnStateChanged(PlayerState oldState, PlayerState newState)
     {
-        _attackController.HandleAttack(newState); // 상태 변경 시 공격 값 설정
+        AttackController.HandleAttack(newState); // 상태 변경 시 공격 값 설정
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            _Ground = true;
+            Ground = true;
         }
-    }
-
-    [Command]
-    public void CmdUpdateState(PlayerState newState)
-    {
-        _curState = newState;
     }
 
     public void BindInputCallback(bool isBind, Action<InputAction.CallbackContext> callback)
@@ -186,7 +174,7 @@ public class PlayerController : NetworkBehaviour
         if (!isLocalPlayer) return;
 
         Vector2 input = context.ReadValue<Vector2>();
-        _moveDirection = context.performed ? new Vector3(input.x, 0, input.y) : Vector3.zero;
+        moveDirection = context.performed ? new Vector3(input.x, 0, input.y) : Vector3.zero;
         IsMoveInputActive = context.performed;
     }
 
@@ -196,7 +184,7 @@ public class PlayerController : NetworkBehaviour
 
         if (context.performed)
         {
-            _stateController.CurrentStateInstance?.OnInputCallback(context);
+            StateController.CurrentStateInstance?.OnInputCallback(context);
         }
     }
 
@@ -204,9 +192,9 @@ public class PlayerController : NetworkBehaviour
     {
         if (!isLocalPlayer) return;
 
-        if (_attackController.currentHeavyAttackCoolTime <= 0 && context.performed)
+        if (AttackController.currentHeavyAttackCoolTime <= 0 && context.performed)
         {
-            _stateController.CurrentStateInstance?.OnInputCallback(context);
+            StateController.CurrentStateInstance?.OnInputCallback(context);
         }
     }
 
@@ -216,55 +204,53 @@ public class PlayerController : NetworkBehaviour
 
         if (context.performed)
         {
-            _stateController.CurrentStateInstance?.OnInputCallback(context);
+            StateController.CurrentStateInstance?.OnInputCallback(context);
         }
     }
     #endregion
 
     public void Move()
     {
-        if (PositionSet == false) return;
-        if (IsHitted) return;
-        if (!isLocalPlayer) return;
+        if (StateController.PositionSet == false || StateController.IsHitted==true || !isLocalPlayer) return;
 
-        if (_stateController.CurrentStateInstance is RollUpBackState || _stateController.CurrentStateInstance is RollUpFrontState)
+        if (StateController.CurrentStateInstance is RollUpBackState || StateController.CurrentStateInstance is RollUpFrontState)
         {
             HandleRollUpMOVE();
         }
 
-        if (_stateController.CurrentStateInstance is FirstAttackState || _stateController.CurrentStateInstance is SecondAttackState || _stateController.CurrentStateInstance is FinishAttackState ||
-            _stateController.CurrentStateInstance is JumpHeavyAttackState || _stateController.CurrentStateInstance is HeavyAttackState || _stateController.CurrentStateInstance is SkillAttackState)
+        if (StateController.CurrentStateInstance is FirstAttackState || StateController.CurrentStateInstance is SecondAttackState || StateController.CurrentStateInstance is FinishAttackState ||
+            StateController.CurrentStateInstance is JumpHeavyAttackState || StateController.CurrentStateInstance is HeavyAttackState || StateController.CurrentStateInstance is SkillAttackState)
 
         {
-            _attackController.HandleAttackMove();
+            AttackController.HandleAttackMove();
             return;
         }
 
-        if (CanLook && _moveDirection != Vector3.zero)
+        if (CanLook && moveDirection != Vector3.zero)
         {
             LookAt();
         }
 
         if (CanMove)
         {
-            float currentMoveSpeed = isJumping && isIdleJump ? _statController.jumpMoveSpeed : _statController.moveSpeed;
-            Vector3 velocity = new Vector3(_moveDirection.x * currentMoveSpeed, _rigidbody.velocity.y, _moveDirection.z * currentMoveSpeed);
-            _rigidbody.velocity = velocity;
+            float currentMoveSpeed = isJumping && isIdleJump ? StatController.jumpMoveSpeed : StatController.moveSpeed;
+            Vector3 velocity = new Vector3(moveDirection.x * currentMoveSpeed, rigidbody.velocity.y, moveDirection.z * currentMoveSpeed);
+            rigidbody.velocity = velocity;
         }
     }
 
     public void LookAt()
     {
-        if (_moveDirection != Vector3.zero)
+        if (moveDirection != Vector3.zero)
         {
-            Quaternion targetAngle = Quaternion.LookRotation(_moveDirection);
-            _rigidbody.rotation = targetAngle;
+            Quaternion targetAngle = Quaternion.LookRotation(moveDirection);
+            rigidbody.rotation = targetAngle;
         }
     }
 
     public void Jump(bool idleJump = false)
     {
-        _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, _statController.jumpForce, _rigidbody.velocity.z);
+        rigidbody.velocity = new Vector3(rigidbody.velocity.x, StatController.jumpForce, rigidbody.velocity.z);
         isJumping = true;
         isIdleJump = idleJump;
     }
@@ -282,11 +268,11 @@ public class PlayerController : NetworkBehaviour
         float distanceToMove = Mathf.Lerp(0, _rollUpMoveDistance, fraction);
 
         Vector3 forwardMovement = _rollUpMoveDirection * (distanceToMove - _currentMoveDistance);
-        _rigidbody.MovePosition(_rigidbody.position + forwardMovement);
+        rigidbody.MovePosition(rigidbody.position + forwardMovement);
 
         _currentMoveDistance = distanceToMove;
 
-        if (CanLook && _moveDirection != Vector3.zero)
+        if (CanLook && moveDirection != Vector3.zero)
         {
             LookAt();
         }
@@ -297,26 +283,26 @@ public class PlayerController : NetworkBehaviour
         if (!isLocalPlayer) return;
         _rollUpMoveStartTime = Time.time;
         _currentMoveDistance = 0;
-        if (_curState == PlayerState.RollUpBack) _rollUpMoveDirection = -transform.forward;
+        if (StateController._curState == PlayerState.RollUpBack) _rollUpMoveDirection = -transform.forward;
         else
             _rollUpMoveDirection = transform.forward;
     }
 
     private void ApplyCustomGravity()
     {
-        if (!_isGrounded)
+        if (!IsGrounded)
         {
-            _rigidbody.AddForce(Vector3.down * _statController.gravityScale, ForceMode.Acceleration);
+            rigidbody.AddForce(Vector3.down * StatController.gravityScale, ForceMode.Acceleration);
 
-            if (_rigidbody.velocity.y < 0)
+            if (rigidbody.velocity.y < 0)
             {
-                _rigidbody.velocity += Vector3.up * _statController.gravityScale * 0.5f * Time.fixedDeltaTime;
+                rigidbody.velocity += Vector3.up * StatController.gravityScale * 0.5f * Time.fixedDeltaTime;
             }
         }
 
-        if (_rigidbody.velocity.y < -_statController.maxFallSpeed)
+        if (rigidbody.velocity.y < -StatController.maxFallSpeed)
         {
-            _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, -_statController.maxFallSpeed, _rigidbody.velocity.z);
+            rigidbody.velocity = new Vector3(rigidbody.velocity.x, -StatController.maxFallSpeed, rigidbody.velocity.z);
         }
     }
 
@@ -324,16 +310,21 @@ public class PlayerController : NetworkBehaviour
     {
         RaycastHit hit;
         Vector3 origin = groundCheck.transform.position;
-        _isGrounded = Physics.Raycast(origin, Vector3.down, out hit, groundCheckDistance);
+        IsGrounded = Physics.Raycast(origin, Vector3.down, out hit, _groundCheckDistance);
     }
 
     private void OnDrawGizmosSelected()
     {
+        if (groundCheck == null || AttackController == null)
+        {
+            return; // groundCheck나 _attackController가 null이면 아무 것도 하지 않음
+        }
+
         Gizmos.color = Color.red;
         Vector3 origin = groundCheck.transform.position;
-        Gizmos.DrawLine(origin, origin + Vector3.down * (groundCheckDistance));
+        Gizmos.DrawLine(origin, origin + Vector3.down * (_groundCheckDistance));
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, _attackController.detectionRadius);
+        Gizmos.DrawWireSphere(transform.position, AttackController.detectionRadius);
     }
 }

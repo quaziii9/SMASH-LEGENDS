@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
 public enum PlayerState
 {
     Idle,
@@ -52,8 +51,8 @@ public abstract class StateBase : IState
     protected StateBase(PlayerController player)
     {
         Player = player;
-        AttackController = player._attackController;
-        StatController = player._statController;
+        AttackController = player.AttackController;
+        StatController = player.StatController;
     }
 
     public virtual void Enter()
