@@ -77,10 +77,6 @@ public class PlayerController : NetworkBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            _rigidbody.AddForce(Vector3.one * 200f);
-        }
         if (isLocalPlayer)
         {
             _attackController.UpdateCooldowns();
@@ -358,12 +354,6 @@ public class PlayerController : NetworkBehaviour
         Gizmos.DrawWireSphere(transform.position, _attackController.detectionRadius);
     }
 
-    public void StartAttackMove()
-    {
-        if (!isLocalPlayer) return;
-        _attackController.StartAttackMove();
-    }
-
     [Command]
     public void CmdHitted(float damaged, float knockBackPower, Vector3 knockBackDirection, HitType hitType)
     {
@@ -374,17 +364,12 @@ public class PlayerController : NetworkBehaviour
     public void RpcHitted(float damaged, float knockBackPower, Vector3 knockBackDirection, HitType hitType)
     {
         PlayerGetDamaged(damaged);
-        PlayerGetKnockBack(knockBackPower, knockBackDirection, hitType);
+        _attackController.PlayerGetKnockBack(knockBackPower, knockBackDirection, hitType);
     }
 
     private void PlayerGetDamaged(float damaged)
     {
         _playerHp -= damaged;
-    }
-
-    private void PlayerGetKnockBack(float knockBackPower, Vector3 knockBackDirection, HitType hitType)
-    {
-        _attackController.PlayerGetKnockBack(knockBackPower, knockBackDirection, hitType);
     }
 
     public void Hitted(float damaged, float knockBackPower, Vector3 attackerPosition, Vector3 attackerDirection, HitType hitType)

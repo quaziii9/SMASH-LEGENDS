@@ -4,6 +4,7 @@ public class AnimationController : MonoBehaviour
 {
     private Animator _animator;
     public BoxCollider _weaponCollider;
+    public AttackController _attackController;
 
     public readonly int IsIdle = Animator.StringToHash("IsIdle");
     public readonly int IsRunning = Animator.StringToHash("IsRunning");
@@ -38,6 +39,7 @@ public class AnimationController : MonoBehaviour
         _animator = GetComponent<Animator>();
         Player = GetComponent<PlayerController>();
         _weaponCollider = GetComponentInChildren<BoxCollider>();
+        _attackController = GetComponentInChildren<AttackController>();
         if (_weaponCollider == null)
         {
             Debug.LogError("No BoxCollider found in children");
@@ -64,7 +66,7 @@ public class AnimationController : MonoBehaviour
 
     public void StartAttackMovingAnimationEvent()
     {
-        Player.StartAttackMove();
+        _attackController.StartAttackMove();
     }
 
     public void CanMoveAnimationEvent()

@@ -268,7 +268,7 @@ public class FirstAttackState : StateBase
         AttackController._attackMoveDistance = 1.5f;
         AttackController._attackMoveDuration = 0.3f;
         Player._animationController.SetBool(Player._animationController.IsComboAttack1, true);
-        Player.StartAttackMove();
+        AttackController.StartAttackMove();
         Player.CanMove = false;
         Player.CanLook = false;
         Player.CanChange = false;
@@ -323,7 +323,7 @@ public class SecondAttackState : StateBase
         AttackController._attackMoveDistance = 1.5f;
         AttackController._attackMoveDuration = 0.3f;
         Player._animationController.SetBool(Player._animationController.IsComboAttack2, true);
-        Player.StartAttackMove();
+        AttackController.StartAttackMove();
         Player.CanMove = false;
         Player.CanLook = false;
         Player.CanChange = false;
@@ -377,7 +377,7 @@ public class FinishAttackState : StateBase
         AttackController._attackMoveDistance = 1.5f;
         AttackController._attackMoveDuration = 0.3f;
         Player._animationController.SetBool(Player._animationController.IsComboAttack3, true);
-        Player.StartAttackMove();
+        AttackController.StartAttackMove();
         Player.CanMove = false;
         Player.CanLook = false;
         Player.CanChange = false;
@@ -427,7 +427,7 @@ public class HeavyAttackState : StateBase
         AttackController._attackMoveDistance = 1.5f;
         AttackController._attackMoveDuration = 0.3f;
         Player._animationController.SetBool(Player._animationController.IsHeavyAttacking, true);
-        Player.StartAttackMove();
+        AttackController.StartAttackMove();
         Player.CanMove = false;
         Player.CanLook = false;
         Player.CanChange = false;
@@ -482,7 +482,7 @@ public class JumpHeavyAttackState : StateBase
         AttackController._attackMoveDuration = 0.3f;
         Player._rigidbody.velocity = new Vector3(0, AttackController.jumpForce, 0);
         Player._animationController.SetBool(Player._animationController.IsJumpHeavyAttacking, true);
-        Player.StartAttackMove();
+        AttackController.StartAttackMove();
         Player._rigidbody.velocity = new Vector3(Player._rigidbody.velocity.x, AttackController.jumpForce, Player._rigidbody.velocity.z);
         Player.CanMove = false;
         Player.CanLook = false;
@@ -669,7 +669,6 @@ public class HitDownState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("enterhitdown");
         Player.IsHitted = true;
         Player._animationController.SetBool(Player._animationController.IsHitDown, true);
         Player.CanMove = false;
@@ -767,26 +766,6 @@ public class DownIdleState : StateBase
                 Player.CanLook = true;
                 Player.ChangeState(PlayerState.RollUpFront);
             }
-
-            //if (Player._moveDirection.x != 0)
-            //{
-            //    float angle = Vector3.SignedAngle(currentDirection, inputDirection, Vector3.up);
-            //    if (angle > 90 || angle < -90) // 반대 방향이면 RollUpBackState로 전환
-            //    {
-            //        Player.ChangeState(new RollUpBackState(Player));
-            //    }
-            //    else // 같은 방향이면 RollUpFrontState로 전환
-            //    {
-            //        Player.ChangeState(new RollUpFrontState(Player));
-            //    }
-            //}
-            //// z축으로 이동할 때는 회전하고 RollUpFrontState로 전환
-            //else if (Player._moveDirection.z != 0)
-            //{
-            //    Player.transform.rotation = Quaternion.LookRotation(inputDirection);
-            //    Player.CanLook = true;
-            //    Player.ChangeState(new RollUpFrontState(Player));
-            //}
         }
     }
 
@@ -811,7 +790,7 @@ public class RollUpFrontState : StateBase
         base.Enter();
         AttackController._attackMoveDistance = 2.5f;
         AttackController._attackMoveDuration = 0.3f;
-        Player.StartAttackMove();
+        AttackController.StartAttackMove();
         Player.IsHitted = false;
         Player._animationController.SetBool(Player._animationController.IsRollUpFront, true);
         Player.CanMove = false;
@@ -845,7 +824,7 @@ public class RollUpBackState : StateBase
         base.Enter();
         AttackController._attackMoveDistance = 2.5f;
         AttackController._attackMoveDuration = 0.3f;
-        Player.StartAttackMove();
+        AttackController.StartAttackMove();
         Player.IsHitted = false;
         Player._animationController.SetBool(Player._animationController.IsRollUpBack, true);
         Player.CanMove = false;
