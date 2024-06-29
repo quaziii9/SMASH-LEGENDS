@@ -27,7 +27,7 @@ public class PlayerController : NetworkBehaviour
     public bool IsMoveInputActive { get; private set; }
 
     private bool isJumping = false;
-    private bool isIdleJump = false;
+    public bool isIdleJump = false;
 
     private Vector3 _rollUpMoveDirection;
     private float _rollUpMoveDistance = 2.5f;
@@ -236,7 +236,6 @@ public class PlayerController : NetworkBehaviour
         if (CanMove)
         {
             float currentMoveSpeed = isJumping && isIdleJump ? StatController.jumpMoveSpeed : StatController.moveSpeed;
-            Debug.Log(currentMoveSpeed);
             Vector3 velocity = new Vector3(moveDirection.x * currentMoveSpeed, rigidbody.velocity.y, moveDirection.z * currentMoveSpeed);
             rigidbody.velocity = velocity;
         }
@@ -251,11 +250,10 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    public void Jump(bool idleJump = false)
+    public void Jump()
     {
         rigidbody.velocity = new Vector3(rigidbody.velocity.x, StatController.jumpForce, rigidbody.velocity.z);
         isJumping = true;
-        isIdleJump = idleJump;
     }
 
     public void Land()

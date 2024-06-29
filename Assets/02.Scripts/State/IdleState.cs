@@ -16,6 +16,7 @@ public class IdleState : StateBase
         Player.StateController.IsHitted = false;
         Player.CanMove = true;
         Player.CanLook = true;
+        Player.isIdleJump = true;
         enterTime = Time.time;
     }
 

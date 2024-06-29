@@ -13,7 +13,7 @@ public class JumpUpState : StateBase
         Player.CanLook = true;
         Player.StateController.IsHitted = false;
         Player.AimationController.SetBool(Player.AimationController.IsJumpingUp, true);
-        Player.Jump(Player.moveDirection == Vector3.zero); // idle에서 점프인지 아닌지 확인
+        Player.Jump(); // idle에서 점프인지 아닌지 확인
     }
 
     public override void Exit()
@@ -219,6 +219,7 @@ public class RunState : StateBase
     {
         base.Enter();
         Player.AimationController.SetBool(Player.AimationController.IsRunning, true);
+        Player.isIdleJump = false;
         Player.CanMove = true;
         Player.CanLook = true;
     }
@@ -644,6 +645,8 @@ public class HitUpState : StateBase
         Player.EffectController.StartHitFlashEffect();
         Player.CanMove = false;
         Player.CanLook = false;
+        Player.isIdleJump = false;
+
     }
 
     public override void Exit()

@@ -1149,6 +1149,7 @@ MonoBehaviour:
   groundCheck: {fileID: 8575020770430485035}
   IsGrounded: 0
   Ground: 0
+  isIdleJump: 0
 --- !u!114 &3147114990716042990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1185,7 +1186,7 @@ MonoBehaviour:
   syncInterval: 0
   moveSpeed: 5.4
   jumpMoveSpeed: 2.2
-  maxHp: 100
+  maxHp: 9000
   currentHp: 0
   jumpForce: 14.28
   gravityScale: 36
