@@ -39,7 +39,6 @@ public class StatController : NetworkBehaviour
     private void OnHpChanged(int oldHp, int newHp)
     {
         // 현재 체력이 변경될 때 처리할 로직이 있으면 여기에 추가
-        Debug.Log($"HP changed from {oldHp} to {newHp}");
     }
 
     public void ApplyDamage(int damage)

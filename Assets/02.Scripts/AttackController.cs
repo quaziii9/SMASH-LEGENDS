@@ -146,10 +146,6 @@ public class AttackController : NetworkBehaviour
 
         if (plusAddForce == true)
         {
-            Debug.Log("Current HP: " + currentHp);
-            Debug.Log("Max HP / 3: " + maxHp / 3);
-            Debug.Log("Max HP / 3 * 2: " + maxHp / 3 * 2);
-
             if (currentHp > maxHp / 3 * 2)
             {
                 finalKnockBackPower = knockBackPower;
@@ -170,7 +166,6 @@ public class AttackController : NetworkBehaviour
             }
         }
         player.rigidbody.velocity = Vector3.zero;
-        Debug.Log($"{currentHp} - {maxHp/3} : {finalKnockBackPower} ");
         player.rigidbody.AddForce(knockBackDirection * finalKnockBackPower, ForceMode.Impulse);
     }
 

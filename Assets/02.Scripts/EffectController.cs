@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using Mirror;
 
 public enum MaterialType
 {
@@ -7,7 +8,7 @@ public enum MaterialType
     Invincible
 }
 
-public class EffectController : MonoBehaviour
+public class EffectController : NetworkBehaviour
 {
     [SerializeField] private GameObject[] _effectPrefabs;
     [SerializeField] private ParticleSystem _dieEffect;
@@ -57,6 +58,7 @@ public class EffectController : MonoBehaviour
         _dieEffect = Instantiate(_dieEffect, transform.position, Quaternion.identity);
         _dieEffect.gameObject.SetActive(false);
     }
+
     public void SetDieEffect()
     {
         _dieEffect.gameObject.SetActive(true);
@@ -79,7 +81,7 @@ public class EffectController : MonoBehaviour
 
     private void OnFlashEffect(MaterialType materialType)
     {
-        if(materialType == MaterialType.Hit)
+        if (materialType == MaterialType.Hit)
         {
             for (int i = 0; i < _renderer.Length; ++i)
             {
@@ -105,7 +107,19 @@ public class EffectController : MonoBehaviour
         }
     }
 
-    public async UniTaskVoid StartHitFlashEffet()
+    [Command]
+    public void StartHitFlashEffect()
+    {
+        RpcStartHitFlashEffect();
+    }
+
+    [ClientRpc]
+    private void RpcStartHitFlashEffect()
+    {
+        ExecuteHitFlashEffect().Forget();
+    }
+
+    private async UniTaskVoid ExecuteHitFlashEffect()
     {
         int count = 3;
         while (count > 0)
@@ -117,7 +131,20 @@ public class EffectController : MonoBehaviour
             --count;
         }
     }
-    public async UniTaskVoid StartInvincibleFlashEffet(int count)
+
+    [Command]
+    public void StartInvincibleFlashEffect(int count)
+    {
+        RpcStartInvincibleFlashEffect(count);
+    }
+
+    [ClientRpc]
+    private void RpcStartInvincibleFlashEffect(int count)
+    {
+        ExecuteInvincibleFlashEffect(count).Forget();
+    }
+
+    private async UniTaskVoid ExecuteInvincibleFlashEffect(int count)
     {
         while (count > 0)
         {
@@ -128,5 +155,4 @@ public class EffectController : MonoBehaviour
             --count;
         }
     }
-
 }

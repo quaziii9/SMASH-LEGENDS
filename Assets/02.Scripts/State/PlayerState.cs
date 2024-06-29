@@ -599,7 +599,7 @@ public class HitState : StateBase
     {
         base.Enter();
         Player.AimationController.SetBool(Player.AimationController.IsHit, true);
-        Player.EffectController.StartHitFlashEffet().Forget();
+        Player.EffectController.StartHitFlashEffect();
         Player.StateController.IsHitted = true;
         Player.CanMove = false;
         Player.CanLook = false;
@@ -637,7 +637,7 @@ public class HitUpState : StateBase
         base.Enter();
         Player.StateController.IsHitted = true;
         Player.AimationController.SetBool(Player.AimationController.IsHitUp, true);
-        Player.EffectController.StartHitFlashEffet().Forget();
+        Player.EffectController.StartHitFlashEffect();
         Player.CanMove = false;
         Player.CanLook = false;
     }
@@ -792,6 +792,7 @@ public class RollUpFrontState : StateBase
         base.Enter();
         Player.StartRollUpMove();
         Player.StateController.IsHitted = false;
+        Player.EffectController.StartInvincibleFlashEffect(5);
         Player.AimationController.SetBool(Player.AimationController.IsRollUpFront, true);
         Player.CanMove = false;
         Player.CanLook = true;
@@ -824,6 +825,7 @@ public class RollUpBackState : StateBase
         base.Enter();
         Player.StartRollUpMove();
         Player.StateController.IsHitted = false;
+        Player.EffectController.StartInvincibleFlashEffect(5);
         Player.AimationController.SetBool(Player.AimationController.IsRollUpBack, true);
         Player.CanMove = false;
         Player.CanLook = false;
