@@ -900,6 +900,7 @@ public class StandUpState : StateBase
 
 public class HangState : StateBase
 {
+    private float initialY;
     public HangState(PlayerController player) : base(player) { }
 
     public override void Enter()
@@ -909,12 +910,25 @@ public class HangState : StateBase
         Player.AimationController.SetBool(Player.AimationController.IsHang, true);
         Player.CanMove = false;
         Player.CanLook = false;
+        Player.rigidbody.useGravity = false;
+
+        initialY = Player.transform.position.y;
     }
 
     public override void Exit()
     {
         base.Exit();
         Player.AimationController.SetBool(Player.AimationController.IsHang, false);
+        Player.rigidbody.useGravity = true;
+    }
+
+    public override void ExecuteOnUpdate()
+    {
+        base.ExecuteOnUpdate();
+
+        // y 값을 고정
+        Vector3 fixedPosition = new Vector3(Player.transform.position.x, initialY, Player.transform.position.z);
+        Player.transform.position = fixedPosition;
     }
 
     public override void OnInputCallback(InputAction.CallbackContext context)
