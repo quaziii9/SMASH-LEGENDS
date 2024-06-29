@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using Mirror;
 using UnityEngine.InputSystem;
+using Cysharp.Threading.Tasks;
+using System.Threading;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -13,6 +15,7 @@ public class PlayerController : NetworkBehaviour
 
     public Vector3 moveDirection;
     public Rigidbody rigidbody;
+    private Collider _collider;
 
     [Header("GroundCheck")]
     public GameObject groundCheck;
@@ -35,9 +38,12 @@ public class PlayerController : NetworkBehaviour
     private float _rollUpMoveStartTime;
     private float _currentMoveDistance;
 
+    private CancellationTokenSource _taskCancel;
+
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
+        _collider = GetComponent<Collider>();
         AimationController = GetComponent<AnimationController>();
         EffectController = GetComponent<EffectController>();
         AttackController = GetComponent<AttackController>();
@@ -380,5 +386,21 @@ public class PlayerController : NetworkBehaviour
 
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, AttackController.detectionRadius);
+    }
+
+
+    public async UniTaskVoid FallAsync()
+    {
+        float _fallingWaitTime = 3f;
+        _taskCancel = new();
+
+        await UniTask.Delay(TimeSpan.FromSeconds(_fallingWaitTime), cancellationToken: _taskCancel.Token);
+        _collider.enabled = false;
+        ChangeState(PlayerState.HangFall);
+    }
+
+    public void EscapeInHang()
+    {
+        _taskCancel.Cancel();
     }
 }

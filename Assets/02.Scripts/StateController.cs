@@ -26,7 +26,8 @@ public enum PlayerState
     RollUpFront,
     RollUpBack,
     StandUp,
-    Hang
+    Hang,
+    HangFall
 }
 public class StateController : NetworkBehaviour
 {
@@ -127,6 +128,8 @@ public class StateController : NetworkBehaviour
                 return new StandUpState(_playerController);
             case PlayerState.Hang:
                 return new HangState(_playerController);
+            case PlayerState.HangFall:
+                return new HangFallState(_playerController);
             default:
                 throw new ArgumentOutOfRangeException();
         }

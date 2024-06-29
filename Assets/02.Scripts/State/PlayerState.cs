@@ -911,7 +911,8 @@ public class HangState : StateBase
         Player.CanMove = false;
         Player.CanLook = false;
         Player.rigidbody.useGravity = false;
-
+        Player.FallAsync().Forget();
+        Player.EffectController.StartInvincibleFlashEffect(5);
         initialY = Player.transform.position.y;
     }
 
@@ -919,6 +920,8 @@ public class HangState : StateBase
     {
         base.Exit();
         Player.AimationController.SetBool(Player.AimationController.IsHang, false);
+        Player.EffectController.StartInvincibleFlashEffect(3);
+        Player.EscapeInHang();
         Player.rigidbody.useGravity = true;
     }
 
@@ -940,7 +943,26 @@ public class HangState : StateBase
     }
 
     public override bool IsTransitioning => !Player.AimationController.GetCurrentAnimatorStateInfo(0).IsName("Hang");
+}
 
+public class HangFallState : StateBase
+{
+    public HangFallState(PlayerController player) : base(player) { }
+
+    public override void Enter()
+    {
+        base.Enter();
+        Player.AimationController.SetBool(Player.AimationController.IsHangFalling, true);
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        Player.AimationController.SetBool(Player.AimationController.IsHangFalling, false);
+    }
+
+
+    public override bool IsTransitioning => !Player.AimationController.GetCurrentAnimatorStateInfo(0).IsName("Hang");
 }
 
 
