@@ -9,6 +9,7 @@ public class PlayerController : NetworkBehaviour
     public AnimationController AimationController { get; set; }
     public AttackController AttackController { get; set; }
     public StateController StateController { get; set; }
+    public EffectController EffectController { get; set; }
 
     public Vector3 moveDirection;
     public Rigidbody rigidbody;
@@ -38,6 +39,7 @@ public class PlayerController : NetworkBehaviour
     {
         rigidbody = GetComponent<Rigidbody>();
         AimationController = GetComponent<AnimationController>();
+        EffectController = GetComponent<EffectController>();
         AttackController = GetComponent<AttackController>();
         StateController = GetComponent<StateController>();
         StatController = GetComponent<StatController>();

@@ -1,5 +1,12 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+
+public enum MaterialType
+{
+    Hit,
+    Invincible
+}
+
 public class EffectController : MonoBehaviour
 {
     [SerializeField] private GameObject[] _effectPrefabs;
@@ -7,6 +14,13 @@ public class EffectController : MonoBehaviour
     protected GameObject[] _effects;
     private Rigidbody _rigidbody;
     private float _scaleOffset;
+
+    public readonly int FLASH_COUNT = 5;
+
+    [SerializeField] private Renderer[] _renderer;
+
+    [SerializeField] private Material[] _changeMaterial;
+    [SerializeField] private Material[] _defaultMaterial;
 
     private void Awake()
     {
@@ -34,7 +48,7 @@ public class EffectController : MonoBehaviour
                 transform.position.z + (_effects[i].transform.position.z * _scaleOffset));
             _effects[i].SetActive(false);
         }
-
+        InitMaterial();
         CreateDieEffect();
     }
 
@@ -51,9 +65,68 @@ public class EffectController : MonoBehaviour
         _dieEffect.Play();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void InitMaterial()
     {
-        
+        _defaultMaterial = new Material[_renderer.Length];
+
+        for (int i = 0; i < _renderer.Length; ++i)
+        {
+            Material material = Instantiate(_renderer[i].material);
+            _renderer[i].material = material;
+            _defaultMaterial[i] = _renderer[i].material;
+        }
     }
+
+    private void OnFlashEffect(MaterialType materialType)
+    {
+        if(materialType == MaterialType.Hit)
+        {
+            for (int i = 0; i < _renderer.Length; ++i)
+            {
+                _renderer[i].material = _changeMaterial[0];
+                _renderer[i].material.mainTexture = _defaultMaterial[i].mainTexture;
+            }
+        }
+        else if (materialType == MaterialType.Invincible)
+        {
+            for (int i = 0; i < _renderer.Length; ++i)
+            {
+                _renderer[i].material = _changeMaterial[1];
+                _renderer[i].material.mainTexture = _defaultMaterial[1].mainTexture;
+            }
+        }
+    }
+
+    private void OffFlashEffect()
+    {
+        for (int i = 0; i < _renderer.Length; ++i)
+        {
+            _renderer[i].material = _defaultMaterial[i];
+        }
+    }
+
+    public async UniTaskVoid StartHitFlashEffet()
+    {
+        int count = 3;
+        while (count > 0)
+        {
+            OnFlashEffect(MaterialType.Hit);
+            await UniTask.Delay(80);
+            OffFlashEffect();
+            await UniTask.Delay(80);
+            --count;
+        }
+    }
+    public async UniTaskVoid StartInvincibleFlashEffet(int count)
+    {
+        while (count > 0)
+        {
+            OnFlashEffect(MaterialType.Invincible);
+            await UniTask.Delay(50);
+            OffFlashEffect();
+            await UniTask.Delay(50);
+            --count;
+        }
+    }
+
 }

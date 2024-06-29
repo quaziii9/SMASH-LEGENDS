@@ -599,6 +599,7 @@ public class HitState : StateBase
     {
         base.Enter();
         Player.AimationController.SetBool(Player.AimationController.IsHit, true);
+        Player.EffectController.StartHitFlashEffet().Forget();
         Player.StateController.IsHitted = true;
         Player.CanMove = false;
         Player.CanLook = false;
@@ -636,6 +637,7 @@ public class HitUpState : StateBase
         base.Enter();
         Player.StateController.IsHitted = true;
         Player.AimationController.SetBool(Player.AimationController.IsHitUp, true);
+        Player.EffectController.StartHitFlashEffet().Forget();
         Player.CanMove = false;
         Player.CanLook = false;
     }
