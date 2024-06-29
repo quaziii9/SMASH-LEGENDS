@@ -1165,8 +1165,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _curState: 0
-  IsHitted: 0
+  IsInvincible: 0
   PositionSet: 0
+  IsHitted: 0
 --- !u!114 &1333971530343124259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1184,7 +1185,7 @@ MonoBehaviour:
   syncInterval: 0
   moveSpeed: 5.4
   jumpMoveSpeed: 2.2
-  maxHp: 9000
+  maxHp: 100
   currentHp: 0
   jumpForce: 14.28
   gravityScale: 36
@@ -1298,6 +1299,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3150c634c21da4d4a872f943c1d82b5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   _effectPrefabs:
   - {fileID: 3295576211186628619, guid: 245618e331046c14cb3aca76e92c6cb8, type: 3}
   - {fileID: 6672786183233875483, guid: e7038bd72cdaada40a56dc0d51a3c8c1, type: 3}

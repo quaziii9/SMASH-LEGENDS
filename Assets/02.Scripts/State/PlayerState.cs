@@ -9,6 +9,9 @@ public class JumpUpState : StateBase
     {
         base.Enter();
         Player.Ground = false;
+        Player.CanMove = true;
+        Player.CanLook = true;
+        Player.StateController.IsHitted = false;
         Player.AimationController.SetBool(Player.AimationController.IsJumpingUp, true);
         Player.Jump(Player.moveDirection == Vector3.zero); // idle에서 점프인지 아닌지 확인
     }
@@ -29,6 +32,7 @@ public class JumpUpState : StateBase
         // 점프 중 이동 처리
         if (Player.IsMoveInputActive)
         {
+            
             Player.Move();
         }
     }

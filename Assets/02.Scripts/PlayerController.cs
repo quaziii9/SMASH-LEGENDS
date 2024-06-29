@@ -236,6 +236,7 @@ public class PlayerController : NetworkBehaviour
         if (CanMove)
         {
             float currentMoveSpeed = isJumping && isIdleJump ? StatController.jumpMoveSpeed : StatController.moveSpeed;
+            Debug.Log(currentMoveSpeed);
             Vector3 velocity = new Vector3(moveDirection.x * currentMoveSpeed, rigidbody.velocity.y, moveDirection.z * currentMoveSpeed);
             rigidbody.velocity = velocity;
         }
