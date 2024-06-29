@@ -9,7 +9,7 @@ public class StatController : NetworkBehaviour
 
     [Header("Health")]
     public int maxHp = 9000;
-    [SyncVar(hook = nameof(OnHpChanged))] public int currentHp;
+    [SyncVar] public int currentHp;
 
     [Header("Jumping")]
     public float jumpForce = 14.28f;
@@ -36,10 +36,6 @@ public class StatController : NetworkBehaviour
         playerController = GetComponent<PlayerController>(); // PlayerController 인스턴스 설정
     }
 
-    private void OnHpChanged(int oldHp, int newHp)
-    {
-        // 현재 체력이 변경될 때 처리할 로직이 있으면 여기에 추가
-    }
 
     public void ApplyDamage(int damage)
     {
@@ -54,17 +50,13 @@ public class StatController : NetworkBehaviour
     [Command]
     public void CmdHitted(int damaged, float knockBackPower, Vector3 knockBackDirection, HitType hitType, bool plusAddForce)
     {
-        ApplyDamage(damaged);
         RpcHitted(damaged, knockBackPower, knockBackDirection, hitType, plusAddForce);
     }
 
     [ClientRpc]
     public void RpcHitted(int damaged, float knockBackPower, Vector3 knockBackDirection, HitType hitType, bool plusAddForce)
     {
-        if (!isServer) // 서버에서는 이미 데미지를 처리했으므로 클라이언트에서만 처리
-        {
-            ApplyDamage(damaged);
-        }
+        ApplyDamage(damaged);
         playerController.AttackController.PlayerGetKnockBack(knockBackPower, knockBackDirection, hitType, plusAddForce);
     }
 
