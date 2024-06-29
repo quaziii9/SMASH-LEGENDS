@@ -801,6 +801,7 @@ public class RollUpFrontState : StateBase
     public override void Exit()
     {
         base.Exit();
+        Player.StateController.IsInvincible = false;
         Player.AimationController.SetBool(Player.AimationController.IsRollUpFront, false);
     }
 
@@ -834,6 +835,7 @@ public class RollUpBackState : StateBase
     public override void Exit()
     {
         base.Exit();
+        Player.StateController.IsInvincible = false;
         Player.AimationController.SetBool(Player.AimationController.IsRollUpBack, false);
     }
 

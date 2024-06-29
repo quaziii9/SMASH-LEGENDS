@@ -17,7 +17,9 @@ public class WeaponController : NetworkBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            StatController otherplayer = other.GetComponent<StatController>(); 
+            StatController otherplayer = other.GetComponent<StatController>();
+            StateController otherplayerState = other.GetComponent<StateController>();
+            if (otherplayerState.IsInvincible == true) return;
             otherplayer.Hitted(attackController.DamageAmount, attackController.KnockBackPower, attackController.transform.position, attackController.KnockBackDireciton, 
                 attackController.hitType, attackController.PlusAddForce);
             weaponCollider.enabled = false;

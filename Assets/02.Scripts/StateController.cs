@@ -9,8 +9,11 @@ public class StateController : NetworkBehaviour
     private AttackController _attackController;
 
     [SyncVar(hook = nameof(OnStateChanged))] public PlayerState _curState;
-    [SyncVar] public bool IsHitted;
+    [SyncVar(hook = nameof(OnInvincibleChanged))] public bool IsInvincible;
     [SyncVar] public bool PositionSet;
+    public bool IsHitted;
+
+
 
     public void Initialize(PlayerController playerController, AttackController attackController)
     {
@@ -27,12 +30,27 @@ public class StateController : NetworkBehaviour
 
         CurrentStateInstance = CreateStateInstance(newState); // 새로운 상태 인스턴스 생성
         CurrentStateInstance?.Enter(); // 새로운 상태 진입
+
+        if (newState == PlayerState.RollUpFront || newState == PlayerState.RollUpBack)
+        {
+            CmdUpdateInvincibleState(true);
+        }
+        else
+        {
+            CmdUpdateInvincibleState(false);
+        }
     }
 
     [Command]
     public void CmdUpdateState(PlayerState newState)
     {
         _curState = newState;
+    }
+
+    [Command]
+    public void CmdUpdateInvincibleState(bool invincible)
+    {
+        IsInvincible = invincible;
     }
 
     private IState CreateStateInstance(PlayerState state)
@@ -90,6 +108,11 @@ public class StateController : NetworkBehaviour
     private void OnStateChanged(PlayerState oldState, PlayerState newState)
     {
         _attackController.HandleAttack(newState); // 상태 변경 시 공격 값 설정
+    }
+
+    private void OnInvincibleChanged(bool oldState, bool newState)
+    {
+       
     }
 
     public void ExecuteOnUpdate()
