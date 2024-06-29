@@ -661,6 +661,15 @@ public class HitUpState : StateBase
         }
     }
 
+    public override void OnInputCallback(InputAction.CallbackContext context)
+    {
+        if (context.action.name == "Jump" && context.performed && Player.CanChange == true)
+        {
+            Player.rigidbody.velocity = Vector3.zero;
+            Player.ChangeState(PlayerState.JumpUp);
+        }
+    }
+
     public override bool IsTransitioning => !Player.AimationController.GetCurrentAnimatorStateInfo(0).IsName("HitUp");
 }
 
@@ -792,7 +801,7 @@ public class RollUpFrontState : StateBase
         base.Enter();
         Player.StartRollUpMove();
         Player.StateController.IsHitted = false;
-        Player.EffectController.StartInvincibleFlashEffect(5);
+        Player.EffectController.StartInvincibleFlashEffect(5);          
         Player.AimationController.SetBool(Player.AimationController.IsRollUpFront, true);
         Player.CanMove = false;
         Player.CanLook = true;

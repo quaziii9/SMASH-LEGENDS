@@ -12,9 +12,7 @@ public class StateController : NetworkBehaviour
     [SyncVar(hook = nameof(OnInvincibleChanged))] public bool IsInvincible;
     [SyncVar] public bool PositionSet;
     public bool IsHitted;
-
-
-
+ 
     public void Initialize(PlayerController playerController, AttackController attackController)
     {
         _playerController = playerController;

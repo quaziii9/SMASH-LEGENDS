@@ -22,10 +22,12 @@ public class EffectController : NetworkBehaviour
 
     [SerializeField] private Material[] _changeMaterial;
     [SerializeField] private Material[] _defaultMaterial;
+    PlayerController _player;
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        _player = GetComponent<PlayerController>();
     }
 
     private void Start()
@@ -130,6 +132,7 @@ public class EffectController : NetworkBehaviour
             await UniTask.Delay(80);
             --count;
         }
+        _player.CanChange = true;
     }
 
     [Command]
