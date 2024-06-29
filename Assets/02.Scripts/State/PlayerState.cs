@@ -789,7 +789,6 @@ public class DownIdleState : StateBase
 
     public override void OnInputCallback(InputAction.CallbackContext context)
     {       
-
         if (context.action.name == "Jump" && context.performed)
         {
             Player.ChangeState(PlayerState.StandUp);
@@ -897,6 +896,37 @@ public class StandUpState : StateBase
     }
 
     public override bool IsTransitioning => !Player.AimationController.GetCurrentAnimatorStateInfo(0).IsName("HitUp");
+}
+
+public class HangState : StateBase
+{
+    public HangState(PlayerController player) : base(player) { }
+
+    public override void Enter()
+    {
+        base.Enter();
+        Player.StateController.IsHitted = false;
+        Player.AimationController.SetBool(Player.AimationController.IsHang, true);
+        Player.CanMove = false;
+        Player.CanLook = false;
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        Player.AimationController.SetBool(Player.AimationController.IsHang, false);
+    }
+
+    public override void OnInputCallback(InputAction.CallbackContext context)
+    {
+        if (context.action.name == "Jump" && context.performed)
+        {
+            Player.ChangeState(PlayerState.JumpUp);
+        }
+    }
+
+    public override bool IsTransitioning => !Player.AimationController.GetCurrentAnimatorStateInfo(0).IsName("Hang");
+
 }
 
 

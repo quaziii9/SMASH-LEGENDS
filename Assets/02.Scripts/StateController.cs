@@ -2,6 +2,32 @@ using Mirror;
 using System;
 using UnityEngine;
 
+public enum PlayerState
+{
+    Idle,
+    Run,
+    JumpUp,
+    JumpDown,
+    JumpLand,
+    JumpAttack,
+    JumpHeavyAttack,
+    JumpHeavyAttackLanding,
+    JumpAttackLanding,
+    SkillAttack,
+    FirstAttack,
+    SecondAttack,
+    FinishAttack,
+    HeavyAttack,
+    Hit,
+    HitUp,
+    HitDown,
+    HitLand,
+    DownIdle,
+    RollUpFront,
+    RollUpBack,
+    StandUp,
+    Hang
+}
 public class StateController : NetworkBehaviour
 {
     public IState CurrentStateInstance { get; private set; }
@@ -99,6 +125,8 @@ public class StateController : NetworkBehaviour
                 return new RollUpBackState(_playerController);
             case PlayerState.StandUp:
                 return new StandUpState(_playerController);
+            case PlayerState.Hang:
+                return new HangState(_playerController);
             default:
                 throw new ArgumentOutOfRangeException();
         }

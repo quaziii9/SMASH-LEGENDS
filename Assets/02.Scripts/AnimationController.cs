@@ -31,6 +31,9 @@ public class AnimationController : MonoBehaviour
     public readonly int IsRollUpBack = Animator.StringToHash("IsRollUpBack");
     public readonly int IsStandUp = Animator.StringToHash("IsStandUp");
 
+    public readonly int IsHang = Animator.StringToHash("IsHang");
+    public readonly int IsHangFalling = Animator.StringToHash("IsHangFalling");
+
 
     private PlayerController Player;
 

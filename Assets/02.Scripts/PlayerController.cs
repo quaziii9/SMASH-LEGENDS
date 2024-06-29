@@ -146,6 +146,59 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("HangZone"))
+        {
+            rigidbody.velocity = Vector3.zero;
+            transform.forward = GetHangForward(other.transform.position);
+            transform.position = GetHangPosition(other.transform.position);
+            ChangeState(PlayerState.Hang);
+        }
+    }
+
+    private Vector3 GetHangForward(Vector3 other)
+    {
+        Vector3 otherPosition = other.normalized;
+        otherPosition.x = Mathf.Round(other.x);
+        otherPosition.y = 0;
+        otherPosition.z = Mathf.Round(other.z);
+
+        return otherPosition * -1;
+    }
+
+    private Vector3 GetHangPosition(Vector3 hangPosition)
+    {
+        float hangPositionY = 1f;
+
+        if (hangPosition.x != 0)
+        {
+            hangPosition = new Vector3(GetHangCorrectionPosition(hangPosition.x), hangPositionY, transform.position.z);
+        }
+
+        else if (hangPosition.z != 0)
+        {
+            hangPosition = new Vector3(transform.position.x, hangPositionY, GetHangCorrectionPosition(hangPosition.z));
+        }
+
+        return hangPosition;
+
+        float GetHangCorrectionPosition(float value)
+        {
+            if (value > 0)
+            {
+                value -= 0.5f;
+            }
+
+            if (value < 0)
+            {
+                value += 0.5f;
+            }
+
+            return value;
+        }
+    }
+
     public void BindInputCallback(bool isBind, Action<InputAction.CallbackContext> callback)
     {
         if (callback == null)
