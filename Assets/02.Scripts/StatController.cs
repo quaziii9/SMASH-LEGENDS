@@ -38,23 +38,17 @@ public class StatController : NetworkBehaviour
 
     private void OnHealthChanged(int oldHp, int newHp)
     {
-        CmdUpdateUI(newHp);
+        //UpdateHealthBarUI();
     }
 
-    [Command(requiresAuthority = false)]
-    private void CmdUpdateUI(int newHp)
-    {
-        RpcUpdateUI(newHp, connectionToClient == NetworkServer.localConnection);
-    }
-
-    [ClientRpc]
-    private void RpcUpdateUI(int newHp, bool isHost)
-    {
-        DuelManager.Instance.UpdateHealthBar(newHp, isHost);
-    }
+    //private void UpdateHealthBarUI()
+    //{
+    //    bool isHost = isServer;
+    //    DuelManager.Instance.UpdateHealthBar(currentHp, maxHp, isHost);
+    //}
 
 
-    public void ApplyDamage(int damage)
+    public void ApplyDamage(int damage, bool isHost)
     {
         currentHp -= damage;
         if (currentHp <= 0)
@@ -62,22 +56,35 @@ public class StatController : NetworkBehaviour
             // Handle player death
             Debug.Log("Player is dead");
         }
+        DuelManager.Instance.UpdateHealthBar(currentHp, maxHp, isHost);
     }
 
+    //[Command]
+    //private void CmdUpdateHealthBar(int updatedHp)
+    //{
+    //    RpcUpdateHealthBar(updatedHp);
+    //}
+
+    //[ClientRpc]
+    //private void RpcUpdateHealthBar(int updatedHp)
+    //{
+    //    UpdateHealthBarUI();
+    //}
+
     [Command]
-    public void CmdHitted(int damaged, float knockBackPower, Vector3 knockBackDirection, HitType hitType, bool plusAddForce)
+    public void CmdHitted(int damaged, float knockBackPower, Vector3 knockBackDirection, HitType hitType, bool plusAddForce, bool isHost)
     {
-        RpcHitted(damaged, knockBackPower, knockBackDirection, hitType, plusAddForce);
+        RpcHitted(damaged, knockBackPower, knockBackDirection, hitType, plusAddForce, isHost);
     }
 
     [ClientRpc]
-    public void RpcHitted(int damaged, float knockBackPower, Vector3 knockBackDirection, HitType hitType, bool plusAddForce)
+    public void RpcHitted(int damaged, float knockBackPower, Vector3 knockBackDirection, HitType hitType, bool plusAddForce, bool isHost)
     {
-        ApplyDamage(damaged);
+        ApplyDamage(damaged, isHost);
         playerController.AttackController.PlayerGetKnockBack(knockBackPower, knockBackDirection, hitType, plusAddForce);
     }
 
-    public void Hitted(int damaged, float knockBackPower, Vector3 attackerPosition, Vector3 attackerDirection, HitType hitType, bool plusAddForce)
+    public void Hitted(int damaged, float knockBackPower, Vector3 attackerPosition, Vector3 attackerDirection, HitType hitType, bool plusAddForce, bool isHost)
     {
         Vector3 direction = (transform.position - attackerPosition).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(-direction);
@@ -87,6 +94,6 @@ public class StatController : NetworkBehaviour
         knockBackDirection.y = attackerDirection.y;
         knockBackDirection.x = knockBackDirection.x >= 0 ? 1 : -1;
 
-        CmdHitted(damaged, knockBackPower, knockBackDirection, hitType, plusAddForce);
+        CmdHitted(damaged, knockBackPower, knockBackDirection, hitType, plusAddForce, isHost);
     }
 }
