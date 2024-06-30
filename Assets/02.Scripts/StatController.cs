@@ -9,7 +9,7 @@ public class StatController : NetworkBehaviour
 
     [Header("Health")]
     public int maxHp = 9000;
-    [SyncVar] public int currentHp;
+    [SyncVar(hook = nameof(OnHealthChanged))] public int currentHp;
 
     [Header("Jumping")]
     public float jumpForce = 14.28f;
@@ -34,6 +34,23 @@ public class StatController : NetworkBehaviour
     {
         currentHp = maxHp;
         playerController = GetComponent<PlayerController>(); // PlayerController 인스턴스 설정
+    }
+
+    private void OnHealthChanged(int oldHp, int newHp)
+    {
+        CmdUpdateUI(newHp);
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdUpdateUI(int newHp)
+    {
+        RpcUpdateUI(newHp, connectionToClient == NetworkServer.localConnection);
+    }
+
+    [ClientRpc]
+    private void RpcUpdateUI(int newHp, bool isHost)
+    {
+        DuelManager.Instance.UpdateHealthBar(newHp, isHost);
     }
 
 
