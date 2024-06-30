@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6379030867bf43145bba760483b3b513
-timeCreated: 1684590570
+guid: e74acb70cc8e4054da1dec4dafb8b07b
+timeCreated: 1684590545
 licenseType: Free
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 4300000
   userData:
-  assetBundleName:
+  assetBundleName: effects/shared/effect_0
   assetBundleVariant:

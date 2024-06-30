@@ -1186,7 +1186,7 @@ MonoBehaviour:
   syncInterval: 0
   moveSpeed: 5.4
   jumpMoveSpeed: 2.2
-  maxHp: 9000
+  maxHp: 1000
   currentHp: 0
   jumpForce: 14.28
   gravityScale: 36
@@ -1197,6 +1197,7 @@ MonoBehaviour:
   defaultKnockBackPower: 0.2
   heavyKnockBackPower: 0.38
   heavyAttackCoolTime: 4
+  PlayerDie: 0
 --- !u!114 &2422262704306656028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1317,6 +1318,7 @@ MonoBehaviour:
   - {fileID: 164321923476620983, guid: 3e7d3149614c4f3468faf3c7f4b5e2d4, type: 3}
   - {fileID: 6384743031000915386, guid: 83193ff730ad8484490422c01dfa8d9f, type: 3}
   - {fileID: 1978237871136502195, guid: 7332fe29a9d6f134c8f3f4ecf65dbb97, type: 3}
+  _dieSmokeEffect: {fileID: 8341773896087580420, guid: ba3f644a32443b04b9e3a00efdd6cf28, type: 3}
   _dieEffect: {fileID: 5560711985344258914, guid: 612a1d8e5fbaf8a4a9fa75c2e78bbc26, type: 3}
   _renderer:
   - {fileID: 4644384971961925174}

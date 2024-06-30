@@ -11,11 +11,9 @@ Material:
   m_Shader: {fileID: 211, guid: 0000000000000000f000000000000000, type: 0}
   m_ValidKeywords:
   - _ALPHABLEND_ON
-  - _EMISSION
   m_InvalidKeywords:
   - _BLENDMOD_ALPHABLEND
-  - _DISSOLVEMODE_NONE
-  - _HDRPARTICLE_ON
+  - _DISSOLVEMODE_HARD
   - _SECONDTEXMODE_NONE
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
@@ -33,7 +31,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DissolveTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2700000, guid: 0000000deadbeef15deadf00d0000000, type: 2}
         m_Scale: {x: 0.1, y: 0.1}
         m_Offset: {x: 0.2, y: 0}
     - _DistortTex:
@@ -45,7 +43,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 346e9b07c8788d44aa6dc6fac7243501, type: 3}
+        m_Texture: {fileID: 2800000, guid: af104a36c408c864795db75d68eef164, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -57,11 +55,11 @@ Material:
     - _CameraFarFadeDistance: 2
     - _CameraNearFadeDistance: 1
     - _ColorMode: 0
-    - _Cull: 0
+    - _Cull: 2
     - _Cutoff: 0.5
     - _DestBlend: 10
     - _DetailNormalMapScale: 1
-    - _DissolveMode: 0
+    - _DissolveMode: 1
     - _DissolveOutlineWidth: 0
     - _DistortAmount: 0
     - _DistortFactor: 1
@@ -71,14 +69,13 @@ Material:
     - _DistortionStrength: 1
     - _DistortionStrengthScaled: 0
     - _DstBlend: 1
-    - _EmissionEnabled: 1
+    - _EmissionEnabled: 0
     - _EnableDissolveOutline: 0
     - _FlipbookMode: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _HDRParticle: 1
-    - _IsEnemy: 0
+    - _HDRParticle: 0
     - _IsTrail: 0
     - _LightingEnabled: 0
     - _MaskToggle: 0
@@ -99,17 +96,16 @@ Material:
     - _UVSec: 0
     - _UseCustomData: 0
     - _UsePolarCoordinate: 0
-    - _ZTest: 8
+    - _ZTest: 4
     - _ZWrite: 0
     m_Colors:
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
-    - _Color: {r: 5.9921575, g: 5.9921575, b: 5.9921575, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
     - _DissolveOutlineColor: {r: 1, g: 1, b: 1, a: 1}
     - _DissolvePanDir: {r: 0, g: 0, b: 0, a: 0}
     - _DistortionPanDir: {r: 0, g: 0, b: 1, a: 0}
-    - _EmissionColor: {r: 0.49411762, g: 1.4980392, b: 1.0196079, a: 1}
-    - _EnemyColor: {r: 1, g: 0.21176471, b: 0.2509804, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _PanDir: {r: 0, g: 0, b: 1, a: 0}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
