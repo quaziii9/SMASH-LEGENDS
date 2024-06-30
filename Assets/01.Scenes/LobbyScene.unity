@@ -447,16 +447,18 @@ MonoBehaviour:
   autoConnectClientBuild: 0
   offlineScene: Assets/01.Scenes/LobbyScene.unity
   onlineScene: Assets/01.Scenes/LoadingScene.unity
-  transport: {fileID: 0}
+  transport: {fileID: 819710969}
   networkAddress: localhost
   maxConnections: 100
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
   authenticator: {fileID: 0}
-  playerPrefab: {fileID: 3697806329183979239, guid: c26df1883212b9645ad04bbcc3e71ab0, type: 3}
+  playerPrefab: {fileID: 5772910745062398339, guid: 90c558ece33d2b04f8283d879abae442, type: 3}
   autoCreatePlayer: 1
-  playerSpawnMethod: 0
+  playerSpawnMethod: 1
   spawnPrefabs:
+  - {fileID: 3697806329183979239, guid: f6450c4668570904fb8fd5119c3cc760, type: 3}
+  - {fileID: 3697806329183979239, guid: ca2d625472995394ea390d245f3aae1e, type: 3}
   - {fileID: 1136504396308033126, guid: 31e23adff3727e94e9d7040c7dade601, type: 3}
   exceptionsDisconnect: 1
   snapshotSettings:
@@ -481,7 +483,7 @@ MonoBehaviour:
   _allPlayersReady: 0
   roomSlots: []
   clientIndex: 0
-  playerPrefabs: []
+  RoomPlayer: {fileID: 1136504396308033126, guid: 31e23adff3727e94e9d7040c7dade601, type: 3}
 --- !u!4 &819710971
 Transform:
   m_ObjectHideFlags: 0

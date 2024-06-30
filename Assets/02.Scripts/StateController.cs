@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Mirror;
 using System;
 using UnityEngine;
@@ -147,5 +148,18 @@ public class StateController : NetworkBehaviour
     public void ExecuteOnUpdate()
     {
         CurrentStateInstance?.ExecuteOnUpdate();
+    }
+
+    public void Start()
+    {
+        PositionPlayersAsync().Forget();
+    }
+
+    private async UniTaskVoid PositionPlayersAsync()
+    {
+        await UniTask.Delay(2000);
+
+        PositionSet = true;
+
     }
 }
