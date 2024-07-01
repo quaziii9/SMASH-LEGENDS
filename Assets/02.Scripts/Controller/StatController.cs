@@ -55,21 +55,23 @@ public class StatController : NetworkBehaviour
         }
         DuelManager.Instance.UpdateHealthBar(currentHp, maxHp, isHost);
     }
-
     [Command]
     public void CmdSmash(bool isHost)
     {
+        Debug.Log($"CmdSmash called on server for player: {netId}, isHost: {isHost}");
         RpcSmash(isHost);
     }
 
     [ClientRpc]
     private void RpcSmash(bool isHost)
     {
+        Debug.Log($"RpcSmash called on client for player: {netId}, isHost: {isHost}");
         Smash(isHost);
     }
 
     public void Smash(bool isHost)
     {
+        Debug.Log($"Smash called for player: {netId}, isHost: {isHost}");
         gameObject.SetActive(false);
         playerController.ReviveLegend(isHost).Forget();
         DuelManager.Instance.UpdateScore(isHost);

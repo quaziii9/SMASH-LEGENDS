@@ -7,6 +7,8 @@ public class DeadZone : MonoBehaviour
     {
         var legend = other.GetComponent<PlayerController>();
 
+        Debug.Log(other.name);
+
         if (legend.StatController.currentHp > 0)
         {
             legend.StatController.currentHp = 0;

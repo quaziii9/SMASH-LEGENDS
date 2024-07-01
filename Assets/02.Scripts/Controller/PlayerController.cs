@@ -16,7 +16,7 @@ public class PlayerController : NetworkBehaviour
 
     public Vector3 moveDirection;
     public Rigidbody rigidbody;
-    private Collider _collider;
+    public Collider _collider;
 
     [Header("GroundCheck")]
     public GameObject groundCheck;
@@ -430,6 +430,16 @@ public class PlayerController : NetworkBehaviour
         await UniTask.Delay(TimeSpan.FromSeconds(_fallingWaitTime), cancellationToken: _taskCancel.Token);
         _collider.enabled = false;
         ChangeState(PlayerState.HangFall);
+
+       
+    }
+
+    public async UniTaskVoid HangFall()
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(1));
+
+        // 콜라이더 다시 활성화
+        _collider.enabled = true;
     }
 
     public void EscapeInHang()

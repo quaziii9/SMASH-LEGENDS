@@ -953,6 +953,7 @@ public class HangFallState : StateBase
     {
         base.Enter();
         Player.AimationController.SetBool(Player.AimationController.IsHangFalling, true);
+        Player.HangFall().Forget();
     }
 
     public override void Exit()
