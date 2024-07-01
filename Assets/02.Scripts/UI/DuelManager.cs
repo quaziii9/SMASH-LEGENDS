@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +22,10 @@ public class DuelManager : Singleton<DuelManager>
     public int hostScore = 0;
     public int clientScore = 0;
 
+    public int RespawnTime = 5;
+    public int hostRespawnTime;
+    public int clientRespawnTime;
+
     private void Awake()
     {
         if (Instance == null)
@@ -32,6 +37,11 @@ public class DuelManager : Singleton<DuelManager>
         {
             Destroy(gameObject); // 중복된 인스턴스가 생기지 않도록 함
         }
+    }
+
+    public void Start()
+    {
+        StartActive().Forget();
     }
 
     public void UpdateHealthBar(int currentHp, int maxHp, bool isHost)
@@ -86,5 +96,43 @@ public class DuelManager : Singleton<DuelManager>
                     break;
             }
         }
+    }
+
+    public void StartRespawnTimer(bool isHost)
+    {
+        if(isHost == true)
+        {
+            hostRespawnTimer.SetActive(true);
+            HostRespawnCountdown().Forget();
+        }
+        else
+        {
+            clientRespawnTimer.SetActive(true);
+            ClientRespawnCountdown().Forget();
+  
+        }
+    }
+
+
+    private async UniTaskVoid StartActive()
+    {
+        // 1초 기다린 후 오브젝트 비활성화
+        await UniTask.Delay(1000);
+        hostRespawnTimer.SetActive(false);
+        clientRespawnTimer.SetActive(false);
+    }
+
+    private async UniTaskVoid ClientRespawnCountdown()
+    {
+        await UniTask.Delay(5000); // 5초 대기
+        clientRespawnTimer.SetActive(false);
+        //clientRespawnTime = RespawnTime;
+    }
+
+    private async UniTaskVoid HostRespawnCountdown()
+    {
+        await UniTask.Delay(5000); // 5초 대기
+        hostRespawnTimer.SetActive(false);
+       // hostRespawnTime = RespawnTime;
     }
 }
