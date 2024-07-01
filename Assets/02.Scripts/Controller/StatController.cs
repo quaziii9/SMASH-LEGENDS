@@ -85,6 +85,10 @@ public class StatController : NetworkBehaviour
             currentHeavyAttackCoolTime -= Time.deltaTime;
             currentHeavyAttackCoolTime = Mathf.Clamp(currentHeavyAttackCoolTime, 0, heavyAttackCoolTime);
             CmdUpdateHeavyAttackCoolTimeUI(currentHeavyAttackCoolTime, heavyAttackCoolTime);
+            if (isLocalPlayer)
+            {
+                DuelManager.Instance.UpdateHeavyAttackIconeCoolTime(currentHeavyAttackCoolTime, heavyAttackCoolTime);
+            }
         }
     }
 
@@ -116,10 +120,6 @@ public class StatController : NetworkBehaviour
     private void OnHeavyAttackCoolTimeChanged(float oldCoolTime, float newCoolTime)
     {
         legendUI.UpdateHeavyAttackCoolTimeUI(newCoolTime, heavyAttackCoolTime);
-        if(isLocalPlayer)
-        {
-            DuelManager.Instance.UpdateHeavyAttackIconeCoolTime(newCoolTime, heavyAttackCoolTime);
-        }
     }
 
     [Command]
