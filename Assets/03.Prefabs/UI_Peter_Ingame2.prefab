@@ -242,7 +242,7 @@ MonoBehaviour:
   syncInterval: 0
   moveSpeed: 5.4
   jumpMoveSpeed: 2.2
-  maxHp: 2000
+  maxHp: 4000
   currentHp: 0
   jumpForce: 14.28
   gravityScale: 36

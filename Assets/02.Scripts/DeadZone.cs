@@ -1,4 +1,5 @@
 using Mirror;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class DeadZone : MonoBehaviour
@@ -12,7 +13,9 @@ public class DeadZone : MonoBehaviour
         if (legend.StatController.currentHp > 0)
         {
             legend.StatController.currentHp = 0;
+            legend.StatController.CmdUpdateHealthBar(legend.StatController.currentHp, legend.StatController.maxHp, legend.IsHost);
         }
+
         legend.EffectController.SetDieEffect();
 
         legend.StatController.CmdSmash(legend.IsHost);

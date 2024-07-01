@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class JumpUpState : StateBase
 {
     public JumpUpState(PlayerController player) : base(player) { }
-
+    public JumpUpState(PlayerController player, AttackController attackController) : base(player, attackController) { }
     public override void Enter()
     {
         base.Enter();
@@ -56,6 +56,8 @@ public class JumpUpState : StateBase
 public class JumpDownState : StateBase
 {
     public JumpDownState(PlayerController player) : base(player) { }
+    public JumpDownState(PlayerController player, AttackController attackController) : base(player, attackController) { }
+
 
     public override void Enter()
     {

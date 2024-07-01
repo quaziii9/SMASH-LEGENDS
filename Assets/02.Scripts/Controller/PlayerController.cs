@@ -84,6 +84,10 @@ public class PlayerController : NetworkBehaviour
         {
             Debug.LogError("StateController is not attached to the PlayerController gameObject");
         }
+        if (StatController == null)
+        {
+            Debug.LogError("StatController component is missing on this GameObject.");
+        }
     }
 
     public override void OnStartServer()
@@ -137,10 +141,11 @@ public class PlayerController : NetworkBehaviour
         }
 
         var keyboard = Keyboard.current;
-        if (keyboard.spaceKey.wasPressedThisFrame)
-        {
-            StateController.CurrentStateInstance.OnInputCallback(new InputAction.CallbackContext());
-        }
+
+        //if (keyboard.spaceKey.wasPressedThisFrame)
+        //{
+        //    StateController.CurrentStateInstance.OnInputCallback(new InputAction.CallbackContext());
+        //}
 
         Vector2 moveInput = Vector2.zero;
         if (keyboard.wKey.isPressed || keyboard.upArrowKey.isPressed)

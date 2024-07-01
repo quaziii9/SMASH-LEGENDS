@@ -49,6 +49,7 @@ public class StatController : NetworkBehaviour
         legendUI.SetHpBar(maxHp);
         OnHpChanged(currentHp, currentHp);
         OnHeavyAttackCoolTimeChanged(currentHeavyAttackCoolTime, currentHeavyAttackCoolTime);
+
     }
 
     public void ApplyDamage(int damage, bool isHost)
@@ -159,5 +160,18 @@ public class StatController : NetworkBehaviour
         knockBackDirection.x = knockBackDirection.x >= 0 ? 1 : -1;
 
         CmdHitted(damaged, knockBackPower, knockBackDirection, hitType, plusAddForce, isHost);
+    }
+
+
+    [Command]
+    public void CmdUpdateHealthBar(int currentHp, int maxHp, bool isHost)
+    {
+        RpcUpdateHealthBar(currentHp, maxHp, isHost);
+    }
+
+    [ClientRpc]
+    private void RpcUpdateHealthBar(int currentHp, int maxHp, bool isHost)
+    {
+        DuelManager.Instance.UpdateHealthBar(currentHp, maxHp, isHost);
     }
 }
