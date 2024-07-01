@@ -583,14 +583,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.097123295, g: 0.37878078, b: 0.709, a: 1}
+  m_Color: {r: 0.63529414, g: 0.61960787, b: 0.5921569, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 21300078, guid: 991ce1e4547d980448de16f2fd4ea00b, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1188,6 +1188,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96731558c85abf04cbf1d3dbb78819e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HPText: {fileID: 4638945906326984404}
+  HPBar:
+  - {fileID: 3105851674883687113}
+  - {fileID: 395683847713092698}
+  - {fileID: 3484580390010007370}
+  - {fileID: 3417453056815811122}
+  - {fileID: 7423902006219242596}
+  - {fileID: 1663583381539230527}
+  - {fileID: 812952219450636499}
+  - {fileID: 4889168120677289553}
+  HPFillAmount: {fileID: 4638945905928080402}
+  HeavyAttackCoolTimeFillAmount: {fileID: 4638945905327971388}
+  IsSkillReady: {fileID: 4638945906102869667}
 --- !u!1 &4638945906946531545
 GameObject:
   m_ObjectHideFlags: 0

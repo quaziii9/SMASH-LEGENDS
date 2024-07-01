@@ -39,7 +39,7 @@ public class JumpUpState : StateBase
 
     public override void OnInputCallback(InputAction.CallbackContext context)
     {
-        if (context.action.name == "HeavyAttack" && context.performed)
+        if (context.action.name == "HeavyAttack" && context.performed && StatController.currentHeavyAttackCoolTime <= 0)
         {   
             Player.ChangeState(PlayerState.JumpHeavyAttack);
         }
@@ -85,7 +85,7 @@ public class JumpDownState : StateBase
 
     public override void OnInputCallback(InputAction.CallbackContext context)
     {
-        if (context.action.name == "HeavyAttack" && context.performed && Player.Ground == false)
+        if (context.action.name == "HeavyAttack" && context.performed && Player.Ground == false && StatController.currentHeavyAttackCoolTime <= 0)
         {
             Player.ChangeState(PlayerState.JumpHeavyAttack);
         }
@@ -249,7 +249,7 @@ public class RunState : StateBase
             Player.rigidbody.velocity = new Vector3(0, Player.rigidbody.velocity.y, 0);
             Player.ChangeState(PlayerState.FirstAttack);
         }
-        else if (context.action.name == "HeavyAttack" && context.performed)
+        else if (context.action.name == "HeavyAttack" && context.performed && StatController.currentHeavyAttackCoolTime <= 0)
         {
             Player.rigidbody.velocity = new Vector3(0, Player.rigidbody.velocity.y, 0);
             Player.ChangeState(PlayerState.HeavyAttack);
@@ -432,6 +432,7 @@ public class HeavyAttackState : StateBase
         AttackController.attackMoveDistance = 1.5f;
         AttackController.attackMoveDuration = 0.3f;
         Player.AimationController.SetBool(Player.AimationController.IsHeavyAttacking, true);
+        Player.StatController.StartHeavyAttackCooldown();
         AttackController.StartAttackMove();
         Player.CanMove = false;
         Player.CanLook = false;
@@ -442,8 +443,7 @@ public class HeavyAttackState : StateBase
     {
         base.Exit();
         Player.AimationController.SetBool(Player.AimationController.IsHeavyAttacking, false);
-        Player.AttackController.StartHeavyAttackCooldown();
-
+        Player.StatController.StartCooldownTimer().Forget();
     }
 
     public override void ExecuteOnUpdate()
@@ -488,6 +488,7 @@ public class JumpHeavyAttackState : StateBase
         Player.rigidbody.velocity = new Vector3(0, StatController.jumpForce, 0);
         Player.AimationController.SetBool(Player.AimationController.IsJumpHeavyAttacking, true);
         AttackController.StartAttackMove();
+        Player.StatController.StartHeavyAttackCooldown();
         Player.rigidbody.velocity = new Vector3(Player.rigidbody.velocity.x, StatController.jumpForce, Player.rigidbody.velocity.z);
         Player.CanMove = false;
         Player.CanLook = false;
@@ -497,6 +498,7 @@ public class JumpHeavyAttackState : StateBase
     {
         base.Exit();
         Player.AimationController.SetBool(Player.AimationController.IsJumpHeavyAttacking, false);
+        Player.StatController.StartCooldownTimer().Forget();
     }
 
     public override void ExecuteOnUpdate()

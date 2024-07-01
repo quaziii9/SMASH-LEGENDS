@@ -10,7 +10,7 @@ public class StatController : NetworkBehaviour
 
     [Header("Health")]
     public int maxHp = 9000;
-    [SyncVar] public int currentHp;
+    [SyncVar(hook = nameof(OnHpChanged))] public int currentHp;
 
     [Header("Jumping")]
     public float jumpForce = 14.28f;
@@ -28,20 +28,27 @@ public class StatController : NetworkBehaviour
 
     [Header("Cooldowns")]
     public float heavyAttackCoolTime = 4f;
+    [SyncVar(hook = nameof(OnHeavyAttackCoolTimeChanged))] public float currentHeavyAttackCoolTime = 0f;
 
     private PlayerController playerController;
     private EffectController effectController;
+    public LegendUI legendUI;
 
     public bool PlayerDie;
-
 
     private void Awake()
     {
         currentHp = maxHp;
-        playerController = GetComponent<PlayerController>(); // PlayerController 인스턴스 설정
-        effectController = GetComponent<EffectController>(); // PlayerController 인스턴스 설정
+        playerController = GetComponent<PlayerController>();
+        effectController = GetComponent<EffectController>();
+    }
 
-
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        legendUI.SetHpBar(maxHp);
+        OnHpChanged(currentHp, currentHp);
+        OnHeavyAttackCoolTimeChanged(currentHeavyAttackCoolTime, currentHeavyAttackCoolTime);
     }
 
     public void ApplyDamage(int damage, bool isHost)
@@ -51,27 +58,77 @@ public class StatController : NetworkBehaviour
         {
             playerController.CanChange = false;
             effectController.SetDieSmokeEffect();
-
         }
         DuelManager.Instance.UpdateHealthBar(currentHp, maxHp, isHost);
+        CmdUpdateHPUI(currentHp, maxHp);
     }
+
+    [Command]
+    private void CmdUpdateHPUI(int currentHp, int maxHp)
+    {
+        RpcUpdateHPUI(currentHp, maxHp);
+    }
+
+    [ClientRpc]
+    private void RpcUpdateHPUI(int currentHp, int maxHp)
+    {
+        legendUI.UpdateHPUI(currentHp, maxHp);
+    }
+
+    public async UniTaskVoid StartCooldownTimer()
+    {
+        while (currentHeavyAttackCoolTime > 0)
+        {
+            await UniTask.Yield(PlayerLoopTiming.Update);
+            currentHeavyAttackCoolTime -= Time.deltaTime;
+            currentHeavyAttackCoolTime = Mathf.Clamp(currentHeavyAttackCoolTime, 0, heavyAttackCoolTime);
+            CmdUpdateHeavyAttackCoolTimeUI(currentHeavyAttackCoolTime, heavyAttackCoolTime);
+        }
+    }
+
+    [Command]
+    private void CmdUpdateHeavyAttackCoolTimeUI(float currentCoolTime, float maxCoolTime)
+    {
+        RpcUpdateHeavyAttackCoolTimeUI(currentCoolTime, maxCoolTime);
+    }
+
+    [ClientRpc]
+    private void RpcUpdateHeavyAttackCoolTimeUI(float currentCoolTime, float maxCoolTime)
+    {
+        legendUI.UpdateHeavyAttackCoolTimeUI(currentCoolTime, maxCoolTime);
+    }
+
+    public void StartHeavyAttackCooldown()
+    {
+        currentHeavyAttackCoolTime = heavyAttackCoolTime;
+        CmdUpdateHeavyAttackCoolTimeUI(currentHeavyAttackCoolTime, heavyAttackCoolTime);
+        StartCooldownTimer().Forget();
+    }
+
+    private void OnHpChanged(int oldHp, int newHp)
+    {
+        legendUI.UpdateHPUI(newHp, maxHp);
+    }
+
+    private void OnHeavyAttackCoolTimeChanged(float oldCoolTime, float newCoolTime)
+    {
+        legendUI.UpdateHeavyAttackCoolTimeUI(newCoolTime, heavyAttackCoolTime);
+    }
+
     [Command]
     public void CmdSmash(bool isHost)
     {
-        Debug.Log($"CmdSmash called on server for player: {netId}, isHost: {isHost}");
         RpcSmash(isHost);
     }
 
     [ClientRpc]
     private void RpcSmash(bool isHost)
     {
-        Debug.Log($"RpcSmash called on client for player: {netId}, isHost: {isHost}");
         Smash(isHost);
     }
 
     public void Smash(bool isHost)
     {
-        Debug.Log($"Smash called for player: {netId}, isHost: {isHost}");
         gameObject.SetActive(false);
         playerController.ReviveLegend(isHost).Forget();
         DuelManager.Instance.UpdateScore(isHost);

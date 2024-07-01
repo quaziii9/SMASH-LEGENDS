@@ -124,7 +124,6 @@ public class PlayerController : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            AttackController.UpdateCooldowns();
             StateController.ExecuteOnUpdate();
             HandleInput();
         }
@@ -286,7 +285,7 @@ public class PlayerController : NetworkBehaviour
     {
         if (!isLocalPlayer) return;
 
-        if (AttackController.currentHeavyAttackCoolTime <= 0 && context.performed)
+        if (StatController.currentHeavyAttackCoolTime <= 0 && context.performed)
         {
             StateController.CurrentStateInstance?.OnInputCallback(context);
         }

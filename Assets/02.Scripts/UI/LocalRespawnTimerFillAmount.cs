@@ -30,7 +30,7 @@ public class LocalRespawnTimerFillAmount : MonoBehaviour
         }
         else
         {
-            Debug.LogError("fillImage is not assigned.");
+            return;
         }
     }
 

@@ -37,22 +37,22 @@ public class IdleState : StateBase
             Player.ChangeState(PlayerState.Run);
         }
 
-        if (Time.time - enterTime > 0.5f)
-        {
-            // 0.5초 후 상태 변경을 위한 입력 처리
-            var keyboard = Keyboard.current;
+        //if (Time.time - enterTime > 0.5f)
+        //{
+        //    // 0.5초 후 상태 변경을 위한 입력 처리
+        //    var keyboard = Keyboard.current;
 
-            if (keyboard.zKey.wasPressedThisFrame)
-            {                
-                Player.ChangeState(PlayerState.FirstAttack);
-                return;
-            }
-            else if (keyboard.xKey.wasPressedThisFrame)
-            {               
-                Player.ChangeState(PlayerState.HeavyAttack);
-                return;
-            }
-        }
+        //    if (keyboard.zKey.wasPressedThisFrame)
+        //    {                
+        //        Player.ChangeState(PlayerState.FirstAttack);
+        //        return;
+        //    }
+        //    else if (keyboard.xKey.wasPressedThisFrame && StatController.currentHeavyAttackCoolTime <=0)
+        //    {               
+        //        Player.ChangeState(PlayerState.HeavyAttack);
+        //        return;
+        //    }
+        //}
     }
 
     public override void OnInputCallback(InputAction.CallbackContext context)
@@ -72,7 +72,7 @@ public class IdleState : StateBase
         {
             Player.ChangeState(PlayerState.FirstAttack);
         }
-        else if (context.action.name == "HeavyAttack" && context.performed)
+        else if (context.action.name == "HeavyAttack" && context.performed && StatController.currentHeavyAttackCoolTime <= 0)
         {
             Player.ChangeState(PlayerState.HeavyAttack);
         }

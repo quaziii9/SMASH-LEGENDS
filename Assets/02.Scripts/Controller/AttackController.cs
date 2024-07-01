@@ -12,8 +12,6 @@ public class AttackController : NetworkBehaviour
     private PlayerController player;
     private StatController statController; // StatController 추가
 
-    public float currentHeavyAttackCoolTime = 0f;
-
     [SyncVar] public int DamageAmount;
     [SyncVar] public float KnockBackPower = 1;
     [SyncVar] public Vector3 KnockBackDireciton;
@@ -80,18 +78,7 @@ public class AttackController : NetworkBehaviour
         SetAttackValues(statController.skillAttackDamage / 5 + 500, statController.heavyKnockBackPower, player.transform.forward + player.transform.up * 1.2f, HitType.HitUp, true);
     }
 
-    public void UpdateCooldowns()
-    {
-        if (currentHeavyAttackCoolTime > 0)
-        {
-            currentHeavyAttackCoolTime -= Time.deltaTime;
-        }
-    }
-
-    public void StartHeavyAttackCooldown()
-    {
-        currentHeavyAttackCoolTime = statController.heavyAttackCoolTime;
-    }
+   
 
     public void HandleAttackMove()
     {

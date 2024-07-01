@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 2629612822608945365}
   - component: {fileID: 1161387996490374925}
   m_Layer: 7
-  m_Name: UI_Peter_Ingame1
+  m_Name: UI_Peter_Ingame2
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -242,7 +242,7 @@ MonoBehaviour:
   syncInterval: 0
   moveSpeed: 5.4
   jumpMoveSpeed: 2.2
-  maxHp: 4000
+  maxHp: 2000
   currentHp: 0
   jumpForce: 14.28
   gravityScale: 36
@@ -466,7 +466,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
-  _assetId: 3301962553
+  _assetId: 2466898426
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
