@@ -18,13 +18,11 @@ public class WeaponController : NetworkBehaviour
         {
             StatController otherplayer = other.GetComponent<StatController>();
             StateController otherplayerState = other.GetComponent<StateController>();
+            PlayerController otherPlayerController = other.GetComponent<PlayerController>();
 
             if (otherplayerState.IsInvincible == true) return;
 
-            NetworkIdentity networkIdentity = other.GetComponent<NetworkIdentity>();
-            NetworkConnectionToClient conn = networkIdentity.connectionToClient;
-            bool isHost = conn != null && conn == NetworkServer.localConnection; // 서버 (호스트) 플레이어인지 확인
-
+            bool isHost = otherPlayerController.IsHost;
 
             otherplayer.Hitted(
                 attackController.DamageAmount, 

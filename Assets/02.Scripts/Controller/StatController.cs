@@ -34,11 +34,14 @@ public class StatController : NetworkBehaviour
 
     public bool PlayerDie;
 
+
     private void Awake()
     {
         currentHp = maxHp;
         playerController = GetComponent<PlayerController>(); // PlayerController 인스턴스 설정
         effectController = GetComponent<EffectController>(); // PlayerController 인스턴스 설정
+
+
     }
 
     public void ApplyDamage(int damage, bool isHost)
@@ -46,21 +49,32 @@ public class StatController : NetworkBehaviour
         currentHp -= damage;
         if (currentHp <= 0)
         {
-            Smash(isHost);
+            playerController.CanChange = false;
+            effectController.SetDieSmokeEffect();
 
         }
         DuelManager.Instance.UpdateHealthBar(currentHp, maxHp, isHost);
     }
 
-    private void Smash(bool isHost)
+    [Command]
+    public void CmdSmash(bool isHost)
     {
-        playerController.CanChange = false;
-        effectController.SetDieSmokeEffect();
-        playerController.ReviveLegend(isHost).Forget();
-        DuelManager.Instance.UpdateScore(isHost);
-        DuelManager.Instance.StartRespawnTimer(isHost);   
+        RpcSmash(isHost);
     }
 
+    [ClientRpc]
+    private void RpcSmash(bool isHost)
+    {
+        Smash(isHost);
+    }
+
+    public void Smash(bool isHost)
+    {
+        gameObject.SetActive(false);
+        playerController.ReviveLegend(isHost).Forget();
+        DuelManager.Instance.UpdateScore(isHost);
+        DuelManager.Instance.StartRespawnTimer(isHost);
+    }
 
     [Command]
     public void CmdHitted(int damaged, float knockBackPower, Vector3 knockBackDirection, HitType hitType, bool plusAddForce, bool isHost)

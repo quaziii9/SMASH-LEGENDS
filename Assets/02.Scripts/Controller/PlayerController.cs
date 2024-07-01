@@ -46,6 +46,8 @@ public class PlayerController : NetworkBehaviour
     private Quaternion startRotation1 = Quaternion.Euler(new Vector3(0, 90, 0));
     private Quaternion startRotation2 = Quaternion.Euler(new Vector3(0, -90, 0));
 
+    [SyncVar] public bool IsHost;
+
     private void OnEnable()
     {
         if (EffectController != null)
@@ -82,6 +84,20 @@ public class PlayerController : NetworkBehaviour
         {
             Debug.LogError("StateController is not attached to the PlayerController gameObject");
         }
+    }
+
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+        NetworkConnectionToClient conn = connectionToClient;
+        IsHost = conn != null && conn == NetworkServer.localConnection;
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        NetworkConnectionToClient conn = connectionToClient;
+        IsHost = conn != null && conn == NetworkServer.localConnection;
     }
 
     private void Start()

@@ -52,9 +52,5 @@ public class RespawnTimerUI : MonoBehaviour
             respawnTime--;
         }
 
-        //if (isRunning)
-        //{
-        //   gameObject.SetActive(false);
-        //}
     }
 }
