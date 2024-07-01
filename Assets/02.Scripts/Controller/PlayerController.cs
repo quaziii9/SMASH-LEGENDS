@@ -461,6 +461,8 @@ public class PlayerController : NetworkBehaviour
         ChangeState(PlayerState.Idle);
         StatController.currentHp = StatController.maxHp;
         DuelManager.Instance.UpdateHealthBar(StatController.currentHp, StatController.maxHp, isHost);
+        StatController.CmdUpdateHPUI(StatController.currentHp, StatController.maxHp);
+
         CanChange = true;
         StateController.IsHitted = false;
     }

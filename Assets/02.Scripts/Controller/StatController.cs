@@ -47,7 +47,9 @@ public class StatController : NetworkBehaviour
     {
         base.OnStartClient();
         legendUI.SetHpBar(maxHp);
-        OnHpChanged(currentHp, currentHp);
+        legendUI.UpdateHPUI(currentHp, maxHp);
+
+        //OnHpChanged(currentHp, currentHp);
         OnHeavyAttackCoolTimeChanged(currentHeavyAttackCoolTime, currentHeavyAttackCoolTime);
     }
 
@@ -107,8 +109,9 @@ public class StatController : NetworkBehaviour
 
     private void OnHpChanged(int oldHp, int newHp)
     {
-        legendUI.UpdateHPUI(newHp, maxHp);
+        CmdUpdateHPUI(newHp, maxHp);
     }
+
 
     private void OnHeavyAttackCoolTimeChanged(float oldCoolTime, float newCoolTime)
     {
