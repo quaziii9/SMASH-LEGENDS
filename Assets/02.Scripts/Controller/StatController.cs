@@ -57,6 +57,7 @@ public class StatController : NetworkBehaviour
         playerController.CanChange = false;
         effectController.SetDieSmokeEffect();
         playerController.ReviveLegend(isHost).Forget();
+        DuelManager.Instance.UpdateScore(isHost);
     }
 
 

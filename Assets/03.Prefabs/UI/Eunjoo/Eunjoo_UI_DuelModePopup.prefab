@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3714544551395788239
 RectTransform:
   m_ObjectHideFlags: 0
@@ -318,7 +318,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8192931292652586457
 RectTransform:
   m_ObjectHideFlags: 0
@@ -645,6 +645,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hostHealthBar: {fileID: 498673232530565679}
   clientHealthBar: {fileID: 8404313486530600211}
+  hostScoreBar:
+  - {fileID: 121982082929781216}
+  - {fileID: 1450326983874054541}
+  - {fileID: 4025935481106318893}
+  clientScoreBar:
+  - {fileID: 3708431653959827463}
+  - {fileID: 5766192982031795003}
+  - {fileID: 7067852204584642074}
+  hostRespawnTimer: {fileID: 5990821300142373413}
+  clientRespawnTimer: {fileID: 525038777523788581}
+  RespawnTimer: {fileID: 8060854078562415981}
 --- !u!1 &2754177448046529907
 GameObject:
   m_ObjectHideFlags: 0
@@ -872,7 +883,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7311237257142823468
 RectTransform:
   m_ObjectHideFlags: 0
@@ -986,7 +997,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1500534943125400610
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1762,7 +1773,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7935595527656343835
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2404,7 +2415,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &192611356587231087
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2897,7 +2908,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &567617297217000421
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3464,6 +3475,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8337021712607254038, guid: 74a0bd099d5a797428a8d1723abd79d7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3588,6 +3603,10 @@ PrefabInstance:
     - target: {fileID: 5142149027260648367, guid: 74a0bd099d5a797428a8d1723abd79d7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8337021712607254038, guid: 74a0bd099d5a797428a8d1723abd79d7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
