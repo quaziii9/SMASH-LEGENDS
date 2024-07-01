@@ -1477,17 +1477,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 950383576}
     m_Modifications:
-    - target: {fileID: 525038777523788581, guid: 27eb150d2be297342bb29c0129484591, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2481431343213575526, guid: 27eb150d2be297342bb29c0129484591, type: 3}
       propertyPath: m_Name
       value: Eunjoo_UI_DuelModePopup
-      objectReference: {fileID: 0}
-    - target: {fileID: 5990821300142373413, guid: 27eb150d2be297342bb29c0129484591, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6572350368148363729, guid: 27eb150d2be297342bb29c0129484591, type: 3}
       propertyPath: m_Pivot.x
@@ -1568,10 +1560,6 @@ PrefabInstance:
     - target: {fileID: 6572350368148363729, guid: 27eb150d2be297342bb29c0129484591, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7354171883249392147, guid: 27eb150d2be297342bb29c0129484591, type: 3}
-      propertyPath: respawnTimeText
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

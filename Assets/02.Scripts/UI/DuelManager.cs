@@ -120,19 +120,25 @@ public class DuelManager : Singleton<DuelManager>
         await UniTask.Delay(1000);
         hostRespawnTimer.SetActive(false);
         clientRespawnTimer.SetActive(false);
+        RespawnTimer.SetActive(false);
     }
 
-    private async UniTaskVoid ClientRespawnCountdown()
+private async UniTaskVoid ClientRespawnCountdown()
     {
         await UniTask.Delay(5000); // 5초 대기
         clientRespawnTimer.SetActive(false);
-        //clientRespawnTime = RespawnTime;
     }
 
     private async UniTaskVoid HostRespawnCountdown()
     {
         await UniTask.Delay(5000); // 5초 대기
         hostRespawnTimer.SetActive(false);
-       // hostRespawnTime = RespawnTime;
+    }
+
+    public async UniTaskVoid LocalRespawnTimer()
+    {
+        RespawnTimer.SetActive(true);
+        await UniTask.Delay(5000); // 5초 대기
+        RespawnTimer.SetActive(false);
     }
 }

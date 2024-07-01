@@ -1,22 +1,22 @@
+using Cysharp.Threading.Tasks;
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using Cysharp.Threading.Tasks;
 
-public class RespawnTimerUI : MonoBehaviour
+public class LocalRespawnTiemrUI : MonoBehaviour
 {
-    public TextMeshProUGUI respawnTimeText;
-    public bool isHost; // 호스트인지 클라이언트인지 구분하는 변수
-
+    public TextMeshProUGUI LocalrespawnTimeText;
     private int respawnTime;
     private bool isRunning = false;
 
     private void Start()
     {
         // TextMeshProUGUI 컴포넌트 가져오기
-        if (respawnTimeText == null)
+        if (LocalrespawnTimeText == null)
         {
-            respawnTimeText = GetComponent<TextMeshProUGUI>();
-            if (respawnTimeText == null)
+            LocalrespawnTimeText = GetComponent<TextMeshProUGUI>();
+            if (LocalrespawnTimeText == null)
             {
                 Debug.LogError("TextMeshProUGUI component is missing on this GameObject.");
             }
@@ -26,7 +26,7 @@ public class RespawnTimerUI : MonoBehaviour
     private void OnEnable()
     {
         // TextMeshProUGUI가 정상적으로 할당되었는지 확인
-        if (respawnTimeText != null)
+        if (LocalrespawnTimeText != null)
         {
             respawnTime = 5; // 타이머 초기화
             StartRespawnCountdown().Forget();
@@ -47,7 +47,7 @@ public class RespawnTimerUI : MonoBehaviour
         isRunning = true;
         while (respawnTime > 0 && isRunning)
         {
-            respawnTimeText.text = $"{respawnTime}";
+            LocalrespawnTimeText.text = $"부활 ({respawnTime})";
             await UniTask.Delay(1000);
             respawnTime--;
         }
