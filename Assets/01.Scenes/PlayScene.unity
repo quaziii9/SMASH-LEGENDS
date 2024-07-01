@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1477,11 +1477,39 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 950383576}
     m_Modifications:
+    - target: {fileID: 121982082929781216, guid: 27eb150d2be297342bb29c0129484591, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 358375022812939826, guid: 27eb150d2be297342bb29c0129484591, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450326983874054541, guid: 27eb150d2be297342bb29c0129484591, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2481431343213575526, guid: 27eb150d2be297342bb29c0129484591, type: 3}
       propertyPath: m_Name
       value: Eunjoo_UI_DuelModePopup
       objectReference: {fileID: 0}
     - target: {fileID: 2709682580628370422, guid: 27eb150d2be297342bb29c0129484591, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3708431653959827463, guid: 27eb150d2be297342bb29c0129484591, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4025935481106318893, guid: 27eb150d2be297342bb29c0129484591, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5584229666568639225, guid: 27eb150d2be297342bb29c0129484591, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5766192982031795003, guid: 27eb150d2be297342bb29c0129484591, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -1567,6 +1595,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6572350368148363729, guid: 27eb150d2be297342bb29c0129484591, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7067852204584642074, guid: 27eb150d2be297342bb29c0129484591, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8060854078562415981, guid: 27eb150d2be297342bb29c0129484591, type: 3}

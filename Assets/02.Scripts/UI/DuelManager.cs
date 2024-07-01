@@ -15,11 +15,11 @@ public class DuelManager : Singleton<DuelManager>
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // ¾ÀÀÌ º¯°æµÇ¾îµµ UIManager°¡ ÆÄ±«µÇÁö ¾Êµµ·Ï ÇÔ
+            DontDestroyOnLoad(gameObject); // ì”¬ì´ ë³€ê²½ë˜ì–´ë„ UIManagerê°€ íŒŒê´´ë˜ì§€ ì•Šë„ë¡ í•¨
         }
         else
         {
-            Destroy(gameObject); // Áßº¹µÈ ÀÎ½ºÅÏ½º°¡ »ı±âÁö ¾Êµµ·Ï ÇÔ
+            Destroy(gameObject); // ì¤‘ë³µëœ ì¸ìŠ¤í„´ìŠ¤ê°€ ìƒê¸°ì§€ ì•Šë„ë¡ í•¨
         }
     }
 
@@ -36,4 +36,6 @@ public class DuelManager : Singleton<DuelManager>
             clientHealthBar.fillAmount = fillAmount;
         }
     }
+
+
 }

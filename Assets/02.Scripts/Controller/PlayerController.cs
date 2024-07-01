@@ -4,6 +4,7 @@ using Mirror;
 using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks;
 using System.Threading;
+using Unity.Mathematics;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -40,6 +41,10 @@ public class PlayerController : NetworkBehaviour
 
     private CancellationTokenSource _taskCancel;
 
+    private Vector3 startPosition1 = new Vector3(-20, 1.5f, 0); // 원하는 위치로 설정
+    private Vector3 startPosition2 = new Vector3(20, 1.5f, 0); // 원하는 위치로 설정
+    private Quaternion startRotation1 = Quaternion.Euler(new Vector3(0, 90, 0));
+    private Quaternion startRotation2 = Quaternion.Euler(new Vector3(0, -90, 0));
 
     private void OnEnable()
     {
@@ -414,5 +419,34 @@ public class PlayerController : NetworkBehaviour
     public void EscapeInHang()
     {
         _taskCancel.Cancel();
+    }
+
+    public async UniTask ReviveLegend(bool isHost)
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(5));
+
+        rigidbody.velocity = Vector3.zero;
+        SetPosition(isHost);
+        gameObject.SetActive(true);
+        ChangeState(PlayerState.Idle);
+        StatController.currentHp = StatController.maxHp;
+        DuelManager.Instance.UpdateHealthBar(StatController.currentHp, StatController.maxHp, isHost);
+        CanChange = true;
+        StateController.IsHitted = false;
+    }
+
+
+    public void SetPosition(bool isHost)
+    {
+        if (isHost)
+        {
+            gameObject.transform.position = startPosition1;
+            gameObject.transform.rotation = startRotation1;
+        }
+        else
+        {
+            gameObject.transform.position = startPosition2;
+            gameObject.transform.rotation = startRotation2;
+        }
     }
 }

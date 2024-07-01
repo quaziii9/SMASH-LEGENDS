@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Mirror;
 using UnityEngine;
 
@@ -45,17 +46,17 @@ public class StatController : NetworkBehaviour
         currentHp -= damage;
         if (currentHp <= 0)
         {
-            Smash();
+            Smash(isHost);
 
         }
         DuelManager.Instance.UpdateHealthBar(currentHp, maxHp, isHost);
     }
 
-    private void Smash()
+    private void Smash(bool isHost)
     {
         playerController.CanChange = false;
         effectController.SetDieSmokeEffect();
-        Debug.Log("Player is dead");
+        playerController.ReviveLegend(isHost).Forget();
     }
 
 
