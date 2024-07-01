@@ -33,7 +33,7 @@ public class RespawnTimerUI : MonoBehaviour
         }
         else
         {
-            Debug.LogError("respawnTimeText is not assigned.");
+            return;
         }
     }
 
