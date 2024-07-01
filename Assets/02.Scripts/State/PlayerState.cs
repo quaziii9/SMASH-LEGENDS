@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -436,6 +437,7 @@ public class HeavyAttackState : StateBase
         Player.AimationController.SetBool(Player.AimationController.IsHeavyAttacking, true);
         Player.StatController.StartHeavyAttackCooldown();
         AttackController.StartAttackMove();
+
         Player.CanMove = false;
         Player.CanLook = false;
         Player.CanChange = false;

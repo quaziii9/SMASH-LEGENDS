@@ -27,6 +27,8 @@ public class IdleState : StateBase
     public override void Enter()
     {
         base.Enter();
+        Player.CanDefaultFlash = 0;
+        Player.DefualtAttackIconEnable();
         Player.rigidbody.velocity = new Vector3(0, Player.rigidbody.velocity.y, 0);
         Player.AimationController.SetBool(Player.AimationController.IsIdle, true);
         Player.StateController.IsHitted = false;

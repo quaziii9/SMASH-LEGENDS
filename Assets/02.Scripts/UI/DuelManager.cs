@@ -28,6 +28,7 @@ public class DuelManager : Singleton<DuelManager>
 
     public Image HeavyAttackIconeBar;
     public Image SkillAttackIconeBar;
+    public GameObject DefualtAttackIcon;
 
     private void Awake()
     {
@@ -151,4 +152,13 @@ public class DuelManager : Singleton<DuelManager>
         HeavyAttackIconeBar.fillAmount = fillAmount;
     }
  
+    public void DefualtAttackIconEnable()
+    {
+        DefualtAttackIcon.SetActive(true);
+    }
+
+    public void DefualtAttackIconDisable()
+    {
+        DefualtAttackIcon.SetActive(false);
+    }
 }

@@ -80,6 +80,8 @@ public class AnimationController : MonoBehaviour
 
     public void CanChangeAnimationEvent()
     {
+        if(Player.StateController._curState != PlayerState.FinishAttack)
+            Player.CanDefaultFlash = 0;
         Player.CanChange = true;
         Player.CanLook = true;
     }

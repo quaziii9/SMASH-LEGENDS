@@ -679,6 +679,7 @@ MonoBehaviour:
   clientRespawnTime: 0
   HeavyAttackIconeBar: {fileID: 4847301450284691947}
   SkillAttackIconeBar: {fileID: 8313054673774082440}
+  DefualtAttackIcon: {fileID: 6111498935165609268}
 --- !u!1 &2754177448046529907
 GameObject:
   m_ObjectHideFlags: 0
@@ -3611,6 +3612,11 @@ MonoBehaviour:
 --- !u!224 &5676599993363201162 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2399637048494221043, guid: ace9104f5eec6ae4c80e5982ec61ae93, type: 3}
+  m_PrefabInstance: {fileID: 8037355991139392121}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6111498935165609268 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4276743262057922381, guid: ace9104f5eec6ae4c80e5982ec61ae93, type: 3}
   m_PrefabInstance: {fileID: 8037355991139392121}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &8313054673774082440 stripped

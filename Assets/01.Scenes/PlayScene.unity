@@ -1481,6 +1481,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Eunjoo_UI_DuelModePopup
       objectReference: {fileID: 0}
+    - target: {fileID: 6111498935165609268, guid: 27eb150d2be297342bb29c0129484591, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6572350368148363729, guid: 27eb150d2be297342bb29c0129484591, type: 3}
       propertyPath: m_Pivot.x
       value: 0

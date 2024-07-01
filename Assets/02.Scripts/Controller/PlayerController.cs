@@ -46,6 +46,8 @@ public class PlayerController : NetworkBehaviour
     private Quaternion startRotation1 = Quaternion.Euler(new Vector3(0, 90, 0));
     private Quaternion startRotation2 = Quaternion.Euler(new Vector3(0, -90, 0));
 
+    public int CanDefaultFlash = 0;
+
     [SyncVar] public bool IsHost;
 
     private void OnEnable()
@@ -110,6 +112,7 @@ public class PlayerController : NetworkBehaviour
         {
             StateController.ChangeState(PlayerState.Idle);
         }
+        CanChange = true;
     }
 
 
@@ -283,6 +286,12 @@ public class PlayerController : NetworkBehaviour
         if (context.performed)
         {
             StateController.CurrentStateInstance?.OnInputCallback(context);
+        }
+
+        if(CanChange && CanDefaultFlash == 0)
+        {
+            CanDefaultFlash++;
+            DefualtAttackIconEnableFlash().Forget();
         }
     }
 
@@ -481,4 +490,27 @@ public class PlayerController : NetworkBehaviour
             gameObject.transform.rotation = startRotation2;
         }
     }
+
+
+    public async UniTask DefualtAttackIconEnableFlash()
+    {
+        if(isLocalPlayer)
+        {
+            DuelManager.Instance.DefualtAttackIconEnable();
+            await UniTask.Delay(100);
+            DuelManager.Instance.DefualtAttackIconDisable();
+            await UniTask.Delay(100);
+            if(StateController._curState !=PlayerState.FinishAttack)
+                DuelManager.Instance.DefualtAttackIconEnable();
+        }
+    }
+
+    public void DefualtAttackIconEnable()
+    {
+        if(isLocalPlayer)
+            DuelManager.Instance.DefualtAttackIconEnable();
+    }
+
+
+
 }
