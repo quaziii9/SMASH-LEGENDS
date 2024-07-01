@@ -49,7 +49,6 @@ public class StatController : NetworkBehaviour
         legendUI.SetHpBar(maxHp);
         OnHpChanged(currentHp, currentHp);
         OnHeavyAttackCoolTimeChanged(currentHeavyAttackCoolTime, currentHeavyAttackCoolTime);
-
     }
 
     public void ApplyDamage(int damage, bool isHost)
@@ -65,7 +64,7 @@ public class StatController : NetworkBehaviour
     }
 
     [Command]
-    private void CmdUpdateHPUI(int currentHp, int maxHp)
+    public void CmdUpdateHPUI(int currentHp, int maxHp)
     {
         RpcUpdateHPUI(currentHp, maxHp);
     }
@@ -114,6 +113,10 @@ public class StatController : NetworkBehaviour
     private void OnHeavyAttackCoolTimeChanged(float oldCoolTime, float newCoolTime)
     {
         legendUI.UpdateHeavyAttackCoolTimeUI(newCoolTime, heavyAttackCoolTime);
+        if(isLocalPlayer)
+        {
+            DuelManager.Instance.UpdateHeavyAttackIconeCoolTime(newCoolTime, heavyAttackCoolTime);
+        }
     }
 
     [Command]

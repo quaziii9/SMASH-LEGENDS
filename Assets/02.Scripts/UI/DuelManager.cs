@@ -26,6 +26,9 @@ public class DuelManager : Singleton<DuelManager>
     public int hostRespawnTime;
     public int clientRespawnTime;
 
+    public Image HeavyAttackIconeBar;
+    public Image SkillAttackIconeBar;
+
     private void Awake()
     {
         if (Instance == null)
@@ -123,7 +126,7 @@ public class DuelManager : Singleton<DuelManager>
         RespawnTimer.SetActive(false);
     }
 
-private async UniTaskVoid ClientRespawnCountdown()
+    private async UniTaskVoid ClientRespawnCountdown()
     {
         await UniTask.Delay(5000); // 5초 대기
         clientRespawnTimer.SetActive(false);
@@ -141,4 +144,11 @@ private async UniTaskVoid ClientRespawnCountdown()
         await UniTask.Delay(5000); // 5초 대기
         RespawnTimer.SetActive(false);
     }
+
+    public void UpdateHeavyAttackIconeCoolTime(float currentCoolTime, float maxCoolTime)
+    {
+        float fillAmount = 1 - (currentCoolTime / maxCoolTime);
+        HeavyAttackIconeBar.fillAmount = fillAmount;
+    }
+ 
 }
