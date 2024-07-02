@@ -15,7 +15,8 @@ public class StartButton : MonoBehaviour
         try
         {
             roomManager.StartClient();
-            await Task.Delay(1000);  // 연결 시도 후 대기 시간 설정
+            UIManager.Instance.MachintPopupEnable();
+            await Task.Delay(500);  // 연결 시도 후 대기 시간 설정
 
             if (!NetworkClient.isConnected)
             {
@@ -31,6 +32,7 @@ public class StartButton : MonoBehaviour
         {
             Debug.LogError($"Exception occurred: {ex.Message}");
             roomManager.StartHost();
+            UIManager.Instance.MachintPopupEnable();
         }
     }
 }

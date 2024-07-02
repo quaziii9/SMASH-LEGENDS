@@ -117,11 +117,9 @@ public class DuelManager : Singleton<DuelManager>
         }
     }
 
-
     private async UniTaskVoid StartActive()
     {
-        // 1초 기다린 후 오브젝트 비활성화
-        await UniTask.Delay(1000);
+        await UniTask.Delay(200);
         hostRespawnTimer.SetActive(false);
         clientRespawnTimer.SetActive(false);
         RespawnTimer.SetActive(false);
