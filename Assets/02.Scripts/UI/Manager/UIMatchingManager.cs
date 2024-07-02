@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using Mirror;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class UIMatchingManager : NetworkBehaviour
@@ -8,24 +9,13 @@ public class UIMatchingManager : NetworkBehaviour
     public static UIMatchingManager Instance;
     public GameObject Client;
     public GameObject Matching;
+    public TextMeshProUGUI LoadingText;
 
     private void Awake()
     {
         Instance = this;
     }
 
-    public void InClient()
-    {
-        Debug.Log("inclient");
-        Client.SetActive(true);
-        Matching.SetActive(true);
-    }
-
-    public void Test()
-    {
-        Matching.SetActive(false);
-        Client.SetActive(false);
-    }
 
     public void UpdatePlayerCount()
     {
@@ -41,23 +31,10 @@ public class UIMatchingManager : NetworkBehaviour
 
     public async UniTaskVoid UpdatePlayerCountTest()
     { 
-        await UniTask.Delay(500);
+        await UniTask.Delay(1500);
 
         Client.SetActive(true);
         Matching.SetActive(true);
+        LoadingText.text = "아레나가 열리고 있습니다";
     }
-    //[Command]
-    //private void CmdSetClientActive(bool isActive)
-    //{
-    //    Debug.Log("inclientcommand");
-    //    RpcSetClientActive(isActive);
-    //}
-
-    //[ClientRpc]
-    //private void RpcSetClientActive(bool isActive)
-    //{
-    //    Debug.Log("clientactive");
-    //    Client.SetActive(isActive);
-    //    Matching.SetActive(isActive);
-    //}
 }

@@ -9,8 +9,8 @@ public class RoomManager : NetworkRoomManager
 
     [SerializeField] GameObject RoomPlayer;
 
-    private Vector3 startPosition1 = new Vector3(-20, 1.5f, 0); // 원하는 위치로 설정
-    private Vector3 startPosition2 = new Vector3(20, 1.5f, 0); // 원하는 위치로 설정
+    private Vector3 startPosition1 = new Vector3(-20, 1f, 0); // 원하는 위치로 설정
+    private Vector3 startPosition2 = new Vector3(20, 1f, 0); // 원하는 위치로 설정
     private Quaternion rotation1 = Quaternion.Euler(new Vector3(0, 90, 0));
     private Quaternion rotation2 = Quaternion.Euler(new Vector3(0, -90, 0));
 
@@ -88,6 +88,8 @@ public class RoomManager : NetworkRoomManager
         if (!isSceneChanging && numPlayers == maxConnections)
         {
             isSceneChanging = true;  // 씬 전환 시작
+
+            await UniTask.Delay(2500);
 
             ServerChangeScene(GameplayScene);
         }

@@ -150,16 +150,13 @@ public class StateController : NetworkBehaviour
         CurrentStateInstance?.ExecuteOnUpdate();
     }
 
-    public void Start()
-    {
-        PositionPlayersAsync().Forget();
-    }
+    //public void Start()
+    //{
+    //    PositionPlayersAsync().Forget();
+    //}
 
-    private async UniTaskVoid PositionPlayersAsync()
+    public void PositionPlayersAsync()
     {
-        await UniTask.Delay(2000);
-
         PositionSet = true;
-
     }
 }
