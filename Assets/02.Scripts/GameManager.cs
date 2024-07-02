@@ -7,6 +7,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        UIManager.Instance.SetPlaySceneInternal().Forget();
+        UIManager.Instance.SetPlaySceneInternal();
     }
 }

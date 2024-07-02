@@ -13,5 +13,3 @@ public class LoadingUIManager : MonoBehaviour
         Instance = this;
     }
 }
-
-

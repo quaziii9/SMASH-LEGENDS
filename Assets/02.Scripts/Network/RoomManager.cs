@@ -41,7 +41,6 @@ public class RoomManager : NetworkRoomManager
         if (conn.connectionId == 0)
         {
             roomObj = Instantiate(RoomPlayer, startPosition1, rotation1);
-            //UIMatchingManager.Instance.Test();
         }
         else
         {
@@ -83,19 +82,12 @@ public class RoomManager : NetworkRoomManager
             }
         }
 
-        // 모든 플레이어가 연결된 후에 1.5초 대기
         await UniTask.Delay(1500);
-
-
-
 
         // 플레이어 수가 최대 연결 수에 도달하면 게임 씬으로 전환
         if (!isSceneChanging && numPlayers == maxConnections)
         {
-            //UIMatchingManager.Instance.InClient();
             isSceneChanging = true;  // 씬 전환 시작
-
-            await UniTask.Delay(2000);
 
             ServerChangeScene(GameplayScene);
         }
@@ -106,5 +98,4 @@ public class RoomManager : NetworkRoomManager
         base.OnServerSceneChanged(sceneName);
         NetworkClient.Ready();
     }
-
 }
