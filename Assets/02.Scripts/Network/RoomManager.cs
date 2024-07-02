@@ -41,7 +41,7 @@ public class RoomManager : NetworkRoomManager
         if (conn.connectionId == 0)
         {
             roomObj = Instantiate(RoomPlayer, startPosition1, rotation1);
-            UIMatchingManager.Instance.Test();
+            //UIMatchingManager.Instance.Test();
         }
         else
         {
@@ -92,7 +92,7 @@ public class RoomManager : NetworkRoomManager
         // 플레이어 수가 최대 연결 수에 도달하면 게임 씬으로 전환
         if (!isSceneChanging && numPlayers == maxConnections)
         {
-            UIMatchingManager.Instance.InClient();
+            //UIMatchingManager.Instance.InClient();
             isSceneChanging = true;  // 씬 전환 시작
 
             await UniTask.Delay(2000);

@@ -1,10 +1,10 @@
-
+using Cysharp.Threading.Tasks;
+using Mirror;
+using System.Linq;
 using UnityEngine;
 
-
-public class UIMatchingManager : Singleton<UIMatchingManager>
+public class UIMatchingManager : NetworkBehaviour
 {
-    //public GameObject Host;
     public GameObject Client;
     public GameObject Matching;
 
@@ -21,6 +21,25 @@ public class UIMatchingManager : Singleton<UIMatchingManager>
         Client.SetActive(false);
     }
 
+    public void UpdatePlayerCount()
+    {
+        var players = FindObjectsOfType<RoomPlayer>();
+        int playerCount = players.Length;
+        Debug.Log(playerCount);
+
+        if(playerCount == 2)
+        {
+            UpdatePlayerCountTest().Forget();
+        }
+    }
+
+    public async UniTaskVoid UpdatePlayerCountTest()
+    { 
+        await UniTask.Delay(500);
+
+        Client.SetActive(true);
+        Matching.SetActive(true);
+    }
     //[Command]
     //private void CmdSetClientActive(bool isActive)
     //{

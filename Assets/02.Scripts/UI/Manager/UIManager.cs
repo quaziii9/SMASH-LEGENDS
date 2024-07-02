@@ -7,9 +7,8 @@ public class UIManager : Singleton<UIManager>
 {
     public GameObject LobbyPopup;
     public GameObject DuelModePopup;
-    public GameObject MatchingPopup;
+   // public GameObject MatchingPopup;
     public GameObject Title;
-
 
     public void Start()
     {
@@ -20,7 +19,7 @@ public class UIManager : Singleton<UIManager>
     {
         await Task.Delay(500); // 1초 대기
         DuelModePopup.SetActive(false);
-        MatchingPopup.SetActive(false);
+       // MatchingPopup.SetActive(false);
 
         await Task.Delay(2000); // 추가로 2초 대기 (총 3초)
         Title.SetActive(false);
@@ -28,7 +27,7 @@ public class UIManager : Singleton<UIManager>
 
     public async void MachintPopupEnable()
     {
-        MatchingPopup.SetActive(true);
+        //MatchingPopup.SetActive(true);
 
         await Task.Delay(500);
 
@@ -41,6 +40,6 @@ public class UIManager : Singleton<UIManager>
 
         await UniTask.Delay(1000);
 
-        MatchingPopup.SetActive(false);
+        //MatchingPopup.SetActive(false);
     }
 }

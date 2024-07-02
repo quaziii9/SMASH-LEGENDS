@@ -2,6 +2,18 @@ using Mirror;
 
 public class RoomPlayer : NetworkRoomPlayer
 {
+    private void Start()
+    {
+        LoadingUIManager.Instance.MatchingManager.UpdatePlayerCount();
+    }
+    private void OnDestroy()
+    {
+        if (LoadingUIManager.Instance != null)
+        {
+            LoadingUIManager.Instance.MatchingManager.UpdatePlayerCount();
+        }
+    }
+
     public override void OnClientEnterRoom()
     {
         base.OnClientEnterRoom();

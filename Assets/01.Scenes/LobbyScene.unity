@@ -136,7 +136,6 @@ GameObject:
   - component: {fileID: 266494888}
   - component: {fileID: 266494887}
   - component: {fileID: 266494891}
-  - component: {fileID: 266494892}
   m_Layer: 5
   m_Name: UIManager
   m_TagString: Untagged
@@ -244,22 +243,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LobbyPopup: {fileID: 369590088}
   DuelModePopup: {fileID: 1649507081}
-  MatchingPopup: {fileID: 1477401791}
   Title: {fileID: 1531262818}
---- !u!114 &266494892
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 266494886}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69c8ea73dd73c7448bdb5720efe422ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Client: {fileID: 1549940033}
-  Matching: {fileID: 1789718042}
 --- !u!1 &322385521
 GameObject:
   m_ObjectHideFlags: 0
@@ -687,7 +671,7 @@ MonoBehaviour:
   evaluationMethod: 0
   evaluationInterval: 3
   timeInterpolationGui: 0
-  showRoomGUI: 1
+  showRoomGUI: 0
   minPlayers: 1
   roomPlayerPrefab: {fileID: 1854472227658115023, guid: 31e23adff3727e94e9d7040c7dade601, type: 3}
   RoomScene: Assets/01.Scenes/LoadingScene.unity
@@ -1142,7 +1126,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1477401794
 RectTransform:
   m_ObjectHideFlags: 0
