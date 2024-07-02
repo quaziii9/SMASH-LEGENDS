@@ -469,7 +469,7 @@ public class PlayerController : NetworkBehaviour
         gameObject.SetActive(true);
         ChangeState(PlayerState.Idle);
         StatController.currentHp = StatController.maxHp;
-        DuelManager.Instance.UpdateHealthBar(StatController.currentHp, StatController.maxHp, isHost);
+        DuelUIController.Instance.UpdateHealthBar(StatController.currentHp, StatController.maxHp, isHost);
         StatController.CmdUpdateHPUI(StatController.currentHp, StatController.maxHp);
 
         CanChange = true;
@@ -496,18 +496,18 @@ public class PlayerController : NetworkBehaviour
     {
         if(isLocalPlayer)
         {
-            DuelManager.Instance.DefualtAttackIconEnable();
+            DuelUIController.Instance.DefualtAttackIconEnable();
             await UniTask.Delay(100);
-            DuelManager.Instance.DefualtAttackIconDisable();
+            DuelUIController.Instance.DefualtAttackIconDisable();
             await UniTask.Delay(100);
             if(StateController._curState !=PlayerState.FinishAttack)
-                DuelManager.Instance.DefualtAttackIconEnable();
+                DuelUIController.Instance.DefualtAttackIconEnable();
         }
     }
 
     public void DefualtAttackIconEnable()
     {
         if(isLocalPlayer)
-            DuelManager.Instance.DefualtAttackIconEnable();
+            DuelUIController.Instance.DefualtAttackIconEnable();
     }
 }

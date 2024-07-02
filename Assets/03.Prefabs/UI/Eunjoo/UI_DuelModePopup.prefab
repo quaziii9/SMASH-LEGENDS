@@ -1594,6 +1594,7 @@ MonoBehaviour:
   HeavyAttackIconeBar: {fileID: 5245721240025951120}
   SkillAttackIconeBar: {fileID: 8706723061219976179}
   DefualtAttackIcon: {fileID: 6870802767837593423}
+  GameTime: {fileID: 5985033540977951529}
 --- !u!1 &6070021732585742465
 GameObject:
   m_ObjectHideFlags: 0

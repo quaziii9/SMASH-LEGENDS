@@ -22,7 +22,7 @@ public class DeadZone : MonoBehaviour
 
         if(legend.isLocalPlayer)
         {
-            DuelManager.Instance.LocalRespawnTimer().Forget();
+            DuelUIController.Instance.LocalRespawnTimer().Forget();
         }
     }
 }

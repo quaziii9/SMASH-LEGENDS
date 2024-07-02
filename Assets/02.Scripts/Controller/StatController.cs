@@ -61,7 +61,7 @@ public class StatController : NetworkBehaviour
             playerController.CanChange = false;
             effectController.SetDieSmokeEffect();
         }
-        DuelManager.Instance.UpdateHealthBar(currentHp, maxHp, isHost);
+        DuelUIController.Instance.UpdateHealthBar(currentHp, maxHp, isHost);
         CmdUpdateHPUI(currentHp, maxHp);
     }
 
@@ -87,7 +87,7 @@ public class StatController : NetworkBehaviour
             CmdUpdateHeavyAttackCoolTimeUI(currentHeavyAttackCoolTime, heavyAttackCoolTime);
             if (isLocalPlayer)
             {
-                DuelManager.Instance.UpdateHeavyAttackIconeCoolTime(currentHeavyAttackCoolTime, heavyAttackCoolTime);
+                DuelUIController.Instance.UpdateHeavyAttackIconeCoolTime(currentHeavyAttackCoolTime, heavyAttackCoolTime);
             }
         }
     }
@@ -138,8 +138,8 @@ public class StatController : NetworkBehaviour
     {
         gameObject.SetActive(false);
         playerController.ReviveLegend(isHost).Forget();
-        DuelManager.Instance.UpdateScore(isHost);
-        DuelManager.Instance.StartRespawnTimer(isHost);
+        DuelUIController.Instance.UpdateScore(isHost);
+        DuelUIController.Instance.StartRespawnTimer(isHost);
     }
 
     [Command]
@@ -178,6 +178,6 @@ public class StatController : NetworkBehaviour
     [ClientRpc]
     private void RpcUpdateHealthBar(int currentHp, int maxHp, bool isHost)
     {
-        DuelManager.Instance.UpdateHealthBar(currentHp, maxHp, isHost);
+        DuelUIController.Instance.UpdateHealthBar(currentHp, maxHp, isHost);
     }
 }

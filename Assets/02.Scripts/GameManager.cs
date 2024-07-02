@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,14 +9,14 @@ public class GameManager : MonoBehaviour
     public GameObject GameStartUI;
     public GameObject LoadingUI;
     public GameObject DuelModePopup;
-
+    private int gameDuration = 150; // 2분 30초
 
     private void Start()
     {
-        SettingGame();
+        SettingGame().Forget();
     }
 
-    public async void SettingGame()
+    public async UniTaskVoid SettingGame()
     {
         await Task.Delay(1000);
 
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour
 
     public async void CompleteDotween()
     {
+        Debug.Log("complete");
         await Task.Delay(1500);
 
         GameStartUI.SetActive(false);
@@ -57,6 +59,34 @@ public class GameManager : MonoBehaviour
         }
 
         DuelModePopup.SetActive(true);
+        StartGameTimer().Forget();
+    }
+
+    private async UniTaskVoid StartGameTimer()
+    {
+        float timeRemaining = gameDuration;
+
+        while (timeRemaining > 0)
+        {
+            int minutes = Mathf.FloorToInt(timeRemaining / 60);
+            int seconds = Mathf.FloorToInt(timeRemaining % 60);
+
+            // DuelManager에 시간 업데이트 요청
+            DuelUIController.Instance.UpdateGameTime(minutes, seconds);
+
+            await UniTask.Delay(1000);
+
+            timeRemaining -= 1;
+        }
+
+        DuelUIController.Instance.UpdateGameTime(0, 0);
+        EndGame();
+    }
+
+    private void EndGame()
+    {
+        // 게임 종료 로직
+        Debug.Log("Game Over");
     }
 }
     

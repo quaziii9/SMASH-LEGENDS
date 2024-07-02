@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
-public class DuelManager : MonoBehaviour
+public class DuelUIController : MonoBehaviour
 {
-    public static DuelManager Instance { get; private set; }
+    public static DuelUIController Instance { get; private set; }
 
     public Image hostHealthBar;
     public Image clientHealthBar;
@@ -30,6 +31,7 @@ public class DuelManager : MonoBehaviour
     public Image SkillAttackIconeBar;
     public GameObject DefualtAttackIcon;
 
+    public TextMeshProUGUI GameTime;
     private void Awake()
     {
         if (Instance == null)
@@ -158,5 +160,11 @@ public class DuelManager : MonoBehaviour
     public void DefualtAttackIconDisable()
     {
         DefualtAttackIcon.SetActive(false);
+    }
+
+    // GameManager에서 호출하는 시간 업데이트 메서드
+    public void UpdateGameTime(int minutes, int seconds)
+    {
+        GameTime.text = $"{minutes:D2}:{seconds:D2}";
     }
 }

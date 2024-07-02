@@ -965,11 +965,19 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4553146789618703967, guid: 14719dd5001ab5d41af1a908e9c734e6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5864969055704054704, guid: 14719dd5001ab5d41af1a908e9c734e6, type: 3}
       propertyPath: m_Name
       value: UI_DuelModePopup
       objectReference: {fileID: 0}
     - target: {fileID: 5864969055704054704, guid: 14719dd5001ab5d41af1a908e9c734e6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7770942594277015368, guid: 14719dd5001ab5d41af1a908e9c734e6, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
