@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject LoadingImage;
+    public GameObject GameStartUI;
+    public GameObject LoadingUI;
+    public GameObject DuelModePopup;
 
 
     private void Start()
@@ -15,11 +17,22 @@ public class GameManager : MonoBehaviour
 
     public async void SettingGame()
     {
-        await Task.Delay(4000);
+        await Task.Delay(1000);
 
-        UIManager.Instance.SetPlaySceneInternal();
+        DuelModePopup.SetActive(false);
 
-        LoadingImage.SetActive(false);
+        await Task.Delay(3000);
+
+        LoadingUI.SetActive(false);
+
+        GameStartUI.SetActive(true);
+    }
+
+    public async void CompleteDotween()
+    {
+        await Task.Delay(1500);
+
+        GameStartUI.SetActive(false);
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
         if (players.Length != 2)
@@ -42,6 +55,8 @@ public class GameManager : MonoBehaviour
                 Debug.LogWarning($"StatController not found on player: {player.name}");
             }
         }
+
+        DuelModePopup.SetActive(true);
     }
 }
     

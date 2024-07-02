@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DuelManager : Singleton<DuelManager>
+public class DuelManager : MonoBehaviour
 {
     public static DuelManager Instance { get; private set; }
 

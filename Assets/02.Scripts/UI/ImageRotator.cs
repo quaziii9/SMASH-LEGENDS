@@ -16,6 +16,12 @@ public class ImageRotator : MonoBehaviour
             return;
         }
 
+        if (targetImage == null)
+        {
+            Debug.LogWarning("Target Image is not assigned.");
+            return;
+        }
+
         // 첫 번째 이미지 설정
         targetImage.sprite = images[currentIndex];
 
@@ -29,6 +35,13 @@ public class ImageRotator : MonoBehaviour
         {
             // 1초 대기
             await UniTask.Delay(1000);
+
+            // 타겟 이미지가 유효한지 확인
+            if (targetImage == null)
+            {
+                Debug.LogWarning("Target Image has been destroyed.");
+                break;
+            }
 
             // 다음 이미지 인덱스 계산
             currentIndex = (currentIndex + 1) % images.Length;
