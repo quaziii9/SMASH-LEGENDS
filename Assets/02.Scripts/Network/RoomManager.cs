@@ -41,6 +41,7 @@ public class RoomManager : NetworkRoomManager
         if (conn.connectionId == 0)
         {
             roomObj = Instantiate(RoomPlayer, startPosition1, rotation1);
+            UIMatchingManager.Instance.Test();
         }
         else
         {

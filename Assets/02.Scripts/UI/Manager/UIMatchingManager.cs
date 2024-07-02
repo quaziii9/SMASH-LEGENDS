@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UIMatchingManager : Singleton<UIMatchingManager>
 {
+    //public GameObject Host;
     public GameObject Client;
     public GameObject Matching;
 
@@ -12,6 +13,12 @@ public class UIMatchingManager : Singleton<UIMatchingManager>
         Debug.Log("inclient");
         Client.SetActive(true);
         Matching.SetActive(true);
+    }
+
+    public void Test()
+    {
+        Matching.SetActive(false);
+        Client.SetActive(false);
     }
 
     //[Command]
