@@ -4,13 +4,13 @@ public class RoomPlayer : NetworkRoomPlayer
 {
     private void Start()
     {
-        LoadingUIManager.Instance.MatchingManager.UpdatePlayerCount();
+        UIMatchingManager.Instance.UpdatePlayerCount();
     }
     private void OnDestroy()
     {
-        if (LoadingUIManager.Instance != null)
+        if (UIMatchingManager.Instance != null)
         {
-            LoadingUIManager.Instance.MatchingManager.UpdatePlayerCount();
+            UIMatchingManager.Instance.UpdatePlayerCount();
         }
     }
 

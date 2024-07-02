@@ -5,8 +5,14 @@ using UnityEngine;
 
 public class UIMatchingManager : NetworkBehaviour
 {
+    public static UIMatchingManager Instance;
     public GameObject Client;
     public GameObject Matching;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     public void InClient()
     {

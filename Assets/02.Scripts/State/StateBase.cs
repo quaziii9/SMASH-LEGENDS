@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -38,7 +39,7 @@ public abstract class StateBase : IState
         }
         Player.BindInputCallback(true, OnInputCallback);
         isTransitioning = true;
-        Player.StartCoroutine(TransitionDelay()); // 상태 전환 딜레이 시작
+        TransitionDelay().Forget();
     }
 
     public virtual void Exit()
@@ -59,9 +60,9 @@ public abstract class StateBase : IState
 
     public abstract bool IsTransitioning { get; }
 
-    private System.Collections.IEnumerator TransitionDelay()
+    private async UniTask TransitionDelay()
     {
-        yield return new WaitForSeconds(0.1f); // 상태 전환 후 0.1초 딜레이
+        await UniTask.Delay(100); // 상태 전환 후 0.1초 딜레이
         isTransitioning = false;
     }
 }
