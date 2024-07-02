@@ -510,7 +510,4 @@ public class PlayerController : NetworkBehaviour
         if(isLocalPlayer)
             DuelManager.Instance.DefualtAttackIconEnable();
     }
-
-
-
 }
