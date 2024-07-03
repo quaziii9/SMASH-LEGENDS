@@ -3512,7 +3512,7 @@ GameObject:
   - component: {fileID: 942002758}
   - component: {fileID: 942002762}
   m_Layer: 5
-  m_Name: GameManager
+  m_Name: Play UI Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4378,6 +4378,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1295599184}
+  - component: {fileID: 1295599185}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -4400,6 +4401,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1295599185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1295599183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c3cd950472983640beea4415c83ae37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1299030334
 GameObject:
   m_ObjectHideFlags: 0
