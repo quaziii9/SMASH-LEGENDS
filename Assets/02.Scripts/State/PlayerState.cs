@@ -1,4 +1,6 @@
 using Cysharp.Threading.Tasks;
+using EnumTypes;
+using EventLibrary;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -573,6 +575,7 @@ public class SkillAttackState : StateBase
     {
         base.Exit();
         Player.AimationController.SetBool(Player.AimationController.IsSkillAttack, false);
+        EventManager<GameEvents>.TriggerEvent(GameEvents.StartSkillGaugeIncrease);
     }
 
     public override void ExecuteOnUpdate()

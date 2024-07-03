@@ -203,7 +203,7 @@ public class StatController : NetworkBehaviour
             while (stateController.CurState == PlayerState.SkillAttack)
             {
                 // 상태가 SkillAttack인 동안 잠시 대기
-                await UniTask.Delay(TimeSpan.FromSeconds(updateInterval));
+                await UniTask.Yield();
             }
 
             await UniTask.Delay(TimeSpan.FromSeconds(updateInterval));
@@ -227,8 +227,6 @@ public class StatController : NetworkBehaviour
     {
         if(isLocalPlayer)
         {
-            Debug.Log(currentSkillGauge);
-
             currentSkillGauge += addGauge;
             if (currentSkillGauge >= maxSkillGuage)
             {
@@ -252,8 +250,6 @@ public class StatController : NetworkBehaviour
 
     public void OnCanSkillAttackChanged(bool oldValue, bool newValue)
     {
-        Debug.Log(oldValue);
-        Debug.Log(newValue);
         CmdUpdateSkillAttackAllReady(newValue);
     }
 
