@@ -36,7 +36,7 @@ public class StatController : NetworkBehaviour
     [Header("SkillGage")]
     public float maxSkillGuage = 100;
     public float currentSkillGauge = 0;
-    public int AddSkillGuage = 0;
+    [SyncVar] public int AddSkillGuage = 0;
     [SyncVar(hook = nameof(OnCanSkillAttackChanged))] public bool CanSkillAttack = false;
 
     private PlayerController playerController;
@@ -217,15 +217,21 @@ public class StatController : NetworkBehaviour
 
     public void SkillGaugeAdd(int addGauge)
     {
-        currentSkillGauge += addGauge;
-        if (currentSkillGauge > maxSkillGuage)
+        if(isLocalPlayer)
         {
-            SkillAttackAllReady();
-            currentSkillGauge = maxSkillGuage;
-            CanSkillAttack = true;
-            CmdUpdateSkillAttackAllReady(CanSkillAttack);
+            Debug.Log(currentSkillGauge);
+
+            currentSkillGauge += addGauge;
+            if (currentSkillGauge > maxSkillGuage)
+            {
+                SkillAttackAllReady();
+                currentSkillGauge = maxSkillGuage;
+                CanSkillAttack = true;
+                CmdUpdateSkillAttackAllReady(CanSkillAttack);
+            }
+            Debug.Log(currentSkillGauge);
+            DuelUIController.Instance.UpdateSkillAttackIconeCoolTime(currentSkillGauge, maxSkillGuage);
         }
-        DuelUIController.Instance.UpdateSkillAttackIconeCoolTime(currentSkillGauge, maxSkillGuage);
     }
 
     public void SkillAttackAllReady()

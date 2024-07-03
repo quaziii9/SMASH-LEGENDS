@@ -35,10 +35,10 @@ public class WeaponController : NetworkBehaviour
                 attackController.PlusAddForce,
                 isHost);
 
-            statController.SkillGaugeAdd(statController.AddSkillGuage);
-
-            otherplayer.SkillGaugeAdd(statController.AddSkillGuage / 3 * 2);
-
+            if(statController.currentSkillGauge < statController.maxSkillGuage)
+                statController.SkillGaugeAdd(statController.AddSkillGuage);
+            if (otherplayer.currentSkillGauge < otherplayer.maxSkillGuage)
+                otherplayer.SkillGaugeAdd(statController.AddSkillGuage / 3 * 2);
 
             weaponCollider.enabled = false;
         }
