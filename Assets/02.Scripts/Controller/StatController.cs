@@ -118,7 +118,7 @@ public class StatController : NetworkBehaviour
     {
         currentHeavyAttackCoolTime = heavyAttackCoolTime;
         CmdUpdateHeavyAttackCoolTimeUI(currentHeavyAttackCoolTime, heavyAttackCoolTime);
-        StartCooldownTimer().Forget();
+        //StartCooldownTimer().Forget();
     }
 
     private void OnHpChanged(int oldHp, int newHp)
@@ -212,7 +212,6 @@ public class StatController : NetworkBehaviour
         SkillAttackAllReady();
         CanSkillAttack = true;
         CmdUpdateSkillAttackAllReady(CanSkillAttack);
-
     }
 
 

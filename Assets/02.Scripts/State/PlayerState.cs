@@ -436,6 +436,8 @@ public class HeavyAttackState : StateBase
         AttackController.attackMoveDuration = 0.3f;
         Player.AimationController.SetBool(Player.AimationController.IsHeavyAttacking, true);
         Player.StatController.StartHeavyAttackCooldown();
+        Player.StatController.StartCooldownTimer().Forget();
+
         AttackController.StartAttackMove();
 
         Player.CanMove = false;
@@ -447,7 +449,6 @@ public class HeavyAttackState : StateBase
     {
         base.Exit();
         Player.AimationController.SetBool(Player.AimationController.IsHeavyAttacking, false);
-        Player.StatController.StartCooldownTimer().Forget();
     }
 
     public override void ExecuteOnUpdate()
@@ -491,8 +492,8 @@ public class JumpHeavyAttackState : StateBase
         AttackController.attackMoveDuration = 0.3f;
         Player.rigidbody.velocity = new Vector3(0, StatController.jumpForce, 0);
         Player.AimationController.SetBool(Player.AimationController.IsJumpHeavyAttacking, true);
-        AttackController.StartAttackMove();
         Player.StatController.StartHeavyAttackCooldown();
+        AttackController.StartAttackMove();
         Player.rigidbody.velocity = new Vector3(Player.rigidbody.velocity.x, StatController.jumpForce, Player.rigidbody.velocity.z);
         Player.CanMove = false;
         Player.CanLook = false;
@@ -502,13 +503,12 @@ public class JumpHeavyAttackState : StateBase
     {
         base.Exit();
         Player.AimationController.SetBool(Player.AimationController.IsJumpHeavyAttacking, false);
-        Player.StatController.StartCooldownTimer().Forget();
     }
 
     public override void ExecuteOnUpdate()
     {
         if (Player.Ground)
-        {          
+        {   
             Player.ChangeState(PlayerState.JumpHeavyAttackLanding);
         }
     }
@@ -529,6 +529,7 @@ public class JumpHeavyAttackLandingState : StateBase
     public override void Enter()
     {
         base.Enter();
+        Player.StatController.StartCooldownTimer().Forget();
         Player.AimationController.SetBool(Player.AimationController.IsHeavyLanding, true);
         Player.CanMove = false;
         Player.CanLook = false;
