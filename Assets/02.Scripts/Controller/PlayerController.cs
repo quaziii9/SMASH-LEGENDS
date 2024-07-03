@@ -169,7 +169,7 @@ public class PlayerController : NetworkBehaviour
             moveInput.x = 1;
         }
 
-        moveDirection = new Vector3(moveInput.x, 0, moveInput.y);
+        moveDirection = new Vector3(moveInput.x, 0, moveInput.y).normalized; 
 
         StateController.ExecuteOnUpdate();
     }
@@ -318,7 +318,7 @@ public class PlayerController : NetworkBehaviour
 
     public void Move()
     {
-        if (StateController.PositionSet == false || StateController.IsHitted==true || !isLocalPlayer) return;
+        if (StateController.PositionSet == false || StateController.IsHitted == true || !isLocalPlayer) return;
 
         if (StateController.CurrentStateInstance is RollUpBackState || StateController.CurrentStateInstance is RollUpFrontState)
         {
@@ -327,7 +327,6 @@ public class PlayerController : NetworkBehaviour
 
         if (StateController.CurrentStateInstance is FirstAttackState || StateController.CurrentStateInstance is SecondAttackState || StateController.CurrentStateInstance is FinishAttackState ||
             StateController.CurrentStateInstance is JumpHeavyAttackState || StateController.CurrentStateInstance is HeavyAttackState || StateController.CurrentStateInstance is SkillAttackState)
-
         {
             AttackController.HandleAttackMove();
             return;
@@ -341,10 +340,12 @@ public class PlayerController : NetworkBehaviour
         if (CanMove)
         {
             float currentMoveSpeed = isJumping && isIdleJump ? StatController.jumpMoveSpeed : StatController.moveSpeed;
-            Vector3 velocity = new Vector3(moveDirection.x * currentMoveSpeed, rigidbody.velocity.y, moveDirection.z * currentMoveSpeed);
+            Vector3 normalizedMoveDirection = moveDirection.normalized; // 정규화된 이동 방향
+            Vector3 velocity = new Vector3(normalizedMoveDirection.x * currentMoveSpeed, rigidbody.velocity.y, normalizedMoveDirection.z * currentMoveSpeed);
             rigidbody.velocity = velocity;
         }
     }
+
 
     public void LookAt()
     {
