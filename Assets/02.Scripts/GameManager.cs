@@ -12,6 +12,11 @@ public class GameManager : MonoBehaviour
     private int timeRemaining;
     private CancellationTokenSource gameTimerCancellationTokenSource;
 
+    public GameObject MainCamera;
+    public GameObject Map;
+    public GameObject PlayUI;
+    public GameObject ResultUI;
+
     private void Awake()
     {
         if (Instance == null)
@@ -88,11 +93,75 @@ public class GameManager : MonoBehaviour
         }
 
         DuelUIController.Instance.UpdateGameTime(timeRemaining);
-        EndGame();
+        DetermineWinner();
     }
 
-    private void EndGame()
+    private void DetermineWinner()
     {
-        Debug.Log("Game Over");
+        int hostScore = DuelUIController.Instance.hostScore;
+        int clientScore = DuelUIController.Instance.clientScore;
+
+        if (hostScore > clientScore)
+        {
+            EndGame(true); // Host wins
+        }
+        else if (clientScore > hostScore)
+        {
+            EndGame(false); // Client wins
+        }
+        else
+        {
+            float hostHpRatio = DuelUIController.Instance.GetPlayerHpRatio(true);
+            float clientHpRatio = DuelUIController.Instance.GetPlayerHpRatio(false);
+
+            if (hostHpRatio > clientHpRatio)
+            {
+                EndGame(true); // Host wins by HP ratio
+            }
+            else if (clientHpRatio > hostHpRatio)
+            {
+                EndGame(false); // Client wins by HP ratio
+            }
+            else
+            {
+                EndGame(null); // It's a draw
+            }
+        }
+    }
+
+    public void EndGame(bool? WinHost)
+    {
+        MainCamera.SetActive(false);
+        Map.SetActive(false);
+        PlayUI.SetActive(false);
+        ResultUI.SetActive(true);
+
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach (GameObject player in players)
+        {
+            player.SetActive(false);
+        }
+
+
+        if (WinHost.HasValue)
+        {
+            if (WinHost.Value)
+            {
+                ResultUIManager.Instance.ResultTextSet("HostWin");
+                Debug.Log("Host wins!");
+            }
+            else
+            {
+                Debug.Log("Client wins!");
+                ResultUIManager.Instance.ResultTextSet("ClientWin");
+
+            }
+        }
+        else
+        {
+            Debug.Log("It's a draw!");
+            ResultUIManager.Instance.ResultTextSet("Draw");
+        }
     }
 }

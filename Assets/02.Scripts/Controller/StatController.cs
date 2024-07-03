@@ -55,6 +55,11 @@ public class StatController : NetworkBehaviour
         EventManager<GameEvents>.StartListening(GameEvents.StartSkillGaugeIncrease, () => StartSkillGaugeIncrease().Forget());
     }
 
+    private void OnDisable()
+    {
+        EventManager<GameEvents>.StopListening(GameEvents.StartSkillGaugeIncrease, () => StartSkillGaugeIncrease().Forget());
+    }
+
     public override void OnStartClient()
     {
         base.OnStartClient();

@@ -12,8 +12,8 @@ public class DuelUIController : MonoBehaviour
     public Image hostHealthBar;
     public Image clientHealthBar;
 
-    public GameObject []hostScoreBar;
-    public GameObject []clientScoreBar;
+    public GameObject[] hostScoreBar;
+    public GameObject[] clientScoreBar;
 
     public GameObject hostRespawnTimer;
     public GameObject clientRespawnTimer;
@@ -34,25 +34,25 @@ public class DuelUIController : MonoBehaviour
     public Image SkillAttackIconeBar;
     public GameObject SkillAttackKey;
 
-
     public TextMeshProUGUI GameTime;
+
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // 씬이 변경되어도 UIManager가 파괴되지 않도록 함
+            DontDestroyOnLoad(gameObject); 
         }
         else
         {
-            Destroy(gameObject); // 중복된 인스턴스가 생기지 않도록 함
+            Destroy(gameObject); 
         }
     }
 
     public void Start()
     {
         StartActive().Forget();
-        HeavyAttackText = HeavyAttackTextObject.GetComponent<TextMeshProUGUI>();    
+        HeavyAttackText = HeavyAttackTextObject.GetComponent<TextMeshProUGUI>();
     }
 
     public void UpdateHealthBar(int currentHp, int maxHp, bool isHost)
@@ -69,9 +69,9 @@ public class DuelUIController : MonoBehaviour
         }
     }
 
-    public void UpdateScore(bool isHost)
+    public void UpdateScore(bool DeadIsHost)
     {
-        if(isHost == true)
+        if (DeadIsHost)
         {
             clientScore++;
             switch (clientScore)
@@ -84,6 +84,7 @@ public class DuelUIController : MonoBehaviour
                     break;
                 case 3:
                     clientScoreBar[2].SetActive(true);
+                    EndGame(false);
                     break;
                 default:
                     break;
@@ -102,6 +103,7 @@ public class DuelUIController : MonoBehaviour
                     break;
                 case 3:
                     hostScoreBar[2].SetActive(true);
+                    EndGame(true);
                     break;
                 default:
                     break;
@@ -109,9 +111,26 @@ public class DuelUIController : MonoBehaviour
         }
     }
 
+    private void EndGame(bool WinHost)
+    {
+        GameManager.Instance.EndGame(WinHost);
+    }
+
+    public float GetPlayerHpRatio(bool isHost)
+    {
+        if (isHost)
+        {
+            return hostHealthBar.fillAmount;
+        }
+        else
+        {
+            return clientHealthBar.fillAmount;
+        }
+    }
+
     public void StartRespawnTimer(bool isHost)
     {
-        if(isHost == true)
+        if (isHost)
         {
             hostRespawnTimer.SetActive(true);
             HostRespawnCountdown().Forget();
@@ -120,7 +139,6 @@ public class DuelUIController : MonoBehaviour
         {
             clientRespawnTimer.SetActive(true);
             ClientRespawnCountdown().Forget();
-  
         }
     }
 
@@ -155,7 +173,7 @@ public class DuelUIController : MonoBehaviour
     {
         float fillAmount = 1 - (currentCoolTime / maxCoolTime);
         HeavyAttackIconeBar.fillAmount = fillAmount;
-        if(TextSet == true)
+        if (TextSet)
         {
             HeavyAttackTextObject.SetActive(true);
             HeavyAttackText.text = Mathf.CeilToInt(currentCoolTime).ToString();
