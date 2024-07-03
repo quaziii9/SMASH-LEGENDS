@@ -209,6 +209,7 @@ public class StatController : NetworkBehaviour
                 DuelUIController.Instance.UpdateSkillAttackIconeCoolTime(currentSkillGauge, maxSkillGuage);
             }
         }
+        SkillAttackAllReady();
         CanSkillAttack = true;
     }
 
@@ -218,6 +219,7 @@ public class StatController : NetworkBehaviour
         currentSkillGauge += addGauge;
         if (currentSkillGauge > maxSkillGuage)
         {
+            SkillAttackAllReady();
             currentSkillGauge = maxSkillGuage;
             CanSkillAttack = true;
         }
@@ -230,7 +232,5 @@ public class StatController : NetworkBehaviour
         {
             DuelUIController.Instance.SkillAttackKeyEnable();
         }
-
-
     }
 }
