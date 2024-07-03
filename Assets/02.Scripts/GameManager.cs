@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using EventLibrary;
 using EnumTypes;
+using System.Threading;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,15 +14,22 @@ public class GameManager : MonoBehaviour
     public GameObject DuelModePopup;
     private int gameDuration = 150; // 2분 30초
     private int timeRemaining;
+    private CancellationTokenSource gameTimerCancellationTokenSource;
 
     private void Start()
     {
         SettingGame().Forget();
-        timeRemaining = 150;
-        Debug.Log(gameDuration);
-        Debug.Log(timeRemaining);
+        //timeRemaining = gameDuration;
     }
 
+    private void OnDestroy()
+    {
+        // 게임 매니저가 파괴될 때 타이머 작업을 취소
+        if (gameTimerCancellationTokenSource != null)
+        {
+            gameTimerCancellationTokenSource.Cancel();
+        }
+    }
 
     public async UniTaskVoid SettingGame()
     {
@@ -65,12 +73,19 @@ public class GameManager : MonoBehaviour
         }
 
         DuelModePopup.SetActive(true);
-        StartGameTimer().Forget();
+
+        if (gameTimerCancellationTokenSource != null)
+        {
+            gameTimerCancellationTokenSource.Cancel();
+        }
+
+        gameTimerCancellationTokenSource = new CancellationTokenSource();
+        StartGameTimer(gameTimerCancellationTokenSource.Token).Forget();
         EventManager<GameEvents>.TriggerEvent(GameEvents.StartSkillGaugeIncrease);
         
     }
 
-    private async UniTaskVoid StartGameTimer()
+    private async UniTaskVoid StartGameTimer(CancellationToken cancellationToken)
     {
         timeRemaining = gameDuration;
 
@@ -79,7 +94,14 @@ public class GameManager : MonoBehaviour
             // DuelManager에 시간 업데이트 요청
             DuelUIController.Instance.UpdateGameTime(timeRemaining);
 
-            await UniTask.Delay(1000);
+            await UniTask.Delay(1000, cancellationToken: cancellationToken);
+
+            // 타이머가 취소되었는지 확인
+            if (cancellationToken.IsCancellationRequested)
+            {
+                Debug.Log("Game timer cancelled");
+                return;
+            }
 
             timeRemaining -= 1;
         }
