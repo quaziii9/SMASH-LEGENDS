@@ -103,17 +103,17 @@ public class AttackController : NetworkBehaviour
     public void StartAttackMove()
     {
         if (!player.isLocalPlayer) return;
-        if (player.StateController._curState != PlayerState.RollUpBack && player.StateController._curState != PlayerState.RollUpFront)
+        if (player.StateController.CurState != PlayerState.RollUpBack && player.StateController.CurState != PlayerState.RollUpFront)
             RotateTowardsNearestPlayer();
 
-        if (player.StateController._curState == PlayerState.SkillAttack)
+        if (player.StateController.CurState == PlayerState.SkillAttack)
         {
             attackMoveDistance = 8f;
             attackMoveDuration = 1.2f;
         }
         _attackMoveStartTime = Time.time;
         _currentMoveDistance = 0;
-        if (player.StateController._curState == PlayerState.RollUpBack) _attackMoveDirection = -player.transform.forward;
+        if (player.StateController.CurState == PlayerState.RollUpBack) _attackMoveDirection = -player.transform.forward;
         else
             _attackMoveDirection = player.transform.forward;
     }

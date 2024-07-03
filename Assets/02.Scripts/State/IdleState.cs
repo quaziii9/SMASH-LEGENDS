@@ -70,6 +70,11 @@ public class IdleState : StateBase
                 Player.ChangeState(PlayerState.HeavyAttack);
                 return;
             }
+            else if (keyboard.cKey.wasPressedThisFrame && statController.CanSkillAttack)
+            {
+                Player.ChangeState(PlayerState.HeavyAttack);
+                return;
+            }
         }
     }
 
@@ -94,7 +99,7 @@ public class IdleState : StateBase
         {
             Player.ChangeState(PlayerState.HeavyAttack);
         }
-        else if (context.action.name == "SkillAttack" && context.performed)
+        else if (context.action.name == "SkillAttack" && context.performed && statController.CanSkillAttack)
         {
             Player.ChangeState(PlayerState.SkillAttack);
         }

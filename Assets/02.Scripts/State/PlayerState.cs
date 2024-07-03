@@ -257,7 +257,7 @@ public class RunState : StateBase
             Player.rigidbody.velocity = new Vector3(0, Player.rigidbody.velocity.y, 0);
             Player.ChangeState(PlayerState.HeavyAttack);
         }
-        else if (context.action.name == "SkillAttack" && context.performed)
+        else if (context.action.name == "SkillAttack" && context.performed && StatController.CanSkillAttack)
         {
             Player.ChangeState(PlayerState.SkillAttack);
         }
@@ -563,6 +563,7 @@ public class SkillAttackState : StateBase
     {
         base.Enter();
         Player.AimationController.SetBool(Player.AimationController.IsSkillAttack, true);
+        Player.StatController.StartSkill();
         Player.CanMove = false;
         Player.CanLook = false;
         Player.CanChange = false;

@@ -389,7 +389,7 @@ public class PlayerController : NetworkBehaviour
         if (!isLocalPlayer) return;
         _rollUpMoveStartTime = Time.time;
         _currentMoveDistance = 0;
-        if (StateController._curState == PlayerState.RollUpBack) _rollUpMoveDirection = -transform.forward;
+        if (StateController.CurState == PlayerState.RollUpBack) _rollUpMoveDirection = -transform.forward;
         else
             _rollUpMoveDirection = transform.forward;
     }
@@ -500,7 +500,7 @@ public class PlayerController : NetworkBehaviour
             await UniTask.Delay(100);
             DuelUIController.Instance.DefualtAttackIconDisable();
             await UniTask.Delay(100);
-            if(StateController._curState !=PlayerState.FinishAttack)
+            if(StateController.CurState !=PlayerState.FinishAttack)
                 DuelUIController.Instance.DefualtAttackIconEnable();
         }
     }

@@ -36,7 +36,7 @@ public class StateController : NetworkBehaviour
     private PlayerController _playerController;
     private AttackController _attackController;
 
-    [SyncVar(hook = nameof(OnStateChanged))] public PlayerState _curState;
+    [SyncVar(hook = nameof(OnStateChanged))] public PlayerState CurState;
     [SyncVar(hook = nameof(OnInvincibleChanged))] public bool IsInvincible;
     [SyncVar] public bool PositionSet;
     public bool IsHitted;
@@ -51,7 +51,7 @@ public class StateController : NetworkBehaviour
     {
         CurrentStateInstance?.Exit(); // 현재 상태 종료
 
-        _curState = newState;
+        CurState = newState;
         CmdUpdateState(newState);
 
         CurrentStateInstance = CreateStateInstance(newState); // 새로운 상태 인스턴스 생성
@@ -70,7 +70,7 @@ public class StateController : NetworkBehaviour
     [Command]
     public void CmdUpdateState(PlayerState newState)
     {
-        _curState = newState;
+        CurState = newState;
     }
 
     [Command]

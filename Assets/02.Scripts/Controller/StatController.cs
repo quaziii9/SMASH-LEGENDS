@@ -41,6 +41,7 @@ public class StatController : NetworkBehaviour
 
     private PlayerController playerController;
     private EffectController effectController;
+    private StateController stateController;
     public LegendUI legendUI;
 
     public bool PlayerDie;
@@ -50,6 +51,7 @@ public class StatController : NetworkBehaviour
         currentHp = maxHp;
         playerController = GetComponent<PlayerController>();
         effectController = GetComponent<EffectController>();
+        stateController = GetComponent<StateController>();
         EventManager<GameEvents>.StartListening(GameEvents.StartSkillGaugeIncrease, () => StartSkillGaugeIncrease().Forget());
     }
 
@@ -198,6 +200,12 @@ public class StatController : NetworkBehaviour
 
         while (currentSkillGauge < maxSkillGuage)
         {
+            while (stateController.CurState == PlayerState.SkillAttack)
+            {
+                // 상태가 SkillAttack인 동안 잠시 대기
+                await UniTask.Delay(TimeSpan.FromSeconds(updateInterval));
+            }
+
             await UniTask.Delay(TimeSpan.FromSeconds(updateInterval));
             currentSkillGauge += increaseRate * updateInterval;
 
@@ -209,8 +217,8 @@ public class StatController : NetworkBehaviour
                 DuelUIController.Instance.UpdateSkillAttackIconeCoolTime(currentSkillGauge, maxSkillGuage);
             }
         }
-        SkillAttackAllReady();
         CanSkillAttack = true;
+        SkillAttackAllReady();
         CmdUpdateSkillAttackAllReady(CanSkillAttack);
     }
 
@@ -222,11 +230,11 @@ public class StatController : NetworkBehaviour
             Debug.Log(currentSkillGauge);
 
             currentSkillGauge += addGauge;
-            if (currentSkillGauge > maxSkillGuage)
+            if (currentSkillGauge >= maxSkillGuage)
             {
-                SkillAttackAllReady();
                 currentSkillGauge = maxSkillGuage;
                 CanSkillAttack = true;
+                SkillAttackAllReady();
                 CmdUpdateSkillAttackAllReady(CanSkillAttack);
             }
             Debug.Log(currentSkillGauge);
@@ -238,12 +246,14 @@ public class StatController : NetworkBehaviour
     {
         if(isLocalPlayer)
         {
-            DuelUIController.Instance.SkillAttackKeyEnable();
+            DuelUIController.Instance.SkillAttackKeyEnable(CanSkillAttack);
         }
     }
 
     public void OnCanSkillAttackChanged(bool oldValue, bool newValue)
     {
+        Debug.Log(oldValue);
+        Debug.Log(newValue);
         CmdUpdateSkillAttackAllReady(newValue);
     }
 
@@ -257,5 +267,18 @@ public class StatController : NetworkBehaviour
     private void RpcUpdateSkillAttackAllReadyI(bool newValue)
     {
         legendUI.LegendUIAllReadySkill(newValue);
+    }
+
+
+    public void StartSkill()
+    {
+        currentSkillGauge = 0;
+        CanSkillAttack = false;
+        CmdUpdateSkillAttackAllReady(CanSkillAttack);
+        if (isLocalPlayer)
+        {
+            DuelUIController.Instance.UpdateSkillAttackIconeCoolTime(currentSkillGauge, maxSkillGuage);
+            SkillAttackAllReady();
+        }
     }
 }

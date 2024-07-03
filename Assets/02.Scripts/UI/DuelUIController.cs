@@ -169,9 +169,9 @@ public class DuelUIController : MonoBehaviour
         SkillAttackIconeBar.fillAmount = fillAmount;
     }
 
-    public void SkillAttackKeyEnable()
+    public void SkillAttackKeyEnable(bool Active)
     {
-        SkillAttackKey.SetActive(true);
+        SkillAttackKey.SetActive(Active);
     }
 
     public void DefualtAttackIconEnable()
