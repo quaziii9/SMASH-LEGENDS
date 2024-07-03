@@ -37,7 +37,7 @@ public class StatController : NetworkBehaviour
     public float maxSkillGuage = 100;
     public float currentSkillGauge = 0;
     public int AddSkillGuage = 0;
-    [SyncVar]public bool CanSkillAttack = false;
+    [SyncVar(hook = nameof(OnCanSkillAttackChanged))] public bool CanSkillAttack = false;
 
     private PlayerController playerController;
     private EffectController effectController;
@@ -211,6 +211,8 @@ public class StatController : NetworkBehaviour
         }
         SkillAttackAllReady();
         CanSkillAttack = true;
+        CmdUpdateSkillAttackAllReady(CanSkillAttack);
+
     }
 
 
@@ -222,6 +224,7 @@ public class StatController : NetworkBehaviour
             SkillAttackAllReady();
             currentSkillGauge = maxSkillGuage;
             CanSkillAttack = true;
+            CmdUpdateSkillAttackAllReady(CanSkillAttack);
         }
         DuelUIController.Instance.UpdateSkillAttackIconeCoolTime(currentSkillGauge, maxSkillGuage);
     }
@@ -232,5 +235,22 @@ public class StatController : NetworkBehaviour
         {
             DuelUIController.Instance.SkillAttackKeyEnable();
         }
+    }
+
+    public void OnCanSkillAttackChanged(bool oldValue, bool newValue)
+    {
+        CmdUpdateSkillAttackAllReady(newValue);
+    }
+
+    [Command]
+    public void CmdUpdateSkillAttackAllReady(bool newValue)
+    {
+        RpcUpdateSkillAttackAllReadyI(newValue);
+    }
+
+    [ClientRpc]
+    private void RpcUpdateSkillAttackAllReadyI(bool newValue)
+    {
+        legendUI.LegendUIAllReadySkill(newValue);
     }
 }

@@ -59,8 +59,8 @@ public class LegendUI : MonoBehaviour
         }
     }
 
-    public void LegendUIAllReadySkill()
+    public void LegendUIAllReadySkill(bool Value)
     {
-        IsSkillReady.SetActive(true);
+        IsSkillReady.SetActive(Value);
     }
 }
