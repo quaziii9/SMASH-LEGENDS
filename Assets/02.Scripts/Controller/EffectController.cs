@@ -83,6 +83,18 @@ public class EffectController : NetworkBehaviour
         _dieEffect.gameObject.SetActive(false);
     }
 
+    [Command]
+    public void CmdSetDieEffect()
+    {
+        RpcSetDieEffect();
+    }
+
+    [ClientRpc]
+    public void RpcSetDieEffect()
+    {
+        SetDieEffect();
+    }
+
     public void SetDieEffect()
     {
         _dieEffect.gameObject.SetActive(true);

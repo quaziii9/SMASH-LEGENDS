@@ -222,7 +222,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  _curState: 0
+  CurState: 0
   IsInvincible: 0
   PositionSet: 0
   IsHitted: 0
