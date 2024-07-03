@@ -1591,9 +1591,10 @@ MonoBehaviour:
   RespawnTime: 5
   hostRespawnTime: 0
   clientRespawnTime: 0
+  DefualtAttackIcon: {fileID: 6870802767837593423}
   HeavyAttackIconeBar: {fileID: 5245721240025951120}
   SkillAttackIconeBar: {fileID: 8706723061219976179}
-  DefualtAttackIcon: {fileID: 6870802767837593423}
+  SkillAttackKey: {fileID: 1362444999412696811}
   GameTime: {fileID: 5985033540977951529}
 --- !u!1 &6070021732585742465
 GameObject:
@@ -3444,6 +3445,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 566814598769994313}
     m_Modifications:
+    - target: {fileID: 2078283267492865009, guid: ace9104f5eec6ae4c80e5982ec61ae93, type: 3}
+      propertyPath: m_FillAmount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2315369999803072093, guid: ace9104f5eec6ae4c80e5982ec61ae93, type: 3}
+      propertyPath: m_Type
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2399637048494221043, guid: ace9104f5eec6ae4c80e5982ec61ae93, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -3528,11 +3537,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: IconList
       objectReference: {fileID: 0}
+    - target: {fileID: 8569106966293202665, guid: ace9104f5eec6ae4c80e5982ec61ae93, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ace9104f5eec6ae4c80e5982ec61ae93, type: 3}
+--- !u!1 &1362444999412696811 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8569106966293202665, guid: ace9104f5eec6ae4c80e5982ec61ae93, type: 3}
+  m_PrefabInstance: {fileID: 7206874173966843906}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &4994154222496147185 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2399637048494221043, guid: ace9104f5eec6ae4c80e5982ec61ae93, type: 3}

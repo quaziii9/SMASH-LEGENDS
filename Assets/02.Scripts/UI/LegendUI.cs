@@ -41,7 +41,6 @@ public class LegendUI : MonoBehaviour
         }
     }
 
-
     public void UpdateHeavyAttackCoolTimeUI(float currentCoolTime, float maxCoolTime)
     {
         float fillAmount = 1 - (currentCoolTime / maxCoolTime);
@@ -58,5 +57,10 @@ public class LegendUI : MonoBehaviour
             Color color = new Color32(162, 158, 151, 255);
             HeavyAttackCoolTimeFillAmount.color = color;
         }
+    }
+
+    public void LegendUIAllReadySkill()
+    {
+        IsSkillReady.SetActive(true);
     }
 }

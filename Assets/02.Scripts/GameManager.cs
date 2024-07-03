@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using EventLibrary;
+using EnumTypes;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,11 +12,16 @@ public class GameManager : MonoBehaviour
     public GameObject LoadingUI;
     public GameObject DuelModePopup;
     private int gameDuration = 150; // 2분 30초
+    private int timeRemaining;
 
     private void Start()
     {
         SettingGame().Forget();
+        timeRemaining = 150;
+        Debug.Log(gameDuration);
+        Debug.Log(timeRemaining);
     }
+
 
     public async UniTaskVoid SettingGame()
     {
@@ -31,7 +38,6 @@ public class GameManager : MonoBehaviour
 
     public async void CompleteDotween()
     {
-        Debug.Log("complete");
         await Task.Delay(1500);
 
         GameStartUI.SetActive(false);
@@ -60,26 +66,25 @@ public class GameManager : MonoBehaviour
 
         DuelModePopup.SetActive(true);
         StartGameTimer().Forget();
+        EventManager<GameEvents>.TriggerEvent(GameEvents.StartSkillGaugeIncrease);
+        
     }
 
     private async UniTaskVoid StartGameTimer()
     {
-        float timeRemaining = gameDuration;
+        timeRemaining = gameDuration;
 
         while (timeRemaining > 0)
         {
-            int minutes = Mathf.FloorToInt(timeRemaining / 60);
-            int seconds = Mathf.FloorToInt(timeRemaining % 60);
-
             // DuelManager에 시간 업데이트 요청
-            DuelUIController.Instance.UpdateGameTime(minutes, seconds);
+            DuelUIController.Instance.UpdateGameTime(timeRemaining);
 
             await UniTask.Delay(1000);
 
             timeRemaining -= 1;
         }
 
-        DuelUIController.Instance.UpdateGameTime(0, 0);
+        DuelUIController.Instance.UpdateGameTime(timeRemaining);
         EndGame();
     }
 

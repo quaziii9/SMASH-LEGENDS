@@ -5,11 +5,13 @@ public class WeaponController : NetworkBehaviour
 {
     Collider weaponCollider;
     AttackController attackController;
+    StatController statController;
 
     private void Start()
     {
         weaponCollider = GetComponent<BoxCollider>();
         attackController = GetComponentInParent<AttackController>();
+        statController = GetComponentInParent<StatController>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -32,6 +34,11 @@ public class WeaponController : NetworkBehaviour
                 attackController.hitType, 
                 attackController.PlusAddForce,
                 isHost);
+
+            statController.SkillGaugeAdd(statController.AddSkillGuage);
+
+            otherplayer.SkillGaugeAdd(statController.AddSkillGuage / 3 * 2);
+
 
             weaponCollider.enabled = false;
         }

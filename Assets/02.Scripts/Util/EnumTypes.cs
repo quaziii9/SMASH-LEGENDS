@@ -31,6 +31,7 @@ namespace EnumTypes
     public enum GameEvents
     {
         playerDie,
+        StartSkillGaugeIncrease,
     }
 
     public enum IngameEvents

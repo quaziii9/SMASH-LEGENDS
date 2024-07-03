@@ -27,9 +27,11 @@ public class DuelUIController : MonoBehaviour
     public int hostRespawnTime;
     public int clientRespawnTime;
 
+    public GameObject DefualtAttackIcon;
     public Image HeavyAttackIconeBar;
     public Image SkillAttackIconeBar;
-    public GameObject DefualtAttackIcon;
+    public GameObject SkillAttackKey;
+
 
     public TextMeshProUGUI GameTime;
     private void Awake()
@@ -151,7 +153,18 @@ public class DuelUIController : MonoBehaviour
         float fillAmount = 1 - (currentCoolTime / maxCoolTime);
         HeavyAttackIconeBar.fillAmount = fillAmount;
     }
- 
+
+    public void UpdateSkillAttackIconeCoolTime(float currentCoolTime, float maxCoolTime)
+    {
+        float fillAmount = currentCoolTime / maxCoolTime;
+        SkillAttackIconeBar.fillAmount = fillAmount;
+    }
+
+    public void SkillAttackKeyEnable()
+    {
+        SkillAttackKey.SetActive(true);
+    }
+
     public void DefualtAttackIconEnable()
     {
         DefualtAttackIcon.SetActive(true);
@@ -163,8 +176,8 @@ public class DuelUIController : MonoBehaviour
     }
 
     // GameManager에서 호출하는 시간 업데이트 메서드
-    public void UpdateGameTime(int minutes, int seconds)
+    public void UpdateGameTime(int remainTime)
     {
-        GameTime.text = $"{minutes:D2}:{seconds:D2}";
+        GameTime.text = $"{remainTime / 60:D2}:{remainTime % 60:D2}";
     }
 }

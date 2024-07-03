@@ -1,5 +1,8 @@
 using Cysharp.Threading.Tasks;
+using EnumTypes;
+using EventLibrary;
 using Mirror;
+using System;
 using UnityEngine;
 
 public class StatController : NetworkBehaviour
@@ -30,6 +33,12 @@ public class StatController : NetworkBehaviour
     public float heavyAttackCoolTime = 4f;
     [SyncVar(hook = nameof(OnHeavyAttackCoolTimeChanged))] public float currentHeavyAttackCoolTime = 0f;
 
+    [Header("SkillGage")]
+    public float maxSkillGuage = 100;
+    public float currentSkillGauge = 0;
+    public int AddSkillGuage = 0;
+    [SyncVar]public bool CanSkillAttack = false;
+
     private PlayerController playerController;
     private EffectController effectController;
     public LegendUI legendUI;
@@ -41,6 +50,7 @@ public class StatController : NetworkBehaviour
         currentHp = maxHp;
         playerController = GetComponent<PlayerController>();
         effectController = GetComponent<EffectController>();
+        EventManager<GameEvents>.StartListening(GameEvents.StartSkillGaugeIncrease, () => StartSkillGaugeIncrease().Forget());
     }
 
     public override void OnStartClient()
@@ -49,8 +59,8 @@ public class StatController : NetworkBehaviour
         legendUI.SetHpBar(maxHp);
         legendUI.UpdateHPUI(currentHp, maxHp);
 
-        //OnHpChanged(currentHp, currentHp);
         OnHeavyAttackCoolTimeChanged(currentHeavyAttackCoolTime, currentHeavyAttackCoolTime);
+        DuelUIController.Instance.UpdateSkillAttackIconeCoolTime(currentSkillGauge, maxSkillGuage);
     }
 
     public void ApplyDamage(int damage, bool isHost)
@@ -179,5 +189,48 @@ public class StatController : NetworkBehaviour
     private void RpcUpdateHealthBar(int currentHp, int maxHp, bool isHost)
     {
         DuelUIController.Instance.UpdateHealthBar(currentHp, maxHp, isHost);
+    }
+
+    public async UniTask StartSkillGaugeIncrease()
+    {
+        float increaseRate = 1.0f; // 초당 증가율
+        float updateInterval = 0.02f; // 업데이트 주기 (50FPS 정도의 프레임 레이트)
+
+        while (currentSkillGauge < maxSkillGuage)
+        {
+            await UniTask.Delay(TimeSpan.FromSeconds(updateInterval));
+            currentSkillGauge += increaseRate * updateInterval;
+
+            // currentSkillGauge가 maxSkillGuage를 초과하지 않도록 합니다.
+            currentSkillGauge = Mathf.Min(currentSkillGauge, maxSkillGuage);
+
+            if (isLocalPlayer)
+            {
+                DuelUIController.Instance.UpdateSkillAttackIconeCoolTime(currentSkillGauge, maxSkillGuage);
+            }
+        }
+        CanSkillAttack = true;
+    }
+
+
+    public void SkillGaugeAdd(int addGauge)
+    {
+        currentSkillGauge += addGauge;
+        if (currentSkillGauge > maxSkillGuage)
+        {
+            currentSkillGauge = maxSkillGuage;
+            CanSkillAttack = true;
+        }
+        DuelUIController.Instance.UpdateSkillAttackIconeCoolTime(currentSkillGauge, maxSkillGuage);
+    }
+
+    public void SkillAttackAllReady()
+    {
+        if(isLocalPlayer)
+        {
+            DuelUIController.Instance.SkillAttackKeyEnable();
+        }
+
+
     }
 }

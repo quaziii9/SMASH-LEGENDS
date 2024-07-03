@@ -21,7 +21,7 @@ public class UIMatchingManager : NetworkBehaviour
     {
         var players = FindObjectsOfType<RoomPlayer>();
         int playerCount = players.Length;
-        Debug.Log(playerCount);
+        
 
         if(playerCount == 2)
         {

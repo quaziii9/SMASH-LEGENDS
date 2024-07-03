@@ -71,6 +71,9 @@ public class AttackController : NetworkBehaviour
         KnockBackDireciton = knockBackDirection;
         this.hitType = hitType;
         PlusAddForce = plusAddForce;
+        if (hitType == HitType.Hit) statController.AddSkillGuage = 10;
+        else statController.AddSkillGuage = 20;
+
     }
 
     public void SkillLastAttackDamage()
