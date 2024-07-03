@@ -965,6 +965,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3212001427470182208, guid: 14719dd5001ab5d41af1a908e9c734e6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3330477729393043687, guid: 14719dd5001ab5d41af1a908e9c734e6, type: 3}
+      propertyPath: m_fontSize
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3330477729393043687, guid: 14719dd5001ab5d41af1a908e9c734e6, type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3330477729393043687, guid: 14719dd5001ab5d41af1a908e9c734e6, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3656659951048848226, guid: 14719dd5001ab5d41af1a908e9c734e6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5864969055704054704, guid: 14719dd5001ab5d41af1a908e9c734e6, type: 3}
       propertyPath: m_Name
       value: UI_DuelModePopup
@@ -2002,7 +2022,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f4cf4fde481d7194ca60304559263d33, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 68c8b16dbb3e44041952752074a67228, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

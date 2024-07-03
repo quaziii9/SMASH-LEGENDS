@@ -29,6 +29,8 @@ public class DuelUIController : MonoBehaviour
 
     public GameObject DefualtAttackIcon;
     public Image HeavyAttackIconeBar;
+    public GameObject HeavyAttackTextObject;
+    public TextMeshProUGUI HeavyAttackText;
     public Image SkillAttackIconeBar;
     public GameObject SkillAttackKey;
 
@@ -50,6 +52,7 @@ public class DuelUIController : MonoBehaviour
     public void Start()
     {
         StartActive().Forget();
+        HeavyAttackText = HeavyAttackTextObject.GetComponent<TextMeshProUGUI>();    
     }
 
     public void UpdateHealthBar(int currentHp, int maxHp, bool isHost)
@@ -148,10 +151,16 @@ public class DuelUIController : MonoBehaviour
         RespawnTimer.SetActive(false);
     }
 
-    public void UpdateHeavyAttackIconeCoolTime(float currentCoolTime, float maxCoolTime)
+    public void UpdateHeavyAttackIconeCoolTime(float currentCoolTime, float maxCoolTime, bool TextSet)
     {
         float fillAmount = 1 - (currentCoolTime / maxCoolTime);
         HeavyAttackIconeBar.fillAmount = fillAmount;
+        if(TextSet == true)
+        {
+            HeavyAttackTextObject.SetActive(true);
+            HeavyAttackText.text = Mathf.CeilToInt(currentCoolTime).ToString();
+            if (currentCoolTime == 0) HeavyAttackTextObject.SetActive(false);
+        }
     }
 
     public void UpdateSkillAttackIconeCoolTime(float currentCoolTime, float maxCoolTime)

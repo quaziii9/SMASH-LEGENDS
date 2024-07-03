@@ -97,7 +97,7 @@ public class StatController : NetworkBehaviour
             CmdUpdateHeavyAttackCoolTimeUI(currentHeavyAttackCoolTime, heavyAttackCoolTime);
             if (isLocalPlayer)
             {
-                DuelUIController.Instance.UpdateHeavyAttackIconeCoolTime(currentHeavyAttackCoolTime, heavyAttackCoolTime);
+                DuelUIController.Instance.UpdateHeavyAttackIconeCoolTime(currentHeavyAttackCoolTime, heavyAttackCoolTime, true);
             }
         }
     }
@@ -118,7 +118,7 @@ public class StatController : NetworkBehaviour
     {
         currentHeavyAttackCoolTime = heavyAttackCoolTime;
         CmdUpdateHeavyAttackCoolTimeUI(currentHeavyAttackCoolTime, heavyAttackCoolTime);
-        //StartCooldownTimer().Forget();
+        DuelUIController.Instance.UpdateHeavyAttackIconeCoolTime(currentHeavyAttackCoolTime, heavyAttackCoolTime, false);
     }
 
     private void OnHpChanged(int oldHp, int newHp)
