@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public GameObject Map;
     public GameObject PlayUI;
     public GameObject ResultUI;
+    public GameObject _matchOverUI;
 
     private void Awake()
     {
@@ -93,11 +94,33 @@ public class GameManager : MonoBehaviour
         }
 
         DuelUIController.Instance.UpdateGameTime(timeRemaining);
-        DetermineWinner();
+        MatchOverUI();
+        //DetermineWinner();
     }
 
-    private void DetermineWinner()
+    public void MatchOverUI()
     {
+        _matchOverUI.SetActive(true);
+    }
+
+
+    public void OnAnimationComplete()
+    {
+        // 비동기 메서드를 호출하는 동기 메서드
+        RunDetermineWinner().Forget();
+    }
+
+    // 비동기 메서드를 동기 메서드로 래핑
+    private async UniTaskVoid RunDetermineWinner()
+    {
+        await DetermineWinner();
+    }
+
+
+    private async UniTask DetermineWinner()
+    {
+        await UniTask.Delay(2000);
+
         int hostScore = DuelUIController.Instance.hostScore;
         int clientScore = DuelUIController.Instance.clientScore;
 
@@ -128,6 +151,8 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+
 
     public void EndGame(bool? WinHost)
     {

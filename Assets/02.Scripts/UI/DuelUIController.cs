@@ -84,7 +84,8 @@ public class DuelUIController : MonoBehaviour
                     break;
                 case 3:
                     clientScoreBar[2].SetActive(true);
-                    EndGame(false);
+                    GameManager.Instance.MatchOverUI();
+                    //EndGame(false);
                     break;
                 default:
                     break;
@@ -103,7 +104,8 @@ public class DuelUIController : MonoBehaviour
                     break;
                 case 3:
                     hostScoreBar[2].SetActive(true);
-                    EndGame(true);
+                    GameManager.Instance.MatchOverUI();
+                    //EndGame(true);
                     break;
                 default:
                     break;
