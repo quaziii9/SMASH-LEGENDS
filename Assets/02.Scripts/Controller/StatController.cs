@@ -37,7 +37,7 @@ public class StatController : NetworkBehaviour
     public float maxSkillGuage = 100;
     public float currentSkillGauge = 0;
     [SyncVar] public int AddSkillGuage = 0;
-    [SyncVar(hook = nameof(OnCanSkillAttackChanged))] public bool CanSkillAttack = false;
+    [SyncVar] public bool CanSkillAttack = false;
 
     private PlayerController playerController;
     private EffectController effectController;
@@ -55,10 +55,10 @@ public class StatController : NetworkBehaviour
         EventManager<GameEvents>.StartListening(GameEvents.StartSkillGaugeIncrease, () => StartSkillGaugeIncrease().Forget());
     }
 
-    //private void OnDisable()
-    //{
-    //    EventManager<GameEvents>.StopListening(GameEvents.StartSkillGaugeIncrease, () => StartSkillGaugeIncrease().Forget());
-    //}
+    private void OnDestroy()
+    {
+        EventManager<GameEvents>.StopListening(GameEvents.StartSkillGaugeIncrease, () => StartSkillGaugeIncrease().Forget());
+    }
 
     public override void OnStartClient()
     {
@@ -200,30 +200,33 @@ public class StatController : NetworkBehaviour
 
     public async UniTask StartSkillGaugeIncrease()
     {
-        float increaseRate = 1.0f; // 초당 증가율
-        float updateInterval = 0.02f; // 업데이트 주기 (50FPS 정도의 프레임 레이트)
-
-        while (currentSkillGauge < maxSkillGuage)
+        if (isLocalPlayer)
         {
-            while (stateController.CurState == PlayerState.SkillAttack)
+            float increaseRate = 1.0f; // 초당 증가율
+            float updateInterval = 0.02f; // 업데이트 주기 (50FPS 정도의 프레임 레이트)
+
+            while (currentSkillGauge < maxSkillGuage)
             {
-                // 상태가 SkillAttack인 동안 잠시 대기
-                await UniTask.Yield();
+                while (stateController.CurState == PlayerState.SkillAttack)
+                {
+                    // 상태가 SkillAttack인 동안 잠시 대기
+                    await UniTask.Yield();
+                }
+
+                await UniTask.Delay(TimeSpan.FromSeconds(updateInterval));
+                currentSkillGauge += increaseRate * updateInterval;
+
+                // currentSkillGauge가 maxSkillGuage를 초과하지 않도록 합니다.
+                currentSkillGauge = Mathf.Min(currentSkillGauge, maxSkillGuage);
+
+                if (isLocalPlayer)
+                {
+                    DuelUIController.Instance.UpdateSkillAttackIconeCoolTime(currentSkillGauge, maxSkillGuage);
+                }
             }
-
-            await UniTask.Delay(TimeSpan.FromSeconds(updateInterval));
-            currentSkillGauge += increaseRate * updateInterval;
-
-            // currentSkillGauge가 maxSkillGuage를 초과하지 않도록 합니다.
-            currentSkillGauge = Mathf.Min(currentSkillGauge, maxSkillGuage);
-
-            if (isLocalPlayer)
-            {
-                DuelUIController.Instance.UpdateSkillAttackIconeCoolTime(currentSkillGauge, maxSkillGuage);
-            }
+            CanSkillAttack = true;
+            SkillAttackAllReady();
         }
-        CanSkillAttack = true;
-        SkillAttackAllReady();
         CmdUpdateSkillAttackAllReady(CanSkillAttack);
     }
 
@@ -238,24 +241,16 @@ public class StatController : NetworkBehaviour
                 currentSkillGauge = maxSkillGuage;
                 CanSkillAttack = true;
                 SkillAttackAllReady();
-                CmdUpdateSkillAttackAllReady(CanSkillAttack);
             }
-            Debug.Log(currentSkillGauge);
             DuelUIController.Instance.UpdateSkillAttackIconeCoolTime(currentSkillGauge, maxSkillGuage);
         }
+       CmdUpdateSkillAttackAllReady(CanSkillAttack);
     }
 
     public void SkillAttackAllReady()
     {
-        if(isLocalPlayer)
-        {
-            DuelUIController.Instance.SkillAttackKeyEnable(CanSkillAttack);
-        }
-    }
-
-    public void OnCanSkillAttackChanged(bool oldValue, bool newValue)
-    {
-        CmdUpdateSkillAttackAllReady(newValue);
+        DuelUIController.Instance.SkillAttackKeyEnable(CanSkillAttack);
+        
     }
 
     [Command]
@@ -273,13 +268,13 @@ public class StatController : NetworkBehaviour
 
     public void StartSkill()
     {
-        currentSkillGauge = 0;
-        CanSkillAttack = false;
-        CmdUpdateSkillAttackAllReady(CanSkillAttack);
         if (isLocalPlayer)
         {
+            currentSkillGauge = 0;
+            CanSkillAttack = false;
             DuelUIController.Instance.UpdateSkillAttackIconeCoolTime(currentSkillGauge, maxSkillGuage);
             SkillAttackAllReady();
         }
+        CmdUpdateSkillAttackAllReady(CanSkillAttack);
     }
 }
