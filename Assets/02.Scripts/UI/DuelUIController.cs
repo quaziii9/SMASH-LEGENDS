@@ -181,9 +181,10 @@ public class DuelUIController : MonoBehaviour
         }
     }
 
-    public void UpdateSkillAttackIconeCoolTime(float currentCoolTime, float maxCoolTime)
+    public void UpdateSkillAttackIconeCoolGuage(float currentGauge, float maxGauge)
     {
-        float fillAmount = currentCoolTime / maxCoolTime;
+        //SkillAttackIconeBar.fillAmount = Mathf.Lerp(SkillAttackIconeBar.fillAmount, currentGauge / maxGauge, Time.deltaTime * 10f);
+        float fillAmount = currentGauge / maxGauge;
         SkillAttackIconeBar.fillAmount = fillAmount;
     }
 
