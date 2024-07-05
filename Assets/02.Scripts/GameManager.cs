@@ -80,10 +80,12 @@ public class GameManager : NetworkBehaviour
 
     private async UniTaskVoid StartGameTimer(CancellationToken cancellationToken)
     {
+       
         timeRemaining = gameDuration;
 
         while (timeRemaining > 0)
         {
+            if (MatchOver == true) return;
             DuelUIController.Instance.UpdateGameTime(timeRemaining);
 
             await UniTask.Delay(1000, cancellationToken: cancellationToken);

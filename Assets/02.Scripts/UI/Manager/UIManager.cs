@@ -10,6 +10,8 @@ public class UIManager : MonoBehaviour
     public int first = 0;
 
     public static UIManager Instance { get; private set; }
+    public RoomManager roomManager;
+    public RoomManager roomManagerPrefab;
 
     private void Awake()
     {
@@ -26,6 +28,7 @@ public class UIManager : MonoBehaviour
 
     public void Start()
     {
+        roomManager = GetComponentInChildren<RoomManager>();  
         if(first ==0)
             SetUI();
     }
@@ -51,5 +54,49 @@ public class UIManager : MonoBehaviour
     {
         LobbyPopup.SetActive(false);
         Title.SetActive(false);
+    }
+
+
+    public void OnStartButtonClicked()
+    {
+        TryStartClient();
+    }
+
+
+    private async void TryStartClient()
+    {
+        if (roomManager == null)
+        {
+            GameObject roomManagerObject = Instantiate(roomManagerPrefab.gameObject);
+            roomManager = roomManagerObject.GetComponent<RoomManager>();
+            roomManagerObject.transform.SetParent(this.transform);
+        }
+
+
+        try
+        {
+            roomManager.StartClient();
+            LobbyUIDisable();
+            //UIManager.Instance.MachintPopupEnable();
+            await Task.Delay(500);  // 연결 시도 후 대기 시간 설정
+
+            if (!NetworkClient.isConnected)
+            {
+                Debug.Log("Client connection failed, starting host.");
+                roomManager.StartHost();
+                LobbyUIDisable();
+            }
+            else
+            {
+                Debug.Log("Client connected successfully.");
+            }
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"Exception occurred: {ex.Message}");
+            roomManager.StartHost();
+            LobbyUIDisable();
+
+        }
     }
 }
