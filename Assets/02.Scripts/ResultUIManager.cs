@@ -7,6 +7,7 @@ public class ResultUIManager : Singleton<ResultUIManager>
     public GameObject resultCamera;
     public GameObject resultPlayer;
     public GameObject ResultUI;
+    public bool IsReusltUION = false;
 
     public void ResultTextSet(string result)
     {
@@ -26,6 +27,7 @@ public class ResultUIManager : Singleton<ResultUIManager>
         resultCamera.SetActive(true);
         resultPlayer.SetActive(true);
         ResultUI.SetActive(true);
+        IsReusltUION = true;
 
         if (WinHost.HasValue)
         {

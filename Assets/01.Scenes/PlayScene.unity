@@ -6127,7 +6127,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1639843484
 Transform:
   m_ObjectHideFlags: 0
@@ -6162,6 +6162,7 @@ MonoBehaviour:
   resultCamera: {fileID: 1676924922}
   resultPlayer: {fileID: 1419183936}
   ResultUI: {fileID: 4763666606251180307}
+  IsReusltUION: 0
 --- !u!1 &1667548472
 GameObject:
   m_ObjectHideFlags: 0

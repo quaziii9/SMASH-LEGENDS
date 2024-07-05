@@ -43,11 +43,15 @@ public class AnimationController : MonoBehaviour
     [SerializeField] private GameObject _jumpAttackHitZone;
     [SerializeField] private GameObject _skillAttackHitZone;
 
+    [SerializeField] private Collider _heavyJumpAttackHitZoneCollider;
+
+
     private void Awake()
     {
         _animator = GetComponent<Animator>();
         Player = GetComponent<PlayerController>();
         _attackController = GetComponentInChildren<AttackController>();
+        _heavyJumpAttackHitZoneCollider = _heavyJumpAttackHitZone.GetComponent<Collider>();
     }
 
     public void SetBool(int parameter, bool value)
@@ -97,8 +101,18 @@ public class AnimationController : MonoBehaviour
     private void DisableHeavyAttackHitZone() => _heavyAttackHitZone.SetActive(false);
 
 
-    private void EnableHeavyJumpAttackHitZone() => _heavyJumpAttackHitZone.SetActive(true);
-    private void DisableHeavyJumpAttackHitZone() => _heavyJumpAttackHitZone.SetActive(false);
+    private void EnableHeavyJumpAttackHitZone()
+    {
+        _heavyJumpAttackHitZone.SetActive(true);
+        _heavyJumpAttackHitZoneCollider.enabled = true;
+
+    }
+    private void DisableHeavyJumpAttackHitZone()
+    {
+        _heavyJumpAttackHitZone.SetActive(false);
+        _heavyJumpAttackHitZoneCollider.enabled = false;
+    }
+   
 
     private void EnableJumpAttackHitZone() => _jumpAttackHitZone.SetActive(true);
     private void DisableJumpAttackHitZone() => _jumpAttackHitZone.SetActive(false);
