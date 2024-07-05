@@ -58,7 +58,6 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();

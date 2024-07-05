@@ -3,9 +3,10 @@ using UnityEngine;
 using EventLibrary;
 using EnumTypes;
 using System.Threading;
+using System.Runtime.CompilerServices;
 using Mirror;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance;
 
@@ -17,7 +18,6 @@ public class GameManager : MonoBehaviour
     public GameObject Map;
     public GameObject PlayUI;
     public GameObject ResultUI;
-
 
     public bool MatchOver = false;
 
@@ -98,7 +98,6 @@ public class GameManager : MonoBehaviour
 
         DuelUIController.Instance.UpdateGameTime(timeRemaining);
         PlayUIManager.Instance.MatchOverUI();
-        //DetermineWinner();
     }
 
 
@@ -152,11 +151,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-
     public void EndGame(bool? WinHost)
     {
-        
+
         MainCamera.SetActive(false);
         Map.SetActive(false);
         PlayUI.SetActive(false);
@@ -174,14 +171,29 @@ public class GameManager : MonoBehaviour
         {
             if (WinHost.Value)
             {
-                ResultUIManager.Instance.ResultTextSet("HostWin");
-                Debug.Log("Host wins!");
+                if (NetworkServer.active)
+                {
+                    ResultUIManager.Instance.ResultTextSet("승리");
+                    Debug.Log("You (Host) win!");
+                }
+                else
+                {
+                    ResultUIManager.Instance.ResultTextSet("패배");
+                    Debug.Log("Host wins!");
+                }
             }
             else
             {
-                Debug.Log("Client wins!");
-                ResultUIManager.Instance.ResultTextSet("ClientWin");
-
+                if (NetworkServer.active)
+                {
+                    ResultUIManager.Instance.ResultTextSet("패배");
+                    Debug.Log("Client wins!");
+                }
+                else
+                {
+                    ResultUIManager.Instance.ResultTextSet("승리");
+                    Debug.Log("You (Client) win!");
+                }
             }
         }
         else
