@@ -36,16 +36,16 @@ public class DuelUIController : MonoBehaviour
 
     public TextMeshProUGUI GameTime;
 
+
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); 
         }
         else
         {
-            Destroy(gameObject); 
+            Destroy(gameObject);
         }
     }
 
@@ -84,7 +84,8 @@ public class DuelUIController : MonoBehaviour
                     break;
                 case 3:
                     clientScoreBar[2].SetActive(true);
-                    GameManager.Instance.MatchOverUI();
+                    PlayUIManager.Instance.MatchOverUI();
+                    GameManager.Instance.MatchOver = true;
                     //EndGame(false);
                     break;
                 default:
@@ -104,7 +105,8 @@ public class DuelUIController : MonoBehaviour
                     break;
                 case 3:
                     hostScoreBar[2].SetActive(true);
-                    GameManager.Instance.MatchOverUI();
+                    PlayUIManager.Instance.MatchOverUI();
+                    GameManager.Instance.MatchOver = true;
                     //EndGame(true);
                     break;
                 default:
@@ -166,6 +168,7 @@ public class DuelUIController : MonoBehaviour
 
     public async UniTaskVoid LocalRespawnTimer()
     {
+        if (clientScore == 2 || hostScore ==2) return;
         RespawnTimer.SetActive(true);
         await UniTask.Delay(5000); // 5초 대기
         RespawnTimer.SetActive(false);
@@ -210,4 +213,6 @@ public class DuelUIController : MonoBehaviour
     {
         GameTime.text = $"{remainTime / 60:D2}:{remainTime % 60:D2}";
     }
+
+
 }

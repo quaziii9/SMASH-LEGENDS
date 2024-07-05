@@ -318,7 +318,10 @@ public class PlayerController : NetworkBehaviour
 
     public void Move()
     {
-        if (StateController.PositionSet == false || StateController.IsHitted == true || !isLocalPlayer) return;
+        if (StateController.PositionSet == false || StateController.IsHitted == true ||
+            !isLocalPlayer || GameManager.Instance.MatchOver == true) return;
+
+
 
         if (StateController.CurrentStateInstance is RollUpBackState || StateController.CurrentStateInstance is RollUpFrontState)
         {

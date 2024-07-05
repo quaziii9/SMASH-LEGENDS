@@ -18,6 +18,7 @@ public class DeadZone : MonoBehaviour
 
         legend.StatController.CmdSmash(legend.IsHost);
 
+
         if(legend.isLocalPlayer)
         {
             DuelUIController.Instance.LocalRespawnTimer().Forget();

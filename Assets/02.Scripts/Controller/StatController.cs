@@ -154,8 +154,10 @@ public class StatController : NetworkBehaviour
     public void Smash(bool isHost)
     {
         gameObject.SetActive(false);
-        playerController.ReviveLegend(isHost).Forget();
         DuelUIController.Instance.UpdateScore(isHost);
+
+        if (GameManager.Instance.MatchOver == true) return;
+        playerController.ReviveLegend(isHost).Forget();
         DuelUIController.Instance.StartRespawnTimer(isHost);
     }
 

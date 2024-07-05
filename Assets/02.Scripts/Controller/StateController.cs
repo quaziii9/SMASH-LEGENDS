@@ -49,6 +49,8 @@ public class StateController : NetworkBehaviour
 
     public void ChangeState(PlayerState newState)
     {
+        if (GameManager.Instance.MatchOver == true) return;
+
         CurrentStateInstance?.Exit(); // 현재 상태 종료
 
         CurState = newState;

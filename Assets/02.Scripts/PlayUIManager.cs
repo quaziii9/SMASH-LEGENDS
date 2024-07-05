@@ -8,10 +8,25 @@ public class PlayUIManager : MonoBehaviour
     public GameObject GameStartUI;
     public GameObject LoadingUI;
     public GameObject DuelModePopup;
+    public GameObject matchOverUI;
+
+    public static PlayUIManager Instance { get; private set; }
 
     private void Start()
     {
         SettingGame().Forget();
+    }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     public async UniTaskVoid SettingGame()
@@ -34,5 +49,10 @@ public class PlayUIManager : MonoBehaviour
         DuelModePopup.SetActive(true);
 
         GameManager.Instance.StartGame();
+    }
+
+    public void MatchOverUI()
+    {
+        matchOverUI.SetActive(true);
     }
 }

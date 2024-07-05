@@ -3,6 +3,7 @@ using UnityEngine;
 using EventLibrary;
 using EnumTypes;
 using System.Threading;
+using Mirror;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,7 +17,9 @@ public class GameManager : MonoBehaviour
     public GameObject Map;
     public GameObject PlayUI;
     public GameObject ResultUI;
-    public GameObject _matchOverUI;
+
+
+    public bool MatchOver = false;
 
     private void Awake()
     {
@@ -94,14 +97,11 @@ public class GameManager : MonoBehaviour
         }
 
         DuelUIController.Instance.UpdateGameTime(timeRemaining);
-        MatchOverUI();
+        PlayUIManager.Instance.MatchOverUI();
         //DetermineWinner();
     }
 
-    public void MatchOverUI()
-    {
-        _matchOverUI.SetActive(true);
-    }
+
 
 
     public void OnAnimationComplete()
@@ -156,6 +156,7 @@ public class GameManager : MonoBehaviour
 
     public void EndGame(bool? WinHost)
     {
+        
         MainCamera.SetActive(false);
         Map.SetActive(false);
         PlayUI.SetActive(false);
