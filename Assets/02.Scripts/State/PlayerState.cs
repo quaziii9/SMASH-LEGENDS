@@ -504,6 +504,7 @@ public class JumpHeavyAttackState : StateBase
     public override void Exit()
     {
         base.Exit();
+        Player.StatController.StartCooldownTimer().Forget();
         Player.AimationController.SetBool(Player.AimationController.IsJumpHeavyAttacking, false);
     }
 
@@ -531,7 +532,6 @@ public class JumpHeavyAttackLandingState : StateBase
     public override void Enter()
     {
         base.Enter();
-        Player.StatController.StartCooldownTimer().Forget();
         Player.AimationController.SetBool(Player.AimationController.IsHeavyLanding, true);
         Player.CanMove = false;
         Player.CanLook = false;

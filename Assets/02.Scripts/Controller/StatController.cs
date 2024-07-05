@@ -158,6 +158,8 @@ public class StatController : NetworkBehaviour
 
         if (GameManager.Instance.MatchOver == true) return;
         {
+            playerController.ChangeState(PlayerState.Idle);
+
             playerController.ReviveLegend(isHost).Forget();
             DuelUIController.Instance.StartRespawnTimer(isHost);
         }

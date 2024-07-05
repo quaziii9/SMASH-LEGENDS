@@ -34,7 +34,7 @@ public class PlayUIManager : MonoBehaviour
         await Task.Delay(1000);
 
         DuelModePopup.SetActive(false);
-        await Task.Delay(3000);
+        await Task.Delay(1500);
 
         LoadingUI.SetActive(false);
         GameStartUI.SetActive(true);

@@ -136,7 +136,10 @@ public class AttackController : NetworkBehaviour
 
         if(currentHp <=0)
         {
-            knockBackDirection += Vector3.up * 0.5f;
+            if (knockBackDirection.y < 1.2f)
+            {
+                knockBackDirection.y = 1.2f;
+            }
 
             float dieKnockbackPower = 3f;
             player.rigidbody.velocity = Vector3.zero;
