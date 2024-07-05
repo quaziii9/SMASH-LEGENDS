@@ -54407,8 +54407,8 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.16666667
-    functionName: WeaponColliderEnable
+  - time: 0.2
+    functionName: EnableHeavyAttackHitZone
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -54422,7 +54422,7 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.5
-    functionName: WeaponColliderDisable
+    functionName: DisableHeavyAttackHitZone
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

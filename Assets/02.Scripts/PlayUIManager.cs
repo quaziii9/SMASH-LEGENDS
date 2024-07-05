@@ -53,6 +53,7 @@ public class PlayUIManager : MonoBehaviour
 
     public void MatchOverUI()
     {
+        GameManager.Instance.MatchOver = true;
         matchOverUI.SetActive(true);
     }
 }

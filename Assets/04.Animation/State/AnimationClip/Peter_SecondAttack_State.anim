@@ -56427,21 +56427,21 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.1
-    functionName: WeaponColliderEnable
+    functionName: EnableSecondAttackHitZone
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.2
-    functionName: WeaponColliderDisable
+    functionName: DisableSecondAttackHitZone
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.26666668
-    functionName: WeaponColliderEnable
+  - time: 0.3
+    functionName: EnableSecondAttackHitZone
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -56462,7 +56462,7 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.5
-    functionName: WeaponColliderDisable
+    functionName: DisableSecondAttackHitZone
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

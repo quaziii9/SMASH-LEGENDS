@@ -8,7 +8,7 @@ using Unity.Mathematics;
 
 public class PlayerController : NetworkBehaviour
 {
-    public StatController StatController { get; set; } 
+    public StatController StatController { get; set; }
     public AnimationController AimationController { get; set; }
     public AttackController AttackController { get; set; }
     public StateController StateController { get; set; }
@@ -168,7 +168,7 @@ public class PlayerController : NetworkBehaviour
             moveInput.x = 1;
         }
 
-        moveDirection = new Vector3(moveInput.x, 0, moveInput.y).normalized; 
+        moveDirection = new Vector3(moveInput.x, 0, moveInput.y).normalized;
 
         StateController.ExecuteOnUpdate();
     }
@@ -193,7 +193,7 @@ public class PlayerController : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("HangZone"))
+        if (other.CompareTag("HangZone"))
         {
             rigidbody.velocity = Vector3.zero;
             transform.forward = GetHangForward(other.transform.position);
@@ -287,7 +287,7 @@ public class PlayerController : NetworkBehaviour
             StateController.CurrentStateInstance?.OnInputCallback(context);
         }
 
-        if(CanChange && CanDefaultFlash == 0)
+        if (CanChange && CanDefaultFlash == 0)
         {
             CanDefaultFlash++;
             DefualtAttackIconEnableFlash().Forget();

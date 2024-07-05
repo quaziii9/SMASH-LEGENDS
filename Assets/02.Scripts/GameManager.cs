@@ -98,7 +98,7 @@ public class GameManager : NetworkBehaviour
 
             timeRemaining -= 1;
         }
-
+        MatchOver = true;
         DuelUIController.Instance.UpdateGameTime(timeRemaining);
         PlayUIManager.Instance.MatchOverUI();
     }

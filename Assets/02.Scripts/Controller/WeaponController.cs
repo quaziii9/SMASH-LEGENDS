@@ -3,13 +3,11 @@ using Mirror;
 
 public class WeaponController : NetworkBehaviour
 {
-    Collider weaponCollider;
     AttackController attackController;
     StatController statController;
 
     private void Start()
     {
-        weaponCollider = GetComponent<BoxCollider>();
         attackController = GetComponentInParent<AttackController>();
         statController = GetComponentInParent<StatController>();
     }
@@ -39,8 +37,7 @@ public class WeaponController : NetworkBehaviour
                 statController.SkillGaugeAdd(statController.AddSkillGuage);
             if (otherplayer.currentSkillGauge < otherplayer.maxSkillGuage)
                 otherplayer.SkillGaugeAdd(statController.AddSkillGuage / 3 * 2);
-
-            weaponCollider.enabled = false;
+           
         }
     }
 }

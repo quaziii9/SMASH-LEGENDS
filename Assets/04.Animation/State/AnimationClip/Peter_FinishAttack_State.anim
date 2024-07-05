@@ -61526,15 +61526,15 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.2
-    functionName: WeaponColliderEnable
+  - time: 0.26666668
+    functionName: EnableHeavyAttackHitZone
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.5
-    functionName: WeaponColliderDisable
+    functionName: DisableHeavyAttackHitZone
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

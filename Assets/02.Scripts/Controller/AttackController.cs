@@ -78,7 +78,7 @@ public class AttackController : NetworkBehaviour
 
     public void SkillLastAttackDamage()
     {
-        SetAttackValues(statController.skillAttackDamage / 5 + 500, statController.heavyKnockBackPower, player.transform.forward + player.transform.up * 1.2f, HitType.HitUp, true);
+        SetAttackValues(((statController.skillAttackDamage -500 ) / 5 + 500), statController.heavyKnockBackPower, player.transform.forward + player.transform.up * 1.2f, HitType.HitUp, true);
     }
 
    
