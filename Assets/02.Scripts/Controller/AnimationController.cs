@@ -37,6 +37,12 @@ public class AnimationController : MonoBehaviour
 
     private PlayerController Player;
 
+    [SerializeField] private GameObject _skillAttackHitZone;
+    [SerializeField] private GameObject _attackHitZone;
+    [SerializeField] private GameObject _heavyAttackHitZone;
+    [SerializeField] private GameObject _jumpAttackHitZone;
+    [SerializeField] private GameObject _finishDefaultAttackHitZone;
+
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -95,6 +101,17 @@ public class AnimationController : MonoBehaviour
     {
         _weaponCollider.enabled = false;
     }
+
+    private void EnableAttackHitZone() => _attackHitZone.SetActive(true);
+    private void DisableAttackHitZone() => _attackHitZone.SetActive(false);
+    private void EnableFinishAttackHitZone() => _finishDefaultAttackHitZone.SetActive(true);
+    private void DisableFinishAttackHitZone() => _finishDefaultAttackHitZone.SetActive(false);
+    private void EnableJumpAttackHitZone() => _jumpAttackHitZone.SetActive(true);
+    private void DisableJumpAttackHitZone() => _jumpAttackHitZone.SetActive(false);
+    private void EnableHeavyAttackHitZone() => _heavyAttackHitZone.SetActive(true);
+    private void DisableHeavyAttackHitZone() => _heavyAttackHitZone.SetActive(false);
+    private void EnableSkillAttackHitZone() => _skillAttackHitZone.SetActive(true);
+    private void DisableSkillAttackHitZone() => _skillAttackHitZone.SetActive(false);
 
 
 }
