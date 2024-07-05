@@ -191,6 +191,11 @@ public class DuelUIController : MonoBehaviour
         //SkillAttackIconeBar.fillAmount = Mathf.Lerp(SkillAttackIconeBar.fillAmount, currentGauge / maxGauge, Time.deltaTime * 10f);
         float fillAmount = currentGauge / maxGauge;
         SkillAttackIconeBar.fillAmount = fillAmount;
+
+        if(currentGauge == maxGauge)
+            SkillAttackKey.SetActive(true);
+        else
+            SkillAttackKey.SetActive(false);
     }
 
     public void SkillAttackKeyEnable(bool Active)

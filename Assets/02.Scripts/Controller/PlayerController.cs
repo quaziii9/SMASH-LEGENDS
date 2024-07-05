@@ -477,6 +477,7 @@ public class PlayerController : NetworkBehaviour
 
         CanChange = true;
         StateController.IsHitted = false;
+        EffectController.StartInvincibleFlashEffect(5);
     }
 
 

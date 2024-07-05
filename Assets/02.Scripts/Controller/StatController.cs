@@ -228,7 +228,7 @@ public class StatController : NetworkBehaviour
                 }
             }
             CanSkillAttack = true;
-            SkillAttackAllReady();
+            //SkillAttackAllReady();
         }
         CmdUpdateSkillAttackAllReady(CanSkillAttack);
     }
@@ -248,7 +248,7 @@ public class StatController : NetworkBehaviour
             {
                 currentSkillGauge = maxSkillGuage;
                 CanSkillAttack = true;
-                SkillAttackAllReady();
+                //SkillAttackAllReady();
             }
             DuelUIController.Instance.UpdateSkillAttackIconeCoolGuage(currentSkillGauge, maxSkillGuage);
         }
@@ -257,7 +257,7 @@ public class StatController : NetworkBehaviour
 
     public void SkillAttackAllReady()
     {
-        DuelUIController.Instance.SkillAttackKeyEnable(CanSkillAttack);
+        //DuelUIController.Instance.SkillAttackKeyEnable(CanSkillAttack);
         
     }
 
@@ -281,7 +281,7 @@ public class StatController : NetworkBehaviour
             currentSkillGauge = 0;
             CanSkillAttack = false;
             DuelUIController.Instance.UpdateSkillAttackIconeCoolGuage(currentSkillGauge, maxSkillGuage);
-            SkillAttackAllReady();
+            //SkillAttackAllReady();
         }
         CmdUpdateSkillAttackAllReady(CanSkillAttack);
     }

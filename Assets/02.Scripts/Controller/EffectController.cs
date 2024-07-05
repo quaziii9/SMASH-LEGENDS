@@ -185,11 +185,13 @@ public class EffectController : NetworkBehaviour
     {
         while (count > 0)
         {
+            _player.StateController.IsInvincible = true;
             OnFlashEffect(MaterialType.Invincible);
             await UniTask.Delay(50);
             OffFlashEffect();
             await UniTask.Delay(50);
             --count;
         }
+        _player.StateController.IsInvincible = false;
     }
 }
