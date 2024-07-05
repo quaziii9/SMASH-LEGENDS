@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using Mirror;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -62,6 +63,14 @@ public class UIManager : MonoBehaviour
         TryStartClient();
     }
 
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "LobbyScene") // 원하는 씬 이름으로 변경
+        {
+            LobbyUIEnable();
+        }
+    }
+
 
     private async void TryStartClient()
     {
@@ -76,7 +85,6 @@ public class UIManager : MonoBehaviour
         try
         {
             roomManager.StartClient();
-            LobbyUIDisable();
             //UIManager.Instance.MachintPopupEnable();
             await Task.Delay(500);  // 연결 시도 후 대기 시간 설정
 
@@ -84,7 +92,6 @@ public class UIManager : MonoBehaviour
             {
                 Debug.Log("Client connection failed, starting host.");
                 roomManager.StartHost();
-                LobbyUIDisable();
             }
             else
             {
@@ -95,7 +102,6 @@ public class UIManager : MonoBehaviour
         {
             Debug.LogError($"Exception occurred: {ex.Message}");
             roomManager.StartHost();
-            LobbyUIDisable();
 
         }
     }

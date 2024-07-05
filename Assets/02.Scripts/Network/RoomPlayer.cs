@@ -5,6 +5,8 @@ public class RoomPlayer : NetworkRoomPlayer
     private void Start()
     {
         UIMatchingManager.Instance.UpdatePlayerCount();
+        UIManager.Instance.LobbyUIDisable();
+
     }
     private void OnDestroy()
     {

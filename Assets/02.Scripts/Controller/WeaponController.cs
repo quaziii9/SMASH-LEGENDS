@@ -5,11 +5,13 @@ public class WeaponController : NetworkBehaviour
 {
     AttackController attackController;
     StatController statController;
+    Collider Collider;
 
     private void Start()
     {
         attackController = GetComponentInParent<AttackController>();
         statController = GetComponentInParent<StatController>();
+        Collider = GetComponent<Collider>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -37,7 +39,11 @@ public class WeaponController : NetworkBehaviour
                 statController.SkillGaugeAdd(statController.AddSkillGuage);
             if (otherplayer.currentSkillGauge < otherplayer.maxSkillGuage)
                 otherplayer.SkillGaugeAdd(statController.AddSkillGuage / 3 * 2);
-           
+
+            if (gameObject.name == "HeavyJumpAttackHitZone")
+            {
+                Collider.enabled = false;
+            }
         }
     }
 }

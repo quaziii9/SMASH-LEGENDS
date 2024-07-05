@@ -15,7 +15,7 @@ public class RoomManager : NetworkRoomManager
     private Quaternion rotation2 = Quaternion.Euler(new Vector3(0, -90, 0));
 
     public static RoomManager Instance;
-    private bool isSceneChanging = false;  // 씬 전환 상태를 추적하는 플래그
+    private bool IsSceneChanging = false;  // 씬 전환 상태를 추적하는 플래그
     private void Awake()
     {
         if (Instance == null)
@@ -55,7 +55,7 @@ public class RoomManager : NetworkRoomManager
     public override void OnRoomServerConnect(NetworkConnectionToClient conn)
     {
         base.OnRoomServerConnect(conn);
-
+        UIManager.Instance.LobbyUIDisable();
         WaitToStartGame().Forget();
     }
 
@@ -63,6 +63,8 @@ public class RoomManager : NetworkRoomManager
     {
         base.OnRoomServerAddPlayer(conn);
     }
+
+
 
     public override void OnRoomServerPlayersReady()
     {
@@ -86,9 +88,9 @@ public class RoomManager : NetworkRoomManager
         await UniTask.Delay(1500);
 
         // 플레이어 수가 최대 연결 수에 도달하면 게임 씬으로 전환
-        if (!isSceneChanging && numPlayers == maxConnections)
+        if (!IsSceneChanging && numPlayers == maxConnections)
         {
-            isSceneChanging = true;  // 씬 전환 시작
+            IsSceneChanging = true;  // 씬 전환 시작
 
             await UniTask.Delay(2500);
 
