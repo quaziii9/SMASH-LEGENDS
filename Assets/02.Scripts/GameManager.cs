@@ -5,6 +5,7 @@ using EnumTypes;
 using System.Threading;
 using System.Runtime.CompilerServices;
 using Mirror;
+using UnityEngine.SceneManagement;
 
 public class GameManager : NetworkBehaviour
 {
@@ -153,53 +154,21 @@ public class GameManager : NetworkBehaviour
 
     public void EndGame(bool? WinHost)
     {
+        // 결과 값 설정
+        bool isHost = NetworkServer.active;
 
-        MainCamera.SetActive(false);
-        Map.SetActive(false);
-        PlayUI.SetActive(false);
-        ResultUI.SetActive(true);
+        // 결과 값 설정
+        ResultUIManager.Instance.SetResult(isHost, WinHost);
 
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-
-        foreach (GameObject player in players)
+        // 모든 플레이어를 디스커넥트
+        if (NetworkServer.active)
         {
-            player.SetActive(false);
-        }
-
-
-        if (WinHost.HasValue)
-        {
-            if (WinHost.Value)
-            {
-                if (NetworkServer.active)
-                {
-                    ResultUIManager.Instance.ResultTextSet("승리");
-                    Debug.Log("You (Host) win!");
-                }
-                else
-                {
-                    ResultUIManager.Instance.ResultTextSet("패배");
-                    Debug.Log("Host wins!");
-                }
-            }
-            else
-            {
-                if (NetworkServer.active)
-                {
-                    ResultUIManager.Instance.ResultTextSet("패배");
-                    Debug.Log("Client wins!");
-                }
-                else
-                {
-                    ResultUIManager.Instance.ResultTextSet("승리");
-                    Debug.Log("You (Client) win!");
-                }
-            }
+            NetworkManager.singleton.StopHost();
         }
         else
         {
-            Debug.Log("It's a draw!");
-            ResultUIManager.Instance.ResultTextSet("Draw");
+            NetworkManager.singleton.StopClient();
+            SceneManager.LoadScene(NetworkManager.singleton.offlineScene); // 클라이언트는 오프라인 씬으로 이동
         }
     }
 }

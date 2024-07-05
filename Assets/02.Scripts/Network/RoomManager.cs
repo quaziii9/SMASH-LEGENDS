@@ -21,6 +21,7 @@ public class RoomManager : NetworkRoomManager
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
