@@ -10,15 +10,8 @@ public enum PlayerState
     JumpUp,
     JumpDown,
     JumpLand,
-    JumpAttack,
-    JumpHeavyAttack,
     JumpHeavyAttackLanding,
     JumpAttackLanding,
-    SkillAttack,
-    FirstAttack,
-    SecondAttack,
-    FinishAttack,
-    HeavyAttack,
     Hit,
     HitUp,
     HitDown,
@@ -28,8 +21,27 @@ public enum PlayerState
     RollUpBack,
     StandUp,
     Hang,
-    HangFall
+    HangFall,
+
+
+    FirstAttack,
+    SecondAttack,
+    FinishAttack,
+    HeavyAttack,
+    JumpAttack,
+    JumpHeavyAttack,
+    SkillAttack,
+
+    HookFirstAttack,
+    HookSecondAttack,
+    HookHeavyAttack,
+    HookFirstJumpAttack,
+    HookSecondJumpAttack,
+    HookFinsihJumpAttack,
+    HookJumpHeavyAttack,
+    HookSkillAttack,
 }
+
 public class StateController : NetworkBehaviour
 {
     public IState CurrentStateInstance { get; private set; }
@@ -94,25 +106,11 @@ public class StateController : NetworkBehaviour
             case PlayerState.JumpDown:
                 return new JumpDownState(_playerController);
             case PlayerState.JumpLand:
-                return new JumpLandState(_playerController);
-            case PlayerState.JumpAttack:
-                return new JumpAttackState(_playerController);
-            case PlayerState.JumpHeavyAttack:
-                return new JumpHeavyAttackState(_playerController);
+                return new JumpLandState(_playerController);   
             case PlayerState.JumpHeavyAttackLanding:
                 return new JumpHeavyAttackLandingState(_playerController);
             case PlayerState.JumpAttackLanding:
-                return new JumpAttackLandingState(_playerController);
-            case PlayerState.SkillAttack:
-                return new SkillAttackState(_playerController);
-            case PlayerState.FirstAttack:
-                return new FirstAttackState(_playerController);
-            case PlayerState.SecondAttack:
-                return new SecondAttackState(_playerController);
-            case PlayerState.FinishAttack:
-                return new FinishAttackState(_playerController);
-            case PlayerState.HeavyAttack:
-                return new HeavyAttackState(_playerController);
+                return new JumpAttackLandingState(_playerController); 
             case PlayerState.Hit:
                 return new HitState(_playerController);
             case PlayerState.HitUp:
@@ -133,6 +131,42 @@ public class StateController : NetworkBehaviour
                 return new HangState(_playerController);
             case PlayerState.HangFall:
                 return new HangFallState(_playerController);
+
+
+            case PlayerState.FirstAttack:
+                return new FirstAttackState(_playerController);
+            case PlayerState.SecondAttack:
+                return new SecondAttackState(_playerController);
+            case PlayerState.FinishAttack:
+                return new FinishAttackState(_playerController);
+            case PlayerState.HeavyAttack:
+                return new HeavyAttackState(_playerController);
+            case PlayerState.JumpAttack:
+                return new JumpAttackState(_playerController);
+            case PlayerState.JumpHeavyAttack:
+                return new JumpHeavyAttackState(_playerController);
+            case PlayerState.SkillAttack:
+                return new SkillAttackState(_playerController);
+
+
+            case PlayerState.HookFirstAttack:
+                return new HookFirstAttackState(_playerController);
+            case PlayerState.HookSecondAttack:
+                return new HookSecondAttackState(_playerController);
+            case PlayerState.HookHeavyAttack:
+                //return new HeavyAttackState(_playerController);
+            case PlayerState.HookFirstJumpAttack:
+                //return new JumpAttackState(_playerController);
+            case PlayerState.HookSecondJumpAttack:
+                //return new JumpHeavyAttackState(_playerController);
+            case PlayerState.HookFinsihJumpAttack:
+                //return new SkillAttackState(_playerController);
+            case PlayerState.HookJumpHeavyAttack:
+                //return new JumpHeavyAttackState(_playerController);
+            case PlayerState.HookSkillAttack:
+                //return new SkillAttackState(_playerController);
+
+
             default:
                 throw new ArgumentOutOfRangeException();
         }

@@ -88,6 +88,7 @@ public class AnimationController : MonoBehaviour
         if(Player.StateController.CurState != PlayerState.FinishAttack)
             Player.CanDefaultFlash = 0;
         Player.CanChange = true;
+        if (Player.legendType == PlayerController.LegendType.Hook) return;
         Player.CanLook = true;
     }
 

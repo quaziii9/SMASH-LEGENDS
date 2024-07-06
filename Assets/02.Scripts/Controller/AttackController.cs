@@ -28,6 +28,7 @@ public class AttackController : NetworkBehaviour
     private float _currentMoveDistance;
     private Vector3 _attackMoveDirection;
 
+    public AnimationCurve movementCurve;
 
     public void Initialize(PlayerController playerController, StatController StatController)
     {
@@ -40,12 +41,14 @@ public class AttackController : NetworkBehaviour
         switch (state)
         {
             case PlayerState.FirstAttack:
+            case PlayerState.HookFirstAttack:
                 SetAttackValues(statController.defaultAttackDamage / 3, statController.defaultKnockBackPower, player.transform.up * 0.5f, HitType.Hit, false);
                 break;
             case PlayerState.SecondAttack:
                 SetAttackValues(statController.defaultAttackDamage / 6, statController.defaultKnockBackPower, player.transform.up * 0.5f, HitType.Hit, false);
                 break;
             case PlayerState.FinishAttack:
+            case PlayerState.HookSecondAttack:
                 SetAttackValues(statController.defaultAttackDamage / 3, statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp, true);
                 break;
             case PlayerState.JumpAttack:
@@ -88,6 +91,25 @@ public class AttackController : NetworkBehaviour
         float elapsedTime = Time.time - _attackMoveStartTime;
         float fraction = elapsedTime / attackMoveDuration;
         float distanceToMove = Mathf.Lerp(0, attackMoveDistance, fraction);
+
+        Vector3 forwardMovement = _attackMoveDirection * (distanceToMove - _currentMoveDistance);
+        player.rigidbody.MovePosition(player.rigidbody.position + forwardMovement);
+
+        _currentMoveDistance = distanceToMove;
+
+        if (player.CanLook && player.moveDirection != Vector3.zero)
+        {
+            player.LookAt();
+        }
+    }
+
+    public void HandleHookAttackMove()
+    {
+        float elapsedTime = Time.time - _attackMoveStartTime;
+        float fraction = elapsedTime / attackMoveDuration;
+        float movementFactor = movementCurve.Evaluate(fraction); // 애니메이션 커브를 통해 절도 있게 이동
+
+        float distanceToMove = attackMoveDistance * movementFactor;
 
         Vector3 forwardMovement = _attackMoveDirection * (distanceToMove - _currentMoveDistance);
         player.rigidbody.MovePosition(player.rigidbody.position + forwardMovement);

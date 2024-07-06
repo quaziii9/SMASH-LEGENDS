@@ -64,6 +64,8 @@ public class IdleState : StateBase
             {
                 if (Player.legendType == PlayerController.LegendType.Peter)
                     Player.ChangeState(PlayerState.FirstAttack);
+                else if (Player.legendType == PlayerController.LegendType.Hook)
+                    Player.ChangeState(PlayerState.HookFirstAttack);
                 return;
             }
             else if (keyboard.xKey.wasPressedThisFrame && statController.currentHeavyAttackCoolTime <= 0)
@@ -98,6 +100,8 @@ public class IdleState : StateBase
         {
             if (Player.legendType == PlayerController.LegendType.Peter)
                 Player.ChangeState(PlayerState.FirstAttack);
+            else if (Player.legendType == PlayerController.LegendType.Hook)
+                Player.ChangeState(PlayerState.HookFirstAttack);
         }
         else if (context.action.name == "HeavyAttack" && context.performed && statController.currentHeavyAttackCoolTime <= 0)
         {

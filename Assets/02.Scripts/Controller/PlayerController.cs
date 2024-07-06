@@ -305,7 +305,7 @@ public class PlayerController : NetworkBehaviour
 
         if (CanChange && CanDefaultFlash == 0)
         {
-            CanDefaultFlash++;
+            if (StateController.CurState == PlayerState.Idle) return;
             DefualtAttackIconEnableFlash().Forget();
         }
     }
@@ -347,6 +347,12 @@ public class PlayerController : NetworkBehaviour
             StateController.CurrentStateInstance is JumpHeavyAttackState || StateController.CurrentStateInstance is HeavyAttackState || StateController.CurrentStateInstance is SkillAttackState)
         {
             AttackController.HandleAttackMove();
+            return;
+        }
+
+        if(StateController.CurrentStateInstance is HookSecondAttackState)
+        {
+            AttackController.HandleHookAttackMove();
             return;
         }
 
@@ -516,6 +522,7 @@ public class PlayerController : NetworkBehaviour
     {
         if(isLocalPlayer)
         {
+            CanDefaultFlash++;
             DuelUIController.Instance.DefualtAttackIconEnable();
             await UniTask.Delay(100);
             DuelUIController.Instance.DefualtAttackIconDisable();

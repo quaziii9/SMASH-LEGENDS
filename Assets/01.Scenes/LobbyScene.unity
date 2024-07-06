@@ -11342,6 +11342,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7236494749590424457, guid: 1ceb9596ba322c843af570a3c2e407a2, type: 3}
+      propertyPath: showRoomGUI
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9126890545320338944, guid: 1ceb9596ba322c843af570a3c2e407a2, type: 3}
       propertyPath: m_Name
       value: RoomManager

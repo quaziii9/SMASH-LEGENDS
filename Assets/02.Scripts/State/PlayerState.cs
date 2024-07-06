@@ -224,6 +224,8 @@ public class RunState : StateBase
             Player.rigidbody.velocity = new Vector3(0, Player.rigidbody.velocity.y, 0);
             if (Player.legendType == PlayerController.LegendType.Peter)
                 Player.ChangeState(PlayerState.FirstAttack);
+            else if (Player.legendType == PlayerController.LegendType.Hook)
+                Player.ChangeState(PlayerState.HookFirstAttack);
         }
         else if (context.action.name == "HeavyAttack" && context.performed && StatController.currentHeavyAttackCoolTime <= 0)
         {
