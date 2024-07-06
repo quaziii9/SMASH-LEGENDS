@@ -62,7 +62,8 @@ public class IdleState : StateBase
 
             if (keyboard.zKey.wasPressedThisFrame)
             {
-                Player.ChangeState(PlayerState.FirstAttack);
+                //if (Player.legendType == PlayerController.LegendType.Peter)
+                    Player.ChangeState(PlayerState.FirstAttack);
                 return;
             }
             else if (keyboard.xKey.wasPressedThisFrame && statController.currentHeavyAttackCoolTime <= 0)
