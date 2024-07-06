@@ -2418,7 +2418,7 @@ GameObject:
   - component: {fileID: 2629612822608945365}
   - component: {fileID: 1161387996490374925}
   m_Layer: 7
-  m_Name: Test2
+  m_Name: Hook
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -8,6 +8,10 @@ using Unity.Mathematics;
 
 public class PlayerController : NetworkBehaviour
 {
+    public enum LegendType { Peter, Hook }
+
+    [SyncVar] public LegendType legendType;
+
     public StatController StatController { get; set; }
     public AnimationController AimationController { get; set; }
     public AttackController AttackController { get; set; }
@@ -49,6 +53,7 @@ public class PlayerController : NetworkBehaviour
     public int CanDefaultFlash = 0;
 
     [SyncVar] public bool IsHost;
+
 
     private void OnEnable()
     {
@@ -112,6 +117,15 @@ public class PlayerController : NetworkBehaviour
             StateController.ChangeState(PlayerState.Idle);
         }
         CanChange = true;
+
+        if (gameObject.name.Contains("Peter"))
+        {
+            legendType = LegendType.Peter;
+        }
+        else if (gameObject.name.Contains("Hook"))
+        {
+            legendType = LegendType.Hook;
+        }
     }
 
 

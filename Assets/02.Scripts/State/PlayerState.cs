@@ -886,6 +886,7 @@ public class StandUpState : StateBase
     {
         base.Enter();
         Player.StateController.IsHitted = false;
+        Player.EffectController.StartInvincibleFlashEffect(5);
         Player.AimationController.SetBool(Player.AimationController.IsStandUp, true);
         Player.CanMove = false;
         Player.CanLook = false;
