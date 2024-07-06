@@ -437,7 +437,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 2eb83d4fc726d424ab95eea03a466f97, type: 2}
+  m_Motion: {fileID: 7400000, guid: 8968914de5aef9e4fa16b61a5930f8fe, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -542,7 +542,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: d6c4efc5759a0744282c78030b0f9481, type: 2}
+  m_Motion: {fileID: 7400000, guid: dbc0ac75fcf2d884f978b24ae0b50163, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1183,7 +1183,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 1a3298755c5b34840bbff5b359720a6c, type: 2}
+  m_Motion: {fileID: 7400000, guid: 3f9757417651ac34abbeaab60380821b, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1413,7 +1413,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: RollUpBack
-  m_Speed: 1
+  m_Speed: 1.2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1135589837590786524}
@@ -1591,7 +1591,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: c929bf056d786074490c605339e4dc3b, type: 2}
+  m_Motion: {fileID: 7400000, guid: 8ad5b4c945f34b041b9b4b175be1ad02, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1646,7 +1646,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 3bf34c2d255ebcc42b66fc44a4dda13e, type: 2}
+  m_Motion: {fileID: 7400000, guid: 4c2ba31e93495b848a8dc4e82d42f418, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1673,7 +1673,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: a43a65138c03ced4eaea2b9818385f09, type: 2}
+  m_Motion: {fileID: 7400000, guid: 20ac53dd3896e2d44858e48f7fd85eee, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1721,7 +1721,7 @@ AnimatorStateMachine:
     m_Position: {x: 490, y: 120, z: 0}
   - serializedVersion: 1
     m_StateMachine: {fileID: -2791676783279488229}
-    m_Position: {x: -30, y: -250, z: 0}
+    m_Position: {x: -40, y: -340, z: 0}
   - serializedVersion: 1
     m_StateMachine: {fileID: -7399875239082588941}
     m_Position: {x: 270, y: -250, z: 0}
@@ -1867,7 +1867,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: bde5faf93782ac9409966df83d558289, type: 2}
+  m_Motion: {fileID: 7400000, guid: 9b6f4a595a155c64a99903b9b986637e, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -2691,7 +2691,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: RollUpFront
-  m_Speed: 1
+  m_Speed: 1.2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 7317264922228267815}
