@@ -62,18 +62,20 @@ public class IdleState : StateBase
 
             if (keyboard.zKey.wasPressedThisFrame)
             {
-                //if (Player.legendType == PlayerController.LegendType.Peter)
+                if (Player.legendType == PlayerController.LegendType.Peter)
                     Player.ChangeState(PlayerState.FirstAttack);
                 return;
             }
             else if (keyboard.xKey.wasPressedThisFrame && statController.currentHeavyAttackCoolTime <= 0)
             {
-                Player.ChangeState(PlayerState.HeavyAttack);
+                if (Player.legendType == PlayerController.LegendType.Peter)
+                    Player.ChangeState(PlayerState.HeavyAttack);
                 return;
             }
             else if (keyboard.cKey.wasPressedThisFrame && statController.CanSkillAttack)
             {
-                Player.ChangeState(PlayerState.HeavyAttack);
+                if (Player.legendType == PlayerController.LegendType.Peter)
+                    Player.ChangeState(PlayerState.SkillAttack);
                 return;
             }
         }
@@ -94,15 +96,18 @@ public class IdleState : StateBase
         }
         else if (context.action.name == "DefaultAttack" && context.performed)
         {
-            Player.ChangeState(PlayerState.FirstAttack);
+            if (Player.legendType == PlayerController.LegendType.Peter)
+                Player.ChangeState(PlayerState.FirstAttack);
         }
         else if (context.action.name == "HeavyAttack" && context.performed && statController.currentHeavyAttackCoolTime <= 0)
         {
-            Player.ChangeState(PlayerState.HeavyAttack);
+            if (Player.legendType == PlayerController.LegendType.Peter)
+                Player.ChangeState(PlayerState.HeavyAttack);
         }
         else if (context.action.name == "SkillAttack" && context.performed && statController.CanSkillAttack)
         {
-            Player.ChangeState(PlayerState.SkillAttack);
+            if (Player.legendType == PlayerController.LegendType.Peter)
+                Player.ChangeState(PlayerState.SkillAttack);
         }
     }
 

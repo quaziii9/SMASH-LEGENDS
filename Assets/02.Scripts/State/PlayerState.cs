@@ -43,12 +43,14 @@ public class JumpUpState : StateBase
     public override void OnInputCallback(InputAction.CallbackContext context)
     {
         if (context.action.name == "HeavyAttack" && context.performed && StatController.currentHeavyAttackCoolTime <= 0)
-        {   
-            Player.ChangeState(PlayerState.JumpHeavyAttack);
+        {
+            if (Player.legendType == PlayerController.LegendType.Peter)
+                Player.ChangeState(PlayerState.JumpHeavyAttack);
         }
         else if (context.action.name == "DefaultAttack" && context.performed)
-        {            
-            Player.ChangeState(PlayerState.JumpAttack);
+        {
+            if (Player.legendType == PlayerController.LegendType.Peter)
+                Player.ChangeState(PlayerState.JumpAttack);
         }
     }
 
@@ -92,11 +94,13 @@ public class JumpDownState : StateBase
     {
         if (context.action.name == "HeavyAttack" && context.performed && Player.Ground == false && StatController.currentHeavyAttackCoolTime <= 0)
         {
-            Player.ChangeState(PlayerState.JumpHeavyAttack);
+            if (Player.legendType == PlayerController.LegendType.Peter)
+                Player.ChangeState(PlayerState.JumpHeavyAttack);
         }
         else if (context.action.name == "DefaultAttack" && context.performed && Player.IsGrounded == false)
         {
-            Player.ChangeState(PlayerState.JumpAttack);
+            if (Player.legendType == PlayerController.LegendType.Peter)
+                Player.ChangeState(PlayerState.JumpAttack);
         }
     }
 
@@ -141,41 +145,7 @@ public class JumpLandState : StateBase
 
 
 
-public class JumpAttackState : StateBase
-{
-    public JumpAttackState(PlayerController player) : base(player) { }
 
-    public override void Enter()
-    {
-        base.Enter();
-        Player.AimationController.SetBool((Player.AimationController.IsJumpAttacking), true);
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
-        Player.AimationController.SetBool((Player.AimationController.IsJumpAttacking), false);
-    }
-
-    public override void ExecuteOnUpdate()
-    {
-        // Attack animation finished
-        AnimatorStateInfo stateInfo = Player.AimationController.GetCurrentAnimatorStateInfo(0);
-        if (Player.IsGrounded)
-        {
-            if (stateInfo.IsName("JumpAttack") && stateInfo.normalizedTime >= 0.3f)
-            {
-                Player.ChangeState(PlayerState.JumpLand);
-            }
-            else
-            {
-                Player.ChangeState(PlayerState.JumpAttackLanding);
-            }
-        }
-    }
-    public override bool IsTransitioning => !Player.AimationController.GetCurrentAnimatorStateInfo(0).IsName("JumpAttack");
-
-}
 
 public class JumpAttackLandingState : StateBase
 {
@@ -252,16 +222,19 @@ public class RunState : StateBase
         else if (context.action.name == "DefaultAttack" && context.performed)
         {
             Player.rigidbody.velocity = new Vector3(0, Player.rigidbody.velocity.y, 0);
-            Player.ChangeState(PlayerState.FirstAttack);
+            if (Player.legendType == PlayerController.LegendType.Peter)
+                Player.ChangeState(PlayerState.FirstAttack);
         }
         else if (context.action.name == "HeavyAttack" && context.performed && StatController.currentHeavyAttackCoolTime <= 0)
         {
             Player.rigidbody.velocity = new Vector3(0, Player.rigidbody.velocity.y, 0);
-            Player.ChangeState(PlayerState.HeavyAttack);
+            if (Player.legendType == PlayerController.LegendType.Peter)
+                Player.ChangeState(PlayerState.HeavyAttack);
         }
         else if (context.action.name == "SkillAttack" && context.performed && StatController.CanSkillAttack)
         {
-            Player.ChangeState(PlayerState.SkillAttack);
+            if (Player.legendType == PlayerController.LegendType.Peter)
+                Player.ChangeState(PlayerState.SkillAttack);
         }
     }
     public override bool IsTransitioning => !Player.AimationController.GetCurrentAnimatorStateInfo(0).IsName("Run");

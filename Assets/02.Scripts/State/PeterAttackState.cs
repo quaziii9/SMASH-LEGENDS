@@ -162,6 +162,42 @@ public class FinishAttackState : StateBase
     public override bool IsTransitioning => !Player.AimationController.GetCurrentAnimatorStateInfo(0).IsName("FinishAttack");
 }
 
+public class JumpAttackState : StateBase
+{
+    public JumpAttackState(PlayerController player) : base(player) { }
+
+    public override void Enter()
+    {
+        base.Enter();
+        Player.AimationController.SetBool((Player.AimationController.IsJumpAttacking), true);
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        Player.AimationController.SetBool((Player.AimationController.IsJumpAttacking), false);
+    }
+
+    public override void ExecuteOnUpdate()
+    {
+        // Attack animation finished
+        AnimatorStateInfo stateInfo = Player.AimationController.GetCurrentAnimatorStateInfo(0);
+        if (Player.IsGrounded)
+        {
+            if (stateInfo.IsName("JumpAttack") && stateInfo.normalizedTime >= 0.3f)
+            {
+                Player.ChangeState(PlayerState.JumpLand);
+            }
+            else
+            {
+                Player.ChangeState(PlayerState.JumpAttackLanding);
+            }
+        }
+    }
+    public override bool IsTransitioning => !Player.AimationController.GetCurrentAnimatorStateInfo(0).IsName("JumpAttack");
+
+}  
+
 public class HeavyAttackState : StateBase
 {
     public HeavyAttackState(PlayerController player) : base(player) { }
