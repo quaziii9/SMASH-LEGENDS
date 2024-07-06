@@ -452,7 +452,7 @@ public class PlayerController : NetworkBehaviour
 
     public async UniTaskVoid HangFall()
     {
-        await UniTask.Delay(TimeSpan.FromSeconds(1));
+        await UniTask.Delay(TimeSpan.FromSeconds(1.5));
 
         // 콜라이더 다시 활성화
         _collider.enabled = true;
