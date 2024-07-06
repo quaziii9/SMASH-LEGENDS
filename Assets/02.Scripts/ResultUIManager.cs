@@ -70,7 +70,7 @@ public class ResultUIManager : Singleton<ResultUIManager>
         resultCamera.SetActive(false);
         resultPlayer.SetActive(false);
         ResultUI.SetActive(false);
-
+        IsReusltUION = false;
         UIManager.Instance.LobbyUIEnable();
     }
 }
