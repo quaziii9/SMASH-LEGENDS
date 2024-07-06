@@ -6,7 +6,6 @@ using System.Collections.Generic;
 
 public class RoomManager : NetworkRoomManager
 {
-
     [SerializeField] GameObject RoomPlayer;
 
     private Vector3 startPosition1 = new Vector3(-20, 1f, 0); // 원하는 위치로 설정
@@ -16,6 +15,7 @@ public class RoomManager : NetworkRoomManager
 
     public static RoomManager Instance;
     private bool IsSceneChanging = false;  // 씬 전환 상태를 추적하는 플래그
+
     private void Awake()
     {
         if (Instance == null)
@@ -51,7 +51,6 @@ public class RoomManager : NetworkRoomManager
         return roomObj;
     }
 
-
     public override void OnRoomServerConnect(NetworkConnectionToClient conn)
     {
         base.OnRoomServerConnect(conn);
@@ -64,13 +63,22 @@ public class RoomManager : NetworkRoomManager
         base.OnRoomServerAddPlayer(conn);
     }
 
-
-
     public override void OnRoomServerPlayersReady()
     {
         if (allPlayersReady)
         {
             ServerChangeScene(GameplayScene);
+        }
+    }
+
+    public override void OnServerDisconnect(NetworkConnectionToClient conn)
+    {
+        base.OnServerDisconnect(conn);
+
+        // 호스트가 아닌 클라이언트가 나가면 호스트도 접속 해제
+        if (conn.connectionId != 0)
+        {
+            StopHost();
         }
     }
 
