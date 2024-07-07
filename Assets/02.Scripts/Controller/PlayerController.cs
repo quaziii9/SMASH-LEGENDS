@@ -427,6 +427,7 @@ public class PlayerController : NetworkBehaviour
 
     private void ApplyCustomGravity()
     {
+        if (StateController.CurrentStateInstance is HookJumpHeavyAttackState && HookJumpHeavyAttackMove == false) return;
         if (!IsGrounded)
         {
             rigidbody.AddForce(Vector3.down * StatController.gravityScale, ForceMode.Acceleration);

@@ -328,12 +328,12 @@ public class HookFinishJumpAttackState : StateBase
 public class HookJumpHeavyAttackState : StateBase
 {
     private float initialY;
+    private float riseSpeed = 1.2f; // 상승 속도
     public HookJumpHeavyAttackState(PlayerController player) : base(player) { }
 
     public override void Enter()
     {
         base.Enter();
-
         initialY = Player.transform.position.y; // 현재 Y 위치를 저장
         Player.AimationController.SetBool(Player.AimationController.IsJumpHeavyAttacking, true);
         Player.StatController.StartHeavyAttackCooldown();
@@ -361,8 +361,10 @@ public class HookJumpHeavyAttackState : StateBase
 
         if (Player.HookJumpHeavyAttackMove == false)
         {
-            // Y 위치를 고정
-            Player.transform.position = new Vector3(Player.transform.position.x, initialY, Player.transform.position.z);
+            Player.transform.position = new Vector3(
+                Player.transform.position.x,
+                Mathf.Lerp(Player.transform.position.y, initialY + riseSpeed, Time.deltaTime),
+                Player.transform.position.z);
         }
     }
 
