@@ -32,6 +32,7 @@ public class IdleState : StateBase
         Player.rigidbody.velocity = new Vector3(0, Player.rigidbody.velocity.y, 0);
         Player.AimationController.SetBool(Player.AimationController.IsIdle, true);
         Player.StateController.IsHitted = false;
+        Player.StateController.hookCanDefaultAttack = true;
         Player.CanMove = true;
         Player.CanLook = true;
         Player.isIdleJump = true;

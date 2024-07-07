@@ -51,6 +51,8 @@ public class JumpUpState : StateBase
         {
             if (Player.legendType == PlayerController.LegendType.Peter)
                 Player.ChangeState(PlayerState.JumpAttack);
+            else if (Player.legendType == PlayerController.LegendType.Hook && Player.StateController.hookCanDefaultAttack == true)
+                Player.ChangeState(PlayerState.HookFirstJumpAttack);
         }
     }
 
@@ -101,6 +103,8 @@ public class JumpDownState : StateBase
         {
             if (Player.legendType == PlayerController.LegendType.Peter)
                 Player.ChangeState(PlayerState.JumpAttack);
+            else if (Player.legendType == PlayerController.LegendType.Hook && Player.StateController.hookCanDefaultAttack == true)
+                Player.ChangeState(PlayerState.HookFirstJumpAttack);
         }
     }
 
@@ -118,6 +122,8 @@ public class JumpLandState : StateBase
         base.Enter();
         Player.AimationController.SetBool(Player.AimationController.IsLanding, true);
         Player.Land();
+        Player.CanMove = false;
+        Player.CanLook = false;
     }
 
     public override void Exit()
@@ -128,16 +134,37 @@ public class JumpLandState : StateBase
 
     public override void ExecuteOnUpdate()
     {
-        if (Player.IsGrounded)
+        AnimatorStateInfo stateInfo = Player.AimationController.GetCurrentAnimatorStateInfo(0);
+        switch (Player.legendType)
         {
-            if (Player.IsMoveInputActive)
-            {              
-                Player.ChangeState(PlayerState.Run);
-            }
-            else
-            {
-                Player.ChangeState(PlayerState.Idle);
-            }
+            case PlayerController.LegendType.Peter:
+                if (Player.IsGrounded)
+                {
+                    if (Player.IsMoveInputActive)
+                    {
+                        if (Player.IsGrounded && stateInfo.normalizedTime >= 0.6f)
+                            Player.ChangeState(PlayerState.Run);
+                    }
+                    else
+                    {
+                        Player.ChangeState(PlayerState.Idle);
+                    }
+                }
+            break;
+
+            case PlayerController.LegendType.Hook:
+
+                if (Player.IsMoveInputActive)
+                {
+                    if (Player.IsGrounded && stateInfo.normalizedTime >= 0.6f)
+                        Player.ChangeState(PlayerState.Run);
+                }
+                else
+                {
+                    if (Player.IsGrounded && stateInfo.normalizedTime >= 0.9f)
+                        Player.ChangeState(PlayerState.Idle);
+                }
+            break;
         }
     }
     public override bool IsTransitioning => !Player.AimationController.GetCurrentAnimatorStateInfo(0).IsName("JumpLand");
@@ -169,7 +196,7 @@ public class JumpAttackLandingState : StateBase
     public override void ExecuteOnUpdate()
     {
         AnimatorStateInfo stateInfo = Player.AimationController.GetCurrentAnimatorStateInfo(0);
-        if (stateInfo.IsName("JumpLightLanding") && stateInfo.normalizedTime >= 0.8f)
+        if (stateInfo.IsName("JumpLightLanding") && stateInfo.normalizedTime >= 0.6f)
         {
             if (Player.IsMoveInputActive)
             {

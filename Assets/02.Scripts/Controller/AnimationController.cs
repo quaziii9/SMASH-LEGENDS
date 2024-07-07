@@ -33,6 +33,10 @@ public class AnimationController : MonoBehaviour
     public readonly int IsHang = Animator.StringToHash("IsHang");
     public readonly int IsHangFalling = Animator.StringToHash("IsHangFalling");
 
+    public readonly int IsJumpComboAttack1 = Animator.StringToHash("IsJumpComboAttack1");
+    public readonly int IsJumpComboAttack2 = Animator.StringToHash("IsJumpComboAttack2");
+    public readonly int IsJumpComboAttack3 = Animator.StringToHash("IsJumpComboAttack3");
+
 
     private PlayerController Player;
 

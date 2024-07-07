@@ -154,3 +154,170 @@ public class HookHeavyAttackState : StateBase
 
     public override bool IsTransitioning => !Player.AimationController.GetCurrentAnimatorStateInfo(0).IsName("HeavyAttack");
 }
+
+
+
+
+public class HookFirstJumpAttackState : StateBase
+{
+    public HookFirstJumpAttackState(PlayerController player) : base(player) { }
+
+    public override void Enter()
+    {
+        base.Enter();
+        AttackController.attackMoveDistance = -.5f;
+        AttackController.attackMoveDuration = 0.1f;
+        Player.StateController.hookCanDefaultAttack = false;
+        Player.rigidbody.velocity = new Vector3(0, 5f, 0);
+
+        Player.AimationController.SetBool(Player.AimationController.IsJumpComboAttack1, true);
+        AttackController.StartAttackMove();
+        Player.CanMove = false;
+        Player.CanLook = false;
+        Player.CanChange = false;
+        Player.rigidbody.useGravity = false;
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        Player.AimationController.SetBool(Player.AimationController.IsJumpComboAttack1, false);
+        Player.rigidbody.useGravity = true;
+    }
+
+    public override void ExecuteOnUpdate()
+    {
+        // Attack animation finished
+        AnimatorStateInfo stateInfo = Player.AimationController.GetCurrentAnimatorStateInfo(0);
+
+        if(stateInfo.IsName("JumpAttackCombo1") && stateInfo.normalizedTime >=0.9f)
+        {
+            if(Player.IsGrounded)
+            {
+                Player.ChangeState(PlayerState.JumpAttackLanding);
+            }
+            else
+            {
+                Player.ChangeState(PlayerState.JumpDown);
+            }
+        }
+       // Player.rigidbody.velocity = new Vector3(Player.rigidbody.velocity.x, Player.rigidbody.velocity.y * 0.8f, Player.rigidbody.velocity.z);
+    }
+
+    public override void OnInputCallback(InputAction.CallbackContext context)
+    {
+        if (context.action.name == "DefaultAttack" && context.performed)
+        {
+            Player.ChangeState(PlayerState.HookSecondJumpAttack);
+        }
+
+    }
+
+    public override bool IsTransitioning => !Player.AimationController.GetCurrentAnimatorStateInfo(0).IsName("JumpAttackCombo1");
+}
+
+public class HookSecondJumpAttackState : StateBase
+{
+    public HookSecondJumpAttackState(PlayerController player) : base(player) { }
+
+
+    public override void Enter()
+    {
+        base.Enter();
+        AttackController.attackMoveDistance = -.5f;
+        AttackController.attackMoveDuration = 0.1f;
+        Player.rigidbody.velocity = new Vector3(0, 5f, 0);
+
+        Player.AimationController.SetBool(Player.AimationController.IsJumpComboAttack2, true);
+        AttackController.StartAttackMove();
+        Player.CanMove = false;
+        Player.CanLook = false;
+        Player.CanChange = false;
+        Player.rigidbody.useGravity = false;
+
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        Player.AimationController.SetBool(Player.AimationController.IsJumpComboAttack2, false);
+        Player.rigidbody.useGravity = true;
+    }
+
+    public override void ExecuteOnUpdate()
+    {
+        // Attack animation finished
+        AnimatorStateInfo stateInfo = Player.AimationController.GetCurrentAnimatorStateInfo(0);
+
+        if (stateInfo.IsName("JumpAttackCombo2") && stateInfo.normalizedTime >= 0.9f)
+        {
+            if (Player.IsGrounded)
+            {
+                Player.ChangeState(PlayerState.JumpAttackLanding);
+            }
+            else
+            {
+                Player.ChangeState(PlayerState.JumpDown);
+            }
+        }
+       // Player.rigidbody.velocity = new Vector3(Player.rigidbody.velocity.x, Player.rigidbody.velocity.y * 0.8f, Player.rigidbody.velocity.z);
+    }
+
+    public override void OnInputCallback(InputAction.CallbackContext context)
+    {
+        if (context.action.name == "DefaultAttack" && context.performed && Player.CanChange)
+        {
+            Player.ChangeState(PlayerState.HookFinsihJumpAttack);
+        }
+    }
+
+    public override bool IsTransitioning => !Player.AimationController.GetCurrentAnimatorStateInfo(0).IsName("JumpAttackCombo2");
+}
+
+public class HookFinishJumpAttackState : StateBase
+{
+    public HookFinishJumpAttackState(PlayerController player) : base(player) { }
+
+    public override void Enter()
+    {
+        base.Enter();
+        AttackController.attackMoveDistance = -.5f;
+        AttackController.attackMoveDuration = 0.1f;
+        Player.rigidbody.velocity = new Vector3(0, 5f, 0);
+        Player.AimationController.SetBool(Player.AimationController.IsJumpComboAttack3, true);
+        AttackController.StartAttackMove();
+        Player.CanMove = false;
+        Player.CanLook = false;
+        Player.CanChange = false;
+        Player.rigidbody.useGravity = false;
+
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        Player.AimationController.SetBool(Player.AimationController.IsJumpComboAttack3, false);
+        Player.rigidbody.useGravity = true;
+    }
+
+    public override void ExecuteOnUpdate()
+    {
+        // Attack animation finished
+        AnimatorStateInfo stateInfo = Player.AimationController.GetCurrentAnimatorStateInfo(0);
+
+        if (stateInfo.IsName("JumpAttackCombo3") && stateInfo.normalizedTime >= 0.9f)
+        {
+            if (Player.IsGrounded)
+            {
+                Player.ChangeState(PlayerState.JumpAttackLanding);
+            }
+            else
+            {
+                Player.ChangeState(PlayerState.JumpDown);
+            }
+        }
+        //Player.rigidbody.velocity = new Vector3(Player.rigidbody.velocity.x, Player.rigidbody.velocity.y * 0.8f, Player.rigidbody.velocity.z);
+    }
+
+    public override bool IsTransitioning => !Player.AimationController.GetCurrentAnimatorStateInfo(0).IsName("JumpAttackCombo3");
+}

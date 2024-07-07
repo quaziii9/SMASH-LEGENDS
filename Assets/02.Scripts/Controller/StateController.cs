@@ -52,6 +52,8 @@ public class StateController : NetworkBehaviour
     [SyncVar(hook = nameof(OnInvincibleChanged))] public bool IsInvincible;
     [SyncVar] public bool PositionSet;
     public bool IsHitted;
+
+    public bool hookCanDefaultAttack;
  
     public void Initialize(PlayerController playerController, AttackController attackController)
     {
@@ -155,12 +157,14 @@ public class StateController : NetworkBehaviour
                 return new HookSecondAttackState(_playerController);
             case PlayerState.HookHeavyAttack:
                 return new HookHeavyAttackState(_playerController);
+
             case PlayerState.HookFirstJumpAttack:
-                //return new JumpAttackState(_playerController);
+                return new HookFirstJumpAttackState(_playerController);
             case PlayerState.HookSecondJumpAttack:
-                //return new JumpHeavyAttackState(_playerController);
+                return new HookSecondJumpAttackState(_playerController);
             case PlayerState.HookFinsihJumpAttack:
-                //return new SkillAttackState(_playerController);
+                return new HookFinishJumpAttackState(_playerController);
+
             case PlayerState.HookJumpHeavyAttack:
                 //return new JumpHeavyAttackState(_playerController);
             case PlayerState.HookSkillAttack:
