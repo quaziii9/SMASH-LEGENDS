@@ -352,7 +352,7 @@ public class PlayerController : NetworkBehaviour
             return;
         }
 
-        if(StateController.CurrentStateInstance is HookSecondAttackState)
+        if(StateController.CurrentStateInstance is HookSecondAttackState || StateController.CurrentStateInstance is HookHeavyAttackState)
         {
             AttackController.HandleHookAttackMove();
             return;

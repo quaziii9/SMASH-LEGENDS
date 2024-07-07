@@ -62,10 +62,9 @@ public class HookSecondAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        AttackController.attackMoveDistance = -.6f;
+        AttackController.attackMoveDistance = -.5f;
         AttackController.attackMoveDuration = 0.1f;
         Player.AimationController.SetBool(Player.AimationController.IsComboAttack2, true);
-        //AttackController.StartAttackMove();
         Player.CanMove = false;
         Player.CanLook = false;
         Player.CanChange = false;
@@ -112,14 +111,11 @@ public class HookHeavyAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        AttackController.attackMoveDistance = 1.5f;
-        AttackController.attackMoveDuration = 0.3f;
+        AttackController.attackMoveDistance = -.7f;
+        AttackController.attackMoveDuration = 0.1f;
         Player.AimationController.SetBool(Player.AimationController.IsHeavyAttacking, true);
         Player.StatController.StartHeavyAttackCooldown();
         Player.StatController.StartCooldownTimer().Forget();
-
-        AttackController.StartAttackMove();
-
         Player.CanMove = false;
         Player.CanLook = false;
         Player.CanChange = false;

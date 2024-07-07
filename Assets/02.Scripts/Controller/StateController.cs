@@ -154,7 +154,7 @@ public class StateController : NetworkBehaviour
             case PlayerState.HookSecondAttack:
                 return new HookSecondAttackState(_playerController);
             case PlayerState.HookHeavyAttack:
-                //return new HeavyAttackState(_playerController);
+                return new HookHeavyAttackState(_playerController);
             case PlayerState.HookFirstJumpAttack:
                 //return new JumpAttackState(_playerController);
             case PlayerState.HookSecondJumpAttack:

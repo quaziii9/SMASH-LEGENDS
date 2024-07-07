@@ -67,6 +67,7 @@ public class StatController : NetworkBehaviour
                 defaultAttackDamage = 600;
                 heavyAttackDamage = 900;
                 skillAttackDamage = 1500;
+                heavyAttackCoolTime = 4f;
                 break;
             case PlayerController.LegendType.Hook:
                 maxSkillGuage = 1080;
@@ -77,6 +78,7 @@ public class StatController : NetworkBehaviour
                 defaultAttackDamage = 700;
                 heavyAttackDamage = 900;
                 skillAttackDamage = 50;
+                heavyAttackCoolTime = 5f;
                 break;
         }
     }
