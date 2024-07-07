@@ -32,6 +32,7 @@ namespace EnumTypes
     {
         playerDie,
         StartSkillGaugeIncrease,
+        SetIcon,
     }
 
     public enum IngameEvents

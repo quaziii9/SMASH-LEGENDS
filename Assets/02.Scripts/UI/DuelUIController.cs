@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+using EnumTypes;
+using EventLibrary;
+
 public class DuelUIController : MonoBehaviour
 {
     public static DuelUIController Instance { get; private set; }
@@ -36,6 +39,18 @@ public class DuelUIController : MonoBehaviour
 
     public TextMeshProUGUI GameTime;
 
+    [SerializeField] private Sprite PeterZIconImage;
+    [SerializeField] private Sprite PeterXIconImage;
+    [SerializeField] private Sprite PeterCIconImage;
+
+    [SerializeField] private Sprite HookZIconImage;
+    [SerializeField] private Sprite HookXIconImage;
+    [SerializeField] private Sprite HookCIconImage;
+
+    [SerializeField] private Image ZIconImage;
+    [SerializeField] private Image XIconImage;
+    [SerializeField] private Image CIconImage;
+
 
     private void Awake()
     {
@@ -47,12 +62,40 @@ public class DuelUIController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        EventManager<GameEvents>.StartListening<object>(GameEvents.SetIcon, SetIcon);
     }
 
     public void Start()
     {
         StartActive().Forget();
         HeavyAttackText = HeavyAttackTextObject.GetComponent<TextMeshProUGUI>();
+
+        
+    }
+
+    public void SetIcon(object LegendType)
+    {
+        string legendTypeString = LegendType as string;
+        if (legendTypeString == null)
+        {
+            Debug.LogError("Invalid LegendType parameter");
+            return;
+        }
+
+        Debug.Log("?");
+        switch (legendTypeString)
+        {
+            case "Peter":
+                ZIconImage.sprite = PeterZIconImage;
+                XIconImage.sprite = PeterXIconImage;
+                CIconImage.sprite = PeterCIconImage;
+                break;
+            case "Hook":
+                ZIconImage.sprite = HookZIconImage;
+                XIconImage.sprite = HookXIconImage;
+                CIconImage.sprite = HookCIconImage;
+                break;
+        }
     }
 
     public void UpdateHealthBar(int currentHp, int maxHp, bool isHost)

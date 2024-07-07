@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks;
 using System.Threading;
 using Unity.Mathematics;
+using EventLibrary;
+using EnumTypes;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -111,6 +113,17 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
+    private void Start()
+    {
+        if (isLocalPlayer)
+        {
+            StateController.ChangeState(PlayerState.Idle);
+            string legendTypeString = legendType.ToString();
+            EventManager<GameEvents>.TriggerEvent<object>(GameEvents.SetIcon, legendTypeString);
+        }
+        CanChange = true;
+    }
+
     public override void OnStartServer()
     {
         base.OnStartServer();
@@ -125,15 +138,7 @@ public class PlayerController : NetworkBehaviour
         IsHost = conn != null && conn == NetworkServer.localConnection;
     }
 
-    private void Start()
-    {
-        if (isLocalPlayer)
-        {
-            StateController.ChangeState(PlayerState.Idle);
-        }
-        CanChange = true;
 
-    }
 
 
 

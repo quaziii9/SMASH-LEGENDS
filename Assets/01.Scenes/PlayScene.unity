@@ -3379,6 +3379,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2056921913445871395, guid: 14719dd5001ab5d41af1a908e9c734e6, type: 3}
+      propertyPath: m_Name
+      value: CIconImage
+      objectReference: {fileID: 0}
+    - target: {fileID: 2905711718627508136, guid: 14719dd5001ab5d41af1a908e9c734e6, type: 3}
+      propertyPath: ZIconImage
+      value: 
+      objectReference: {fileID: 826233593}
+    - target: {fileID: 2905711718627508136, guid: 14719dd5001ab5d41af1a908e9c734e6, type: 3}
+      propertyPath: HeavyAttackTextObject
+      value: 
+      objectReference: {fileID: 826233592}
     - target: {fileID: 5864969055704054704, guid: 14719dd5001ab5d41af1a908e9c734e6, type: 3}
       propertyPath: m_Name
       value: UI_DuelModePopup
@@ -3402,6 +3414,22 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 566814598769994313, guid: 14719dd5001ab5d41af1a908e9c734e6, type: 3}
   m_PrefabInstance: {fileID: 826233589}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &826233592 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3656659951048848226, guid: 14719dd5001ab5d41af1a908e9c734e6, type: 3}
+  m_PrefabInstance: {fileID: 826233589}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &826233593 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4220554709219232793, guid: 14719dd5001ab5d41af1a908e9c734e6, type: 3}
+  m_PrefabInstance: {fileID: 826233589}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &862427038
 GameObject:
   m_ObjectHideFlags: 0
