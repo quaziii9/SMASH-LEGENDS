@@ -235,8 +235,8 @@ public class StatController : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            float increaseRate = 10f; // 초당 증가율
-            float updateInterval = 1f; // 1초 간격으로 업데이트
+            float increaseRate = 2f; // 초당 증가율
+            float updateInterval = .2f; // 1초 간격으로 업데이트
 
             while (currentSkillGauge < maxSkillGuage)
             {
