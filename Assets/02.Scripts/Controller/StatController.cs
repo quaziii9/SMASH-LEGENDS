@@ -34,7 +34,7 @@ public class StatController : NetworkBehaviour
     [SyncVar(hook = nameof(OnHeavyAttackCoolTimeChanged))] public float currentHeavyAttackCoolTime = 0f;
 
     [Header("SkillGage")]
-    public float maxSkillGuage = 30;
+    [SerializeField] public float maxSkillGuage = 30;
     public float currentSkillGauge = 0;
     [SyncVar] public int AddSkillGuage = 0;
     [SyncVar] public bool CanSkillAttack = false;
@@ -48,11 +48,37 @@ public class StatController : NetworkBehaviour
 
     private void Awake()
     {
-        currentHp = maxHp;
         playerController = GetComponent<PlayerController>();
         effectController = GetComponent<EffectController>();
         stateController = GetComponent<StateController>();
         EventManager<GameEvents>.StartListening(GameEvents.StartSkillGaugeIncrease, () => StartSkillGaugeIncrease().Forget());
+    }
+
+    public void Start()
+    {
+        switch(playerController.legendType)
+        {
+            case PlayerController.LegendType.Peter:
+                maxSkillGuage = 1600;
+                maxHp = 4000;
+                currentHp = maxHp;
+                moveSpeed = 5.4f;
+                jumpForce = 14.28f;
+                defaultAttackDamage = 600;
+                heavyAttackDamage = 900;
+                skillAttackDamage = 1500;
+                break;
+            case PlayerController.LegendType.Hook:
+                maxSkillGuage = 1080;
+                maxHp = 3300;
+                currentHp = maxHp;
+                moveSpeed = 5.6f;
+                jumpForce = 14.7f;
+                defaultAttackDamage = 700;
+                heavyAttackDamage = 900;
+                skillAttackDamage = 50;
+                break;
+        }
     }
 
     private void OnDestroy()
@@ -209,8 +235,8 @@ public class StatController : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            float increaseRate = .2f; // 초당 증가율
-            float updateInterval = .2f; // 1초 간격으로 업데이트
+            float increaseRate = 10f; // 초당 증가율
+            float updateInterval = 1f; // 1초 간격으로 업데이트
 
             while (currentSkillGauge < maxSkillGuage)
             {

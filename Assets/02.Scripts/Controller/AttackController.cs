@@ -38,33 +38,46 @@ public class AttackController : NetworkBehaviour
 
     public void HandleAttack(PlayerState state)
     {
-        switch (state)
+        if(player.legendType ==  PlayerController.LegendType.Peter)
         {
-            case PlayerState.FirstAttack:
-            case PlayerState.HookFirstAttack:
-                SetAttackValues(statController.defaultAttackDamage / 3, statController.defaultKnockBackPower, player.transform.up * 0.5f, HitType.Hit, false);
-                break;
-            case PlayerState.SecondAttack:
-                SetAttackValues(statController.defaultAttackDamage / 6, statController.defaultKnockBackPower, player.transform.up * 0.5f, HitType.Hit, false);
-                break;
-            case PlayerState.FinishAttack:
-            case PlayerState.HookSecondAttack:
-                SetAttackValues(statController.defaultAttackDamage / 3, statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp, true);
-                break;
-            case PlayerState.JumpAttack:
-                SetAttackValues((int)(statController.defaultAttackDamage * 0.6f), statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp, false);
-                break;
-            case PlayerState.HeavyAttack:
-                SetAttackValues(statController.heavyAttackDamage, statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp, true);
-                break;
-            case PlayerState.JumpHeavyAttackLanding:
-            case PlayerState.JumpHeavyAttack:
-                SetAttackValues(statController.heavyAttackDamage / 3 * 2, statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp, true);
-                break;
-            case PlayerState.SkillAttack:
-                SetAttackValues((statController.skillAttackDamage - 500) / 5, statController.defaultKnockBackPower, player.transform.up, HitType.Hit, false);
-                break;
+            switch (state)
+            {
+                case PlayerState.FirstAttack:
+                    SetAttackValues(statController.defaultAttackDamage / 3, statController.defaultKnockBackPower, player.transform.up * 0.5f, HitType.Hit, false);
+                    break;
+                case PlayerState.SecondAttack:
+                    SetAttackValues(statController.defaultAttackDamage / 6, statController.defaultKnockBackPower, player.transform.up * 0.5f, HitType.Hit, false);
+                    break;
+                case PlayerState.FinishAttack:
+                case PlayerState.HookSecondAttack:
+                    SetAttackValues(statController.defaultAttackDamage / 3, statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp, true);
+                    break;
+                case PlayerState.JumpAttack:
+                    SetAttackValues((int)(statController.defaultAttackDamage * 0.6f), statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp, false);
+                    break;
+                case PlayerState.HeavyAttack:
+                    SetAttackValues(statController.heavyAttackDamage, statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp, true);
+                    break;
+                case PlayerState.JumpHeavyAttackLanding:
+                case PlayerState.JumpHeavyAttack:
+                    SetAttackValues(statController.heavyAttackDamage / 3 * 2, statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp, true);
+                    break;
+                case PlayerState.SkillAttack:
+                    SetAttackValues((statController.skillAttackDamage - 500) / 5, statController.defaultKnockBackPower, player.transform.up, HitType.Hit, false);
+                    break;
+            }
         }
+        //else if(player.legendType == PlayerController.LegendType.Hook)
+        //{
+        //    switch(state)
+        //    {
+        //        case PlayerState.HookFirstAttack:
+        //            SetAttackValues(statController.defaultAttackDamage - , statController.defaultKnockBackPower, player.transform.up * 0.5f, HitType.Hit, false);
+
+        //            break;
+        //    }
+             
+        //}
     }
 
     private void SetAttackValues(int damage, float knockBackPower, Vector3 knockBackDirection, HitType hitType, bool plusAddForce)

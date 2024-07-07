@@ -94,6 +94,16 @@ public class PlayerController : NetworkBehaviour
         {
             Debug.LogError("StatController component is missing on this GameObject.");
         }
+
+
+        if (gameObject.name.Contains("Peter"))
+        {
+            legendType = LegendType.Peter;
+        }
+        else if (gameObject.name.Contains("Hook"))
+        {
+            legendType = LegendType.Hook;
+        }
     }
 
     public override void OnStartServer()
@@ -118,14 +128,6 @@ public class PlayerController : NetworkBehaviour
         }
         CanChange = true;
 
-        if (gameObject.name.Contains("Peter"))
-        {
-            legendType = LegendType.Peter;
-        }
-        else if (gameObject.name.Contains("Hook"))
-        {
-            legendType = LegendType.Hook;
-        }
     }
 
 
