@@ -12,7 +12,7 @@ public class HookEffectController : EffectController
 
     public void EnableSkillOnEffect()
     {
-        _effects[(int)EffectName.SkillOn].SetActive(true);
+        //_effects[(int)EffectName.SkillOn].SetActive(true);
     }
 
     public void DisableSkillOnEffect() => _effects[(int)EffectName.SkillOn].SetActive(false);

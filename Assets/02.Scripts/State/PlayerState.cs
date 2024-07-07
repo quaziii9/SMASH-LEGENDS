@@ -628,6 +628,7 @@ public class HangState : StateBase
         base.Enter();
         Player.StateController.IsHitted = false;
         Player.AimationController.SetBool(Player.AimationController.IsHang, true);
+        Player.rigidbody.velocity = Vector3.zero;
         Player.CanMove = false;
         Player.CanLook = false;
         Player.rigidbody.useGravity = false;

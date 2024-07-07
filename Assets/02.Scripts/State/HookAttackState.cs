@@ -328,13 +328,15 @@ public class HookFinishJumpAttackState : StateBase
 public class HookJumpHeavyAttackState : StateBase
 {
     private float initialY;
-    private float riseSpeed = 1.18f; // 상승 속도
+    private float riseSpeed = 1; // 상승 속도
     public HookJumpHeavyAttackState(PlayerController player) : base(player) { }
 
     public override void Enter()
     {
         base.Enter();
         initialY = Player.transform.position.y; // 현재 Y 위치를 저장
+        Player.rigidbody.velocity = Vector3.zero;
+
         Player.AimationController.SetBool(Player.AimationController.IsJumpHeavyAttacking, true);
         Player.StatController.StartHeavyAttackCooldown();
         Player.CanMove = false;
@@ -388,7 +390,7 @@ public class HookSkillOnkState : StateBase
         base.Enter();
         Player.AimationController.SetBool(Player.AimationController.IsSkillAttack, true);
         Player.StatController.StartSkill();
-        Player.HookEffectController.EnableSkillOnEffect();
+        //Player.HookEffectController.EnableSkillOnEffect();
         Player.rigidbody.velocity = Vector3.zero;
 
         Player.CanMove = false;
