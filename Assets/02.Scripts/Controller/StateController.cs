@@ -54,6 +54,8 @@ public class StateController : NetworkBehaviour
     public bool IsHitted;
 
     public bool hookCanDefaultAttack;
+    public bool HookJumpHeavyAttackMove;
+    [SyncVar]public bool hookSkillOn;
  
     public void Initialize(PlayerController playerController, AttackController attackController)
     {
@@ -168,7 +170,7 @@ public class StateController : NetworkBehaviour
             case PlayerState.HookJumpHeavyAttack:
                 return new HookJumpHeavyAttackState(_playerController);
             case PlayerState.HookSkillAttack:
-                //return new SkillAttackState(_playerController);
+                return new HookSkillOnkState(_playerController);
 
 
             default:
@@ -198,5 +200,16 @@ public class StateController : NetworkBehaviour
     public void PositionPlayersAsync()
     {
         PositionSet = true;
+    }
+
+
+    private async UniTaskVoid StartGameTimer()
+    {
+        float delayInSeconds = _playerController.StatController.HookSkillTime; // Assuming HookSkillTime is a float representing seconds
+        TimeSpan delay = TimeSpan.FromSeconds(delayInSeconds);
+        await UniTask.Delay(delay);
+        _playerController.HookEffectController.DisableSkillOnEffect();
+        _playerController.HookEffectController.EnableSkillOffEffect();
+
     }
 }

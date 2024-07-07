@@ -328,7 +328,7 @@ public class HookFinishJumpAttackState : StateBase
 public class HookJumpHeavyAttackState : StateBase
 {
     private float initialY;
-    private float riseSpeed = 1.2f; // 상승 속도
+    private float riseSpeed = 1.18f; // 상승 속도
     public HookJumpHeavyAttackState(PlayerController player) : base(player) { }
 
     public override void Enter()
@@ -340,7 +340,7 @@ public class HookJumpHeavyAttackState : StateBase
         Player.CanMove = false;
         Player.CanLook = false;
         Player.rigidbody.useGravity = false;
-        Player.HookJumpHeavyAttackMove = false;
+        Player.StateController.HookJumpHeavyAttackMove = false;
     }
 
     public override void Exit()
@@ -359,7 +359,7 @@ public class HookJumpHeavyAttackState : StateBase
             Player.ChangeState(PlayerState.JumpDown);
         }
 
-        if (Player.HookJumpHeavyAttackMove == false)
+        if (Player.StateController.HookJumpHeavyAttackMove == false)
         {
             Player.transform.position = new Vector3(
                 Player.transform.position.x,
@@ -387,15 +387,20 @@ public class HookSkillOnkState : StateBase
     {
         base.Enter();
         Player.AimationController.SetBool(Player.AimationController.IsSkillAttack, true);
+        Player.StatController.StartSkill();
+        Player.HookEffectController.EnableSkillOnEffect();
+        Player.rigidbody.velocity = Vector3.zero;
+
         Player.CanMove = false;
         Player.CanLook = false;
+        Player.StateController.hookSkillOn = true;
     }
 
     public override void Exit()
     {
         base.Exit();
         Player.AimationController.SetBool(Player.AimationController.IsSkillAttack, false);
-        //EventManager<GameEvents>.TriggerEvent(GameEvents.StartSkillGaugeIncrease);
+        EventManager<GameEvents>.TriggerEvent(GameEvents.StartSkillGaugeIncrease);
     }
 
     public override void ExecuteOnUpdate()

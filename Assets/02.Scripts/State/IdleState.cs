@@ -81,6 +81,8 @@ public class IdleState : StateBase
             {
                 if (Player.legendType == PlayerController.LegendType.Peter)
                     Player.ChangeState(PlayerState.SkillAttack);
+                else if (Player.legendType == PlayerController.LegendType.Hook)
+                    Player.ChangeState(PlayerState.HookSkillAttack);
                 return;
             }
         }
@@ -117,6 +119,8 @@ public class IdleState : StateBase
         {
             if (Player.legendType == PlayerController.LegendType.Peter)
                 Player.ChangeState(PlayerState.SkillAttack);
+            else if (Player.legendType == PlayerController.LegendType.Hook)
+                Player.ChangeState(PlayerState.HookSkillAttack);
         }
     }
 

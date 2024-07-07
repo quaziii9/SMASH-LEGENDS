@@ -271,6 +271,8 @@ public class RunState : StateBase
         {
             if (Player.legendType == PlayerController.LegendType.Peter)
                 Player.ChangeState(PlayerState.SkillAttack);
+            else if (Player.legendType == PlayerController.LegendType.Hook)
+                Player.ChangeState(PlayerState.HookSkillAttack);
         }
     }
     public override bool IsTransitioning => !Player.AimationController.GetCurrentAnimatorStateInfo(0).IsName("Run");
@@ -671,6 +673,8 @@ public class HangFallState : StateBase
     {
         base.Enter();
         Player.AimationController.SetBool(Player.AimationController.IsHangFalling, true);
+        Player.rigidbody.velocity = Vector3.zero;
+        Debug.Log(Player.rigidbody.velocity.y);
         Player.HangFall().Forget();
     }
 

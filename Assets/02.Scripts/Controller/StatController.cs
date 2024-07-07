@@ -46,6 +46,9 @@ public class StatController : NetworkBehaviour
 
     public bool PlayerDie;
 
+
+    public float HookSkillTime;
+
     private void Awake()
     {
         playerController = GetComponent<PlayerController>();
@@ -70,7 +73,7 @@ public class StatController : NetworkBehaviour
                 heavyAttackCoolTime = 4f;
                 break;
             case PlayerController.LegendType.Hook:
-                maxSkillGuage = 1080;
+                maxSkillGuage = 100;
                 maxHp = 3300;
                 currentHp = maxHp;
                 moveSpeed = 5.6f;
@@ -79,6 +82,7 @@ public class StatController : NetworkBehaviour
                 heavyAttackDamage = 900;
                 skillAttackDamage = 50;
                 heavyAttackCoolTime = 5f;
+                HookSkillTime = 9.3f;
                 break;
         }
     }

@@ -18,6 +18,9 @@ public class PlayerController : NetworkBehaviour
     public StateController StateController { get; set; }
     public EffectController EffectController { get; set; }
 
+    public HookEffectController HookEffectController { get; set; }
+
+
     public Vector3 moveDirection;
     public Rigidbody rigidbody;
     public Collider _collider;
@@ -55,7 +58,6 @@ public class PlayerController : NetworkBehaviour
     [SyncVar] public bool IsHost;
 
 
-    public bool HookJumpHeavyAttackMove;
 
     private void OnEnable()
     {
@@ -74,6 +76,7 @@ public class PlayerController : NetworkBehaviour
         AttackController = GetComponent<AttackController>();
         StateController = GetComponent<StateController>();
         StatController = GetComponent<StatController>();
+        HookEffectController = GetComponent<HookEffectController>();
 
         if (AttackController != null)
         {
@@ -427,7 +430,7 @@ public class PlayerController : NetworkBehaviour
 
     private void ApplyCustomGravity()
     {
-        if (StateController.CurrentStateInstance is HookJumpHeavyAttackState && HookJumpHeavyAttackMove == false) return;
+        if (StateController.CurrentStateInstance is HookJumpHeavyAttackState && StateController.HookJumpHeavyAttackMove == false) return;
         if (!IsGrounded)
         {
             rigidbody.AddForce(Vector3.down * StatController.gravityScale, ForceMode.Acceleration);
@@ -481,7 +484,7 @@ public class PlayerController : NetworkBehaviour
 
     public async UniTaskVoid HangFall()
     {
-        await UniTask.Delay(TimeSpan.FromSeconds(1));
+        await UniTask.Delay(TimeSpan.FromSeconds(.8f));
 
         // 콜라이더 다시 활성화
         _collider.enabled = true;

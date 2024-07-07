@@ -100,7 +100,7 @@ public class AnimationController : MonoBehaviour
     {
         _attackController.attackMoveDistance = -2f;
         _attackController.attackMoveDuration = 0.3f;
-        Player.HookJumpHeavyAttackMove = true; // 중력과 이동을 활성화
+        Player.StateController.HookJumpHeavyAttackMove = true; // 중력과 이동을 활성화
         Player.rigidbody.velocity = new Vector3(0, Player.StatController.jumpForce * 0.8f, 0); // Y축 속도 설정
         Player.AttackController.StartAttackMove();
     }
