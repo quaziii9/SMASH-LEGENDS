@@ -277,6 +277,7 @@ public class StatController : NetworkBehaviour
 
     public void SkillGaugeAdd(int addGauge)
     {
+            Debug.Log("?");
         if(isLocalPlayer)
         {
             currentSkillGauge += addGauge;
