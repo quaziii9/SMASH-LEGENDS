@@ -166,7 +166,7 @@ public class StateController : NetworkBehaviour
                 return new HookFinishJumpAttackState(_playerController);
 
             case PlayerState.HookJumpHeavyAttack:
-                //return new JumpHeavyAttackState(_playerController);
+                return new HookJumpHeavyAttackState(_playerController);
             case PlayerState.HookSkillAttack:
                 //return new SkillAttackState(_playerController);
 

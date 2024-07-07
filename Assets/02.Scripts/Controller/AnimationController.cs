@@ -96,6 +96,16 @@ public class AnimationController : MonoBehaviour
         Player.CanLook = true;
     }
 
+    public void HookJumpHeavyAttackAnimationEvent()
+    {
+        _attackController.attackMoveDistance = -2.5f;
+        _attackController.attackMoveDuration = 0.3f;
+        Player.HookJumpHeavyAttackMove = true; // 중력과 이동을 활성화
+        Player.rigidbody.velocity = new Vector3(0, Player.StatController.jumpForce, 0); // Y축 속도 설정
+        Player.AttackController.StartAttackMove();
+    }
+
+
     private void EnableAttackHitZone() => _attackHitZone.SetActive(true);
     private void DisableAttackHitZone() => _attackHitZone.SetActive(false);
 

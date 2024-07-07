@@ -46,6 +46,8 @@ public class JumpUpState : StateBase
         {
             if (Player.legendType == PlayerController.LegendType.Peter)
                 Player.ChangeState(PlayerState.JumpHeavyAttack);
+            else if (Player.legendType == PlayerController.LegendType.Hook)
+                Player.ChangeState(PlayerState.HookJumpHeavyAttack);
         }
         else if (context.action.name == "DefaultAttack" && context.performed)
         {
@@ -98,6 +100,8 @@ public class JumpDownState : StateBase
         {
             if (Player.legendType == PlayerController.LegendType.Peter)
                 Player.ChangeState(PlayerState.JumpHeavyAttack);
+            else if (Player.legendType == PlayerController.LegendType.Hook)
+                Player.ChangeState(PlayerState.HookJumpHeavyAttack);
         }
         else if (context.action.name == "DefaultAttack" && context.performed && Player.IsGrounded == false)
         {

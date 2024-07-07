@@ -55,6 +55,8 @@ public class PlayerController : NetworkBehaviour
     [SyncVar] public bool IsHost;
 
 
+    public bool HookJumpHeavyAttackMove;
+
     private void OnEnable()
     {
         if (EffectController != null)
@@ -353,7 +355,8 @@ public class PlayerController : NetworkBehaviour
         }
 
         if(StateController.CurrentStateInstance is HookSecondAttackState || StateController.CurrentStateInstance is HookHeavyAttackState || 
-            StateController.CurrentStateInstance is HookFirstJumpAttackState || StateController.CurrentStateInstance is HookSecondJumpAttackState || StateController.CurrentStateInstance is HookFinishJumpAttackState)
+            StateController.CurrentStateInstance is HookFirstJumpAttackState || StateController.CurrentStateInstance is HookSecondJumpAttackState || 
+            StateController.CurrentStateInstance is HookFinishJumpAttackState || StateController.CurrentStateInstance is HookJumpHeavyAttackState)
         {
             AttackController.HandleHookAttackMove();
             return;

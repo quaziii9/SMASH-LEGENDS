@@ -323,3 +323,56 @@ public class HookFinishJumpAttackState : StateBase
 
     public override bool IsTransitioning => !Player.AimationController.GetCurrentAnimatorStateInfo(0).IsName("JumpAttackCombo3");
 }
+
+
+public class HookJumpHeavyAttackState : StateBase
+{
+    private float initialY;
+    public HookJumpHeavyAttackState(PlayerController player) : base(player) { }
+
+    public override void Enter()
+    {
+        base.Enter();
+
+        initialY = Player.transform.position.y; // 현재 Y 위치를 저장
+        Player.AimationController.SetBool(Player.AimationController.IsJumpHeavyAttacking, true);
+        Player.StatController.StartHeavyAttackCooldown();
+        Player.CanMove = false;
+        Player.CanLook = false;
+        Player.rigidbody.useGravity = false;
+        Player.HookJumpHeavyAttackMove = false;
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        Player.StatController.StartCooldownTimer().Forget();
+        Player.AimationController.SetBool(Player.AimationController.IsJumpHeavyAttacking, false);
+        Player.rigidbody.useGravity = true; // 중력 활성화
+    }
+
+    public override void ExecuteOnUpdate()
+    {
+        AnimatorStateInfo stateInfo = Player.AimationController.GetCurrentAnimatorStateInfo(0);
+        if (stateInfo.normalizedTime >= 0.9f)
+        {
+            Player.ChangeState(PlayerState.JumpDown);
+        }
+
+        if (Player.HookJumpHeavyAttackMove == false)
+        {
+            // Y 위치를 고정
+            Player.transform.position = new Vector3(Player.transform.position.x, initialY, Player.transform.position.z);
+        }
+    }
+
+    public override void OnInputCallback(InputAction.CallbackContext context)
+    {
+        // No specific input handling for JumpHeavyAttackState
+    }
+
+    public override bool IsTransitioning => !Player.AimationController.GetCurrentAnimatorStateInfo(0).IsName("JumpHeavyAttack");
+
+
+}
+
