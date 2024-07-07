@@ -221,6 +221,7 @@ public class RunState : StateBase
     {
         base.Enter();
         Player.AimationController.SetBool(Player.AimationController.IsRunning, true);
+        Player.StateController.hookCanDefaultAttack = true;
         Player.isIdleJump = false;
         Player.CanMove = true;
         Player.CanLook = true;

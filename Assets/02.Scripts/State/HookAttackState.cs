@@ -174,14 +174,12 @@ public class HookFirstJumpAttackState : StateBase
         Player.CanMove = false;
         Player.CanLook = false;
         Player.CanChange = false;
-        //Player.rigidbody.useGravity = false;
     }
 
     public override void Exit()
     {
         base.Exit();
         Player.AimationController.SetBool(Player.AimationController.IsJumpComboAttack1, false);
-        //Player.rigidbody.useGravity = true;
     }
 
     public override void ExecuteOnUpdate()
@@ -205,12 +203,6 @@ public class HookFirstJumpAttackState : StateBase
             if (stateInfo.IsName("JumpAttackCombo1") && stateInfo.normalizedTime >= 0.9f)
                 Player.ChangeState(PlayerState.JumpDown);
         }
-
-        //if (stateInfo.normalizedTime <= 0.5f)
-        //    Player.rigidbody.velocity = new Vector3(Player.rigidbody.velocity.x, Player.rigidbody.velocity.y * 0.6f, Player.rigidbody.velocity.z);
-        //else
-        //    Player.rigidbody.velocity = new Vector3(Player.rigidbody.velocity.x, Player.rigidbody.velocity.y, Player.rigidbody.velocity.z);
-
     }
 
     public override void OnInputCallback(InputAction.CallbackContext context)
@@ -241,15 +233,12 @@ public class HookSecondJumpAttackState : StateBase
         Player.CanMove = false;
         Player.CanLook = false;
         Player.CanChange = false;
-        //Player.rigidbody.useGravity = false;
-
     }
 
     public override void Exit()
     {
         base.Exit();
         Player.AimationController.SetBool(Player.AimationController.IsJumpComboAttack2, false);
-        //Player.rigidbody.useGravity = true;
     }
 
     public override void ExecuteOnUpdate()
@@ -273,10 +262,6 @@ public class HookSecondJumpAttackState : StateBase
             if (stateInfo.IsName("JumpAttackCombo2") && stateInfo.normalizedTime >= 0.9f)
                 Player.ChangeState(PlayerState.JumpDown);
         }
-        //if (stateInfo.normalizedTime <= 0.5f)
-        //    Player.rigidbody.velocity = new Vector3(Player.rigidbody.velocity.x, Player.rigidbody.velocity.y * 0.6f, Player.rigidbody.velocity.z);
-        //else
-        //    Player.rigidbody.velocity = new Vector3(Player.rigidbody.velocity.x, Player.rigidbody.velocity.y, Player.rigidbody.velocity.z);
     }
 
     public override void OnInputCallback(InputAction.CallbackContext context)
@@ -305,15 +290,12 @@ public class HookFinishJumpAttackState : StateBase
         Player.CanMove = false;
         Player.CanLook = false;
         Player.CanChange = false;
-        //Player.rigidbody.useGravity = false;
-
     }
 
     public override void Exit()
     {
         base.Exit();
         Player.AimationController.SetBool(Player.AimationController.IsJumpComboAttack3, false);
-        //Player.rigidbody.useGravity = true;
     }
 
     public override void ExecuteOnUpdate()
@@ -337,11 +319,6 @@ public class HookFinishJumpAttackState : StateBase
             if (stateInfo.IsName("JumpAttackCombo3") && stateInfo.normalizedTime >= 0.9f)
                 Player.ChangeState(PlayerState.JumpDown);
         }
-
-        //if (stateInfo.normalizedTime <= 0.5f)
-        //    Player.rigidbody.velocity = new Vector3(Player.rigidbody.velocity.x, Player.rigidbody.velocity.y * 0.6f, Player.rigidbody.velocity.z);
-        //else
-        //    Player.rigidbody.velocity = new Vector3(Player.rigidbody.velocity.x, Player.rigidbody.velocity.y, Player.rigidbody.velocity.z);
     }
 
     public override bool IsTransitioning => !Player.AimationController.GetCurrentAnimatorStateInfo(0).IsName("JumpAttackCombo3");
