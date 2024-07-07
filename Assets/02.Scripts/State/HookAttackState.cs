@@ -378,3 +378,50 @@ public class HookJumpHeavyAttackState : StateBase
 
 }
 
+
+public class HookSkillOnkState : StateBase
+{
+    public HookSkillOnkState(PlayerController player) : base(player) { }
+
+    public override void Enter()
+    {
+        base.Enter();
+        Player.AimationController.SetBool(Player.AimationController.IsSkillAttack, true);
+        Player.CanMove = false;
+        Player.CanLook = false;
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        Player.AimationController.SetBool(Player.AimationController.IsSkillAttack, false);
+        //EventManager<GameEvents>.TriggerEvent(GameEvents.StartSkillGaugeIncrease);
+    }
+
+    public override void ExecuteOnUpdate()
+    {
+        // 스킬 애니메이션이 끝났는지 확인
+        var animatorStateInfo = Player.AimationController.GetCurrentAnimatorStateInfo(0);
+        if (animatorStateInfo.normalizedTime >= 1.0f)
+        {
+            Player.ChangeState(PlayerState.Idle);
+        }
+
+        // CanMove가 true일 때 이동 처리
+        if (Player.CanMove && Player.IsMoveInputActive)
+        {
+            Player.ChangeState(PlayerState.Run);
+        }
+    }
+
+    public override void OnInputCallback(InputAction.CallbackContext context)
+    {
+        if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanMove)
+        {
+            Player.ChangeState(PlayerState.Run);
+        }
+    }
+
+    public override bool IsTransitioning => !Player.AimationController.GetCurrentAnimatorStateInfo(0).IsName("SkillAttack");
+}
+
