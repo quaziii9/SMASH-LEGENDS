@@ -167,9 +167,8 @@ public class HookFirstJumpAttackState : StateBase
         base.Enter();
         AttackController.attackMoveDistance = -.5f;
         AttackController.attackMoveDuration = 0.1f;
+        Player.rigidbody.velocity = new Vector3(0, 2f, 0);
         Player.StateController.hookCanDefaultAttack = false;
-        Player.rigidbody.velocity = new Vector3(0, 5f, 0);
-
         Player.AimationController.SetBool(Player.AimationController.IsJumpComboAttack1, true);
         AttackController.StartAttackMove();
         Player.CanMove = false;
@@ -201,7 +200,7 @@ public class HookFirstJumpAttackState : StateBase
                 Player.ChangeState(PlayerState.JumpDown);
             }
         }
-       // Player.rigidbody.velocity = new Vector3(Player.rigidbody.velocity.x, Player.rigidbody.velocity.y * 0.8f, Player.rigidbody.velocity.z);
+       Player.rigidbody.velocity = new Vector3(Player.rigidbody.velocity.x, Player.rigidbody.velocity.y * 0.2f, Player.rigidbody.velocity.z);
     }
 
     public override void OnInputCallback(InputAction.CallbackContext context)
@@ -226,8 +225,7 @@ public class HookSecondJumpAttackState : StateBase
         base.Enter();
         AttackController.attackMoveDistance = -.5f;
         AttackController.attackMoveDuration = 0.1f;
-        Player.rigidbody.velocity = new Vector3(0, 5f, 0);
-
+        Player.rigidbody.velocity = new Vector3(0, 2f, 0);
         Player.AimationController.SetBool(Player.AimationController.IsJumpComboAttack2, true);
         AttackController.StartAttackMove();
         Player.CanMove = false;
@@ -260,7 +258,7 @@ public class HookSecondJumpAttackState : StateBase
                 Player.ChangeState(PlayerState.JumpDown);
             }
         }
-       // Player.rigidbody.velocity = new Vector3(Player.rigidbody.velocity.x, Player.rigidbody.velocity.y * 0.8f, Player.rigidbody.velocity.z);
+       Player.rigidbody.velocity = new Vector3(Player.rigidbody.velocity.x, Player.rigidbody.velocity.y * 0.2f, Player.rigidbody.velocity.z);
     }
 
     public override void OnInputCallback(InputAction.CallbackContext context)
@@ -283,7 +281,7 @@ public class HookFinishJumpAttackState : StateBase
         base.Enter();
         AttackController.attackMoveDistance = -.5f;
         AttackController.attackMoveDuration = 0.1f;
-        Player.rigidbody.velocity = new Vector3(0, 5f, 0);
+        Player.rigidbody.velocity = new Vector3(0, 2f, 0);
         Player.AimationController.SetBool(Player.AimationController.IsJumpComboAttack3, true);
         AttackController.StartAttackMove();
         Player.CanMove = false;
@@ -316,7 +314,7 @@ public class HookFinishJumpAttackState : StateBase
                 Player.ChangeState(PlayerState.JumpDown);
             }
         }
-        //Player.rigidbody.velocity = new Vector3(Player.rigidbody.velocity.x, Player.rigidbody.velocity.y * 0.8f, Player.rigidbody.velocity.z);
+        Player.rigidbody.velocity = new Vector3(Player.rigidbody.velocity.x, Player.rigidbody.velocity.y * 0.2f, Player.rigidbody.velocity.z);
     }
 
     public override bool IsTransitioning => !Player.AimationController.GetCurrentAnimatorStateInfo(0).IsName("JumpAttackCombo3");
