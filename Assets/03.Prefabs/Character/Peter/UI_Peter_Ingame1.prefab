@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 3594310698001781983}
   - component: {fileID: 2629612822608945365}
   - component: {fileID: 1161387996490374925}
+  - component: {fileID: 7926559835466173590}
   m_Layer: 7
   m_Name: UI_Peter_Ingame1
   m_TagString: Player
@@ -204,6 +205,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  legendType: 0
   moveDirection: {x: 0, y: 0, z: 0}
   rigidbody: {fileID: 0}
   _collider: {fileID: 0}
@@ -232,6 +234,9 @@ MonoBehaviour:
   IsInvincible: 0
   PositionSet: 0
   IsHitted: 0
+  hookCanDefaultAttack: 0
+  HookJumpHeavyAttackMove: 0
+  hookSkillOn: 0
 --- !u!114 &5941034491424954480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,6 +272,7 @@ MonoBehaviour:
   CanSkillAttack: 0
   legendUI: {fileID: 861430790993020246}
   PlayerDie: 0
+  HookSkillTime: 0
 --- !u!114 &4552053168347145649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,6 +299,12 @@ MonoBehaviour:
     m_Bits: 128
   attackMoveDistance: 0
   attackMoveDuration: 0
+  movementCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!136 &3442521176497581148
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -356,13 +368,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _attackController: {fileID: 0}
-  _attackHitZone: {fileID: 818934831823670131}
-  _secondAttackHitZone: {fileID: 700776537186573744}
-  _heavyAttackHitZone: {fileID: 5293308105215086478}
-  _heavyJumpAttackHitZone: {fileID: 3847756478541978095}
-  _jumpAttackHitZone: {fileID: 6283031617930274047}
-  _skillAttackHitZone: {fileID: 4936450002685506512}
-  _heavyJumpAttackHitZoneCollider: {fileID: 0}
 --- !u!114 &3289046572970269966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -487,6 +492,25 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
+--- !u!114 &7926559835466173590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 403531385686177427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fc4361ba9ca4ae499eee11c3f587e72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _attackHitZone: {fileID: 818934831823670131}
+  _secondAttackHitZone: {fileID: 700776537186573744}
+  _heavyAttackHitZone: {fileID: 5293308105215086478}
+  _heavyJumpAttackHitZone: {fileID: 3847756478541978095}
+  _jumpAttackHitZone: {fileID: 6283031617930274047}
+  _skillAttackHitZone: {fileID: 4936450002685506512}
+  _heavyJumpAttackHitZoneCollider: {fileID: 0}
 --- !u!1 &410843555030389632
 GameObject:
   m_ObjectHideFlags: 0
