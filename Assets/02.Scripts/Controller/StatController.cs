@@ -92,8 +92,8 @@ public class StatController : NetworkBehaviour
                 skillAttackDamage = 50;
                 heavyAttackCoolTime = 5f;
                 hookSkillTime = 9.3f;
-                defaultKnockBackPower = 0.1f;
-                heavyKnockBackPower = 0.5f;
+                defaultKnockBackPower = 0.16f;
+                heavyKnockBackPower = 0.38f;
                 break;
         }
     }
@@ -288,7 +288,6 @@ public class StatController : NetworkBehaviour
 
     public void SkillGaugeAdd(int addGauge)
     {
-            Debug.Log("?");
         if(isLocalPlayer)
         {
             currentSkillGauge += addGauge;
@@ -353,7 +352,6 @@ public class StatController : NetworkBehaviour
     // HookSkillTime 비동기 메서드
     private async UniTask HookSkillTime(CancellationToken token)
     {
-        Debug.Log("?");
         int delayMilliseconds = Mathf.RoundToInt(hookSkillTime * 1000f); // 초 단위를 밀리초 단위로 변환
 
         try

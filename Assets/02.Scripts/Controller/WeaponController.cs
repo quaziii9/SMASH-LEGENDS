@@ -37,21 +37,7 @@ public class WeaponController : NetworkBehaviour
             PlayerController otherPlayerController = other.GetComponent<PlayerController>();
 
             // otherPlayerStat, otherPlayerState, otherPlayerController가 null인지 확인합니다.
-            if (otherPlayerStat == null)
-            {
-                Debug.LogError("StatController를 찾을 수 없습니다.");
-                return;
-            }
-            if (otherPlayerState == null)
-            {
-                Debug.LogError("StateController를 찾을 수 없습니다.");
-                return;
-            }
-            if (otherPlayerController == null)
-            {
-                Debug.LogError("PlayerController를 찾을 수 없습니다.");
-                return;
-            }
+            
 
             if (gameObject.name == "HeavyJumpAttackHitZone")
             {
@@ -82,6 +68,8 @@ public class WeaponController : NetworkBehaviour
             {
                 otherPlayerStat.SkillGaugeAdd(statController.AddSkillGuage / 3 * 2);
             }
+
+            gameObject.transform.parent.gameObject.SetActive(false);
         }
     }
 }

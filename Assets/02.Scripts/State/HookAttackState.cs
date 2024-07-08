@@ -167,7 +167,7 @@ public class HookFirstJumpAttackState : StateBase
     {
         base.Enter();
         AttackController.attackMoveDistance = .5f;
-        AttackController.attackMoveDuration = 0.1f;
+        AttackController.attackMoveDuration = 0.01f;
         Player.rigidbody.velocity = new Vector3(0, 2f, 0);
         Player.StateController.hookCanDefaultAttack = false;
         Player.AimationController.SetBool(Player.AimationController.IsJumpComboAttack1, true);
@@ -227,7 +227,7 @@ public class HookSecondJumpAttackState : StateBase
     {
         base.Enter();
         AttackController.attackMoveDistance = .5f;
-        AttackController.attackMoveDuration = 0.1f;
+        AttackController.attackMoveDuration = 0.01f;
         Player.rigidbody.velocity = new Vector3(0, 3f, 0);
         Player.AimationController.SetBool(Player.AimationController.IsJumpComboAttack2, true);
         AttackController.StartAttackMove();
@@ -284,7 +284,7 @@ public class HookFinishJumpAttackState : StateBase
     {
         base.Enter();
         AttackController.attackMoveDistance = .5f;
-        AttackController.attackMoveDuration = 0.1f;
+        AttackController.attackMoveDuration = 0.01f;
         Player.rigidbody.velocity = new Vector3(0, 4f, 0);
         Player.AimationController.SetBool(Player.AimationController.IsJumpComboAttack3, true);
         AttackController.StartAttackMove();

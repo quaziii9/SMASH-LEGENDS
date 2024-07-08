@@ -49,7 +49,6 @@ public class AttackController : NetworkBehaviour
                     SetAttackValues(statController.defaultAttackDamage / 6, statController.defaultKnockBackPower, player.transform.up * 0.5f, HitType.Hit, false);
                     break;
                 case PlayerState.FinishAttack:
-                case PlayerState.HookSecondAttack:
                     SetAttackValues(statController.defaultAttackDamage / 3, statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp, true);
                     break;
                 case PlayerState.JumpAttack:
@@ -74,9 +73,16 @@ public class AttackController : NetworkBehaviour
                 case PlayerState.HookFirstAttack:
                     SetAttackValues((statController.defaultAttackDamage - 100) / 4, 0, Vector3.zero , HitType.Hit, false);
                     break;
-                //case PlayerState.HookSecondAttack:
-                //    SetAttackValues((statController.defaultAttackDamage - 100) / 4 + 50, statController.defaultKnockBackPower, player.transform.up * 1.2f, HitType.Hit, false);
-                //    break;
+                case PlayerState.HookSecondAttack:
+                    SetAttackValues((statController.defaultAttackDamage - 100) / 4 + 50, 0, Vector3.zero, HitType.Hit, false);
+                    break;
+                case PlayerState.HookFirstJumpAttack:
+                case PlayerState.HookSecondJumpAttack:
+                    SetAttackValues(statController.defaultAttackDamage / 7, statController.defaultKnockBackPower * 0.2f, Vector3.up * 0.5f, HitType.Hit, false);
+                    break;
+                case PlayerState.HookFinsihJumpAttack:
+                    SetAttackValues(statController.defaultAttackDamage / 7, statController.defaultKnockBackPower, Vector3.up , HitType.Hit, false);
+                    break;
             }
         }
     }
@@ -183,7 +189,7 @@ public class AttackController : NetworkBehaviour
                 knockBackDirection.y = 1.2f;
             }
 
-            float dieKnockbackPower = 3f;
+            float dieKnockbackPower = 5f;
             player.rigidbody.velocity = Vector3.zero;
             player.rigidbody.AddForce(knockBackDirection * dieKnockbackPower, ForceMode.Impulse);
             return;
@@ -252,8 +258,8 @@ public class AttackController : NetworkBehaviour
     }
 
     public void HookSecondAttackFinish()
-    {
-
+    {  
+        SetAttackValues((statController.defaultAttackDamage - 100) / 4 + 50, statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp, true);
     }
 
 
