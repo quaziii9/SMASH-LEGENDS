@@ -5,45 +5,83 @@ public class WeaponController : NetworkBehaviour
 {
     AttackController attackController;
     StatController statController;
-    Collider Collider;
+    Collider collider;
 
     private void Start()
     {
         attackController = GetComponentInParent<AttackController>();
         statController = GetComponentInParent<StatController>();
-        Collider = GetComponent<Collider>();
+        collider = GetComponent<Collider>();
+
+        // null 검사를 추가합니다.
+        if (attackController == null)
+        {
+            Debug.LogError("AttackController를 찾을 수 없습니다.");
+        }
+        if (statController == null)
+        {
+            Debug.LogError("StatController를 찾을 수 없습니다.");
+        }
+        if (collider == null)
+        {
+            Debug.LogError("Collider를 찾을 수 없습니다.");
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            StatController otherplayer = other.GetComponent<StatController>();
-            StateController otherplayerState = other.GetComponent<StateController>();
+            StatController otherPlayerStat = other.GetComponent<StatController>();
+            StateController otherPlayerState = other.GetComponent<StateController>();
             PlayerController otherPlayerController = other.GetComponent<PlayerController>();
+
+            // otherPlayerStat, otherPlayerState, otherPlayerController가 null인지 확인합니다.
+            if (otherPlayerStat == null)
+            {
+                Debug.LogError("StatController를 찾을 수 없습니다.");
+                return;
+            }
+            if (otherPlayerState == null)
+            {
+                Debug.LogError("StateController를 찾을 수 없습니다.");
+                return;
+            }
+            if (otherPlayerController == null)
+            {
+                Debug.LogError("PlayerController를 찾을 수 없습니다.");
+                return;
+            }
 
             if (gameObject.name == "HeavyJumpAttackHitZone")
             {
-                Collider.enabled = false;
+                collider.enabled = false;
             }
 
-            if (otherplayerState.IsInvincible == true) return;
+            if (otherPlayerState.IsInvincible)
+            {
+                return;
+            }
 
             bool isHost = otherPlayerController.IsHost;
 
-            otherplayer.Hitted(
-                attackController.DamageAmount, 
-                attackController.KnockBackPower, 
-                attackController.transform.position, 
-                attackController.KnockBackDireciton, 
-                attackController.hitType, 
+            otherPlayerStat.Hitted(
+                attackController.DamageAmount,
+                attackController.KnockBackPower,
+                attackController.transform.position,
+                attackController.KnockBackDireciton,
+                attackController.hitType,
                 attackController.PlusAddForce,
                 isHost);
 
-            if(statController.currentSkillGauge < statController.maxSkillGuage)
+            if (statController.currentSkillGauge < statController.maxSkillGuage)
+            {
                 statController.SkillGaugeAdd(statController.AddSkillGuage);
-            if (otherplayer.currentSkillGauge < otherplayer.maxSkillGuage)
-                otherplayer.SkillGaugeAdd(statController.AddSkillGuage / 3 * 2);
+            }
+            if (otherPlayerStat.currentSkillGauge < otherPlayerStat.maxSkillGuage)
+            {
+                otherPlayerStat.SkillGaugeAdd(statController.AddSkillGuage / 3 * 2);
+            }
         }
     }
 }

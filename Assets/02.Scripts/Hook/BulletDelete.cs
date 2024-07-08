@@ -3,10 +3,13 @@ using UnityEngine.Pool;
 
 public class BulletDelete : MonoBehaviour
 {
-    public ObjectPool<BulletDelete> Pool { private get; set; }
+    public ObjectPool<BulletDelete> Pool { get; set; }
 
     private void OnDisable()
     {
-        Pool.Release(this);
+        if (Pool != null)
+        {
+            Pool.Release(this);
+        }
     }
 }

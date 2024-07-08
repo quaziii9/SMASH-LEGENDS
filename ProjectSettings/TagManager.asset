@@ -8,6 +8,8 @@ TagManager:
   - Weapon
   - HitZone
   - HangZone
+  - DefaultHit
+  - HeavyHit
   layers:
   - Default
   - TransparentFX
@@ -18,8 +20,8 @@ TagManager:
   - Weapon
   - Player
   - HangZone
+  - HitZone
   - UIModel
-  - 
   - 
   - 
   - 

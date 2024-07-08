@@ -2953,6 +2953,7 @@ GameObject:
   m_Component:
   - component: {fileID: 207748016204747237}
   - component: {fileID: 7785678656224988850}
+  - component: {fileID: 8054974701732626252}
   m_Layer: 0
   m_Name: HitZone
   m_TagString: HitZone
@@ -2998,6 +2999,21 @@ CapsuleCollider:
   m_Height: 0.5
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8054974701732626252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 506641523285859467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 678e8e692e0c928428a378536ad698cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!1 &527125411463325256
 GameObject:
   m_ObjectHideFlags: 0
@@ -42406,6 +42422,7 @@ GameObject:
   m_Component:
   - component: {fileID: 769323170094258282}
   - component: {fileID: 9066868823430506898}
+  - component: {fileID: 6814888262834828092}
   m_Layer: 0
   m_Name: HitZone
   m_TagString: HitZone
@@ -42451,6 +42468,21 @@ CapsuleCollider:
   m_Height: 0.5
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6814888262834828092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3234143500346215379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 678e8e692e0c928428a378536ad698cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!1 &3277129546520095842
 GameObject:
   m_ObjectHideFlags: 0
@@ -49601,6 +49633,7 @@ GameObject:
   m_Component:
   - component: {fileID: 251997751946079668}
   - component: {fileID: 5325312255145905368}
+  - component: {fileID: 2692649148172115938}
   m_Layer: 0
   m_Name: HitZone
   m_TagString: HitZone
@@ -49646,6 +49679,21 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2692649148172115938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3419881723775097807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 678e8e692e0c928428a378536ad698cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!1 &3469895021925878667
 GameObject:
   m_ObjectHideFlags: 0
@@ -61645,6 +61693,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8754056194678874078}
   - component: {fileID: 1386006548937631349}
+  - component: {fileID: 7330192728495237266}
   m_Layer: 0
   m_Name: HitZone
   m_TagString: HitZone
@@ -61690,6 +61739,21 @@ CapsuleCollider:
   m_Height: 3
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: -0.3}
+--- !u!114 &7330192728495237266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3970184858613783023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 678e8e692e0c928428a378536ad698cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!1 &4075552658997504938
 GameObject:
   m_ObjectHideFlags: 0
@@ -67062,6 +67126,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3573483464132424810}
   - component: {fileID: 6830478073703866916}
+  - component: {fileID: 6819717986806166745}
   m_Layer: 0
   m_Name: HitZone
   m_TagString: HitZone
@@ -67107,6 +67172,21 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: -0.3}
+--- !u!114 &6819717986806166745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5279257490902719886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 678e8e692e0c928428a378536ad698cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!1 &5347606818019223581
 GameObject:
   m_ObjectHideFlags: 0
@@ -72001,6 +72081,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3059392785599253743}
   - component: {fileID: 5233692225456442084}
+  - component: {fileID: 6713741041593174311}
   m_Layer: 0
   m_Name: HitZone
   m_TagString: HitZone
@@ -72046,6 +72127,21 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6713741041593174311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6146704774200156424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 678e8e692e0c928428a378536ad698cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!1 &6155201933438904715
 GameObject:
   m_ObjectHideFlags: 0

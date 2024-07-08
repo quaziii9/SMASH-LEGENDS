@@ -9538,6 +9538,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 461366615323264805}
     m_Modifications:
+    - target: {fileID: 1714250262795406795, guid: 3d41f96c20d8d974f94c4718729838cc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5520967117167842795, guid: 3d41f96c20d8d974f94c4718729838cc, type: 3}
       propertyPath: m_Name
       value: Peter_Lobby
@@ -9583,7 +9587,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6568645712348821791, guid: 3d41f96c20d8d974f94c4718729838cc, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d41f96c20d8d974f94c4718729838cc, type: 3}

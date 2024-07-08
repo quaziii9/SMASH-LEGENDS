@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -165,8 +164,10 @@ public class HookBulletController : MonoBehaviour
         }
 
         HookBullet bullet = _bulletPool[bulletIndex].Get();
+        bullet.transform.SetParent(transform, false);
         bullet.transform.position = spawnPosition;
         bullet.transform.forward = transform.forward;
+        bullet.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f); // 크기 설정
 
         if (IsGroundAttack(_groundPosition) == false)
         {
@@ -195,6 +196,7 @@ public class HookBulletController : MonoBehaviour
     {
         FireDelete effect = _bulletCreateEffectPool[GetFireDeleteIndex(bulletType)].Get();
         effect.transform.position = spawnPosition;
+        effect.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f); // 크기 설정
 
         if (bulletType == (int)BulletType.Heavy || bulletType == (int)BulletType.FinishHeavy)
         {
@@ -281,66 +283,83 @@ public class HookBulletController : MonoBehaviour
     }
     private HookBullet CreateBulletOnPool()
     {
-        HookBullet bullet = Instantiate(_bullets[(int)BulletType.Default]);
+        HookBullet bullet = Instantiate(_bullets[(int)BulletType.Default], transform);
         bullet.Pool = _bulletPool[(int)BulletType.Default];
         bullet.constructor = gameObject;
+        bullet.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f); // 크기 설정
         return bullet;
     }
     private HookBullet CreateFinishComboBulletOnPool()
     {
-        HookBullet bullet = Instantiate(_bullets[(int)BulletType.FinishDefault]);
+        HookBullet bullet = Instantiate(_bullets[(int)BulletType.FinishDefault], transform);
         bullet.Pool = _bulletPool[(int)BulletType.FinishDefault];
         bullet.constructor = gameObject;
+        bullet.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f); // 크기 설정
         return bullet;
     }
     private HookBullet CreateHeavyBulletOnPool()
     {
-        HookBullet bullet = Instantiate(_bullets[(int)BulletType.Heavy]);
+        HookBullet bullet = Instantiate(_bullets[(int)BulletType.Heavy], transform);
         bullet.Pool = _bulletPool[(int)BulletType.Heavy];
         bullet.constructor = gameObject;
+        bullet.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f); // 크기 설정
         return bullet;
     }
     private HookBullet CreateLastHeavyBulletOnPool()
     {
-        HookBullet bullet = Instantiate(_bullets[(int)BulletType.FinishHeavy]);
+        HookBullet bullet = Instantiate(_bullets[(int)BulletType.FinishHeavy], transform);
         bullet.Pool = _bulletPool[(int)BulletType.FinishHeavy];
         bullet.constructor = gameObject;
+        bullet.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f); // 크기 설정
         return bullet;
     }
     private HookBullet CreateSkillBulletOnPool()
     {
-        HookBullet bullet = Instantiate(_bullets[(int)BulletType.Skill]);
+        HookBullet bullet = Instantiate(_bullets[(int)BulletType.Skill], transform);
         bullet.Pool = _bulletPool[(int)BulletType.Skill];
         bullet.constructor = gameObject;
+        bullet.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f); // 크기 설정
         return bullet;
     }
     private HookBullet CreateSkillHeavyBulletOnPool()
     {
-        HookBullet bullet = Instantiate(_bullets[(int)BulletType.HeavySkill]);
+        HookBullet bullet = Instantiate(_bullets[(int)BulletType.HeavySkill], transform);
         bullet.Pool = _bulletPool[(int)BulletType.HeavySkill];
         bullet.constructor = gameObject;
+        bullet.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f); // 크기 설정
         return bullet;
     }
-    private void GetPoolBullet(HookBullet bullet) => bullet.gameObject.SetActive(true);
+    private void GetPoolBullet(HookBullet bullet)
+    {
+        bullet.gameObject.SetActive(true);
+        bullet.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f); // 크기 설정
+    }
     private void ReturnBulletToPool(HookBullet bullet) => bullet.gameObject.SetActive(false);
     private FireDelete CreateDefaultBulletFireDeleteOnPool()
     {
-        FireDelete effect = Instantiate(_bulletCreateEffects[(int)FireDeleteType.Default]);
+        FireDelete effect = Instantiate(_bulletCreateEffects[(int)FireDeleteType.Default], transform);
         effect.pool = _bulletCreateEffectPool[(int)FireDeleteType.Default];
+        effect.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f); // 크기 설정
         return effect;
     }
     private FireDelete CreateHeavyBulletFireDeleteOnPool()
     {
-        FireDelete effect = Instantiate(_bulletCreateEffects[(int)FireDeleteType.Heavy]);
+        FireDelete effect = Instantiate(_bulletCreateEffects[(int)FireDeleteType.Heavy], transform);
         effect.pool = _bulletCreateEffectPool[(int)FireDeleteType.Heavy];
+        effect.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f); // 크기 설정
         return effect;
     }
     private FireDelete CreateLastHeavyBulletFireDeleteOnPool()
     {
-        FireDelete effect = Instantiate(_bulletCreateEffects[(int)FireDeleteType.FinishHeavy]);
+        FireDelete effect = Instantiate(_bulletCreateEffects[(int)FireDeleteType.FinishHeavy], transform);
         effect.pool = _bulletCreateEffectPool[(int)FireDeleteType.FinishHeavy];
+        effect.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f); // 크기 설정
         return effect;
     }
-    private void GetPoolBulletFireDelete(FireDelete effect) => effect.gameObject.SetActive(true);
+    private void GetPoolBulletFireDelete(FireDelete effect)
+    {
+        effect.gameObject.SetActive(true);
+        effect.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f); // 크기 설정
+    }
     private void ReturnBulletFireDelete(FireDelete effect) => effect.gameObject.SetActive(false);
 }

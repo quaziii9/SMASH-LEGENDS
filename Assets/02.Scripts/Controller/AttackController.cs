@@ -67,20 +67,22 @@ public class AttackController : NetworkBehaviour
                     break;
             }
         }
-        //else if(player.legendType == PlayerController.LegendType.Hook)
-        //{
-        //    switch(state)
-        //    {
-        //        case PlayerState.HookFirstAttack:
-        //            SetAttackValues(statController.defaultAttackDamage - , statController.defaultKnockBackPower, player.transform.up * 0.5f, HitType.Hit, false);
+        else if (player.legendType == PlayerController.LegendType.Hook)
+        {
+            switch (state)
+            {
+                case PlayerState.HookFirstAttack:
+                    SetAttackValues((statController.defaultAttackDamage - 100) / 4, statController.defaultKnockBackPower, player.transform.up * 0.5f, HitType.Hit, false);
+                    break;
+                case PlayerState.HookSecondAttack:
+                    SetAttackValues((statController.defaultAttackDamage - 100) / 4 + 50, statController.defaultKnockBackPower, player.transform.up * 1.2f, HitType.Hit, false);
+                    break;
+            }
 
-        //            break;
-        //    }
-             
-        //}
+        }
     }
 
-    private void SetAttackValues(int damage, float knockBackPower, Vector3 knockBackDirection, HitType hitType, bool plusAddForce)
+    public void SetAttackValues(int damage, float knockBackPower, Vector3 knockBackDirection, HitType hitType, bool plusAddForce)
     {
         DamageAmount = damage;
         KnockBackPower = knockBackPower;
