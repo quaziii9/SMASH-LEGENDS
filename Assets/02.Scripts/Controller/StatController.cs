@@ -235,6 +235,30 @@ public class StatController : NetworkBehaviour
         CmdHitted(damaged, knockBackPower, knockBackDirection, hitType, plusAddForce, isHost);
     }
 
+    public void Hitted(int damaged, bool isHost)
+    {
+        CmdHitted(damaged, isHost);
+    }
+
+    [Command]
+    public void CmdHitted(int damaged, bool isHost)
+    {
+        RpcHitted(damaged, isHost);
+    }
+
+    [ClientRpc]
+    public void RpcHitted(int damaged, bool isHost)
+    {
+        ApplyDamage(damaged, isHost);
+
+        if (currentHp <= 0)
+        {
+            float dieKnockbackPower = 5f;
+            playerController.rigidbody.velocity = Vector3.zero;
+            playerController.rigidbody.AddForce(new Vector3(heavyKnockBackPower, 1.2f,0) * dieKnockbackPower, ForceMode.Impulse);
+        }
+    }
+
 
     [Command]
     public void CmdUpdateHealthBar(int currentHp, int maxHp, bool isHost)

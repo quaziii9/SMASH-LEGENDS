@@ -42,11 +42,6 @@ public class WeaponController : NetworkBehaviour
             {
                 otherPlayerStat.Hitted(
                 statController.skillAttackDamage,
-                0,
-                Vector3.zero,
-                Vector3.zero,
-                HitType.None,
-                false,
                 isHost);
             }
             else
