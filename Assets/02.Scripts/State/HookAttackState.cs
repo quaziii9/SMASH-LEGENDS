@@ -392,7 +392,6 @@ public class HookSkillOnkState : StateBase
         Player.AimationController.SetBool(Player.AimationController.IsSkillAttack, true);
         Player.StatController.StartSkill();
         Player.rigidbody.velocity = Vector3.zero;
-
         Player.CanMove = false;
         Player.CanLook = false;
         Player.StateController.hookSkillOn = true;

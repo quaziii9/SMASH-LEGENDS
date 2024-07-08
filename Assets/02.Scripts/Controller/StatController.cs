@@ -223,6 +223,7 @@ public class StatController : NetworkBehaviour
 
     public void Hitted(int damaged, float knockBackPower, Vector3 attackerPosition, Vector3 attackerDirection, HitType hitType, bool plusAddForce, bool isHost)
     {
+        Debug.Log(damaged);
         Vector3 direction = (transform.position - attackerPosition).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(-direction);
         transform.rotation = lookRotation;

@@ -69,9 +69,10 @@ public class HookBulletController : MonoBehaviour
         new Vector3(0, 0, -1),
         new Vector3(0, 45, -1)
     };
-
+    StateController StateController;
     private void Start()
     {
+        StateController = GetComponent<StateController>();
         _bulletSpawnPositionLeft = transform.GetChild(_rootIndex).GetChild(_boneIndex).GetChild(_leftWeaponIndex).GetChild(_cylinderIndex).transform;
         _bulletSpawnPositionRight = transform.GetChild(_rootIndex).GetChild(_boneIndex).GetChild(_rightWeaponIndex).GetChild(_cylinderIndex).transform;
         for (int i = 0; i < _bulletContainers.Length; ++i)
@@ -137,9 +138,8 @@ public class HookBulletController : MonoBehaviour
         Vector3 spawnPosition = GetFirePosition(FirePosition.Right);
         HookBullet bullet = GetCreateBullet(spawnPosition, (int)bulletType);
 
-        // 플레이어의 상태를 확인하고, 각도를 변경합니다.
-        PlayerController playerController = GetComponent<PlayerController>();
-        if (playerController != null && playerController.StateController.CurState == PlayerState.HookFinsihJumpAttack) // 특정 상태를 확인하는 메서드를 사용
+        if (StateController.CurState == PlayerState.HookFinsihJumpAttack)
+             // 특정 상태를 확인하는 메서드를 사용
         {
             // 각도를 변경하여 더 멀리 날아가게 합니다.
             float newAngle = CalculateNewAngle(); // 변경할 각도를 계산하는 메서드
@@ -148,13 +148,10 @@ public class HookBulletController : MonoBehaviour
 
         CreateBulletEffect(spawnPosition, (int)bulletType);
 
-        //GetCreateBullet(GetFirePosition(FirePosition.Right), (int)bulletType);
-        //CreateBulletEffect(GetFirePosition(FirePosition.Right), (int)bulletType);
     }
 
     private float CalculateNewAngle()
     {
-        // 필요한 각도를 계산하는 로직을 구현합니다. 예를 들어, 15도 더 높게 설정
         return -30f;
     }
 
@@ -162,9 +159,29 @@ public class HookBulletController : MonoBehaviour
     {
         Vector3 finishBulletPosition = _bulletSpawnPositionLeft.position - _bulletSpawnPositionRight.position;
         Vector3 spawnPosition = _bulletSpawnPositionRight.position + (finishBulletPosition / 2);
+
+        if (StateController.CurState == PlayerState.HookJumpHeavyAttack) // 특정 상태를 확인하는 메서드를 사용
+        {
+            float newAngle = CalculateNewAngle() - 5f; // 변경할 각도를 계산하는 메서드
+            spawnPosition = AdjustSpawnPositionForAngle(spawnPosition, newAngle);
+        }
+
         GetCreateBullet(spawnPosition, (int)BulletType.FinishHeavy);
         Vector3 startEffectPosition = spawnPosition + transform.forward;
         CreateBulletEffect(startEffectPosition, (int)BulletType.FinishHeavy);
+
+        //Vector3 finishBulletPosition = _bulletSpawnPositionLeft.position - _bulletSpawnPositionRight.position;
+        //Vector3 spawnPosition = _bulletSpawnPositionRight.position + (finishBulletPosition / 2);
+        //GetCreateBullet(spawnPosition, (int)BulletType.FinishHeavy);
+        //Vector3 startEffectPosition = spawnPosition + transform.forward;
+        //CreateBulletEffect(startEffectPosition, (int)BulletType.FinishHeavy);
+    }
+
+    private Vector3 AdjustSpawnPositionForAngle(Vector3 spawnPosition, float angle)
+    {
+        Quaternion rotation = Quaternion.Euler(0, angle, 0); // Y축을 기준으로 회전
+        Vector3 direction = rotation * transform.forward;
+        return spawnPosition + direction * 0.5f; // 예시로, 0.5f만큼 각도에 따라 위치를 조정
     }
 
     private void FireWithSkillOnAnimationEvent(BulletType bulletType)

@@ -2956,7 +2956,7 @@ GameObject:
   - component: {fileID: 8054974701732626252}
   m_Layer: 0
   m_Name: HitZone
-  m_TagString: Bullet
+  m_TagString: SkillBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42425,7 +42425,7 @@ GameObject:
   - component: {fileID: 6814888262834828092}
   m_Layer: 0
   m_Name: HitZone
-  m_TagString: Bullet
+  m_TagString: SkillBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -74799,7 +74799,7 @@ GameObject:
   - component: {fileID: 8001730667557428456}
   m_Layer: 0
   m_Name: Hook_Skill_Heavy_Bullet
-  m_TagString: Bullet
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -89929,7 +89929,7 @@ GameObject:
   - component: {fileID: 8578831541553403896}
   m_Layer: 0
   m_Name: Hook_Skill_Bullet
-  m_TagString: Bullet
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -18,6 +18,7 @@ public class HookBullet : MonoBehaviour
 
     protected float bulletDeleteTime = 0.23f;
     protected float currentBulletSpeed = 20;
+    protected float skillBulletSpeed = 30;
 
     public ObjectPool<HookBullet> Pool { get; set; }
     internal GameObject constructor;

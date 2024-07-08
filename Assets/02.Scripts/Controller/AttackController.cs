@@ -5,6 +5,7 @@ public enum HitType
 {
     Hit,
     HitUp,
+    None,
 }
 
 public class AttackController : NetworkBehaviour
@@ -83,6 +84,11 @@ public class AttackController : NetworkBehaviour
                 case PlayerState.HookFinsihJumpAttack:
                     SetAttackValues(statController.defaultAttackDamage / 7, statController.defaultKnockBackPower, Vector3.up , HitType.Hit, false);
                     break;
+                case PlayerState.HookHeavyAttack:
+                case PlayerState.HookJumpHeavyAttack:
+                    SetAttackValues(statController.heavyAttackDamage / 9, statController.defaultKnockBackPower * 0.2f, Vector3.up * 0.5f, HitType.Hit, false);
+                    break;
+
             }
         }
     }
@@ -180,6 +186,8 @@ public class AttackController : NetworkBehaviour
             case HitType.HitUp:
                 player.ChangeState(PlayerState.HitUp);
                 break;
+            default:
+                break;
         }
 
         if(currentHp <=0)
@@ -248,10 +256,6 @@ public class AttackController : NetworkBehaviour
     }
 
 
-
-
-
-
     public void HookFirstAttackFinish()
     {
         SetAttackValues((statController.defaultAttackDamage - 100) / 4, statController.defaultKnockBackPower, player.transform.up * 0.5f, HitType.Hit, false);
@@ -262,5 +266,9 @@ public class AttackController : NetworkBehaviour
         SetAttackValues((statController.defaultAttackDamage - 100) / 4 + 50, statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp, true);
     }
 
+    public void HookHeavyAttackFinish()
+    {
+        SetAttackValues(statController.heavyAttackDamage - (statController.heavyAttackDamage /9 *4), statController.heavyKnockBackPower, Vector3.up * 1.2f, HitType.HitUp, true);
+    }
 
 }
