@@ -62,7 +62,7 @@ public class HookSecondAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        AttackController.attackMoveDistance = -.5f;
+        AttackController.attackMoveDistance = .5f;
         AttackController.attackMoveDuration = 0.1f;
         Player.AimationController.SetBool(Player.AimationController.IsComboAttack2, true);
         Player.CanMove = false;
@@ -111,7 +111,7 @@ public class HookHeavyAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        AttackController.attackMoveDistance = -.7f;
+        AttackController.attackMoveDistance = .7f;
         AttackController.attackMoveDuration = 0.1f;
         Player.AimationController.SetBool(Player.AimationController.IsHeavyAttacking, true);
         Player.StatController.StartHeavyAttackCooldown();
@@ -165,7 +165,7 @@ public class HookFirstJumpAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        AttackController.attackMoveDistance = -.5f;
+        AttackController.attackMoveDistance = .5f;
         AttackController.attackMoveDuration = 0.1f;
         Player.rigidbody.velocity = new Vector3(0, 2f, 0);
         Player.StateController.hookCanDefaultAttack = false;
@@ -225,7 +225,7 @@ public class HookSecondJumpAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        AttackController.attackMoveDistance = -.5f;
+        AttackController.attackMoveDistance = .5f;
         AttackController.attackMoveDuration = 0.1f;
         Player.rigidbody.velocity = new Vector3(0, 3f, 0);
         Player.AimationController.SetBool(Player.AimationController.IsJumpComboAttack2, true);
@@ -282,7 +282,7 @@ public class HookFinishJumpAttackState : StateBase
     public override void Enter()
     {
         base.Enter();
-        AttackController.attackMoveDistance = -.5f;
+        AttackController.attackMoveDistance = .5f;
         AttackController.attackMoveDuration = 0.1f;
         Player.rigidbody.velocity = new Vector3(0, 4f, 0);
         Player.AimationController.SetBool(Player.AimationController.IsJumpComboAttack3, true);
@@ -329,6 +329,7 @@ public class HookJumpHeavyAttackState : StateBase
 {
     private float initialY;
     private float riseSpeed = 1; // 상승 속도
+
     public HookJumpHeavyAttackState(PlayerController player) : base(player) { }
 
     public override void Enter()
@@ -336,6 +337,10 @@ public class HookJumpHeavyAttackState : StateBase
         base.Enter();
         initialY = Player.transform.position.y; // 현재 Y 위치를 저장
         Player.rigidbody.velocity = Vector3.zero;
+
+        // 공격 이동 값 설정
+        //AttackController.attackMoveDistance = 2f;
+        //AttackController.attackMoveDuration = 0.1f;
 
         Player.AimationController.SetBool(Player.AimationController.IsJumpHeavyAttacking, true);
         Player.StatController.StartHeavyAttackCooldown();
@@ -351,6 +356,7 @@ public class HookJumpHeavyAttackState : StateBase
         Player.StatController.StartCooldownTimer().Forget();
         Player.AimationController.SetBool(Player.AimationController.IsJumpHeavyAttacking, false);
         Player.rigidbody.useGravity = true; // 중력 활성화
+        //AttackController.attackMoveDuration = 0f;
     }
 
     public override void ExecuteOnUpdate()
@@ -372,12 +378,10 @@ public class HookJumpHeavyAttackState : StateBase
 
     public override void OnInputCallback(InputAction.CallbackContext context)
     {
-        // No specific input handling for JumpHeavyAttackState
+        // JumpHeavyAttackState에 대한 특정 입력 처리 없음
     }
 
     public override bool IsTransitioning => !Player.AimationController.GetCurrentAnimatorStateInfo(0).IsName("JumpHeavyAttack");
-
-
 }
 
 

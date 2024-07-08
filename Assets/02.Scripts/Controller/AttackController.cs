@@ -148,7 +148,13 @@ public class AttackController : NetworkBehaviour
         }
         _attackMoveStartTime = Time.time;
         _currentMoveDistance = 0;
-        if (player.StateController.CurState == PlayerState.RollUpBack) _attackMoveDirection = -player.transform.forward;
+        if (player.StateController.CurState == PlayerState.RollUpBack || player.StateController.CurState == PlayerState.HookSecondAttack ||
+            player.StateController.CurState == PlayerState.HookFirstJumpAttack || player.StateController.CurState == PlayerState.HookSecondJumpAttack ||
+            player.StateController.CurState == PlayerState.HookFinsihJumpAttack || player.StateController.CurState == PlayerState.HookHeavyAttack || 
+            player.StateController.CurState == PlayerState.HookJumpHeavyAttack)
+        {
+            _attackMoveDirection = -player.transform.forward;
+        }
         else
             _attackMoveDirection = player.transform.forward;
     }

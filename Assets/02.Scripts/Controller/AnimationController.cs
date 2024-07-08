@@ -40,9 +40,6 @@ public class AnimationController : MonoBehaviour
 
     private PlayerController Player;
 
-  
-
-
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -90,15 +87,8 @@ public class AnimationController : MonoBehaviour
 
     public void HookJumpHeavyAttackAnimationEvent()
     {
-        _attackController.attackMoveDistance = -2f;
-        _attackController.attackMoveDuration = 0.3f;
-        Player.StateController.HookJumpHeavyAttackMove = true; // 중력과 이동을 활성화
+        Player.StateController.HookJumpHeavyAttackMove = true;
         Player.rigidbody.velocity = new Vector3(0, Player.StatController.jumpForce * 0.8f, 0); // Y축 속도 설정
         Player.AttackController.StartAttackMove();
     }
-
-
-   
-
-
 }
