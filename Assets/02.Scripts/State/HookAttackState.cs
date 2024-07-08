@@ -338,10 +338,6 @@ public class HookJumpHeavyAttackState : StateBase
         initialY = Player.transform.position.y; // 현재 Y 위치를 저장
         Player.rigidbody.velocity = Vector3.zero;
 
-        // 공격 이동 값 설정
-        //AttackController.attackMoveDistance = 2f;
-        //AttackController.attackMoveDuration = 0.1f;
-
         Player.AimationController.SetBool(Player.AimationController.IsJumpHeavyAttacking, true);
         Player.StatController.StartHeavyAttackCooldown();
         Player.CanMove = false;
