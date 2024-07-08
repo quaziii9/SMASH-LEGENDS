@@ -108,6 +108,15 @@ public class HookBulletController : MonoBehaviour
         _parrot.SetActive(true);
     }
 
+    public void SetParrotOff()
+    {
+        Debug.Log("!");
+        if (_parrot.activeSelf)
+        {
+            _parrot.SetActive(false);
+        }
+    }
+
     private Vector3 GetFirePosition(FirePosition firePosition)
     {
         switch (firePosition)

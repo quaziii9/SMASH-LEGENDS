@@ -203,13 +203,13 @@ public class StateController : NetworkBehaviour
     }
 
 
-    private async UniTaskVoid StartGameTimer()
-    {
-        float delayInSeconds = _playerController.StatController.HookSkillTime; // Assuming HookSkillTime is a float representing seconds
-        TimeSpan delay = TimeSpan.FromSeconds(delayInSeconds);
-        await UniTask.Delay(delay);
-        //_playerController.HookEffectController.DisableSkillOnEffect();
-        //_playerController.HookEffectController.EnableSkillOffEffect();
+    //private async UniTaskVoid StartGameTimer()
+    //{
+    //    float delayInSeconds = _playerController.StatController.HookSkillTime; // Assuming HookSkillTime is a float representing seconds
+    //    TimeSpan delay = TimeSpan.FromSeconds(delayInSeconds);
+    //    await UniTask.Delay(delay);
+    //    //_playerController.HookEffectController.DisableSkillOnEffect();
+    //    //_playerController.HookEffectController.EnableSkillOffEffect();
 
-    }
+    //}
 }

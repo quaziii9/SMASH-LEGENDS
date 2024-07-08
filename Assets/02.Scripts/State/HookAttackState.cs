@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using EnumTypes;
 using EventLibrary;
 using UnityEngine;
@@ -390,7 +391,6 @@ public class HookSkillOnkState : StateBase
         base.Enter();
         Player.AimationController.SetBool(Player.AimationController.IsSkillAttack, true);
         Player.StatController.StartSkill();
-        //Player.HookEffectController.EnableSkillOnEffect();
         Player.rigidbody.velocity = Vector3.zero;
 
         Player.CanMove = false;

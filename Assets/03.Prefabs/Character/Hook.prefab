@@ -2670,7 +2670,7 @@ MonoBehaviour:
   CanSkillAttack: 0
   legendUI: {fileID: 861430790993020246}
   PlayerDie: 0
-  HookSkillTime: 0
+  hookSkillTime: 0
 --- !u!114 &4552053168347145649
 MonoBehaviour:
   m_ObjectHideFlags: 0

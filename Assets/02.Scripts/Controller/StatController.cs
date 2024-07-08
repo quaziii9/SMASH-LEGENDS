@@ -3,6 +3,7 @@ using EnumTypes;
 using EventLibrary;
 using Mirror;
 using System;
+using System.Threading;
 using UnityEngine;
 
 public class StatController : NetworkBehaviour
@@ -42,18 +43,24 @@ public class StatController : NetworkBehaviour
     private PlayerController playerController;
     private EffectController effectController;
     private StateController stateController;
+    private HookBulletController hookBulletController;
     public LegendUI legendUI;
 
     public bool PlayerDie;
 
 
-    public float HookSkillTime;
+    public float hookSkillTime;
 
     private void Awake()
     {
         playerController = GetComponent<PlayerController>();
         effectController = GetComponent<EffectController>();
         stateController = GetComponent<StateController>();
+
+        if (TryGetComponent(out hookBulletController))
+        {
+            hookBulletController = GetComponent<HookBulletController>();
+        }
         EventManager<GameEvents>.StartListening(GameEvents.StartSkillGaugeIncrease, () => StartSkillGaugeIncrease().Forget());
     }
 
@@ -82,7 +89,7 @@ public class StatController : NetworkBehaviour
                 heavyAttackDamage = 900;
                 skillAttackDamage = 50;
                 heavyAttackCoolTime = 5f;
-                HookSkillTime = 9.3f;
+                hookSkillTime = 9.3f;
                 break;
         }
     }
@@ -321,5 +328,38 @@ public class StatController : NetworkBehaviour
             //SkillAttackAllReady();
         }
         CmdUpdateSkillAttackAllReady(CanSkillAttack);
+    }
+
+
+    private CancellationTokenSource cts; // 취소 토큰 소스
+
+    public void StartHookSkillTime()
+    {
+        if (cts != null)
+        {
+            // 이미 실행 중인 작업이 있으면 취소
+            cts.Cancel();
+        }
+
+        // 새로운 취소 토큰 소스를 생성
+        cts = new CancellationTokenSource();
+        HookSkillTime(cts.Token).Forget();
+    }
+
+    // HookSkillTime 비동기 메서드
+    private async UniTask HookSkillTime(CancellationToken token)
+    {
+        Debug.Log("?");
+        int delayMilliseconds = Mathf.RoundToInt(hookSkillTime * 1000f); // 초 단위를 밀리초 단위로 변환
+
+        try
+        {
+            await UniTask.Delay(delayMilliseconds, cancellationToken: token); // 변환된 밀리초 단위로 딜레이 
+            hookBulletController.SetParrotOff();
+        }
+        catch (OperationCanceledException)
+        {
+            Debug.Log("HookSkillTime canceled");
+        }
     }
 }

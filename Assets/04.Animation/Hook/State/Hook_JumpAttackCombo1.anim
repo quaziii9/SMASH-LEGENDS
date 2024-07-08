@@ -45270,6 +45270,13 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0.1
+    functionName: FireWithSkillOnAnimationEvent
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 4
+    messageOptions: 0
   - time: 0.13333334
     functionName: FireWithSkillOnAnimationEvent
     data: 
@@ -45277,21 +45284,14 @@ AnimationClip:
     floatParameter: 0
     intParameter: 4
     messageOptions: 0
-  - time: 0.16666667
-    functionName: FireWithSkillOnAnimationEvent
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 4
-    messageOptions: 0
-  - time: 0.16666667
+  - time: 0.13333334
     functionName: FireFromRightHandOnAnimationEvent
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.2
+  - time: 0.16666667
     functionName: FireWithSkillOnAnimationEvent
     data: 
     objectReferenceParameter: {fileID: 0}
