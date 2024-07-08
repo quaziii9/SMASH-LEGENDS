@@ -18,14 +18,12 @@ public class WeaponController : NetworkBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log(gameObject.name);
             StatController otherplayer = other.GetComponent<StatController>();
             StateController otherplayerState = other.GetComponent<StateController>();
             PlayerController otherPlayerController = other.GetComponent<PlayerController>();
 
             if (gameObject.name == "HeavyJumpAttackHitZone")
             {
-                Debug.Log("!");
                 Collider.enabled = false;
             }
 

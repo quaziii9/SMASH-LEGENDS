@@ -82,7 +82,6 @@ public class DuelUIController : MonoBehaviour
             return;
         }
 
-        Debug.Log("?");
         switch (legendTypeString)
         {
             case "Peter":

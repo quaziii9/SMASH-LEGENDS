@@ -36,12 +36,10 @@ public class ResultUIManager : Singleton<ResultUIManager>
                 if (IsHost)
                 {
                     ResultTextSet("승리");
-                    Debug.Log("You (Host) win!");
                 }
                 else
                 {
                     ResultTextSet("패배");
-                    Debug.Log("Host wins!");
                 }
             }
             else
@@ -49,18 +47,15 @@ public class ResultUIManager : Singleton<ResultUIManager>
                 if (IsHost)
                 {
                     ResultTextSet("패배");
-                    Debug.Log("Client wins!");
                 }
                 else
                 {
                     ResultTextSet("승리");
-                    Debug.Log("You (Client) win!");
                 }
             }
         }
         else
         {
-           Debug.Log("It's a draw!");
            ResultTextSet("무승부");
         }
     }

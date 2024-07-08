@@ -675,7 +675,6 @@ public class HangFallState : StateBase
         base.Enter();
         Player.AimationController.SetBool(Player.AimationController.IsHangFalling, true);
         Player.rigidbody.velocity = Vector3.zero;
-        Debug.Log(Player.rigidbody.velocity.y);
         Player.HangFall().Forget();
     }
 
