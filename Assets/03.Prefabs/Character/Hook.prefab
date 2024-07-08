@@ -2956,7 +2956,7 @@ GameObject:
   - component: {fileID: 8054974701732626252}
   m_Layer: 0
   m_Name: HitZone
-  m_TagString: HitZone
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42425,7 +42425,7 @@ GameObject:
   - component: {fileID: 6814888262834828092}
   m_Layer: 0
   m_Name: HitZone
-  m_TagString: HitZone
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -49636,7 +49636,7 @@ GameObject:
   - component: {fileID: 2692649148172115938}
   m_Layer: 0
   m_Name: HitZone
-  m_TagString: HitZone
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -61696,7 +61696,7 @@ GameObject:
   - component: {fileID: 7330192728495237266}
   m_Layer: 0
   m_Name: HitZone
-  m_TagString: HitZone
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -61800,7 +61800,7 @@ GameObject:
   - component: {fileID: 3303647786677800514}
   m_Layer: 0
   m_Name: Hook_Dafault_Bullet
-  m_TagString: DefaultHit
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -64299,7 +64299,7 @@ GameObject:
   - component: {fileID: 496389105171732238}
   m_Layer: 0
   m_Name: Hook_Heavy_Last_Bullet
-  m_TagString: HeavyHit
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -67129,7 +67129,7 @@ GameObject:
   - component: {fileID: 6819717986806166745}
   m_Layer: 0
   m_Name: HitZone
-  m_TagString: HitZone
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -72084,7 +72084,7 @@ GameObject:
   - component: {fileID: 6713741041593174311}
   m_Layer: 0
   m_Name: HitZone
-  m_TagString: HitZone
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -72153,7 +72153,7 @@ GameObject:
   - component: {fileID: 8886834470383774858}
   m_Layer: 0
   m_Name: Hook_Heavy_Bullet
-  m_TagString: DefaultHit
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -74799,7 +74799,7 @@ GameObject:
   - component: {fileID: 8001730667557428456}
   m_Layer: 0
   m_Name: Hook_Skill_Heavy_Bullet
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -87440,7 +87440,7 @@ GameObject:
   - component: {fileID: 6534834014733707540}
   m_Layer: 0
   m_Name: Hook_Dafault_Last_Combo_Bullet
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -89929,7 +89929,7 @@ GameObject:
   - component: {fileID: 8578831541553403896}
   m_Layer: 0
   m_Name: Hook_Skill_Bullet
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

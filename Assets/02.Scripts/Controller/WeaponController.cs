@@ -69,7 +69,11 @@ public class WeaponController : NetworkBehaviour
                 otherPlayerStat.SkillGaugeAdd(statController.AddSkillGuage / 3 * 2);
             }
 
-            gameObject.transform.parent.gameObject.SetActive(false);
+
+            if (gameObject.CompareTag("Bullet"))
+            {
+                gameObject.transform.parent.gameObject.SetActive(false);
+            }
         }
     }
 }

@@ -134,8 +134,28 @@ public class HookBulletController : MonoBehaviour
     }
     private void FireFromRightHandOnAnimationEvent(BulletType bulletType)
     {
-        GetCreateBullet(GetFirePosition(FirePosition.Right), (int)bulletType);
-        CreateBulletEffect(GetFirePosition(FirePosition.Right), (int)bulletType);
+        Vector3 spawnPosition = GetFirePosition(FirePosition.Right);
+        HookBullet bullet = GetCreateBullet(spawnPosition, (int)bulletType);
+
+        // 플레이어의 상태를 확인하고, 각도를 변경합니다.
+        PlayerController playerController = GetComponent<PlayerController>();
+        if (playerController != null && playerController.StateController.CurState == PlayerState.HookFinsihJumpAttack) // 특정 상태를 확인하는 메서드를 사용
+        {
+            // 각도를 변경하여 더 멀리 날아가게 합니다.
+            float newAngle = CalculateNewAngle(); // 변경할 각도를 계산하는 메서드
+            bullet.transform.Rotate(Vector3.right, newAngle); // 예: X축을 기준으로 각도 변경
+        }
+
+        CreateBulletEffect(spawnPosition, (int)bulletType);
+
+        //GetCreateBullet(GetFirePosition(FirePosition.Right), (int)bulletType);
+        //CreateBulletEffect(GetFirePosition(FirePosition.Right), (int)bulletType);
+    }
+
+    private float CalculateNewAngle()
+    {
+        // 필요한 각도를 계산하는 로직을 구현합니다. 예를 들어, 15도 더 높게 설정
+        return -30f;
     }
 
     private void FinishHeavyAttackOnAnimationEvent()
