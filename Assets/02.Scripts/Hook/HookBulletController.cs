@@ -109,7 +109,6 @@ public class HookBulletController : MonoBehaviour
 
     public void SetParrotOff()
     {
-        Debug.Log("!");
         if (_parrot.activeSelf)
         {
             _parrot.SetActive(false);

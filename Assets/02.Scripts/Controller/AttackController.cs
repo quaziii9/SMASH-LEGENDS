@@ -72,13 +72,12 @@ public class AttackController : NetworkBehaviour
             switch (state)
             {
                 case PlayerState.HookFirstAttack:
-                    SetAttackValues((statController.defaultAttackDamage - 100) / 4, statController.defaultKnockBackPower, player.transform.up * 0.5f, HitType.Hit, false);
+                    SetAttackValues((statController.defaultAttackDamage - 100) / 4, 0, Vector3.zero , HitType.Hit, false);
                     break;
-                case PlayerState.HookSecondAttack:
-                    SetAttackValues((statController.defaultAttackDamage - 100) / 4 + 50, statController.defaultKnockBackPower, player.transform.up * 1.2f, HitType.Hit, false);
-                    break;
+                //case PlayerState.HookSecondAttack:
+                //    SetAttackValues((statController.defaultAttackDamage - 100) / 4 + 50, statController.defaultKnockBackPower, player.transform.up * 1.2f, HitType.Hit, false);
+                //    break;
             }
-
         }
     }
 
@@ -241,4 +240,21 @@ public class AttackController : NetworkBehaviour
             }
         }
     }
+
+
+
+
+
+
+    public void HookFirstAttackFinish()
+    {
+        SetAttackValues((statController.defaultAttackDamage - 100) / 4, statController.defaultKnockBackPower, player.transform.up * 0.5f, HitType.Hit, false);
+    }
+
+    public void HookSecondAttackFinish()
+    {
+
+    }
+
+
 }
