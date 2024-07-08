@@ -208,8 +208,8 @@ public class StateController : NetworkBehaviour
         float delayInSeconds = _playerController.StatController.HookSkillTime; // Assuming HookSkillTime is a float representing seconds
         TimeSpan delay = TimeSpan.FromSeconds(delayInSeconds);
         await UniTask.Delay(delay);
-        _playerController.HookEffectController.DisableSkillOnEffect();
-        _playerController.HookEffectController.EnableSkillOffEffect();
+        //_playerController.HookEffectController.DisableSkillOnEffect();
+        //_playerController.HookEffectController.EnableSkillOffEffect();
 
     }
 }

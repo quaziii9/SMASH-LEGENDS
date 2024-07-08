@@ -76,7 +76,6 @@ public class UIManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log(scene.name);
         if (scene.name == "LobbyScene" && ResultUIManager.Instance.IsReusltUION == false) // 원하는 씬 이름으로 변경
         {
             LobbyUIEnable();
@@ -102,17 +101,14 @@ public class UIManager : MonoBehaviour
 
             if (!NetworkClient.isConnected)
             {
-                Debug.Log("Client connection failed, starting host.");
                 roomManager.StartHost();
             }
             else
             {
-                Debug.Log("Client connected successfully.");
             }
         }
         catch (System.Exception ex)
         {
-            Debug.LogError($"Exception occurred: {ex.Message}");
             roomManager.StartHost();
 
         }
