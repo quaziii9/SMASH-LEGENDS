@@ -48,6 +48,10 @@ namespace EnumTypes
         WeaponColliderFalse,
     }
 
+    public enum LobbyEvents
+    {
+        LegendSpawn
+    }
 
     public class EnumTypes : MonoBehaviour { }
 }

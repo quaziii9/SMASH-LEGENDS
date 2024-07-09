@@ -1,5 +1,8 @@
 using Cysharp.Threading.Tasks;
+using EnumTypes;
+using EventLibrary;
 using Mirror;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,11 +11,17 @@ public class UIManager : MonoBehaviour
 {
     public GameObject LobbyPopup;
     public GameObject Title;
+    public GameObject SelectLegendPopup;
     public int first = 0;
 
     public static UIManager Instance { get; private set; }
     public RoomManager roomManager;
     public RoomManager roomManagerPrefab;
+
+
+    public List<SelectLegendButton> buttons = new List<SelectLegendButton>();
+    public enum LegendType { Peter, Hook }
+    public LegendType legendType = LegendType.Peter;
 
     private void Awake()
     {
@@ -111,6 +120,44 @@ public class UIManager : MonoBehaviour
         {
             roomManager.StartHost();
 
+        }
+    }
+
+    public void LegendPopUpUIOn()
+    {
+        SelectLegendPopup.SetActive(true);
+    }
+
+    public void LegendPopUpUIOff()
+    {
+        SelectLegendPopup.SetActive(false);
+    }
+
+    public void GetLegendType(LegendType LegendType)
+    {
+        if (legendType != LegendType)
+        {
+            legendType = LegendType; // 새 값으로 설정
+            if (legendType == LegendType.Peter)
+                EventManager<LobbyEvents>.TriggerEvent(LobbyEvents.LegendSpawn, 0);
+            else if (legendType == LegendType.Hook)
+                EventManager<LobbyEvents>.TriggerEvent(LobbyEvents.LegendSpawn, 1);
+        }
+    }
+
+    public void RegisterButton(SelectLegendButton button)
+    {
+        buttons.Add(button);
+    }
+
+    public void DeselectOtherButtons(SelectLegendButton selectedButton)
+    {
+        foreach (var button in buttons)
+        {
+            if (button != selectedButton)
+            {
+                button.Frame.SetActive(false);
+            }
         }
     }
 }
