@@ -20,7 +20,13 @@ public class GameManager : NetworkBehaviour
     public GameObject PlayUI;
     public GameObject ResultUI;
 
+    public int HostLegend;
+    public int ClientLegend;
+
     public bool MatchOver = false;
+    private bool isHostPlayer;
+
+
 
     private void Awake()
     {
@@ -40,6 +46,17 @@ public class GameManager : NetworkBehaviour
         {
             gameTimerCancellationTokenSource.Cancel();
         }
+    }
+
+    public void SetHostStatus(bool isHost)
+    {
+        isHostPlayer = isHost;
+    }
+
+    public void SetLegendType( bool isHost, int LegendType)
+    {
+        if(isHost) { HostLegend = LegendType; }
+        else { ClientLegend = LegendType; }
     }
 
     public void InitializePlayers()
@@ -157,10 +174,7 @@ public class GameManager : NetworkBehaviour
     public void EndGame(bool? WinHost)
     {
         // 결과 값 설정
-        bool isHost = NetworkServer.active;
-
-        // 결과 값 설정
-        ResultUIManager.Instance.SetResult(isHost, WinHost);
+        ResultUIManager.Instance.SetResult(isHostPlayer, WinHost ,HostLegend, ClientLegend);
 
         // 모든 플레이어를 디스커넥트
         if (NetworkServer.active)

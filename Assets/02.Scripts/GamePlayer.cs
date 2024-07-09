@@ -31,10 +31,13 @@ public class GamePlayer : NetworkBehaviour
             if (legendType == UIManager.LegendType.Peter)
             {
                 pref = PeterPrefab;
+                GameManager.Instance.SetLegendType(true, (int)UIManager.LegendType.Peter);
             }
             else
             {
                 pref = HookPrefab;
+                GameManager.Instance.SetLegendType(true, (int)UIManager.LegendType.Hook);
+
             }
             transform.position = startPosition1;
             transform.rotation = rotation1;
@@ -44,10 +47,13 @@ public class GamePlayer : NetworkBehaviour
             if (legendType == UIManager.LegendType.Peter)
             {
                 pref = PeterPrefab;
+                GameManager.Instance.SetLegendType(false, (int)UIManager.LegendType.Peter);
+
             }
             else
             {
                 pref = HookPrefab;
+                GameManager.Instance.SetLegendType(false, (int)UIManager.LegendType.Hook);
             }
             transform.position = startPosition2;
             transform.rotation = rotation2;

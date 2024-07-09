@@ -7,7 +7,12 @@ public class ResultUIManager : Singleton<ResultUIManager>
     public GameObject resultCamera;
     public GameObject resultPlayer;
     public GameObject ResultUI;
-    public bool IsReusltUION = false;
+
+
+
+    [SerializeField] private GameObject[] bluePositionLegend;
+    [SerializeField] private GameObject[] redPositionLegend;
+    public bool IsResultUION = false;
 
     public void ResultTextSet(string result)
     {
@@ -21,13 +26,12 @@ public class ResultUIManager : Singleton<ResultUIManager>
         }
     }
 
-
-    public void SetResult(bool IsHost, bool? WinHost)
+    public void SetResult(bool IsHost, bool? WinHost, int HostLegend, int ClientLegend)
     {
         resultCamera.SetActive(true);
         resultPlayer.SetActive(true);
         ResultUI.SetActive(true);
-        IsReusltUION = true;
+        IsResultUION = true;
 
         if (WinHost.HasValue)
         {
@@ -36,10 +40,24 @@ public class ResultUIManager : Singleton<ResultUIManager>
                 if (IsHost)
                 {
                     ResultTextSet("승리");
+                    bluePositionLegend[HostLegend].SetActive(true);
+                    Animator bluePositionLgendAnim = bluePositionLegend[HostLegend].GetComponent<Animator>();
+                    bluePositionLgendAnim.SetTrigger("Win");
+
+                    redPositionLegend[ClientLegend].SetActive(true);
+                    Animator redPositionLegendAnim = redPositionLegend[ClientLegend].GetComponent<Animator>();
+                    redPositionLegendAnim.SetTrigger("Lose");
                 }
                 else
                 {
                     ResultTextSet("패배");
+                    bluePositionLegend[HostLegend].SetActive(true);
+                    Animator bluePositionLgendAnim = bluePositionLegend[HostLegend].GetComponent<Animator>();
+                    bluePositionLgendAnim.SetTrigger("Lose");
+
+                    redPositionLegend[ClientLegend].SetActive(true);
+                    Animator redPositionLegendAnim = redPositionLegend[ClientLegend].GetComponent<Animator>();
+                    redPositionLegendAnim.SetTrigger("Win");
                 }
             }
             else
@@ -47,16 +65,37 @@ public class ResultUIManager : Singleton<ResultUIManager>
                 if (IsHost)
                 {
                     ResultTextSet("패배");
+                    bluePositionLegend[HostLegend].SetActive(true);
+                    Animator bluePositionLgendAnim = bluePositionLegend[HostLegend].GetComponent<Animator>();
+                    bluePositionLgendAnim.SetTrigger("Lose");
+
+                    redPositionLegend[ClientLegend].SetActive(true);
+                    Animator redPositionLegendAnim = redPositionLegend[ClientLegend].GetComponent<Animator>();
+                    redPositionLegendAnim.SetTrigger("Win");
                 }
                 else
                 {
                     ResultTextSet("승리");
+                    bluePositionLegend[HostLegend].SetActive(true);
+                    Animator bluePositionLgendAnim = bluePositionLegend[HostLegend].GetComponent<Animator>();
+                    bluePositionLgendAnim.SetTrigger("Win");
+
+                    redPositionLegend[ClientLegend].SetActive(true);
+                    Animator redPositionLegendAnim = redPositionLegend[ClientLegend].GetComponent<Animator>();
+                    redPositionLegendAnim.SetTrigger("Lose");
                 }
             }
         }
         else
         {
-           ResultTextSet("무승부");
+            ResultTextSet("무승부");
+            bluePositionLegend[HostLegend].SetActive(true);
+            Animator bluePositionLgendAnim = bluePositionLegend[HostLegend].GetComponent<Animator>();
+            bluePositionLgendAnim.SetTrigger("Lobby");
+
+            redPositionLegend[ClientLegend].SetActive(true);
+            Animator redPositionLegendAnim = redPositionLegend[ClientLegend].GetComponent<Animator>();
+            redPositionLegendAnim.SetTrigger("Lobby");
         }
     }
 
@@ -65,7 +104,16 @@ public class ResultUIManager : Singleton<ResultUIManager>
         resultCamera.SetActive(false);
         resultPlayer.SetActive(false);
         ResultUI.SetActive(false);
-        IsReusltUION = false;
+        IsResultUION = false;
         UIManager.Instance.LobbyUIEnable();
+
+        foreach (var legend in bluePositionLegend)
+        {
+            legend.SetActive(false);
+        }
+        foreach (var legend in redPositionLegend)
+        {
+            legend.SetActive(false);
+        }
     }
 }

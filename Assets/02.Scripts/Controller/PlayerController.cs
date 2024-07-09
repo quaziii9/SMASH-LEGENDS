@@ -121,6 +121,7 @@ public class PlayerController : NetworkBehaviour
         {
             StateController.ChangeState(PlayerState.Idle);
             EventManager<GameEvents>.TriggerEvent<object>(GameEvents.SetIcon, legendTypeString);
+            GameManager.Instance.SetHostStatus(IsHost);
         }
         SetFaceImageCommand();
         CanChange = true;
