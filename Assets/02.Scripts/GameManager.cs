@@ -20,8 +20,8 @@ public class GameManager : NetworkBehaviour
     public GameObject PlayUI;
     public GameObject ResultUI;
 
-    public int HostLegend;
-    public int ClientLegend;
+    [SyncVar] public int HostLegend;
+    [SyncVar] public int ClientLegend;
 
     public bool MatchOver = false;
     private bool isHostPlayer;
