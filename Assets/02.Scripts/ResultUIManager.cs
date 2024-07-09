@@ -33,35 +33,34 @@ public class ResultUIManager : Singleton<ResultUIManager>
         ResultUI.SetActive(true);
         IsResultUION = true;
 
-        Debug.Log(IsHost);
-        Debug.Log(HostLegend);
-        Debug.Log(ClientLegend);
-
         if (WinHost.HasValue)
         {
+            // 호스트가 이길시 
             if (WinHost.Value)
             {
+                // 내가 호스트면
                 if (IsHost)
                 {
                     ResultTextSet("승리");
                     bluePositionLegend[HostLegend].SetActive(true);
-                    //Animator bluePositionLgendAnim = bluePositionLegend[HostLegend].GetComponent<Animator>();
-                    //bluePositionLgendAnim.SetBool("Win", true);
+                    Animator bluePositionLgendAnim = bluePositionLegend[HostLegend].GetComponent<Animator>();
+                    bluePositionLgendAnim.SetTrigger("Win");
 
                     redPositionLegend[ClientLegend].SetActive(true);
-                    //Animator redPositionLegendAnim = redPositionLegend[ClientLegend].GetComponent<Animator>();
-                    //redPositionLegendAnim.SetBool("Lose", true);
+                    Animator redPositionLegendAnim = redPositionLegend[ClientLegend].GetComponent<Animator>();
+                    redPositionLegendAnim.SetTrigger("Lose");
                 }
+                // 내가 호스트가 아니면
                 else
                 {
                     ResultTextSet("패배");
                     bluePositionLegend[HostLegend].SetActive(true);
-                    //Animator bluePositionLgendAnim = bluePositionLegend[HostLegend].GetComponent<Animator>();
-                    //bluePositionLgendAnim.SetBool("Lose", true);
+                    Animator bluePositionLgendAnim = bluePositionLegend[HostLegend].GetComponent<Animator>();
+                    bluePositionLgendAnim.SetTrigger("Win");
 
                     redPositionLegend[ClientLegend].SetActive(true);
-                    //Animator redPositionLegendAnim = redPositionLegend[ClientLegend].GetComponent<Animator>();
-                    //redPositionLegendAnim.SetBool("Win", true);
+                    Animator redPositionLegendAnim = redPositionLegend[ClientLegend].GetComponent<Animator>();
+                    redPositionLegendAnim.SetTrigger("Lose");
                 }
             }
             else
@@ -70,23 +69,23 @@ public class ResultUIManager : Singleton<ResultUIManager>
                 {
                     ResultTextSet("패배");
                     bluePositionLegend[HostLegend].SetActive(true);
-                    //Animator bluePositionLgendAnim = bluePositionLegend[HostLegend].GetComponent<Animator>();
-                    //bluePositionLgendAnim.SetBool("Lose", true);
+                    Animator bluePositionLgendAnim = bluePositionLegend[HostLegend].GetComponent<Animator>();
+                    bluePositionLgendAnim.SetTrigger("Lose");
 
                     redPositionLegend[ClientLegend].SetActive(true);
-                    //Animator redPositionLegendAnim = redPositionLegend[ClientLegend].GetComponent<Animator>();
-                    //redPositionLegendAnim.SetBool("Win", true);
+                    Animator redPositionLegendAnim = redPositionLegend[ClientLegend].GetComponent<Animator>();
+                    redPositionLegendAnim.SetTrigger("Win");
                 }
                 else
                 {
                     ResultTextSet("승리");
                     bluePositionLegend[HostLegend].SetActive(true);
-                   // Animator bluePositionLgendAnim = bluePositionLegend[HostLegend].GetComponent<Animator>();
-                   // bluePositionLgendAnim.SetBool("Win", true);
+                    Animator bluePositionLgendAnim = bluePositionLegend[HostLegend].GetComponent<Animator>();
+                    bluePositionLgendAnim.SetTrigger("Lose");
 
                     redPositionLegend[ClientLegend].SetActive(true);
-                    //Animator redPositionLegendAnim = redPositionLegend[ClientLegend].GetComponent<Animator>();
-                   // redPositionLegendAnim.SetBool("Lose", true);
+                    Animator redPositionLegendAnim = redPositionLegend[ClientLegend].GetComponent<Animator>();
+                    redPositionLegendAnim.SetTrigger("Win");
                 }
             }
         }
@@ -94,12 +93,12 @@ public class ResultUIManager : Singleton<ResultUIManager>
         {
             ResultTextSet("무승부");
             bluePositionLegend[HostLegend].SetActive(true);
-            //Animator bluePositionLgendAnim = bluePositionLegend[HostLegend].GetComponent<Animator>();
-            //bluePositionLgendAnim.SetBool("Lobby", true);
+            Animator bluePositionLgendAnim = bluePositionLegend[HostLegend].GetComponent<Animator>();
+            bluePositionLgendAnim.SetTrigger("Lobby");
 
             redPositionLegend[ClientLegend].SetActive(true);
-            //Animator redPositionLegendAnim = redPositionLegend[ClientLegend].GetComponent<Animator>();
-            //redPositionLegendAnim.SetBool("Lobby", true);
+            Animator redPositionLegendAnim = redPositionLegend[ClientLegend].GetComponent<Animator>();
+            redPositionLegendAnim.SetTrigger("Lobby");
         }
     }
 
