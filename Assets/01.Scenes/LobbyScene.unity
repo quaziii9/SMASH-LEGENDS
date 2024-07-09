@@ -11613,6 +11613,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7236494749590424457, guid: 1ceb9596ba322c843af570a3c2e407a2, type: 3}
+      propertyPath: HookPrefab
+      value: 
+      objectReference: {fileID: 403531385686177427, guid: 05c94232c9187494081d8e971ab8861a, type: 3}
+    - target: {fileID: 7236494749590424457, guid: 1ceb9596ba322c843af570a3c2e407a2, type: 3}
+      propertyPath: PeterPrefab
+      value: 
+      objectReference: {fileID: 403531385686177427, guid: 72e6d7578c39aea45a31b8cf0d9935d7, type: 3}
+    - target: {fileID: 7236494749590424457, guid: 1ceb9596ba322c843af570a3c2e407a2, type: 3}
       propertyPath: showRoomGUI
       value: 1
       objectReference: {fileID: 0}

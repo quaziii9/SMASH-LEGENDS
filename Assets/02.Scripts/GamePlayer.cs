@@ -10,31 +10,45 @@ public class GamePlayer : NetworkBehaviour
     private Quaternion rotation1 = Quaternion.Euler(new Vector3(0, 90, 0));
     private Quaternion rotation2 = Quaternion.Euler(new Vector3(0, -90, 0));
 
-    [SerializeField] GameObject Peter1;
-    [SerializeField] GameObject Peter2;
+     [SerializeField] GameObject PeterPrefab;
+    [SerializeField] GameObject HookPrefab;
 
     GameObject pref;
 
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
-        CmdSpawnPlayer();
+        CmdSpawnPlayer(UIManager.Instance.legendType);
     }
 
     [Command(requiresAuthority = false)]
-    void CmdSpawnPlayer()
+    void CmdSpawnPlayer(UIManager.LegendType legendType)
     {
         NetworkConnectionToClient conn = connectionToClient;
 
         if (conn == NetworkServer.localConnection)
         {
-            pref = Peter1;
+            if (legendType == UIManager.LegendType.Peter)
+            {
+                pref = PeterPrefab;
+            }
+            else
+            {
+                pref = HookPrefab;
+            }
             transform.position = startPosition1;
             transform.rotation = rotation1;
         }
         else
         {
-            pref = Peter2;
+            if (legendType == UIManager.LegendType.Peter)
+            {
+                pref = PeterPrefab;
+            }
+            else
+            {
+                pref = HookPrefab;
+            }
             transform.position = startPosition2;
             transform.rotation = rotation2;
         }
