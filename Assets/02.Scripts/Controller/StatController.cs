@@ -38,6 +38,9 @@ public class StatController : NetworkBehaviour
     [SerializeField] public float maxSkillGuage = 30;
     public float currentSkillGauge = 0;
     [SyncVar] public int AddSkillGuage = 0;
+    public int DefaultAddSkillGuage;
+    public int HeavyAddSkillGuage;
+
     [SyncVar] public bool CanSkillAttack = false;
 
     private PlayerController playerController;
@@ -80,9 +83,11 @@ public class StatController : NetworkBehaviour
                 heavyAttackCoolTime = 4f;
                 defaultKnockBackPower = 0.2f;
                 heavyKnockBackPower = 0.38f;
+                DefaultAddSkillGuage = 100;
+                HeavyAddSkillGuage = 200;
                 break;
             case PlayerController.LegendType.Hook:
-                maxSkillGuage = 100;
+                maxSkillGuage = 1080;
                 maxHp = 3300;
                 currentHp = maxHp;
                 moveSpeed = 5.6f;
@@ -94,6 +99,8 @@ public class StatController : NetworkBehaviour
                 hookSkillTime = 9.3f;
                 defaultKnockBackPower = 0.16f;
                 heavyKnockBackPower = 0.38f;
+                DefaultAddSkillGuage = 50;
+                HeavyAddSkillGuage = 50;
                 break;
         }
         CmdInitializeClient();
