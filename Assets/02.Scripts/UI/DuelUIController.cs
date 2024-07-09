@@ -7,6 +7,7 @@ using TMPro;
 
 using EnumTypes;
 using EventLibrary;
+using Mirror;
 
 public class DuelUIController : MonoBehaviour
 {
@@ -51,6 +52,11 @@ public class DuelUIController : MonoBehaviour
     [SerializeField] private Image XIconImage;
     [SerializeField] private Image CIconImage;
 
+    [SerializeField] private Image BlueFaceImage;
+    [SerializeField] private Image RedFaceImage;
+    [SerializeField] private Sprite PeterFaceImage;
+    [SerializeField] private Sprite HookFaceImage;
+
 
     private void Awake()
     {
@@ -63,14 +69,28 @@ public class DuelUIController : MonoBehaviour
             Destroy(gameObject);
         }
         EventManager<GameEvents>.StartListening<object>(GameEvents.SetIcon, SetIcon);
+        EventManager<GameEvents>.StartListening<object, bool>(GameEvents.SetFaceImage, SetFaceImage);
     }
 
     public void Start()
     {
         StartActive().Forget();
         HeavyAttackText = HeavyAttackTextObject.GetComponent<TextMeshProUGUI>();
+    }
 
-        
+    public void SetFaceImage(object LegendType, bool IsHost)
+    {
+        string legendTypeString = LegendType as string;
+
+        // 호스트 이미지 설정
+        if (IsHost)
+        {
+            BlueFaceImage.sprite = legendTypeString == "Peter" ? PeterFaceImage : HookFaceImage;
+        }
+        else
+        {
+            RedFaceImage.sprite = legendTypeString == "Peter" ? PeterFaceImage : HookFaceImage;
+        }
     }
 
     public void SetIcon(object LegendType)

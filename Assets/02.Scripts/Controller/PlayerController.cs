@@ -7,6 +7,7 @@ using System.Threading;
 using Unity.Mathematics;
 using EventLibrary;
 using EnumTypes;
+using System.Runtime.CompilerServices;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -115,20 +116,35 @@ public class PlayerController : NetworkBehaviour
 
     private void Start()
     {
+        string legendTypeString = legendType.ToString();
         if (isLocalPlayer)
         {
             StateController.ChangeState(PlayerState.Idle);
-            string legendTypeString = legendType.ToString();
             EventManager<GameEvents>.TriggerEvent<object>(GameEvents.SetIcon, legendTypeString);
         }
+        SetFaceImageCommand();
         CanChange = true;
     }
+
+    [Command]
+    public void SetFaceImageCommand()
+    {
+        SetFaceImageClientRPC();
+    }
+    [ClientRpc]
+    public void SetFaceImageClientRPC()
+    {
+        string legendTypeString = legendType.ToString();
+        EventManager<GameEvents>.TriggerEvent<object, bool>(GameEvents.SetFaceImage, legendTypeString, IsHost);
+    }
+
 
     public override void OnStartServer()
     {
         base.OnStartServer();
         NetworkConnectionToClient conn = connectionToClient;
         IsHost = conn != null && conn == NetworkServer.localConnection;
+        CommandSetLegendType(legendType);
     }
 
     public override void OnStartClient()
@@ -136,10 +152,20 @@ public class PlayerController : NetworkBehaviour
         base.OnStartClient();
         NetworkConnectionToClient conn = connectionToClient;
         IsHost = conn != null && conn == NetworkServer.localConnection;
+        CommandSetLegendType(legendType);
+    }
+    [Command]
+    public void CommandSetLegendType(LegendType type)
+    {
+        legendType = type;
+        RpcSetLegendType(type);
     }
 
-
-
+    [ClientRpc]
+    public void RpcSetLegendType(LegendType type)
+    {
+        SetFaceImageClientRPC();
+    }
 
 
     private void FixedUpdate()
