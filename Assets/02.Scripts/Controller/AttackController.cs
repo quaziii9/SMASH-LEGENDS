@@ -1,5 +1,6 @@
 using UnityEngine;
 using Mirror;
+using System;
 
 public enum HitType
 {
@@ -197,6 +198,11 @@ public class AttackController : NetworkBehaviour
             if (knockBackDirection.y < 1.2f)
             {
                 knockBackDirection.y = 1.2f;
+            }
+            if (Math.Abs(knockBackDirection.x) < 0.4f)
+            {
+                float sign = Mathf.Sign(knockBackDirection.x);
+                knockBackDirection.x = sign * 0.4f;
             }
 
             float dieKnockbackPower = 5f;

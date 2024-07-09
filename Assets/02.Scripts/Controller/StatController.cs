@@ -278,9 +278,10 @@ public class StatController : NetworkBehaviour
 
         if (currentHp <= 0)
         {
-            float dieKnockbackPower = 5f;
-            playerController.rigidbody.velocity = Vector3.zero;
-            playerController.rigidbody.AddForce(new Vector3(heavyKnockBackPower, 1.2f,0) * dieKnockbackPower, ForceMode.Impulse);
+            Vector3 knockBackDirection = -transform.forward;
+            knockBackDirection.y = 1.2f;
+            knockBackDirection.x = knockBackDirection.x >= 0 ? 1 : -1;
+            playerController.AttackController.PlayerGetKnockBack(heavyKnockBackPower, knockBackDirection, HitType.HitUp, true);
         }
     }
 
