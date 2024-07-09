@@ -10,6 +10,7 @@ public class LobbyLegendSpawn : MonoBehaviour
 
     private void Start()
     {
+        LegendSpawn((int)UIManager.Instance.legendType);
         EventManager<LobbyEvents>.StartListening<int>(LobbyEvents.LegendSpawn, LegendSpawn);
     }
 

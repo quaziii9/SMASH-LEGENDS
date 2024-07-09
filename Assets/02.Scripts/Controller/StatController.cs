@@ -96,6 +96,7 @@ public class StatController : NetworkBehaviour
                 heavyKnockBackPower = 0.38f;
                 break;
         }
+        CmdInitializeClient();
     }
 
     private void OnDestroy()
@@ -106,12 +107,29 @@ public class StatController : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
+        //legendUI.SetHpBar(maxHp);
+        //legendUI.UpdateHPUI(currentHp, maxHp);
+
+        //OnHeavyAttackCoolTimeChanged(currentHeavyAttackCoolTime, currentHeavyAttackCoolTime);
+        //DuelUIController.Instance.UpdateSkillAttackIconeCoolGuage(currentSkillGauge, maxSkillGuage);
+    }
+
+    [Command]
+    private void CmdInitializeClient()
+    {
+        RpcInitializeClient(maxHp, currentHp, currentHeavyAttackCoolTime, maxSkillGuage, currentSkillGauge);
+    }
+
+    [ClientRpc]
+    private void RpcInitializeClient(int maxHp, int currentHp, float currentHeavyAttackCoolTime, float maxSkillGuage, float currentSkillGauge)
+    {
         legendUI.SetHpBar(maxHp);
-        legendUI.UpdateHPUI(currentHp, maxHp);
+        legendUI.UpdateHPUI(maxHp, maxHp);
 
         OnHeavyAttackCoolTimeChanged(currentHeavyAttackCoolTime, currentHeavyAttackCoolTime);
         DuelUIController.Instance.UpdateSkillAttackIconeCoolGuage(currentSkillGauge, maxSkillGuage);
     }
+
 
     public void ApplyDamage(int damage, bool isHost)
     {

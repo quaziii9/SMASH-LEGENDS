@@ -2664,7 +2664,7 @@ MonoBehaviour:
   heavyKnockBackPower: 0.38
   heavyAttackCoolTime: 4
   currentHeavyAttackCoolTime: 0
-  maxSkillGuage: 100
+  maxSkillGuage: 1080
   currentSkillGauge: 0
   AddSkillGuage: 0
   CanSkillAttack: 0
