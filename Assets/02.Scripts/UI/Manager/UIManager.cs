@@ -158,6 +158,10 @@ public class UIManager : MonoBehaviour
             {
                 button.Frame.SetActive(false);
             }
+            else
+            {
+                button.Frame.SetActive(true); // 선택된 버튼의 프레임은 활성화 상태 유지
+            }
         }
     }
 }
