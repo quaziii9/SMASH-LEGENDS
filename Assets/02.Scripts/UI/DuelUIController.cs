@@ -230,7 +230,7 @@ public class DuelUIController : MonoBehaviour
 
     public async UniTaskVoid LocalRespawnTimer()
     {
-        if (clientScore == 2 || hostScore ==2) return;
+        //if (clientScore  2 || hostScore ==2) return;
         RespawnTimer.SetActive(true);
         await UniTask.Delay(5000); // 5초 대기
         RespawnTimer.SetActive(false);

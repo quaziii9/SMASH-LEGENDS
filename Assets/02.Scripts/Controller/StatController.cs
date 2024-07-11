@@ -3,6 +3,7 @@ using EnumTypes;
 using EventLibrary;
 using Mirror;
 using System;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using UnityEngine;
 
@@ -207,6 +208,18 @@ public class StatController : NetworkBehaviour
         legendUI.UpdateHeavyAttackCoolTimeUI(newCoolTime, heavyAttackCoolTime);
     }
 
+    public void HandleDeadZone(bool IsHost)
+    {
+        if (currentHp > 0)
+        {
+            currentHp = 0;
+            CmdUpdateHealthBar(currentHp, maxHp, IsHost);
+        }
+
+        effectController.CmdSetDieEffect();
+        CmdSmash(IsHost);
+    }
+
     [Command]
     public void CmdSmash(bool isHost)
     {
@@ -230,6 +243,11 @@ public class StatController : NetworkBehaviour
 
             playerController.ReviveLegend(isHost).Forget();
             DuelUIController.Instance.StartRespawnTimer(isHost);
+
+            if (isLocalPlayer)
+            {
+                DuelUIController.Instance.LocalRespawnTimer().Forget();
+            }
         }
     }
 

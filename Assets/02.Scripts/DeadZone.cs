@@ -8,20 +8,23 @@ public class DeadZone : MonoBehaviour
     {
         var legend = other.GetComponent<PlayerController>();
 
-        if (legend.StatController.currentHp > 0)
+        if (legend != null)
         {
-            legend.StatController.currentHp = 0;
-            legend.StatController.CmdUpdateHealthBar(legend.StatController.currentHp, legend.StatController.maxHp, legend.IsHost);
+            legend.StatController.HandleDeadZone(legend.IsHost);
         }
 
-        legend.EffectController.CmdSetDieEffect();
+        //if (legend.StatController.currentHp > 0)
+        //{
+        //    legend.StatController.currentHp = 0;
+        //    legend.StatController.CmdUpdateHealthBar(legend.StatController.currentHp, legend.StatController.maxHp, legend.IsHost);
+        //}
 
-        legend.StatController.CmdSmash(legend.IsHost);
+        //legend.EffectController.CmdSetDieEffect();
+
+        //legend.StatController.CmdSmash(legend.IsHost);
 
 
-        if(legend.isLocalPlayer)
-        {
-            DuelUIController.Instance.LocalRespawnTimer().Forget();
-        }
+
+        //DuelUIController.Instance.LocalRespawnTimer().Forget();
     }
 }
