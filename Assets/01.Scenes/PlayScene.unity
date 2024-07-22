@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 180a5741d8df28146ad089a122333fc4, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.84906906, g: 0.9243739, b: 0.8202372, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2831,6 +2831,67 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.0012457492, y: -0.0007950915, z: 0.0001331279}
     m_Extent: {x: 0.008787952, y: 0.004721157, z: 0.0062229037}
   m_DirtyAABB: 0
+--- !u!1001 &596494926
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1835810052462788476, guid: b1a51197318ce90468b46cb7a272d010, type: 3}
+      propertyPath: m_Name
+      value: Directional Light_Battle
+      objectReference: {fileID: 0}
+    - target: {fileID: 1835810052462788476, guid: b1a51197318ce90468b46cb7a272d010, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037612623484321861, guid: b1a51197318ce90468b46cb7a272d010, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037612623484321861, guid: b1a51197318ce90468b46cb7a272d010, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037612623484321861, guid: b1a51197318ce90468b46cb7a272d010, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037612623484321861, guid: b1a51197318ce90468b46cb7a272d010, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.47302106
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037612623484321861, guid: b1a51197318ce90468b46cb7a272d010, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.09449779
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037612623484321861, guid: b1a51197318ce90468b46cb7a272d010, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.6303596
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037612623484321861, guid: b1a51197318ce90468b46cb7a272d010, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.6082501
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037612623484321861, guid: b1a51197318ce90468b46cb7a272d010, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 58.896
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037612623484321861, guid: b1a51197318ce90468b46cb7a272d010, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 291.274
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037612623484321861, guid: b1a51197318ce90468b46cb7a272d010, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 62.04
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b1a51197318ce90468b46cb7a272d010, type: 3}
 --- !u!1 &608579445
 GameObject:
   m_ObjectHideFlags: 0
@@ -5077,7 +5138,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &1178445103
 Light:
   m_ObjectHideFlags: 0
@@ -5444,6 +5505,8 @@ MonoBehaviour:
   Map: {fileID: 1622405653}
   PlayUI: {fileID: 942002757}
   ResultUI: {fileID: 1639843483}
+  HostLegend: 0
+  ClientLegend: 0
   MatchOver: 0
 --- !u!114 &1295599186
 MonoBehaviour:
@@ -6384,7 +6447,9 @@ MonoBehaviour:
   resultCamera: {fileID: 1676924922}
   resultPlayer: {fileID: 1419183936}
   ResultUI: {fileID: 4763666606251180307}
-  IsReusltUION: 0
+  bluePositionLegend: []
+  redPositionLegend: []
+  IsResultUION: 0
 --- !u!1 &1667548472
 GameObject:
   m_ObjectHideFlags: 0
@@ -11749,3 +11814,4 @@ SceneRoots:
   - {fileID: 153832425}
   - {fileID: 1295599184}
   - {fileID: 1639843484}
+  - {fileID: 596494926}
