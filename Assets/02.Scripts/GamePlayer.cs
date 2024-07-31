@@ -5,12 +5,12 @@ using Mirror;
 
 public class GamePlayer : NetworkBehaviour
 {
-    private Vector3 startPosition1 = new Vector3(-20, 1.5f, 0); // 원하는 위치로 설정
-    private Vector3 startPosition2 = new Vector3(20, 1.5f, 0); // 원하는 위치로 설정
+    private Vector3 startPosition1 = new Vector3(-20, 1.5f, 0); // 호스트 위치
+    private Vector3 startPosition2 = new Vector3(20, 1.5f, 0); // 클라이언트 위치
     private Quaternion rotation1 = Quaternion.Euler(new Vector3(0, 90, 0));
     private Quaternion rotation2 = Quaternion.Euler(new Vector3(0, -90, 0));
 
-     [SerializeField] GameObject PeterPrefab;
+    [SerializeField] GameObject PeterPrefab;
     [SerializeField] GameObject HookPrefab;
 
     GameObject pref;
@@ -18,6 +18,13 @@ public class GamePlayer : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
+
+        if (UIManager.Instance == null)
+        {
+            Debug.LogError("UIManager instance is null.");
+            return;
+        }
+
         CmdSpawnPlayer(UIManager.Instance.legendType);
     }
 
@@ -26,41 +33,44 @@ public class GamePlayer : NetworkBehaviour
     {
         NetworkConnectionToClient conn = connectionToClient;
 
-        if (conn == NetworkServer.localConnection)
+        if (PeterPrefab == null || HookPrefab == null)
         {
-            if (legendType == UIManager.LegendType.Peter)
-            {
-                pref = PeterPrefab;
-                GameManager.Instance.SetLegendType(true, (int)UIManager.LegendType.Peter);
-            }
-            else
-            {
-                pref = HookPrefab;
-                GameManager.Instance.SetLegendType(true, (int)UIManager.LegendType.Hook);
+            Debug.LogError("Prefabs are not assigned.");
+            return;
+        }
 
-            }
+        SetPlayerPositionAndRotation(conn == NetworkServer.localConnection, legendType);
+
+        if (pref != null)
+        {
+            var obj = Instantiate(pref, transform.position, transform.rotation);
+            NetworkServer.Spawn(obj);
+            NetworkServer.ReplacePlayerForConnection(conn, obj);
+        }
+    }
+
+    private void SetPlayerPositionAndRotation(bool isHost, UIManager.LegendType legendType)
+    {
+        if (legendType == UIManager.LegendType.Peter)
+        {
+            pref = PeterPrefab;
+            GameManager.Instance?.SetLegendType(isHost, (int)UIManager.LegendType.Peter);
+        }
+        else
+        {
+            pref = HookPrefab;
+            GameManager.Instance?.SetLegendType(isHost, (int)UIManager.LegendType.Hook);
+        }
+
+        if (isHost)
+        {
             transform.position = startPosition1;
             transform.rotation = rotation1;
         }
         else
         {
-            if (legendType == UIManager.LegendType.Peter)
-            {
-                pref = PeterPrefab;
-                GameManager.Instance.SetLegendType(false, (int)UIManager.LegendType.Peter);
-
-            }
-            else
-            {
-                pref = HookPrefab;
-                GameManager.Instance.SetLegendType(false, (int)UIManager.LegendType.Hook);
-            }
             transform.position = startPosition2;
             transform.rotation = rotation2;
         }
-
-        var obj = Instantiate(pref, transform.position, transform.rotation);
-        NetworkServer.Spawn(obj);
-        NetworkServer.ReplacePlayerForConnection(conn, obj);
     }
 }

@@ -326,7 +326,7 @@ public class StatController : NetworkBehaviour
 
             while (currentSkillGauge < maxSkillGuage)
             {
-                while (stateController.CurState == PlayerState.SkillAttack)
+                while (stateController.CurState == PlayerState.PeterSkillAttack)
                 {
                     // 상태가 SkillAttack인 동안 잠시 대기
                     await UniTask.Yield();

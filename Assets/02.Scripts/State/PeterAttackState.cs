@@ -46,7 +46,7 @@ public class FirstAttackState : StateBase
     {
         if (context.action.name == "DefaultAttack" && context.performed && Player.CanChange)
         {
-            Player.ChangeState(PlayerState.SecondAttack);
+            Player.ChangeState(PlayerState.PeterSecondAttack);
         }
         else if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanMove)
         {
@@ -101,7 +101,7 @@ public class SecondAttackState : StateBase
     {
         if (context.action.name == "DefaultAttack" && context.performed && Player.CanChange)
         {
-            Player.ChangeState(PlayerState.FinishAttack);
+            Player.ChangeState(PlayerState.PeterFinishAttack);
         }
         else if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanMove)
         {

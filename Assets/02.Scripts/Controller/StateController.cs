@@ -24,13 +24,13 @@ public enum PlayerState
     HangFall,
 
 
-    FirstAttack,
-    SecondAttack,
-    FinishAttack,
-    HeavyAttack,
-    JumpAttack,
-    JumpHeavyAttack,
-    SkillAttack,
+    PeterFirstAttack,
+    PeterSecondAttack,
+    PeterFinishAttack,
+    PeterHeavyAttack,
+    PeterJumpAttack,
+    PeterJumpHeavyAttack,
+    PeterSkillAttack,
 
     HookFirstAttack,
     HookSecondAttack,
@@ -137,19 +137,19 @@ public class StateController : NetworkBehaviour
                 return new HangFallState(_playerController);
 
 
-            case PlayerState.FirstAttack:
+            case PlayerState.PeterFirstAttack:
                 return new FirstAttackState(_playerController);
-            case PlayerState.SecondAttack:
+            case PlayerState.PeterSecondAttack:
                 return new SecondAttackState(_playerController);
-            case PlayerState.FinishAttack:
+            case PlayerState.PeterFinishAttack:
                 return new FinishAttackState(_playerController);
-            case PlayerState.HeavyAttack:
+            case PlayerState.PeterHeavyAttack:
                 return new HeavyAttackState(_playerController);
-            case PlayerState.JumpAttack:
+            case PlayerState.PeterJumpAttack:
                 return new JumpAttackState(_playerController);
-            case PlayerState.JumpHeavyAttack:
+            case PlayerState.PeterJumpHeavyAttack:
                 return new JumpHeavyAttackState(_playerController);
-            case PlayerState.SkillAttack:
+            case PlayerState.PeterSkillAttack:
                 return new SkillAttackState(_playerController);
 
 

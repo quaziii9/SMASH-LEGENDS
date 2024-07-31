@@ -45,14 +45,14 @@ public class JumpUpState : StateBase
         if (context.action.name == "HeavyAttack" && context.performed && StatController.currentHeavyAttackCoolTime <= 0)
         {
             if (Player.legendType == PlayerController.LegendType.Peter)
-                Player.ChangeState(PlayerState.JumpHeavyAttack);
+                Player.ChangeState(PlayerState.PeterJumpHeavyAttack);
             else if (Player.legendType == PlayerController.LegendType.Hook)
                 Player.ChangeState(PlayerState.HookJumpHeavyAttack);
         }
         else if (context.action.name == "DefaultAttack" && context.performed)
         {
             if (Player.legendType == PlayerController.LegendType.Peter)
-                Player.ChangeState(PlayerState.JumpAttack);
+                Player.ChangeState(PlayerState.PeterJumpAttack);
             else if (Player.legendType == PlayerController.LegendType.Hook && Player.StateController.hookCanDefaultAttack == true)
                 Player.ChangeState(PlayerState.HookFirstJumpAttack);
         }
@@ -99,14 +99,14 @@ public class JumpDownState : StateBase
         if (context.action.name == "HeavyAttack" && context.performed && Player.Ground == false && StatController.currentHeavyAttackCoolTime <= 0)
         {
             if (Player.legendType == PlayerController.LegendType.Peter)
-                Player.ChangeState(PlayerState.JumpHeavyAttack);
+                Player.ChangeState(PlayerState.PeterJumpHeavyAttack);
             else if (Player.legendType == PlayerController.LegendType.Hook)
                 Player.ChangeState(PlayerState.HookJumpHeavyAttack);
         }
         else if (context.action.name == "DefaultAttack" && context.performed && Player.IsGrounded == false)
         {
             if (Player.legendType == PlayerController.LegendType.Peter)
-                Player.ChangeState(PlayerState.JumpAttack);
+                Player.ChangeState(PlayerState.PeterJumpAttack);
             else if (Player.legendType == PlayerController.LegendType.Hook && Player.StateController.hookCanDefaultAttack == true)
                 Player.ChangeState(PlayerState.HookFirstJumpAttack);
         }
@@ -255,7 +255,7 @@ public class RunState : StateBase
         {
             Player.rigidbody.velocity = new Vector3(0, Player.rigidbody.velocity.y, 0);
             if (Player.legendType == PlayerController.LegendType.Peter)
-                Player.ChangeState(PlayerState.FirstAttack);
+                Player.ChangeState(PlayerState.PeterFirstAttack);
             else if (Player.legendType == PlayerController.LegendType.Hook)
                 Player.ChangeState(PlayerState.HookFirstAttack);
         }
@@ -263,14 +263,14 @@ public class RunState : StateBase
         {
             Player.rigidbody.velocity = new Vector3(0, Player.rigidbody.velocity.y, 0);
             if (Player.legendType == PlayerController.LegendType.Peter)
-                Player.ChangeState(PlayerState.HeavyAttack);
+                Player.ChangeState(PlayerState.PeterHeavyAttack);
             else if (Player.legendType == PlayerController.LegendType.Hook)
                 Player.ChangeState(PlayerState.HookHeavyAttack);
         }
         else if (context.action.name == "SkillAttack" && context.performed && StatController.CanSkillAttack)
         {
             if (Player.legendType == PlayerController.LegendType.Peter)
-                Player.ChangeState(PlayerState.SkillAttack);
+                Player.ChangeState(PlayerState.PeterSkillAttack);
             else if (Player.legendType == PlayerController.LegendType.Hook)
                 Player.ChangeState(PlayerState.HookSkillAttack);
         }

@@ -31,6 +31,7 @@ public class ResultUIManager : Singleton<ResultUIManager>
         resultCamera.SetActive(true);
         resultPlayer.SetActive(true);
         ResultUI.SetActive(true);
+        UIManager.Instance.LobbyUIDisable();
         IsResultUION = true;
 
         if (WinHost.HasValue)

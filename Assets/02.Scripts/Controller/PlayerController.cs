@@ -569,7 +569,7 @@ public class PlayerController : NetworkBehaviour
             await UniTask.Delay(100);
             DuelUIController.Instance.DefualtAttackIconDisable();
             await UniTask.Delay(100);
-            if(StateController.CurState !=PlayerState.FinishAttack)
+            if(StateController.CurState !=PlayerState.PeterFinishAttack)
                 DuelUIController.Instance.DefualtAttackIconEnable();
         }
     }

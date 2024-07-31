@@ -64,7 +64,7 @@ public class IdleState : StateBase
             if (keyboard.zKey.wasPressedThisFrame)
             {
                 if (Player.legendType == PlayerController.LegendType.Peter)
-                    Player.ChangeState(PlayerState.FirstAttack);
+                    Player.ChangeState(PlayerState.PeterFirstAttack);
                 else if (Player.legendType == PlayerController.LegendType.Hook)
                     Player.ChangeState(PlayerState.HookFirstAttack);
                 return;
@@ -72,7 +72,7 @@ public class IdleState : StateBase
             else if (keyboard.xKey.wasPressedThisFrame && statController.currentHeavyAttackCoolTime <= 0)
             {
                 if (Player.legendType == PlayerController.LegendType.Peter)
-                    Player.ChangeState(PlayerState.HeavyAttack);
+                    Player.ChangeState(PlayerState.PeterHeavyAttack);
                 else if (Player.legendType == PlayerController.LegendType.Hook)
                     Player.ChangeState(PlayerState.HookHeavyAttack);
                 return;
@@ -80,7 +80,7 @@ public class IdleState : StateBase
             else if (keyboard.cKey.wasPressedThisFrame && statController.CanSkillAttack)
             {
                 if (Player.legendType == PlayerController.LegendType.Peter)
-                    Player.ChangeState(PlayerState.SkillAttack);
+                    Player.ChangeState(PlayerState.PeterSkillAttack);
                 else if (Player.legendType == PlayerController.LegendType.Hook)
                     Player.ChangeState(PlayerState.HookSkillAttack);
                 return;
@@ -104,21 +104,21 @@ public class IdleState : StateBase
         else if (context.action.name == "DefaultAttack" && context.performed)
         {
             if (Player.legendType == PlayerController.LegendType.Peter)
-                Player.ChangeState(PlayerState.FirstAttack);
+                Player.ChangeState(PlayerState.PeterFirstAttack);
             else if (Player.legendType == PlayerController.LegendType.Hook)
                 Player.ChangeState(PlayerState.HookFirstAttack);
         }
         else if (context.action.name == "HeavyAttack" && context.performed && statController.currentHeavyAttackCoolTime <= 0)
         {
             if (Player.legendType == PlayerController.LegendType.Peter)
-                Player.ChangeState(PlayerState.HeavyAttack);
+                Player.ChangeState(PlayerState.PeterHeavyAttack);
             else if (Player.legendType == PlayerController.LegendType.Hook)
                 Player.ChangeState(PlayerState.HookHeavyAttack);
         }
         else if (context.action.name == "SkillAttack" && context.performed && statController.CanSkillAttack)
         {
             if (Player.legendType == PlayerController.LegendType.Peter)
-                Player.ChangeState(PlayerState.SkillAttack);
+                Player.ChangeState(PlayerState.PeterSkillAttack);
             else if (Player.legendType == PlayerController.LegendType.Hook)
                 Player.ChangeState(PlayerState.HookSkillAttack);
         }

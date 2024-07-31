@@ -44,26 +44,26 @@ public class AttackController : NetworkBehaviour
         {
             switch (state)
             {
-                case PlayerState.FirstAttack:
+                case PlayerState.PeterFirstAttack:
                     SetAttackValues(statController.defaultAttackDamage / 3, statController.defaultKnockBackPower, player.transform.up * 0.5f, HitType.Hit, false);
                     break;
-                case PlayerState.SecondAttack:
+                case PlayerState.PeterSecondAttack:
                     SetAttackValues(statController.defaultAttackDamage / 6, statController.defaultKnockBackPower, player.transform.up * 0.5f, HitType.Hit, false);
                     break;
-                case PlayerState.FinishAttack:
+                case PlayerState.PeterFinishAttack:
                     SetAttackValues(statController.defaultAttackDamage / 3, statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp, true);
                     break;
-                case PlayerState.JumpAttack:
+                case PlayerState.PeterJumpAttack:
                     SetAttackValues((int)(statController.defaultAttackDamage * 0.6f), statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp, false);
                     break;
-                case PlayerState.HeavyAttack:
+                case PlayerState.PeterHeavyAttack:
                     SetAttackValues(statController.heavyAttackDamage, statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp, true);
                     break;
                 case PlayerState.JumpHeavyAttackLanding:
-                case PlayerState.JumpHeavyAttack:
+                case PlayerState.PeterJumpHeavyAttack:
                     SetAttackValues(statController.heavyAttackDamage / 3 * 2, statController.heavyKnockBackPower, player.transform.up * 1.2f, HitType.HitUp, true);
                     break;
-                case PlayerState.SkillAttack:
+                case PlayerState.PeterSkillAttack:
                     SetAttackValues((statController.skillAttackDamage - 500) / 5, statController.defaultKnockBackPower, player.transform.up, HitType.Hit, false);
                     break;
             }
@@ -157,7 +157,7 @@ public class AttackController : NetworkBehaviour
         if (player.StateController.CurState != PlayerState.RollUpBack && player.StateController.CurState != PlayerState.RollUpFront)
             RotateTowardsNearestPlayer();
 
-        if (player.StateController.CurState == PlayerState.SkillAttack)
+        if (player.StateController.CurState == PlayerState.PeterSkillAttack)
         {
             attackMoveDistance = 8f;
             attackMoveDuration = 1.2f;

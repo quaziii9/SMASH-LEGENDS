@@ -78,7 +78,7 @@ public class AnimationController : MonoBehaviour
 
     public void CanChangeAnimationEvent()
     {
-        if(Player.StateController.CurState != PlayerState.FinishAttack)
+        if(Player.StateController.CurState != PlayerState.PeterFinishAttack)
             Player.CanDefaultFlash = 0;
         Player.CanChange = true;
         if (Player.legendType == PlayerController.LegendType.Hook) return;
