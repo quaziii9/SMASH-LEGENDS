@@ -12,6 +12,7 @@ public class HookFirstAttackState : StateBase
     {
         base.Enter();
         Player.AimationController.SetBool(Player.AimationController.IsComboAttack1, true);
+        AttackController.StartAttackMove();
         Player.CanMove = false;
         Player.CanLook = false;
         Player.CanChange = false;
@@ -66,6 +67,7 @@ public class HookSecondAttackState : StateBase
         AttackController.attackMoveDistance = .5f;
         AttackController.attackMoveDuration = 0.1f;
         Player.AimationController.SetBool(Player.AimationController.IsComboAttack2, true);
+        AttackController.StartAttackMove();
         Player.CanMove = false;
         Player.CanLook = false;
         Player.CanChange = false;
@@ -115,6 +117,7 @@ public class HookHeavyAttackState : StateBase
         AttackController.attackMoveDistance = .7f;
         AttackController.attackMoveDuration = 0.1f;
         Player.AimationController.SetBool(Player.AimationController.IsHeavyAttacking, true);
+        AttackController.StartAttackMove();
         Player.StatController.StartHeavyAttackCooldown();
         Player.StatController.StartCooldownTimer().Forget();
         Player.CanMove = false;
@@ -341,6 +344,7 @@ public class HookJumpHeavyAttackState : StateBase
 
         Player.AimationController.SetBool(Player.AimationController.IsJumpHeavyAttacking, true);
         Player.StatController.StartHeavyAttackCooldown();
+        AttackController.StartAttackMove();
         Player.CanMove = false;
         Player.CanLook = false;
         Player.rigidbody.useGravity = false;
