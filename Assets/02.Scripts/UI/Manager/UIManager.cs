@@ -85,7 +85,7 @@ public class UIManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "LobbyScene" && ResultUIManager.Instance.IsResultUION == false) // 원하는 씬 이름으로 변경
+        if (scene.name == "LobbyScene" && ResultUIManager.Instance.IsResultUION == false) 
         {
             LobbyUIEnable();
         }

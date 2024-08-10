@@ -55,7 +55,6 @@ public class UIMatchingManager : NetworkBehaviour
         if (NetworkServer.active)
         {
             NetworkManager.singleton.StopHost();
-            UIManager.Instance.LobbyUIEnable();
         }
 
         await UniTask.Yield(); // 서버/클라이언트 정지 후 잠시 대기

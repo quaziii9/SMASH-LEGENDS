@@ -180,6 +180,7 @@ public class GameManager : NetworkBehaviour
         if (NetworkServer.active)
         {
             NetworkManager.singleton.StopHost();
+            SceneManager.LoadScene(NetworkManager.singleton.offlineScene); // 클라이언트는 오프라인 씬으로 이동
         }
         else
         {

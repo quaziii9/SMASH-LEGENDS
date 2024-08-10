@@ -28,10 +28,12 @@ public class ResultUIManager : Singleton<ResultUIManager>
 
     public void SetResult(bool IsHost, bool? WinHost, int HostLegend, int ClientLegend)
     {
+        UIManager.Instance.LobbyUIDisable();
         resultCamera.SetActive(true);
         resultPlayer.SetActive(true);
         ResultUI.SetActive(true);
         IsResultUION = true;
+
 
         if (WinHost.HasValue)
         {
