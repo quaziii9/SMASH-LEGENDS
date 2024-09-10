@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum LegendType { Peter, Hook }
+
+
+
 public class UIManager : MonoBehaviour
 {
     public GameObject LobbyPopup;
@@ -18,10 +22,10 @@ public class UIManager : MonoBehaviour
     public RoomManager roomManager;
     public RoomManager roomManagerPrefab;
 
-
-    public List<SelectLegendButton> buttons = new List<SelectLegendButton>();
-    public enum LegendType { Peter, Hook }
     public LegendType legendType = LegendType.Peter;
+    public int legendSkinType;
+    public List<SelectLegendButton> buttons = new List<SelectLegendButton>();
+
 
     private void Awake()
     {

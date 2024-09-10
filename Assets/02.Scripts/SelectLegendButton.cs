@@ -31,11 +31,11 @@ public class SelectLegendButton : MonoBehaviour
         string objectName = gameObject.name;
         if (objectName.Contains("Peter"))
         {
-            UIManager.Instance.GetLegendType(UIManager.LegendType.Peter);
+            UIManager.Instance.GetLegendType(LegendType.Peter);
         }
         else if (objectName.Contains("Hook"))
         {
-            UIManager.Instance.GetLegendType(UIManager.LegendType.Hook);
+            UIManager.Instance.GetLegendType(LegendType.Hook);
         }
     }
 
