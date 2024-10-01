@@ -7,9 +7,6 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public enum LegendType { Peter, Hook }
-
-
 
 public class LobbyManager : MonoBehaviour
 {
@@ -23,7 +20,7 @@ public class LobbyManager : MonoBehaviour
     public RoomManager roomManagerPrefab;
 
     public LegendType legendType = LegendType.Peter;
-    public int legendSkinType;
+    public int legendSkinType = 0;
     public List<SelectLegendButton> buttons = new List<SelectLegendButton>();
 
 
@@ -129,13 +126,13 @@ public class LobbyManager : MonoBehaviour
 
     public void LegendPopUpUIOn()
     {
-        SelectLegendPopup.SetActive(true);
+        SelectLegendManager.Instance.SelectLegendUIOnEnable();
         LobbyPopup.SetActive(false);
     }
 
     public void LegendPopUpUIOff()
     {
-        SelectLegendPopup.SetActive(false);
+        SelectLegendManager.Instance.SelectLegendUIOnDisable();
         LobbyPopup.SetActive(true);
     }
 
@@ -145,9 +142,14 @@ public class LobbyManager : MonoBehaviour
         {
             legendType = LegendType; // 새 값으로 설정
             if (legendType == LegendType.Peter)
-                EventManager<LobbyEvents>.TriggerEvent(LobbyEvents.LegendSpawn, 0);
+            {
+                EventManager<LobbyEvents>.TriggerEvent(LobbyEvents.LegendSpawn, (int)legendType, legendSkinType);
+
+            }
             else if (legendType == LegendType.Hook)
-                EventManager<LobbyEvents>.TriggerEvent(LobbyEvents.LegendSpawn, 1);
+            {
+                EventManager<LobbyEvents>.TriggerEvent(LobbyEvents.LegendSpawn, (int)legendType, legendSkinType);
+            }
         }
     }
 

@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace EnumTypes
 {
+    public enum LegendType { Peter, Hook }
 
     public enum GlobalEvents
     {

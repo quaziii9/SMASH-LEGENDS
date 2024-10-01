@@ -3,6 +3,7 @@ using Newtonsoft.Json.Converters;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EnumTypes;
 using UnityEngine.UI;
 
 public class SelectLegendButton : MonoBehaviour
@@ -32,10 +33,12 @@ public class SelectLegendButton : MonoBehaviour
         if (objectName.Contains("Peter"))
         {
             LobbyManager.Instance.GetLegendType(LegendType.Peter);
+            SelectLegendManager.Instance.GetLegendType(LegendType.Peter);
         }
         else if (objectName.Contains("Hook"))
         {
             LobbyManager.Instance.GetLegendType(LegendType.Hook);
+            SelectLegendManager.Instance.GetLegendType(LegendType.Hook);
         }
     }
 
