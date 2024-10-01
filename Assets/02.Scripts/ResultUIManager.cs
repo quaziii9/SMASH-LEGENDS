@@ -28,7 +28,7 @@ public class ResultUIManager : Singleton<ResultUIManager>
 
     public void SetResult(bool IsHost, bool? WinHost, int HostLegend, int ClientLegend)
     {
-        UIManager.Instance.LobbyUIDisable();
+        LobbyManager.Instance.LobbyUIDisable();
         resultCamera.SetActive(true);
         resultPlayer.SetActive(true);
         ResultUI.SetActive(true);
@@ -110,7 +110,7 @@ public class ResultUIManager : Singleton<ResultUIManager>
         resultPlayer.SetActive(false);
         ResultUI.SetActive(false);
         IsResultUION = false;
-        UIManager.Instance.LobbyUIEnable();
+        LobbyManager.Instance.LobbyUIEnable();
 
         foreach (var legend in bluePositionLegend)
         {

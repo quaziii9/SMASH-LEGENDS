@@ -17,7 +17,7 @@ public class SelectLegendButton : MonoBehaviour
         dotweenAnimation = GetComponent<DOTweenAnimation>();
 
         button.onClick.AddListener(SelectLegendButtonClick);
-        UIManager.Instance.RegisterButton(this);
+        LobbyManager.Instance.RegisterButton(this);
     }
 
     private void SelectLegendButtonClick()
@@ -26,16 +26,16 @@ public class SelectLegendButton : MonoBehaviour
         bool isActive = Frame.activeSelf;
         Frame.SetActive(!isActive);
 
-        UIManager.Instance.DeselectOtherButtons(this);
+        LobbyManager.Instance.DeselectOtherButtons(this);
 
         string objectName = gameObject.name;
         if (objectName.Contains("Peter"))
         {
-            UIManager.Instance.GetLegendType(LegendType.Peter);
+            LobbyManager.Instance.GetLegendType(LegendType.Peter);
         }
         else if (objectName.Contains("Hook"))
         {
-            UIManager.Instance.GetLegendType(LegendType.Hook);
+            LobbyManager.Instance.GetLegendType(LegendType.Hook);
         }
     }
 

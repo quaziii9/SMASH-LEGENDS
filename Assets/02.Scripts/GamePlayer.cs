@@ -22,7 +22,7 @@ public class GamePlayer : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
-        CmdSpawnPlayer(UIManager.Instance.legendType, UIManager.Instance.legendSkinType);
+        CmdSpawnPlayer(LobbyManager.Instance.legendType, LobbyManager.Instance.legendSkinType);
     }
 
     [Command(requiresAuthority = false)]

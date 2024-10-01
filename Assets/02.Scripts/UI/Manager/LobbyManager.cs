@@ -11,14 +11,14 @@ public enum LegendType { Peter, Hook }
 
 
 
-public class UIManager : MonoBehaviour
+public class LobbyManager : MonoBehaviour
 {
     public GameObject LobbyPopup;
     public GameObject Title;
     public GameObject SelectLegendPopup;
     public int first = 0;
 
-    public static UIManager Instance { get; private set; }
+    public static LobbyManager Instance { get; private set; }
     public RoomManager roomManager;
     public RoomManager roomManagerPrefab;
 
@@ -130,11 +130,13 @@ public class UIManager : MonoBehaviour
     public void LegendPopUpUIOn()
     {
         SelectLegendPopup.SetActive(true);
+        LobbyPopup.SetActive(false);
     }
 
     public void LegendPopUpUIOff()
     {
         SelectLegendPopup.SetActive(false);
+        LobbyPopup.SetActive(true);
     }
 
     public void GetLegendType(LegendType LegendType)

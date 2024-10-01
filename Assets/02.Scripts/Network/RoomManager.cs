@@ -54,7 +54,7 @@ public class RoomManager : NetworkRoomManager
     public override void OnRoomServerConnect(NetworkConnectionToClient conn)
     {
         base.OnRoomServerConnect(conn);
-        UIManager.Instance.LobbyUIDisable();
+        LobbyManager.Instance.LobbyUIDisable();
         WaitToStartGame().Forget();
     }
 

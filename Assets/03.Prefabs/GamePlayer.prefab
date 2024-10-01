@@ -68,6 +68,6 @@ MonoBehaviour:
   PeterSkin1Prefab: {fileID: 403531385686177427, guid: 72e6d7578c39aea45a31b8cf0d9935d7, type: 3}
   PeterSkin2Prefab: {fileID: 403531385686177427, guid: 3cb55d6a2d0fbd74eba533ffa7183cbe, type: 3}
   PeterSkin3Prefab: {fileID: 403531385686177427, guid: c7e690f9c2c831b47bb7d294e1b78448, type: 3}
-  HookSkin1Prefab: {fileID: 403531385686177427, guid: 813cd294a641aec46a9838d1a862846c, type: 3}
+  HookSkin1Prefab: {fileID: 403531385686177427, guid: 05c94232c9187494081d8e971ab8861a, type: 3}
   HookSkin2Prefab: {fileID: 403531385686177427, guid: 917f73aec29d5ca4da5dcbb3b0cc24f7, type: 3}
   HookSkin3Prefab: {fileID: 403531385686177427, guid: 813cd294a641aec46a9838d1a862846c, type: 3}
