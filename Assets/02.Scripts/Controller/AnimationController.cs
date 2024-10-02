@@ -89,6 +89,7 @@ public class AnimationController : MonoBehaviour
     {
         Player.StateController.HookJumpHeavyAttackMove = true;
         Player.rigidbody.velocity = new Vector3(0, Player.StatController.jumpForce * 0.8f, 0); // Y축 속도 설정
+        Player.AttackController.attackMoveDuration = 0.2f;
         Player.AttackController.StartAttackMove();
     }
 }

@@ -62,9 +62,9 @@ public class GamePlayer : NetworkBehaviour
     {
         switch (skinType)
         {
-            case 1: return PeterSkin1Prefab;
-            case 2: return PeterSkin2Prefab;
-            case 3: return PeterSkin3Prefab;
+            case 0: return PeterSkin1Prefab;
+            case 1: return PeterSkin2Prefab;
+            case 2: return PeterSkin3Prefab;
             default: return PeterSkin1Prefab; // 기본값
         }
     }
@@ -73,9 +73,9 @@ public class GamePlayer : NetworkBehaviour
     {
         switch (skinType)
         {
-            case 1: return HookSkin1Prefab;
-            case 2: return HookSkin2Prefab;
-            case 3: return HookSkin3Prefab;
+            case 0: return HookSkin1Prefab;
+            case 1: return HookSkin2Prefab;
+            case 2: return HookSkin3Prefab;
             default: return HookSkin1Prefab; // 기본값
         }
     }

@@ -2667,6 +2667,8 @@ MonoBehaviour:
   maxSkillGuage: 1080
   currentSkillGauge: 0
   AddSkillGuage: 0
+  DefaultAddSkillGuage: 0
+  HeavyAddSkillGuage: 0
   CanSkillAttack: 0
   legendUI: {fileID: 861430790993020246}
   PlayerDie: 0

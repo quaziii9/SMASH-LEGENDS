@@ -140,6 +140,11 @@ public class AttackController : NetworkBehaviour
 
         float distanceToMove = attackMoveDistance * movementFactor;
 
+        if (attackMoveDuration <= 0)
+        {
+            return;
+        }
+
         Vector3 forwardMovement = _attackMoveDirection * (distanceToMove - _currentMoveDistance);
         player.rigidbody.MovePosition(player.rigidbody.position + forwardMovement);
 

@@ -344,7 +344,7 @@ public class HookJumpHeavyAttackState : StateBase
 
         Player.AimationController.SetBool(Player.AimationController.IsJumpHeavyAttacking, true);
         Player.StatController.StartHeavyAttackCooldown();
-        AttackController.StartAttackMove();
+        //AttackController.StartAttackMove();
         Player.CanMove = false;
         Player.CanLook = false;
         Player.rigidbody.useGravity = false;

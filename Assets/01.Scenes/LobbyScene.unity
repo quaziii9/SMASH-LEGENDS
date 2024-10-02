@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.77864397, g: 0.6610437, b: 0.813288, a: 1}
+  m_IndirectSpecularColor: {r: 0.7786434, g: 0.6610423, b: 0.8132876, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7609,46 +7609,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7236494749590424457, guid: 1ceb9596ba322c843af570a3c2e407a2, type: 3}
-      propertyPath: HookPrefab
-      value: 
-      objectReference: {fileID: 403531385686177427, guid: 05c94232c9187494081d8e971ab8861a, type: 3}
-    - target: {fileID: 7236494749590424457, guid: 1ceb9596ba322c843af570a3c2e407a2, type: 3}
-      propertyPath: PeterPrefab
-      value: 
-      objectReference: {fileID: 403531385686177427, guid: 72e6d7578c39aea45a31b8cf0d9935d7, type: 3}
-    - target: {fileID: 7236494749590424457, guid: 1ceb9596ba322c843af570a3c2e407a2, type: 3}
-      propertyPath: showRoomGUI
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7236494749590424457, guid: 1ceb9596ba322c843af570a3c2e407a2, type: 3}
-      propertyPath: spawnPrefabs.Array.size
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 7236494749590424457, guid: 1ceb9596ba322c843af570a3c2e407a2, type: 3}
-      propertyPath: spawnPrefabs.Array.data[1]
-      value: 
-      objectReference: {fileID: 403531385686177427, guid: 3cb55d6a2d0fbd74eba533ffa7183cbe, type: 3}
-    - target: {fileID: 7236494749590424457, guid: 1ceb9596ba322c843af570a3c2e407a2, type: 3}
-      propertyPath: spawnPrefabs.Array.data[2]
-      value: 
-      objectReference: {fileID: 403531385686177427, guid: c7e690f9c2c831b47bb7d294e1b78448, type: 3}
-    - target: {fileID: 7236494749590424457, guid: 1ceb9596ba322c843af570a3c2e407a2, type: 3}
-      propertyPath: spawnPrefabs.Array.data[3]
-      value: 
-      objectReference: {fileID: 403531385686177427, guid: 05c94232c9187494081d8e971ab8861a, type: 3}
-    - target: {fileID: 7236494749590424457, guid: 1ceb9596ba322c843af570a3c2e407a2, type: 3}
-      propertyPath: spawnPrefabs.Array.data[4]
-      value: 
-      objectReference: {fileID: 403531385686177427, guid: 917f73aec29d5ca4da5dcbb3b0cc24f7, type: 3}
-    - target: {fileID: 7236494749590424457, guid: 1ceb9596ba322c843af570a3c2e407a2, type: 3}
-      propertyPath: spawnPrefabs.Array.data[5]
-      value: 
-      objectReference: {fileID: 403531385686177427, guid: 813cd294a641aec46a9838d1a862846c, type: 3}
-    - target: {fileID: 7236494749590424457, guid: 1ceb9596ba322c843af570a3c2e407a2, type: 3}
-      propertyPath: spawnPrefabs.Array.data[6]
-      value: 
-      objectReference: {fileID: 1136504396308033126, guid: 31e23adff3727e94e9d7040c7dade601, type: 3}
     - target: {fileID: 9126890545320338944, guid: 1ceb9596ba322c843af570a3c2e407a2, type: 3}
       propertyPath: m_Name
       value: RoomManager
