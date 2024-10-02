@@ -34,12 +34,12 @@ public class GamePlayer : NetworkBehaviour
         if (legendType == LegendType.Peter)
         {
             pref = GetPeterPrefab(skinType);
-            GameManager.Instance.SetLegendType(conn == NetworkServer.localConnection, (int)LegendType.Peter);
+            GameManager.Instance.SetLegendType(conn == NetworkServer.localConnection, (int)LegendType.Peter, skinType);
         }
         else if (legendType == LegendType.Hook)
         {
             pref = GetHookPrefab(skinType);
-            GameManager.Instance.SetLegendType(conn == NetworkServer.localConnection, (int)LegendType.Hook);
+            GameManager.Instance.SetLegendType(conn == NetworkServer.localConnection, (int)LegendType.Hook, skinType);
         }
 
         if (conn == NetworkServer.localConnection)

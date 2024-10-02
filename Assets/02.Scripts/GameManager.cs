@@ -21,7 +21,9 @@ public class GameManager : NetworkBehaviour
     public GameObject ResultUI;
 
     [SyncVar] public int HostLegend;
+    [SyncVar] public int HostLegendSkin;
     [SyncVar] public int ClientLegend;
+    [SyncVar] public int ClientLegendSkin;
 
     public bool MatchOver = false;
     private bool isHostPlayer;
@@ -53,10 +55,18 @@ public class GameManager : NetworkBehaviour
         isHostPlayer = isHost;
     }
 
-    public void SetLegendType( bool isHost, int LegendType)
+    public void SetLegendType( bool isHost, int LegendType, int skinType)
     {
-        if(isHost) { HostLegend = LegendType; }
-        else { ClientLegend = LegendType; }
+        if(isHost) 
+        { 
+            HostLegend = LegendType; 
+            HostLegendSkin = skinType;
+        }
+        else 
+        { 
+            ClientLegend = LegendType; 
+            ClientLegendSkin = skinType; 
+        }
     }
 
     public void InitializePlayers()
@@ -174,7 +184,7 @@ public class GameManager : NetworkBehaviour
     public void EndGame(bool? WinHost)
     {
         // 결과 값 설정
-        ResultUIManager.Instance.SetResult(isHostPlayer, WinHost ,HostLegend, ClientLegend);
+        ResultUIManager.Instance.SetResult(isHostPlayer, WinHost ,HostLegend,HostLegendSkin, ClientLegend, ClientLegendSkin);
 
         // 모든 플레이어를 디스커넥트
         if (NetworkServer.active)
