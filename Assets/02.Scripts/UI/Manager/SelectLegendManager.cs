@@ -6,105 +6,122 @@ using UnityEngine;
 
 public class SelectLegendManager : Singleton<SelectLegendManager>
 {
-    [SerializeField] GameObject SelectUICamera;
-    [SerializeField] GameObject SelectLegnedUI;
-    [SerializeField] GameObject SelectSkinUI;
-    [SerializeField] GameObject PeterSkin;
-    [SerializeField] GameObject HookSkin;
+    [SerializeField] private GameObject _selectUICamera;
+    [SerializeField] private GameObject _selectLegnedUI;
+    [SerializeField] private GameObject _selectSkinUI;
+    [SerializeField] private GameObject _peterSkin;
+    [SerializeField] private GameObject _hookSkin;
     public LegendType SkinLegendType = LegendType.Peter;
 
-    [SerializeField]private int currentSkinIndex = 0;  // 현재 선택된 스킨 인덱스
-    private const int totalSkins = 3;  // 총 스킨 개수 (0, 1, 2)
+    [SerializeField] private List<GameObject> _peterSkins = new List<GameObject>();
+    [SerializeField] private List<GameObject> _hookSkins = new List<GameObject>();
+
+    [SerializeField] private int _currentSkinIndex = 0;  // 현재 선택된 스킨 인덱스
+    private const int _totalSkins = 3;  // 총 스킨 개수 (0, 1, 2)
+
+    private void Start()
+    {
+        // 자식 오브젝트들을 리스트에 저장
+        PopulateSkinList(_peterSkin, _peterSkins);
+        PopulateSkinList(_hookSkin, _hookSkins);
+
+        // 스킨 비활성화: 시작 시 모든 스킨이 비활성화되어 있어야 합니다.
+        DeactivateAll(_peterSkins);
+        DeactivateAll(_hookSkins);
+    }
+
+    // 하위 자식 오브젝트들을 리스트로 저장하는 함수
+    private void PopulateSkinList(GameObject parent, List<GameObject> list)
+    {
+        for (int i = 0; i < parent.transform.childCount; i++)
+        {
+            list.Add(parent.transform.GetChild(i).gameObject);
+        }
+    }
 
     public void SelectLegendUIOnEnable()
     {
-        SelectUICamera.SetActive(true);
-        SelectLegnedUI.SetActive(true);
+        _selectUICamera.SetActive(true);
+        _selectLegnedUI.SetActive(true);
     }
 
     public void SelectLegendUIOnDisable()
     {
-        SelectUICamera.SetActive(false);
-        SelectLegnedUI.SetActive(false);
+        _selectUICamera.SetActive(false);
+        _selectLegnedUI.SetActive(false);
         EventManager<LobbyEvents>.TriggerEvent(LobbyEvents.LegendSpawn, (int)LobbyManager.Instance.legendType, LobbyManager.Instance.legendSkinType);
     }
 
     public void SelectSkinUIOnEnable()
     {
-        SelectSkinUI.SetActive(true);
+        _selectSkinUI.SetActive(true);
 
-        switch (SkinLegendType)
+        // Peter와 Hook의 자식들을 리스트로 관리
+        if (SkinLegendType == LegendType.Peter)
         {
-            case LegendType.Peter:
-                ActivateSkin(PeterSkin, 0);
-                DeactivateAllChildren(HookSkin);
-                break;
-            case LegendType.Hook:
-                ActivateSkin(HookSkin, 0);
-                DeactivateAllChildren(PeterSkin);
-                break;
+            // Hook 스킨은 비활성화하고 Peter 스킨을 활성화
+            _peterSkin.SetActive(true);
+            _hookSkin.SetActive(false);
+            DeactivateAll(_hookSkins);
+            ActivateSkin(_peterSkins, 0);
+        }
+        else
+        {
+            // Peter 스킨은 비활성화하고 Hook 스킨을 활성화
+            _peterSkin.SetActive(false);
+            _hookSkin.SetActive(true);
+            DeactivateAll(_peterSkins);
+            ActivateSkin(_hookSkins, 0);
         }
     }
 
     // 스킨 변경 (왼쪽 또는 오른쪽 버튼 누를 때 호출할 함수)
     public void ChangeSkin(bool isLeft)
     {
-        if (SkinLegendType == LegendType.Peter)
-        {
-            ChangeSelectedSkin(PeterSkin, isLeft);
-        }
-        else if (SkinLegendType == LegendType.Hook)
-        {
-            ChangeSelectedSkin(HookSkin, isLeft);
-        }
-    }
+        List<GameObject> currentSkinList = SkinLegendType == LegendType.Peter ? _peterSkins : _hookSkins;
 
-    // 스킨 변경 로직
-    private void ChangeSelectedSkin(GameObject parent, bool isLeft)
-    {
         // 현재 스킨 비활성화
-        DeactivateAllChildren(parent);
+        currentSkinList[_currentSkinIndex].SetActive(false);
 
-        // 왼쪽 버튼을 눌렀을 때는 인덱스를 감소, 오른쪽 버튼은 증가
+        // 스킨 인덱스 업데이트
         if (isLeft)
         {
-            currentSkinIndex = (currentSkinIndex - 1 + totalSkins) % totalSkins;
+            _currentSkinIndex = (_currentSkinIndex - 1 + _totalSkins) % _totalSkins;
         }
         else
         {
-            currentSkinIndex = (currentSkinIndex + 1) % totalSkins;
+            _currentSkinIndex = (_currentSkinIndex + 1) % _totalSkins;
         }
 
         // 새로운 스킨 활성화
-        ActivateSkin(parent, currentSkinIndex);
+        currentSkinList[_currentSkinIndex].SetActive(true);
     }
 
-    // 특정 인덱스의 스킨만 활성화하는 함수
-    private void ActivateSkin(GameObject parent, int index)
+    // 리스트에서 특정 인덱스의 스킨만 활성화
+    private void ActivateSkin(List<GameObject> skinList, int index)
     {
-        if (index >= 0 && index < parent.transform.childCount)
+        if (index >= 0 && index < skinList.Count)
         {
-            parent.SetActive(true);  // 부모 오브젝트가 비활성화된 상태일 경우 활성화
-            parent.transform.GetChild(index).gameObject.SetActive(true);  // 해당 스킨 활성화
+            skinList[index].SetActive(true);  // 해당 스킨 활성화
         }
     }
 
-    // 특정 오브젝트의 모든 자식들을 비활성화하는 함수
-    private void DeactivateAllChildren(GameObject parent)
+    // 리스트의 모든 오브젝트 비활성화
+    private void DeactivateAll(List<GameObject> skinList)
     {
-        for (int i = 0; i < parent.transform.childCount; i++)
+        foreach (GameObject skin in skinList)
         {
-            parent.transform.GetChild(i).gameObject.SetActive(false);  // 모든 자식 비활성화
+            skin.SetActive(false);
         }
     }
 
     public void SelectSkinUIOnDisable()
     {
-        DeactivateAllChildren(PeterSkin);
-        DeactivateAllChildren(HookSkin);
-        LobbyManager.Instance.legendSkinType = currentSkinIndex;
-        currentSkinIndex = 0;  // 전설을 변경할 때 스킨 인덱스를 초기화
-        SelectSkinUI.SetActive(false);
+        DeactivateAll(_peterSkins);
+        DeactivateAll(_hookSkins);
+        LobbyManager.Instance.legendSkinType = _currentSkinIndex;
+        _currentSkinIndex = 0;  
+        _selectSkinUI.SetActive(false);
     }
 
     public void GetLegendType(LegendType LegendType)
@@ -112,8 +129,7 @@ public class SelectLegendManager : Singleton<SelectLegendManager>
         if (SkinLegendType != LegendType)
         {
             SkinLegendType = LegendType;
-            currentSkinIndex = 0;  // 전설을 변경할 때 스킨 인덱스를 초기화
+            _currentSkinIndex = 0;  
         }
     }
 }
-

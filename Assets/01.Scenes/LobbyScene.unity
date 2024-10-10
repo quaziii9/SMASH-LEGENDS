@@ -15281,13 +15281,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d741c50dfc26d44ca2a87dab8f77fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SelectUICamera: {fileID: 621193497}
-  SelectLegnedUI: {fileID: 934446123}
-  SelectSkinUI: {fileID: 1366103547}
-  PeterSkin: {fileID: 1671119627}
-  HookSkin: {fileID: 1293016121}
+  _selectUICamera: {fileID: 621193497}
+  _selectLegnedUI: {fileID: 934446123}
+  _selectSkinUI: {fileID: 1366103547}
+  _peterSkin: {fileID: 1671119627}
+  _hookSkin: {fileID: 1293016121}
   SkinLegendType: 0
-  currentSkinIndex: 0
+  _peterSkins: []
+  _hookSkins: []
+  _currentSkinIndex: 0
 --- !u!1 &1220700535
 GameObject:
   m_ObjectHideFlags: 0
@@ -49418,6 +49420,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bf9ff34b596d8b4c8395b41122f2635, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  legends: []
 --- !u!4 &7918307994094916871
 Transform:
   m_ObjectHideFlags: 0
