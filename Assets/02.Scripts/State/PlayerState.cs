@@ -29,7 +29,7 @@ public class JumpUpState : StateBase
     {
         if (Player.rigidbody.velocity.y < -1f)
         {           
-            Player.ChangeState(PlayerState.JumpDown);
+            Player.RequestStateChange(PlayerState.JumpDown);
         }
 
         // 점프 중 이동 처리
@@ -45,16 +45,16 @@ public class JumpUpState : StateBase
         if (context.action.name == "HeavyAttack" && context.performed && StatController.currentHeavyAttackCoolTime <= 0)
         {
             if (Player.legendType == PlayerController.LegendType.Peter)
-                Player.ChangeState(PlayerState.JumpHeavyAttack);
+                Player.RequestStateChange(PlayerState.JumpHeavyAttack);
             else if (Player.legendType == PlayerController.LegendType.Hook)
-                Player.ChangeState(PlayerState.HookJumpHeavyAttack);
+                Player.RequestStateChange(PlayerState.HookJumpHeavyAttack);
         }
         else if (context.action.name == "DefaultAttack" && context.performed)
         {
             if (Player.legendType == PlayerController.LegendType.Peter)
-                Player.ChangeState(PlayerState.JumpAttack);
+                Player.RequestStateChange(PlayerState.JumpAttack);
             else if (Player.legendType == PlayerController.LegendType.Hook && Player.StateController.hookCanDefaultAttack == true)
-                Player.ChangeState(PlayerState.HookFirstJumpAttack);
+                Player.RequestStateChange(PlayerState.HookFirstJumpAttack);
         }
     }
 
@@ -84,7 +84,7 @@ public class JumpDownState : StateBase
     {
         if (Player.IsGrounded)
         {     
-            Player.ChangeState(PlayerState.JumpLand);
+            Player.RequestStateChange(PlayerState.JumpLand);
         }
 
         // 점프 중 이동 처리
@@ -99,16 +99,16 @@ public class JumpDownState : StateBase
         if (context.action.name == "HeavyAttack" && context.performed && Player.Ground == false && StatController.currentHeavyAttackCoolTime <= 0)
         {
             if (Player.legendType == PlayerController.LegendType.Peter)
-                Player.ChangeState(PlayerState.JumpHeavyAttack);
+                Player.RequestStateChange(PlayerState.JumpHeavyAttack);
             else if (Player.legendType == PlayerController.LegendType.Hook)
-                Player.ChangeState(PlayerState.HookJumpHeavyAttack);
+                Player.RequestStateChange(PlayerState.HookJumpHeavyAttack);
         }
         else if (context.action.name == "DefaultAttack" && context.performed && Player.IsGrounded == false)
         {
             if (Player.legendType == PlayerController.LegendType.Peter)
-                Player.ChangeState(PlayerState.JumpAttack);
+                Player.RequestStateChange(PlayerState.JumpAttack);
             else if (Player.legendType == PlayerController.LegendType.Hook && Player.StateController.hookCanDefaultAttack == true)
-                Player.ChangeState(PlayerState.HookFirstJumpAttack);
+                Player.RequestStateChange(PlayerState.HookFirstJumpAttack);
         }
     }
 
@@ -147,11 +147,11 @@ public class JumpLandState : StateBase
                     if (Player.IsMoveInputActive)
                     {
                         if (Player.IsGrounded && stateInfo.normalizedTime >= 0.6f)
-                            Player.ChangeState(PlayerState.Run);
+                            Player.RequestStateChange(PlayerState.Run);
                     }
                     else
                     {
-                        Player.ChangeState(PlayerState.Idle);
+                        Player.RequestStateChange(PlayerState.Idle);
                     }
                 }
             break;
@@ -161,12 +161,12 @@ public class JumpLandState : StateBase
                 if (Player.IsMoveInputActive)
                 {
                     if (Player.IsGrounded && stateInfo.normalizedTime >= 0.6f)
-                        Player.ChangeState(PlayerState.Run);
+                        Player.RequestStateChange(PlayerState.Run);
                 }
                 else
                 {
                     if (Player.IsGrounded && stateInfo.normalizedTime >= 0.9f)
-                        Player.ChangeState(PlayerState.Idle);
+                        Player.RequestStateChange(PlayerState.Idle);
                 }
             break;
         }
@@ -204,11 +204,11 @@ public class JumpAttackLandingState : StateBase
         {
             if (Player.IsMoveInputActive)
             {
-                Player.ChangeState(PlayerState.Run);
+                Player.RequestStateChange(PlayerState.Run);
             }
             else
             {
-                Player.ChangeState(PlayerState.Idle);
+                Player.RequestStateChange(PlayerState.Idle);
             }
         }
     }
@@ -241,7 +241,7 @@ public class RunState : StateBase
     {
         if (Player.moveDirection == Vector3.zero)
         {
-            Player.ChangeState(PlayerState.Idle);
+            Player.RequestStateChange(PlayerState.Idle);
         }
     }
 
@@ -249,30 +249,30 @@ public class RunState : StateBase
     {
         if (context.action.name == "Jump" && context.performed)
         {
-            Player.ChangeState(PlayerState.JumpUp);
+            Player.RequestStateChange(PlayerState.JumpUp);
         }
         else if (context.action.name == "DefaultAttack" && context.performed)
         {
             Player.rigidbody.velocity = new Vector3(0, Player.rigidbody.velocity.y, 0);
             if (Player.legendType == PlayerController.LegendType.Peter)
-                Player.ChangeState(PlayerState.FirstAttack);
+                Player.RequestStateChange(PlayerState.FirstAttack);
             else if (Player.legendType == PlayerController.LegendType.Hook)
-                Player.ChangeState(PlayerState.HookFirstAttack);
+                Player.RequestStateChange(PlayerState.HookFirstAttack);
         }
         else if (context.action.name == "HeavyAttack" && context.performed && StatController.currentHeavyAttackCoolTime <= 0)
         {
             Player.rigidbody.velocity = new Vector3(0, Player.rigidbody.velocity.y, 0);
             if (Player.legendType == PlayerController.LegendType.Peter)
-                Player.ChangeState(PlayerState.HeavyAttack);
+                Player.RequestStateChange(PlayerState.HeavyAttack);
             else if (Player.legendType == PlayerController.LegendType.Hook)
-                Player.ChangeState(PlayerState.HookHeavyAttack);
+                Player.RequestStateChange(PlayerState.HookHeavyAttack);
         }
         else if (context.action.name == "SkillAttack" && context.performed && StatController.CanSkillAttack)
         {
             if (Player.legendType == PlayerController.LegendType.Peter)
-                Player.ChangeState(PlayerState.SkillAttack);
+                Player.RequestStateChange(PlayerState.SkillAttack);
             else if (Player.legendType == PlayerController.LegendType.Hook)
-                Player.ChangeState(PlayerState.HookSkillAttack);
+                Player.RequestStateChange(PlayerState.HookSkillAttack);
         }
     }
     public override bool IsTransitioning => !Player.AimationController.GetCurrentAnimatorStateInfo(0).IsName("Run");
@@ -306,7 +306,7 @@ public class JumpHeavyAttackLandingState : StateBase
         AnimatorStateInfo stateInfo = Player.AimationController.GetCurrentAnimatorStateInfo(0);
         if (stateInfo.IsName("JumpHeavyAttackLanding") && stateInfo.normalizedTime >= 1.0f)
         {
-            Player.ChangeState(PlayerState.Idle);
+            Player.RequestStateChange(PlayerState.Idle);
         }
     }
     public override bool IsTransitioning => !Player.AimationController.GetCurrentAnimatorStateInfo(0).IsName("JumpHeavyAttack");
@@ -344,7 +344,7 @@ public class HitState : StateBase
         AnimatorStateInfo animatorStateInfo = Player.AimationController.GetCurrentAnimatorStateInfo(0);
         if (animatorStateInfo.IsName("Hit") && animatorStateInfo.normalizedTime >= .9f)
         {
-            Player.ChangeState(PlayerState.Idle);
+            Player.RequestStateChange(PlayerState.Idle);
         }
     }
 
@@ -383,7 +383,7 @@ public class HitUpState : StateBase
         AnimatorStateInfo animatorStateInfo = Player.AimationController.GetCurrentAnimatorStateInfo(0);
         if (Player.IsGrounded == true && animatorStateInfo.IsName("HitUp") && animatorStateInfo.normalizedTime >= .5f)
         {
-            Player.ChangeState(PlayerState.HitDown);
+            Player.RequestStateChange(PlayerState.HitDown);
         }
     }
 
@@ -392,7 +392,7 @@ public class HitUpState : StateBase
         if (context.action.name == "Jump" && context.performed && Player.CanChange == true)
         {
             Player.rigidbody.velocity = Vector3.zero;
-            Player.ChangeState(PlayerState.JumpUp);
+            Player.RequestStateChange(PlayerState.JumpUp);
         }
     }
 
@@ -427,7 +427,7 @@ public class HitDownState : StateBase
         AnimatorStateInfo animatorStateInfo = Player.AimationController.GetCurrentAnimatorStateInfo(0);
         if (animatorStateInfo.IsName("HitDown") && animatorStateInfo.normalizedTime >= .5f)
         {
-            Player.ChangeState(PlayerState.HitLand);
+            Player.RequestStateChange(PlayerState.HitLand);
         }
     }
 
@@ -458,7 +458,7 @@ public class HitLandState : StateBase
         AnimatorStateInfo animatorStateInfo = Player.AimationController.GetCurrentAnimatorStateInfo(0);
         if (animatorStateInfo.IsName("HitLand") && animatorStateInfo.normalizedTime >= .9f)
         {
-            Player.ChangeState(PlayerState.DownIdle);
+            Player.RequestStateChange(PlayerState.DownIdle);
         }
     }
 
@@ -495,13 +495,13 @@ public class DownIdleState : StateBase
 
             if (angle > 135 || angle < -135) // 반대 방향이면 RollUpBackState로 전환
             {
-                Player.ChangeState(PlayerState.RollUpBack);
+                Player.RequestStateChange(PlayerState.RollUpBack);
             }
             else // 같은 방향이면 좌우 회전 후 RollUpFrontState로 전환
             {
                 Player.transform.rotation = Quaternion.LookRotation(inputDirection);
                 Player.CanLook = true;
-                Player.ChangeState(PlayerState.RollUpFront);
+                Player.RequestStateChange(PlayerState.RollUpFront);
             }
         }
     }
@@ -510,7 +510,7 @@ public class DownIdleState : StateBase
     {       
         if (context.action.name == "Jump" && context.performed)
         {
-            Player.ChangeState(PlayerState.StandUp);
+            Player.RequestStateChange(PlayerState.StandUp);
         }
     }
 
@@ -544,7 +544,7 @@ public class RollUpFrontState : StateBase
         AnimatorStateInfo animatorStateInfo = Player.AimationController.GetCurrentAnimatorStateInfo(0);
         if (animatorStateInfo.IsName("RollUpFront") && animatorStateInfo.normalizedTime >= .9f)
         {           
-            Player.ChangeState(PlayerState.Idle);
+            Player.RequestStateChange(PlayerState.Idle);
         }
     }
 
@@ -578,7 +578,7 @@ public class RollUpBackState : StateBase
         AnimatorStateInfo animatorStateInfo = Player.AimationController.GetCurrentAnimatorStateInfo(0);
         if (animatorStateInfo.IsName("RollUpBack") && animatorStateInfo.normalizedTime >= .9f)
         {
-            Player.ChangeState(PlayerState.Idle);
+            Player.RequestStateChange(PlayerState.Idle);
         }
     }
 
@@ -611,7 +611,7 @@ public class StandUpState : StateBase
         AnimatorStateInfo animatorStateInfo = Player.AimationController.GetCurrentAnimatorStateInfo(0);
         if (animatorStateInfo.IsName("StandUp") && animatorStateInfo.normalizedTime >= .9f)
         {
-            Player.ChangeState(PlayerState.Idle);
+            Player.RequestStateChange(PlayerState.Idle);
         }
     }
 
@@ -659,7 +659,7 @@ public class HangState : StateBase
     {
         if (context.action.name == "Jump" && context.performed)
         {
-            Player.ChangeState(PlayerState.JumpUp);
+            Player.RequestStateChange(PlayerState.JumpUp);
         }
     }
 

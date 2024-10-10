@@ -226,7 +226,7 @@ public class PlayerController : NetworkBehaviour
         StateController.ExecuteOnUpdate();
     }
 
-    public void ChangeState(PlayerState newState)
+    public void RequestStateChange(PlayerState newState)
     {
         StateController.ChangeState(newState);
     }
@@ -253,7 +253,7 @@ public class PlayerController : NetworkBehaviour
             rigidbody.velocity = Vector3.zero;
             transform.forward = GetHangForward(other.transform.position);
             transform.position = GetHangPosition(other.transform.position);
-            ChangeState(PlayerState.Hang);
+            RequestStateChange(PlayerState.Hang);
         }
     }
 
@@ -509,7 +509,7 @@ public class PlayerController : NetworkBehaviour
 
         await UniTask.Delay(TimeSpan.FromSeconds(_fallingWaitTime), cancellationToken: _taskCancel.Token);
         _collider.enabled = false;
-        ChangeState(PlayerState.HangFall);
+        RequestStateChange(PlayerState.HangFall);
 
        
     }
@@ -534,7 +534,7 @@ public class PlayerController : NetworkBehaviour
         rigidbody.velocity = Vector3.zero;
         SetPosition(isHost);
         gameObject.SetActive(true);
-        ChangeState(PlayerState.Idle);
+        RequestStateChange(PlayerState.Idle);
         StatController.currentHp = StatController.maxHp;
         DuelUIController.Instance.UpdateHealthBar(StatController.currentHp, StatController.maxHp, isHost);
         StatController.CmdUpdateHPUI(StatController.currentHp, StatController.maxHp);

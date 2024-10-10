@@ -31,13 +31,13 @@ public class HookFirstAttackState : StateBase
         // FirstAttack 애니메이션이 끝났는지 확인
         if (animatorStateInfo.normalizedTime >= 1.0f)
         {
-            Player.ChangeState(PlayerState.Idle);
+            Player.RequestStateChange(PlayerState.Idle);
         }
 
         // CanMove가 true일 때 이동 처리
         if (Player.CanMove && Player.IsMoveInputActive)
         {
-            Player.ChangeState(PlayerState.Run);
+            Player.RequestStateChange(PlayerState.Run);
         }
     }
 
@@ -45,11 +45,11 @@ public class HookFirstAttackState : StateBase
     {
         if (context.action.name == "DefaultAttack" && context.performed && Player.CanChange)
         {
-            Player.ChangeState(PlayerState.HookSecondAttack);
+            Player.RequestStateChange(PlayerState.HookSecondAttack);
         }
         else if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanMove)
         {
-            Player.ChangeState(PlayerState.Run);
+            Player.RequestStateChange(PlayerState.Run);
         }
     }
 
@@ -86,13 +86,13 @@ public class HookSecondAttackState : StateBase
         // SecondAttack 애니메이션이 끝났는지 확인
         if (animatorStateInfo.IsName("SecondAttack") && animatorStateInfo.normalizedTime >= 1.0f)
         {
-            Player.ChangeState(PlayerState.Idle);
+            Player.RequestStateChange(PlayerState.Idle);
         }
 
         // CanMove가 true일 때 이동 처리
         if (Player.CanMove && Player.IsMoveInputActive)
         {
-            Player.ChangeState(PlayerState.Run);
+            Player.RequestStateChange(PlayerState.Run);
         }
     }
 
@@ -100,7 +100,7 @@ public class HookSecondAttackState : StateBase
     {
         if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanMove)
         {
-            Player.ChangeState(PlayerState.Run);
+            Player.RequestStateChange(PlayerState.Run);
         }
     }
 
@@ -138,13 +138,13 @@ public class HookHeavyAttackState : StateBase
         // HeavyAttack 애니메이션이 끝났는지 확인
         if (animatorStateInfo.IsName("HeavyAttack") && animatorStateInfo.normalizedTime >= 1.0f)
         {
-            Player.ChangeState(PlayerState.Idle);
+            Player.RequestStateChange(PlayerState.Idle);
         }
 
         // CanMove가 true일 때 이동 처리
         if (Player.CanMove && Player.IsMoveInputActive)
         {
-            Player.ChangeState(PlayerState.Run);
+            Player.RequestStateChange(PlayerState.Run);
         }
     }
 
@@ -152,7 +152,7 @@ public class HookHeavyAttackState : StateBase
     {
         if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanMove)
         {
-            Player.ChangeState(PlayerState.Run);
+            Player.RequestStateChange(PlayerState.Run);
         }
     }
 
@@ -195,17 +195,17 @@ public class HookFirstJumpAttackState : StateBase
         {
             if (stateInfo.IsName("JumpAttackCombo1") && stateInfo.normalizedTime >= 0.3f)
             {
-                Player.ChangeState(PlayerState.JumpLand);
+                Player.RequestStateChange(PlayerState.JumpLand);
             }
             else
             {
-                Player.ChangeState(PlayerState.JumpAttackLanding);
+                Player.RequestStateChange(PlayerState.JumpAttackLanding);
             }
         }
         else
         {
             if (stateInfo.IsName("JumpAttackCombo1") && stateInfo.normalizedTime >= 0.9f)
-                Player.ChangeState(PlayerState.JumpDown);
+                Player.RequestStateChange(PlayerState.JumpDown);
         }
     }
 
@@ -213,7 +213,7 @@ public class HookFirstJumpAttackState : StateBase
     {
         if (context.action.name == "DefaultAttack" && context.performed)
         {
-            Player.ChangeState(PlayerState.HookSecondJumpAttack);
+            Player.RequestStateChange(PlayerState.HookSecondJumpAttack);
         }
 
     }
@@ -254,17 +254,17 @@ public class HookSecondJumpAttackState : StateBase
         {
             if (stateInfo.IsName("JumpAttackCombo2") && stateInfo.normalizedTime >= 0.3f)
             {
-                Player.ChangeState(PlayerState.JumpLand);
+                Player.RequestStateChange(PlayerState.JumpLand);
             }
             else
             {
-                Player.ChangeState(PlayerState.JumpAttackLanding);
+                Player.RequestStateChange(PlayerState.JumpAttackLanding);
             }
         }
         else
         {
             if (stateInfo.IsName("JumpAttackCombo2") && stateInfo.normalizedTime >= 0.9f)
-                Player.ChangeState(PlayerState.JumpDown);
+                Player.RequestStateChange(PlayerState.JumpDown);
         }
     }
 
@@ -272,7 +272,7 @@ public class HookSecondJumpAttackState : StateBase
     {
         if (context.action.name == "DefaultAttack" && context.performed && Player.CanChange)
         {
-            Player.ChangeState(PlayerState.HookFinsihJumpAttack);
+            Player.RequestStateChange(PlayerState.HookFinsihJumpAttack);
         }
     }
 
@@ -311,17 +311,17 @@ public class HookFinishJumpAttackState : StateBase
         {
             if (stateInfo.IsName("JumpAttackCombo3") && stateInfo.normalizedTime >= 0.3f)
             {
-                Player.ChangeState(PlayerState.JumpLand);
+                Player.RequestStateChange(PlayerState.JumpLand);
             }
             else
             {
-                Player.ChangeState(PlayerState.JumpAttackLanding);
+                Player.RequestStateChange(PlayerState.JumpAttackLanding);
             }
         }
         else
         {
             if (stateInfo.IsName("JumpAttackCombo3") && stateInfo.normalizedTime >= 0.9f)
-                Player.ChangeState(PlayerState.JumpDown);
+                Player.RequestStateChange(PlayerState.JumpDown);
         }
     }
 
@@ -365,7 +365,7 @@ public class HookJumpHeavyAttackState : StateBase
         AnimatorStateInfo stateInfo = Player.AimationController.GetCurrentAnimatorStateInfo(0);
         if (stateInfo.normalizedTime >= 0.9f)
         {
-            Player.ChangeState(PlayerState.JumpDown);
+            Player.RequestStateChange(PlayerState.JumpDown);
         }
 
         if (Player.StateController.HookJumpHeavyAttackMove == false)
@@ -414,13 +414,13 @@ public class HookSkillOnkState : StateBase
         var animatorStateInfo = Player.AimationController.GetCurrentAnimatorStateInfo(0);
         if (animatorStateInfo.normalizedTime >= 1.0f)
         {
-            Player.ChangeState(PlayerState.Idle);
+            Player.RequestStateChange(PlayerState.Idle);
         }
 
         // CanMove가 true일 때 이동 처리
         if (Player.CanMove && Player.IsMoveInputActive)
         {
-            Player.ChangeState(PlayerState.Run);
+            Player.RequestStateChange(PlayerState.Run);
         }
     }
 
@@ -428,7 +428,7 @@ public class HookSkillOnkState : StateBase
     {
         if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero && Player.CanMove)
         {
-            Player.ChangeState(PlayerState.Run);
+            Player.RequestStateChange(PlayerState.Run);
         }
     }
 

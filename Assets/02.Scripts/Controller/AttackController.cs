@@ -189,10 +189,10 @@ public class AttackController : NetworkBehaviour
         switch (hitType)
         {
             case HitType.Hit:
-                player.ChangeState(PlayerState.Hit);
+                player.RequestStateChange(PlayerState.Hit);
                 break;
             case HitType.HitUp:
-                player.ChangeState(PlayerState.HitUp);
+                player.RequestStateChange(PlayerState.HitUp);
                 break;
             default:
                 break;

@@ -53,7 +53,7 @@ public class IdleState : StateBase
         if (Player.StateController.PositionSet == false) return;
         if (Player.moveDirection != Vector3.zero)
         {
-            Player.ChangeState(PlayerState.Run);
+            Player.RequestStateChange(PlayerState.Run);
         }
 
         if (Time.time - enterTime > 0.5f)
@@ -64,25 +64,25 @@ public class IdleState : StateBase
             if (keyboard.zKey.wasPressedThisFrame)
             {
                 if (Player.legendType == PlayerController.LegendType.Peter)
-                    Player.ChangeState(PlayerState.FirstAttack);
+                    Player.RequestStateChange(PlayerState.FirstAttack);
                 else if (Player.legendType == PlayerController.LegendType.Hook)
-                    Player.ChangeState(PlayerState.HookFirstAttack);
+                    Player.RequestStateChange(PlayerState.HookFirstAttack);
                 return;
             }
             else if (keyboard.xKey.wasPressedThisFrame && statController.currentHeavyAttackCoolTime <= 0)
             {
                 if (Player.legendType == PlayerController.LegendType.Peter)
-                    Player.ChangeState(PlayerState.HeavyAttack);
+                    Player.RequestStateChange(PlayerState.HeavyAttack);
                 else if (Player.legendType == PlayerController.LegendType.Hook)
-                    Player.ChangeState(PlayerState.HookHeavyAttack);
+                    Player.RequestStateChange(PlayerState.HookHeavyAttack);
                 return;
             }
             else if (keyboard.cKey.wasPressedThisFrame && statController.CanSkillAttack)
             {
                 if (Player.legendType == PlayerController.LegendType.Peter)
-                    Player.ChangeState(PlayerState.SkillAttack);
+                    Player.RequestStateChange(PlayerState.SkillAttack);
                 else if (Player.legendType == PlayerController.LegendType.Hook)
-                    Player.ChangeState(PlayerState.HookSkillAttack);
+                    Player.RequestStateChange(PlayerState.HookSkillAttack);
                 return;
             }
         }
@@ -95,32 +95,32 @@ public class IdleState : StateBase
 
         if (context.action.name == "Jump" && context.performed)
         {
-            Player.ChangeState(PlayerState.JumpUp);
+            Player.RequestStateChange(PlayerState.JumpUp);
         }
         else if (context.action.name == "Move" && context.ReadValue<Vector2>() != Vector2.zero)
         {
-            Player.ChangeState(PlayerState.Run);
+            Player.RequestStateChange(PlayerState.Run);
         }
         else if (context.action.name == "DefaultAttack" && context.performed)
         {
             if (Player.legendType == PlayerController.LegendType.Peter)
-                Player.ChangeState(PlayerState.FirstAttack);
+                Player.RequestStateChange(PlayerState.FirstAttack);
             else if (Player.legendType == PlayerController.LegendType.Hook)
-                Player.ChangeState(PlayerState.HookFirstAttack);
+                Player.RequestStateChange(PlayerState.HookFirstAttack);
         }
         else if (context.action.name == "HeavyAttack" && context.performed && statController.currentHeavyAttackCoolTime <= 0)
         {
             if (Player.legendType == PlayerController.LegendType.Peter)
-                Player.ChangeState(PlayerState.HeavyAttack);
+                Player.RequestStateChange(PlayerState.HeavyAttack);
             else if (Player.legendType == PlayerController.LegendType.Hook)
-                Player.ChangeState(PlayerState.HookHeavyAttack);
+                Player.RequestStateChange(PlayerState.HookHeavyAttack);
         }
         else if (context.action.name == "SkillAttack" && context.performed && statController.CanSkillAttack)
         {
             if (Player.legendType == PlayerController.LegendType.Peter)
-                Player.ChangeState(PlayerState.SkillAttack);
+                Player.RequestStateChange(PlayerState.SkillAttack);
             else if (Player.legendType == PlayerController.LegendType.Hook)
-                Player.ChangeState(PlayerState.HookSkillAttack);
+                Player.RequestStateChange(PlayerState.HookSkillAttack);
         }
     }
 
